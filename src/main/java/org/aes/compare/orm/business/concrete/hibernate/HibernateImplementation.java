@@ -7,46 +7,43 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateImplementation<T> {
     private SessionFactory factory;
+    private Session session;
 
-
-    private void createSessionFactory() {
+    private void createFactory() {
         factory = new Configuration()
                 .configure("hibernate.cfg.xml")
                 .addAnnotatedClass(User.class)
                 .buildSessionFactory();
     }
 
+    private void createTransaction() {
+        session = factory.getCurrentSession();
+        session.beginTransaction();
+    }
+
+    private void commit() {
+        session.getTransaction().commit();
+        factory.close();
+    }
+
     public void save(T t) {
-        createSessionFactory();
-        Session session = factory.getCurrentSession();
+        createFactory();
+        createTransaction();
         try {
-            System.out.println("Data will be saved : " + t);
-            session.beginTransaction();
             session.persist(t);
-            session.getTransaction().commit();
-        } catch (
-                Exception e) {
-            System.out.println("Entered Catch");
-            System.out.println("Error Ocured: " + e.getMessage());
-        } finally {
-            System.out.println("Entered Finally ");
-            closeSessionFactory();
+            commit();
+        } catch (Exception e) {
+            System.out.println("Error Occurred: " + e.getMessage());
         }
     }
 
     public T find(Class<T> clazz, int id) {
-        createSessionFactory();
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
+        createFactory();
+        createTransaction();
         T t = session.get(clazz, id);
-        session.getTransaction().commit();
-        closeSessionFactory();
+        commit();
         return t;
-
     }
 
-    private void closeSessionFactory() {
-        factory.close();
-    }
 
 }

@@ -1,7 +1,6 @@
 package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.aes.compare.orm.business.abstracts.UserService;
-import org.aes.compare.orm.business.concrete.hibernate.HibernateImplementation;
 import org.aes.compare.orm.model.User;
 
 public class UserManagerHibernate implements UserService {

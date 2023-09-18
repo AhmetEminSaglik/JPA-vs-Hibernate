@@ -10,6 +10,9 @@ public class JpaImplementation<T> {
 
     void createFactory() {
         entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+    }
+
+    private void createTransaction() {
         entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
     }
@@ -21,12 +24,14 @@ public class JpaImplementation<T> {
 
     public void save(T t) {
         createFactory();
+        createTransaction();
         entityManager.persist(t);
         commit();
     }
 
     public T find(Class<T> clazz, int id) {
         createFactory();
+        createTransaction();
         T t = entityManager.find(clazz, id);
         commit();
         return t;

@@ -1,8 +1,6 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
 import org.aes.compare.orm.business.abstracts.UserService;
-import org.aes.compare.orm.business.concrete.hibernate.HibernateImplementation;
-import org.aes.compare.orm.business.concrete.jpa.JpaImplementation;
 import org.aes.compare.orm.model.User;
 
 public class UserManagerJpa implements UserService {
@@ -17,7 +15,7 @@ public class UserManagerJpa implements UserService {
     }
 
     private User saveUser(User user) {
-        JpaImplementation<User> impl = new JpaImplementation();
+        JpaImplementation<User> impl = new JpaImplementation<>();
         impl.save(user);
         return impl.find(User.class, user.getId());
     }
