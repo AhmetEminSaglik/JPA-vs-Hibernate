@@ -1,4 +1,4 @@
-package org.aes.compare.orm.business.concrete;
+package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.aes.compare.orm.model.User;
 import org.hibernate.Session;
@@ -16,7 +16,7 @@ public class HibernateImplementation<T> {
                 .buildSessionFactory();
     }
 
-    public void saveData(T t) {
+    public void save(T t) {
         createSessionFactory();
         Session session = factory.getCurrentSession();
         try {
@@ -34,7 +34,7 @@ public class HibernateImplementation<T> {
         }
     }
 
-    public T getData(Class<T> clazz, int id) {
+    public T find(Class<T> clazz, int id) {
         createSessionFactory();
         Session session = factory.getCurrentSession();
         session.beginTransaction();

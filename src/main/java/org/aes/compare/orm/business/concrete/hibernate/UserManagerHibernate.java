@@ -1,9 +1,13 @@
-package org.aes.compare.orm.business.concrete;
+package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.aes.compare.orm.business.abstracts.UserService;
+import org.aes.compare.orm.business.concrete.hibernate.HibernateImplementation;
 import org.aes.compare.orm.model.User;
 
 public class UserManagerHibernate implements UserService {
+    public UserManagerHibernate() {
+        System.out.println("Hibernate is activated");
+    }
 
     @Override
     public User save(User user) {
@@ -12,7 +16,7 @@ public class UserManagerHibernate implements UserService {
 
     private User saveUser(User user) {
         HibernateImplementation<User> impl = new HibernateImplementation<>();
-        impl.saveData(user);
-        return impl.getData(User.class, user.getId());
+        impl.save(user);
+        return impl.find(User.class, user.getId());
     }
 }
