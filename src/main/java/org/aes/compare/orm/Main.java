@@ -8,8 +8,10 @@ import org.aes.compare.orm.model.User;
 public class Main {
 
     public static void main(String[] args) {
-        processForJpa();
+     /* NOTE :If the table is not created in DB, then JPA will cause an error about the table not existing,
+       But hibernate will create a table if the table is not created.*/
         processForHibernate();
+        processForJpa();
     }
 
     public static void processForHibernate() {
