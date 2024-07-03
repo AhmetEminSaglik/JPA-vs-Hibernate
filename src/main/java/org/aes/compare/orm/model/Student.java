@@ -1,6 +1,7 @@
 package org.aes.compare.orm.model;
 
 import jakarta.persistence.*;
+import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class Student {
     @Column(name = "grade")
     private int grade;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.DETACH,CascadeType.REMOVE,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     @JoinTable(/*name = "student_course",*/
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
@@ -51,13 +52,16 @@ public class Student {
         this.address = address;
     }
 
+    public void addCourseList(List<Course> courses) {
+        courses.forEach(this::addCourse);
+    }
     public void addCourse(Course course) {
         if (courses == null) {
             System.out.println("Student courses olusturuldu");
             courses = new ArrayList<>();
         }
         if (!courses.contains(course)) {
-            System.out.println("Stduenbt'a course eklendi");
+            System.out.println(getName()+"'a "+course.getClass().getSimpleName()+" eklendi");
             courses.add(course);
         } else {
             System.out.println("Course zaten ekli");

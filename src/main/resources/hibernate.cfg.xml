@@ -16,7 +16,7 @@
         <mapping class="org.aes.compare.orm.model.*"/>
      <!--   <mapping class="org.aes.compare.orm.model.User"/>
         <mapping class="org.aes.compare.orm.model.Address"/>
-        <mapping class="org.aes.compare.orm.model.Course"/>
+        <mapping class="org.aes.compare.orm.model.courses.abstracts.Course"/>
         <mapping class="org.aes.compare.orm.model.ExamResultesult"/>
         <mapping class="org.aes.compare.orm.model.Student"/>-->
     </session-factory>

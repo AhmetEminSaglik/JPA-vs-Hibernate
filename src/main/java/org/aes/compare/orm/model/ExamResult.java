@@ -1,6 +1,7 @@
 package org.aes.compare.orm.model;
 
 import jakarta.persistence.*;
+import org.aes.compare.orm.model.courses.abstracts.Course;
 
 @Entity
 @Table(name = "exam_result")

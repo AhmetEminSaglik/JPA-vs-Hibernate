@@ -1,6 +1,7 @@
-package org.aes.compare.orm.model;
+package org.aes.compare.orm.model.courses.abstracts;
 
 import jakarta.persistence.*;
+import org.aes.compare.orm.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +9,18 @@ import java.util.List;
 
 @Entity
 @Table(name = "course")
-public class Course {
+public abstract class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+//    @Column(name = "name")
+//    private String name;
 
     @Column(name = "credits")
-    private int credits;
+    private double credits;
 
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
@@ -27,18 +28,19 @@ public class Course {
 
 
     public Course() {
+        credits = 1;
     }
 
-    public Course(String name, int credits, List<Student> students) {
-        this.name = name;
+    public Course(double credits, List<Student> students) {
+//        this.name = name;
         this.credits = credits;
         this.students = students;
     }
 
-    public Course(String name, int credits) {
-        this.name = name;
+    public Course(double credits) {
         this.credits = credits;
     }
+
 
     public Long getId() {
         return id;
@@ -48,19 +50,19 @@ public class Course {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+//    public String getName() {
+//        return name;
+//    }
 
     public void setName(String name) {
-        this.name = name;
+//        this.name = name;
     }
 
-    public int getCredits() {
+    public double getCredits() {
         return credits;
     }
 
-    public void setCredits(int credits) {
+    public void setCredits(double credits) {
         this.credits = credits;
     }
 
@@ -92,7 +94,7 @@ public class Course {
     public String toString() {
         return "Course{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+//                ", name='" + name + '\'' +
                 ", credits=" + credits +
 //                ", students=" + students +
                 '}';
