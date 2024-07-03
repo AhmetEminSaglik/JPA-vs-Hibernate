@@ -39,7 +39,6 @@ public abstract class Course {
     }
 
 
-
     public Long getId() {
         return id;
     }
@@ -90,9 +89,9 @@ public abstract class Course {
 
     @Override
     public String toString() {
-        return "Course{" +
-                getClass().getSimpleName().split("Course")[0] +
+        return getClass().getSimpleName().split("Course")[0] + "Course{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", credits=" + credits +
                 '}';
     }

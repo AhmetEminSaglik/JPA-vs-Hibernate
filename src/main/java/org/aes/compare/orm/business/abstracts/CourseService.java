@@ -5,5 +5,9 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 public interface CourseService {
     Course save(Course c);
 
-    Course findByName(String DTYPE);
+    Course findByName(String name);
+
+    void deleteCourseByName(String name);
+
+    void deleteCourseById(int id);
 }

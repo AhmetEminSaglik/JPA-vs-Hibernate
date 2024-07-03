@@ -1,0 +1,16 @@
+- find-delete-update Course
+- update Course will update also student,
+- delete course will not effect student;
+
+
+
+ +C -R -U -D Student
+
+ +C -R -U -D Course
+
+ -C -R -U -D Address
+
+ -C -R -U -D ExamResult
+
+
+
