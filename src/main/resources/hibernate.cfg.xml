@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE hibernate-configuration PUBLIC
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
@@ -14,10 +15,10 @@
         <property name="show_sql">true</property>
         <property name="current_session_context_class">thread</property>
         <mapping class="org.aes.compare.orm.model.*"/>
-     <!--   <mapping class="org.aes.compare.orm.model.User"/>
+     &lt;!&ndash;   <mapping class="org.aes.compare.orm.model.User"/>
         <mapping class="org.aes.compare.orm.model.Address"/>
         <mapping class="org.aes.compare.orm.model.courses.abstracts.Course"/>
         <mapping class="org.aes.compare.orm.model.ExamResultesult"/>
-        <mapping class="org.aes.compare.orm.model.Student"/>-->
+        <mapping class="org.aes.compare.orm.model.Student"/>&ndash;&gt;
     </session-factory>
-</hibernate-configuration>
+</hibernate-configuration>-->

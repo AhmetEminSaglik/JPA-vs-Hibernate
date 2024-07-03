@@ -48,7 +48,12 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void deleteCourseById(int id) {
-
+        System.out.println("Removing course's id : "+id);
+        initializeTransaction();
+        Course course=getEntityManager().find(Course.class,id);
+        getEntityManager().remove(course);
+        commit();
+        System.out.println("Course is removed by id");
     }
 
 }
