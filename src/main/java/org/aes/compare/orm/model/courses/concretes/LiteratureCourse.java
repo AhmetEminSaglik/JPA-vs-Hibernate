@@ -3,13 +3,13 @@ package org.aes.compare.orm.model.courses.concretes;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import org.aes.compare.orm.model.EnumCourse;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
 @Entity
-@Table(name = "literature_course")
-@DiscriminatorValue("Literature")
+@DiscriminatorValue("LITERATURE")
 public class LiteratureCourse extends Course {
     public LiteratureCourse() {
-        super(2);
+        super(EnumCourse.LITERATURE.getName(), 2);
     }
 }

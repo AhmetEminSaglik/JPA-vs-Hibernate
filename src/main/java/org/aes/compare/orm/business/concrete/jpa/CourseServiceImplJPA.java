@@ -12,4 +12,10 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         commit();
         return c;
     }
+
+    @Override
+    public Course findByName(String DTYPE) {
+        return null;
+    }
+
 }

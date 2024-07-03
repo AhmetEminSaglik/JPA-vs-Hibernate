@@ -4,4 +4,6 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 
 public interface CourseService {
     Course save(Course c);
+
+    Course findByName(String DTYPE);
 }

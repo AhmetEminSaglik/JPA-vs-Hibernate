@@ -8,7 +8,8 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "course")
+@Table(name = "courses",uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Course {
 
     @Id
@@ -16,10 +17,10 @@ public abstract class Course {
     @Column(name = "id")
     private Long id;
 
-//    @Column(name = "name")
-//    private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "credits")
+    @Column(name = "credits", nullable = false)
     private double credits;
 
 
@@ -27,19 +28,16 @@ public abstract class Course {
     private List<Student> students;
 
 
-    public Course() {
-        credits = 1;
+    public Course(String name, double credits) {
+        this.name = name;
+        this.credits = credits;
     }
 
     public Course(double credits, List<Student> students) {
-//        this.name = name;
         this.credits = credits;
         this.students = students;
     }
 
-    public Course(double credits) {
-        this.credits = credits;
-    }
 
 
     public Long getId() {
@@ -50,12 +48,12 @@ public abstract class Course {
         this.id = id;
     }
 
-//    public String getName() {
-//        return name;
-//    }
+    public String getName() {
+        return name;
+    }
 
     public void setName(String name) {
-//        this.name = name;
+        this.name = name;
     }
 
     public double getCredits() {

@@ -8,6 +8,7 @@ import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
+import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
@@ -91,6 +92,8 @@ public class JpaImplementationTest {
         Course courseLiterature = new LiteratureCourse();
         Course courseJava = new JavaCourse();
         Course courseFlutter = new FlutterCourse();
+        Course courseOtherPiano = new OtherCourse("Piano");
+        Course courseUnity = new OtherCourse("Unity");
 
         courseService.save(courseMath);
         System.out.println("new Course is saved : " + courseMath);
@@ -106,6 +109,12 @@ public class JpaImplementationTest {
 
         courseService.save(courseFlutter);
         System.out.println("new Course is saved : " + courseFlutter);
+
+        courseService.save(courseOtherPiano);
+        System.out.println("new Course is saved : " + courseOtherPiano);
+
+        courseService.save(courseUnity);
+        System.out.println("new Course is saved : " + courseUnity);
 
     }
 

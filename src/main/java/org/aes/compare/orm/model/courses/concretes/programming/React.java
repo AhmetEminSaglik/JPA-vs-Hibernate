@@ -2,13 +2,13 @@ package org.aes.compare.orm.model.courses.concretes.programming;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import org.aes.compare.orm.model.EnumCourse;
 import org.aes.compare.orm.model.courses.abstracts.ProgrammingCourse;
 
 @Entity
-//@Table(name = "flutter")
-@DiscriminatorValue("react")
+@DiscriminatorValue("REACT")
 public class React extends ProgrammingCourse {
     public React() {
-        super(1.5);
+        super(EnumCourse.REACT.getName(), 1.5);
     }
 }
