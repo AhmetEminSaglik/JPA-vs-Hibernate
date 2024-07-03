@@ -1,3 +1,4 @@
+/*
 package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.aes.compare.orm.model.User;
@@ -47,3 +48,4 @@ public class HibernateImplementation<T> {
 
 
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package org.aes.compare.orm.business.concrete.jpa;
 
 import org.aes.compare.orm.business.abstracts.UserService;
@@ -14,9 +15,12 @@ public class UserManagerJpa implements UserService {
         return saveUser(user);
     }
 
-    private User saveUser(User user) {
+    */
+/*private User saveUser(User user) {
         JpaImplementation<User> impl = new JpaImplementation<>();
         impl.save(user);
         return impl.find(User.class, user.getId());
-    }
+    }*//*
+
 }
+*/

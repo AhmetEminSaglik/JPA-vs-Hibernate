@@ -1,3 +1,4 @@
+/*
 package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.aes.compare.orm.business.abstracts.UserService;
@@ -19,3 +20,4 @@ public class UserManagerHibernate implements UserService {
         return impl.find(User.class, user.getId());
     }
 }
+*/
