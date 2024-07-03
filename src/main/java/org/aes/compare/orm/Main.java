@@ -21,9 +21,9 @@ public class Main {
      /* NOTE :If the table is not created in DB, then JPA will cause an error about the table not existing,
        But hibernate will create a table if the table is not created.*/
 //        processForHibernate();
-        Scanner scanner = new Scanner(System.in);
-        saveStudent1JPA();
-        scanner.nextLine();
+//        Scanner scanner = new Scanner(System.in);
+//        saveStudent1JPA();
+//        scanner.nextLine();
 //        scanner.nextLine();
 //        while (true){
 //
@@ -31,7 +31,7 @@ public class Main {
     }
 
 
-    public static void saveStudent1JPA() {
+    /*public static void saveStudent1JPA() {
         List<Course> courseList = new ArrayList<>();
         Course c1 = new MathCourse();
         Course c2 = new ScienceCourse();
@@ -52,7 +52,7 @@ public class Main {
         studentService.save(student);
         System.out.println("--------------------------------Student is Saved --------------------------------");
         System.out.println(student);
-        /*
+        *//*
         List<Course> courseList = new ArrayList<>();
         courseList.add(new Course("MathCourse", 4));
         courseList.add(new Course("Java Android", 2));
@@ -64,7 +64,7 @@ public class Main {
 
         studentService.save(student);
         System.out.println("Saved Student : " + student);
-    */
+    *//*
     }
 
     public static void saveStudent2JPA() {
@@ -91,7 +91,7 @@ public class Main {
         studentService.save(student);
         System.out.println("--------------------------------Student is Saved --------------------------------");
         System.out.println(student);
-        /*
+        *//*
         List<Course> courseList = new ArrayList<>();
         courseList.add(new Course("MathCourse", 4));
         courseList.add(new Course("Java Android", 2));
@@ -103,6 +103,6 @@ public class Main {
 
         studentService.save(student);
         System.out.println("Saved Student : " + student);
-    */
+    *//*
     }
-}
+*/}

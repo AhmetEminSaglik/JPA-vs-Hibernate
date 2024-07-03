@@ -1,5 +1,6 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
+import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.ExamResult;
@@ -10,7 +11,9 @@ import org.aes.compare.orm.model.courses.concretes.MathCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
+import org.hibernate.PropertyValueException;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -19,21 +22,26 @@ import java.util.Random;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JpaImplementationTest {
-    private static StudentService studentService = new StudentServiceImpJPA();
+    private StudentService studentService = new StudentServiceImpJPA();
+    private CourseService courseService = new CourseServiceImplJPA();
 
     @Test
     @Order(1)
-    public void SaveCoreStudentTest() {
+    public void test_throwException_WhileSavingStudentWithoutAddress() {
         Student student = new Student();
         student.setName("Ahmet");
         student.setGrade(1);
-        studentService.save(student);
-        System.out.println("Student is saved : " + student);
+        Assertions.assertThrows(PropertyValueException.class, () -> {
+            studentService.save(student);
+            System.out.println("Student is saved : " + student);
+
+        });
+//        studentService.save(student);
     }
 
     @Test
-    @Order(2)
-    public void SaveStudentWithAddressTest() {
+    @Order(1)
+    public void testSaveStudentWithAddress() {
         Address address = new Address("Street abc", "Ankara", "Spain");
 
         Student student = new Student();
@@ -48,7 +56,7 @@ public class JpaImplementationTest {
 
     @Test
     @Order(3)
-    public void SaveStudentWithAddressAndCourseTest() {
+    public void testSaveStudentWithAddressCourse() {
         Address address = new Address("Street abc", "Ankara", "Spain");
 
         Student student = new Student();
@@ -68,20 +76,43 @@ public class JpaImplementationTest {
         student.addCourse(courseJava);
         student.addCourse(courseFlutter);
 
+        Assertions.assertThrows(Exception.class, () -> {
+            studentService.save(student);
+            System.out.println("Student is saved : " + student);
+        });
 
-        studentService.save(student);
-        System.out.println("Student is saved : " + student);
     }
 
-    /*@Test
-    public  void test(){
-        Random random = new Random();
-        System.out.println(random.nextDouble(10d));
-        System.out.println(random.nextDouble());
-    }*/
     @Test
     @Order(4)
-    public void SaveStudentWithAddressAndCourseAndExamResultTest() {
+    public void testSaveCourse() {
+        Course courseMath = new MathCourse();
+        Course courseScience = new ScienceCourse();
+        Course courseLiterature = new LiteratureCourse();
+        Course courseJava = new JavaCourse();
+        Course courseFlutter = new FlutterCourse();
+
+        courseService.save(courseMath);
+        System.out.println("new Course is saved : " + courseMath);
+
+        courseService.save(courseScience);
+        System.out.println("new Course is saved : " + courseScience);
+
+        courseService.save(courseLiterature);
+        System.out.println("new Course is saved : " + courseLiterature);
+
+        courseService.save(courseJava);
+        System.out.println("new Course is saved : " + courseJava);
+
+        courseService.save(courseFlutter);
+        System.out.println("new Course is saved : " + courseFlutter);
+
+    }
+
+
+    @Test
+    @Order(4)
+    public void testSaveStudentWithAddressCourseAndExamResult() {
 
         Address address = new Address("Street abc", "Ankara", "Spain");
 
@@ -119,6 +150,7 @@ public class JpaImplementationTest {
         studentService.save(student);
         System.out.println("Student is saved : " + student);
     }
+
 
     Random random = new Random();
 

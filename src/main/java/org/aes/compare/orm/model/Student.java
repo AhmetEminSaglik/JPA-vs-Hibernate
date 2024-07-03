@@ -18,17 +18,17 @@ public class Student {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "grade")
+    @Column(name = "grade",nullable = false)
     private int grade;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToMany(cascade = {/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
     @JoinTable(/*name = "student_course",*/
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
     private List<Course> courses;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id"/*, referencedColumnName = "id"*/)
+    @JoinColumn(name = "address_id",nullable = false/*, referencedColumnName = "id"*/)
     private Address address;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)

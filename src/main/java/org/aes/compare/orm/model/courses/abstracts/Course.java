@@ -93,10 +93,9 @@ public abstract class Course {
     @Override
     public String toString() {
         return "Course{" +
+                getClass().getSimpleName().split("Course")[0] +
                 "id=" + id +
-//                ", name='" + name + '\'' +
                 ", credits=" + credits +
-//                ", students=" + students +
                 '}';
     }
 }
