@@ -42,4 +42,9 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
         return getEntityManager().find(Student.class,id);
     }
 
+    @Override
+    public void delete(int id) {
+
+    }
+
 }

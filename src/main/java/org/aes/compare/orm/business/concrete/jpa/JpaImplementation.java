@@ -19,11 +19,13 @@ public abstract  class JpaImplementation<T> {
     public  void initializeTransaction(){
        createFactoryJPA();
        createTransactionJPA();
+        System.out.println("Entity is INITIALIZED");
     }
 
     public void commit() {
         entityManager.getTransaction().commit();
         entityManager.close();
+        System.out.println("Entity is CLOSED");
     }
 
     public void saveJPA(T t) {

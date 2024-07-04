@@ -108,6 +108,26 @@ public class StudentTestJPA {
         studentService.update(student);
         System.out.println("Student son : "+student);
 
+    }
+    @Test
+    @Order(5)
+    public  void test_deleteStudent_ThatWithOnlyAddress(){
+        Address address = new Address("Street abc", "Ankara", "Spain");
+        Student student = new Student();
+        student.setName("Emin");
+        student.setGrade(1);
+        student.setAddress(address);
+        studentService.save(student);
+        System.out.println("Student is saved : " + student);
+
+        Student student2 = new Student();
+        student2.setName("Alperen");
+        student2.setGrade(3);
+        student2.setAddress(address);
+        studentService.save(student2);
+        System.out.println("Student is saved : " + student2);
+
+//        studentService.delete(1);
 
     }
 

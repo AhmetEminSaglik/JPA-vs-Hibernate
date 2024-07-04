@@ -10,4 +10,6 @@ public interface StudentService {
     void resetTable();
 
     Student findStudentById(int id);
+
+    void delete(int id);
 }
