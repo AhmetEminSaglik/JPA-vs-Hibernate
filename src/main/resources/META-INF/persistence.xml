@@ -4,7 +4,7 @@
              version="2.0">
     <persistence-unit name="myPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/demo_user_db"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school_db"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="root"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>

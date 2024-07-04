@@ -4,7 +4,7 @@ import jakarta.persistence.Query;
 import org.aes.compare.orm.business.abstracts.DatabaseCoreService;
 
 public class DatabaseCoreServiceImplJPA extends JpaImplementation<Object> implements DatabaseCoreService {
-    private final String databaseName = "demo_user_db";
+    private final String databaseName = "school_db";
 
     @Override
     public void reset() {

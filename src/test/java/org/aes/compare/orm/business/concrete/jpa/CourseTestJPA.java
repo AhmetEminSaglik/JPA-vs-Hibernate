@@ -11,11 +11,7 @@ import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
-import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CourseTestJPA {
@@ -59,7 +55,7 @@ public class CourseTestJPA {
     @Test
     @Order(2)
     public void testFindCourseByName() {
-        saveTestData();
+//        saveTestData();
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         System.out.println("Retrieved Course By Name " + EnumCourse.MATH.getName() + " is : " + course);
 /*
@@ -73,7 +69,6 @@ public class CourseTestJPA {
     @Test
     @Order(3)
     public  void testDeleteCourseByName(){
-        saveTestData();
         courseService.deleteCourseByName(EnumCourse.MATH.getName());
         Assertions.assertThrows(NoResultException.class,()->{
             System.out.println("Retrieved course after deleted : "+courseService.findByName(EnumCourse.MATH.getName()));
@@ -83,9 +78,7 @@ public class CourseTestJPA {
     @Test
     @Order(4)
     public void testDeleteCourseById() {
-        new DatabaseCoreServiceImplJPA().reset();
-        saveTestData();
-        courseService.deleteCourseById(1);
+        courseService.deleteCourseById(2);
         Assertions.assertThrows(NoResultException.class, () -> {
             System.out.println("Retrieved course after deleted : " + courseService.findByName(EnumCourse.MATH.getName()));
         });
