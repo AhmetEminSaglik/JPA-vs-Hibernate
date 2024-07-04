@@ -1,108 +1,102 @@
 package org.aes.compare.orm;
 
+import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
 import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.model.ExamResult;
+import org.aes.compare.orm.model.EnumCourse;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
+import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
+import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
+import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
 
-    static StudentService studentService;
+    private static CourseService courseService = new CourseServiceImplJPA();
+    private static StudentService studentService = new StudentServiceImpJPA();
     public static void main(String[] args) {
-     /* NOTE :If the table is not created in DB, then JPA will cause an error about the table not existing,
-       But hibernate will create a table if the table is not created.*/
-//        processForHibernate();
-//        Scanner scanner = new Scanner(System.in);
-//        saveStudent1JPA();
-//        scanner.nextLine();
-//        scanner.nextLine();
-//        while (true){
-//
-//        }
+
+        saveStudent();
+        saveCourses();
+        addCoursesToStudent();
     }
 
+    public static void saveStudent() {
+        studentService.resetTable();
+        courseService.resetTable();
+        Address address = new Address("Street abc", "Ankara", "Spain");
 
-    /*public static void saveStudent1JPA() {
-        List<Course> courseList = new ArrayList<>();
-        Course c1 = new MathCourse();
-        Course c2 = new ScienceCourse();
-
-        Address address = new Address("street 1 ", "city 1", "country 1");
-
-        ExamResult examResult1 = new ExamResult(10, c1);
-        ExamResult examResult2 = new ExamResult(15, c2);
-
-
-        Student student = new Student("Ahmet Emin", 5, address);
-        c1.addStudent(student);
-        c2.addStudent(student);
-        student.addExamResult(examResult1);
-        student.addExamResult(examResult2);
-
-        studentService = new StudentServiceImpJPA();
+        Student student = new Student();
+        student.setName("Ahmet Emin");
+        student.setGrade(1);
+        student.setAddress(address);
         studentService.save(student);
-        System.out.println("--------------------------------Student is Saved --------------------------------");
-        System.out.println(student);
-        *//*
-        List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("MathCourse", 4));
-        courseList.add(new Course("Java Android", 2));
+        System.out.println("Student is saved : " + student);
 
-        Address address = new Address("street 1 ", "city 1", "country 1");
 
-        Student student = new Student("Ahmet Emin", 5, courseList, address);
-        studentService = new StudentServiceImpJPA();
+        address = new Address("kucuk cekmece", "Istanbul", "Turkey");
 
+        student = new Student();
+        student.setName("Alperen ");
+        student.setGrade(3);
+        student.setAddress(address);
         studentService.save(student);
-        System.out.println("Saved Student : " + student);
-    *//*
+        System.out.println("Student is saved : " + student);
+
     }
 
-    public static void saveStudent2JPA() {
-        List<Course> courseList = new ArrayList<>();
-        Course c1 = new LiteratureCourse();
-        Course c2 = new ScienceCourse();
-        courseList.add(c1);
-        courseList.add(c2);
+    public static void saveCourses() {
+        Course courseMath = new MathCourse();
+        Course courseScience = new ScienceCourse();
+        Course courseLiterature = new LiteratureCourse();
 
+        Course courseJava = new JavaCourse();
+        Course courseFlutter = new FlutterCourse();
+        Course courseOtherPiano = new OtherCourse("Piano");
+        Course courseUnity = new OtherCourse("Unity");
 
-        Address address = new Address("street 1 ", "city 1", "country 1");
-
-        ExamResult examResult1 = new ExamResult(10, c1);
-        ExamResult examResult2 = new ExamResult(15, c2);
-
-
-        Student student = new Student("Ahmet Emin", 5, address);
-        c1.addStudent(student);
-        c2.addStudent(student);
-        student.addExamResult(examResult1);
-        student.addExamResult(examResult2);
-
-        studentService = new StudentServiceImpJPA();
-        studentService.save(student);
-        System.out.println("--------------------------------Student is Saved --------------------------------");
-        System.out.println(student);
-        *//*
-        List<Course> courseList = new ArrayList<>();
-        courseList.add(new Course("MathCourse", 4));
-        courseList.add(new Course("Java Android", 2));
-
-        Address address = new Address("street 1 ", "city 1", "country 1");
-
-        Student student = new Student("Ahmet Emin", 5, courseList, address);
-        studentService = new StudentServiceImpJPA();
-
-        studentService.save(student);
-        System.out.println("Saved Student : " + student);
-    *//*
+        courseService.save(courseMath);
+        courseService.save(courseScience);
+        courseService.save(courseLiterature);
+        courseService.save(courseJava);
+        courseService.save(courseFlutter);
+        courseService.save(courseOtherPiano);
+        courseService.save(courseUnity);
     }
-*/}
+
+    public static void addCoursesToStudent() {
+        Student student = studentService.findStudentById(1);
+        Course courseMath = courseService.findByName(EnumCourse.MATH.getName());
+        Course courseScience = courseService.findByName(EnumCourse.SCIENCE.getName());
+        student.addCourse(courseMath);
+        student.addCourse(courseScience);
+
+        System.out.println("first Student " +student);
+        studentService.update(student);
+        System.out.println("Assigned Courses to first student : " + student);
+        System.out.println("-------------");
+
+        student = studentService.findStudentById(2);
+        Course coursePiano = courseService.findByName("Piano");
+        Course courseFlutter = courseService.findByName(EnumCourse.FLUTTER.getName());
+
+        student.addCourse(coursePiano);
+        student.addCourse(courseFlutter);
+        student.addCourse(courseMath);
+
+        System.out.println("Second Student " +student);
+        studentService.update(student);
+        System.out.println("Assigned Courses to Second student : " + student);
+
+
+    }
+
+}

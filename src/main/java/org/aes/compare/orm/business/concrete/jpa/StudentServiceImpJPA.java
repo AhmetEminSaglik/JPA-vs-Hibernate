@@ -20,4 +20,26 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
         commit();
     }
 
+    @Override
+    public void resetTable() {
+        initializeTransaction();
+
+        getEntityManager().createQuery("DELETE FROM Student")
+                .executeUpdate();
+        commit();
+
+        initializeTransaction();
+
+        getEntityManager().createNativeQuery("ALTER TABLE students AUTO_INCREMENT = 1")
+                .executeUpdate();
+        commit();
+
+    }
+
+    @Override
+    public Student findStudentById(int id) {
+        initializeTransaction();
+        return getEntityManager().find(Student.class,id);
+    }
+
 }

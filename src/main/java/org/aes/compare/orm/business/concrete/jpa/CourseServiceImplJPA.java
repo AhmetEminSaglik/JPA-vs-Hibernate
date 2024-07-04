@@ -79,23 +79,20 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void resetTable() {
-
-        System.out.println("Reset Table ");
         initializeTransaction();
+
         getEntityManager().createQuery("DELETE FROM Course")
                 .executeUpdate();
-        System.out.println("DELETE FROM Course executeUpdate  ");
         commit();
-        System.out.println("commit");
+
         initializeTransaction();
-        System.out.println("initializeTransaction");
+
         //Native query uses database table name
         // Query uses Java Class' name
         getEntityManager().createNativeQuery("ALTER TABLE courses AUTO_INCREMENT = 1")
                 .executeUpdate();
-        System.out.println("ALTER TABLE courses AUTO_INCREMENT");
+
         commit();
-        System.out.println("All Courses are deleted");
     }
 
     @Override

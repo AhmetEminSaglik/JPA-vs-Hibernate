@@ -14,15 +14,17 @@ import org.junit.jupiter.api.*;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class
-CourseTestJPA {
+public class CourseTestJPA {
     private static CourseService courseService = new CourseServiceImplJPA();
 
+    @BeforeEach
+    public void resetTables() {
+        courseService.resetTable();
+        saveCourseData();
+    }
     @Test
     @Order(1)
     public void testSaveCourse() {
-        courseService.resetTable();
-        saveCourseData();
         int expected = 7;
         int actual = courseService.findAll().size();
         Assertions.assertEquals(expected, actual);
@@ -31,8 +33,7 @@ CourseTestJPA {
     @Test
     @Order(2)
     public void testFindCourseByName() {
-        courseService.resetTable();
-        saveCourseData();
+
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         long expected = 1;
         long actual = course.getId();
@@ -52,8 +53,6 @@ CourseTestJPA {
     @Test
     @Order(3)
     public  void testDeleteCourseByName(){
-        courseService.resetTable();
-        saveCourseData();
         courseService.deleteCourseByName(EnumCourse.MATH.getName());
         List<Course> courses = courseService.findAll();
 
@@ -70,8 +69,6 @@ CourseTestJPA {
     @Test
     @Order(4)
     public void testDeleteCourseById() {
-        courseService.resetTable();
-        saveCourseData();
         courseService.deleteCourseById(2);
         List<Course> courses = courseService.findAll();
         courses.forEach(
@@ -86,18 +83,9 @@ CourseTestJPA {
     @Test
     @Order(5)
     public void testUpdateCourse() {
-        courseService.resetTable();
-        saveCourseData();
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
         course.setCredits(6.5);
         courseService.updateCourseByName(course);
-    }
-
-    @Test
-    @Order(6)
-    public void testDeleteAllCourses() {
-        courseService.resetTable();
-        testSaveCourse();
     }
 
     private void saveCourseData() {

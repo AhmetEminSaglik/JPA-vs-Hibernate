@@ -52,7 +52,7 @@ public class Student {
         this.address = address;
     }
 
-    public void addCourseList(List<Course> courses) {
+    public void addCourses(List<Course> courses) {
         courses.forEach(this::addCourse);
     }
     public void addCourse(Course course) {

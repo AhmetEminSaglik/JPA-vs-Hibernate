@@ -6,4 +6,8 @@ public interface StudentService {
     Student save(Student s);
 
     void update(Student s);
+
+    void resetTable();
+
+    Student findStudentById(int id);
 }
