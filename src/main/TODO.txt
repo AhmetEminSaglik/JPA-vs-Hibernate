@@ -6,7 +6,7 @@
 
  +C -R -U -D Student
 
- +C +R -U +D Course
+ +C +R +U +D Course  | Completed
 
  -C -R -U -D Address
 

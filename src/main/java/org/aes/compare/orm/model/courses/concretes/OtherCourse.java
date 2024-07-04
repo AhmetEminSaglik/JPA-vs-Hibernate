@@ -7,6 +7,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 @Entity
 @DiscriminatorValue("OTHER")
 public class OtherCourse extends Course {
+
     public OtherCourse(String name, double credits) {
         super(name, credits);
     }
@@ -14,4 +15,11 @@ public class OtherCourse extends Course {
     public OtherCourse(String name) {
         super(name, 1);
     }
+
+    public OtherCourse() {
+        super("unknown", -1);
+    }
+
+
+
 }

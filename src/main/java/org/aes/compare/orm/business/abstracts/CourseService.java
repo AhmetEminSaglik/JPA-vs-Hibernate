@@ -2,6 +2,8 @@ package org.aes.compare.orm.business.abstracts;
 
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
+import java.util.List;
+
 public interface CourseService {
     Course save(Course c);
 
@@ -11,7 +13,9 @@ public interface CourseService {
 
     void deleteCourseById(int id);
 
-    Course updateCourseByName(Course course);
+    void updateCourseByName(Course course);
 
-    void deleteAll();
+    void resetTable();
+
+    List<Course> findAll();
 }
