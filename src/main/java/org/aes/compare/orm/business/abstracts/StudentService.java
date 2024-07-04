@@ -11,5 +11,5 @@ public interface StudentService {
 
     Student findStudentById(int id);
 
-    void delete(int id);
+    void deleteById(int id);
 }

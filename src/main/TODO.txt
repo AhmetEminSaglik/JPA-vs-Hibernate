@@ -8,7 +8,7 @@
 
  +C +R +U +D Course  | Completed
 
- -C -R -U -D Address
+ +C +R +U +D Address
 
  -C -R -U -D ExamResult
 

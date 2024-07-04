@@ -39,11 +39,18 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
     @Override
     public Student findStudentById(int id) {
         initializeTransaction();
-        return getEntityManager().find(Student.class,id);
+        Student student =getEntityManager().find(Student.class,id);
+        commit();
+        return  student;
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
+        initializeTransaction();
+        Student student = getEntityManager().find(Student.class, id);
+//        student.setAddress(null);
+        getEntityManager().remove(student);
+        commit();
 
     }
 

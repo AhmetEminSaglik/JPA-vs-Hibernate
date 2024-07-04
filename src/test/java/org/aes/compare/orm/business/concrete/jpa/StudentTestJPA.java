@@ -1,5 +1,6 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
+import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.model.Address;
@@ -20,12 +21,14 @@ import java.util.Random;
 public class StudentTestJPA {
     private StudentService studentService = new StudentServiceImpJPA();
     private CourseService courseService = new CourseServiceImplJPA();
+    private AddressService addressService = new AddressServiceImplJPA();
     private Random random = new Random();
 
     @BeforeEach
     public void resetTables() {
         courseService.resetTable();
         studentService.resetTable();
+        addressService.resetTable();
     }
     @Test
     @Order(1)
@@ -44,6 +47,7 @@ public class StudentTestJPA {
     @Order(1)
     public void testSaveStudentWithAddress() {
         Address address = new Address("Street abc", "Ankara", "Spain");
+        addressService.save(address);
 
         Student student = new Student();
         student.setName("Emin");
@@ -79,6 +83,7 @@ public class StudentTestJPA {
     @Order(4)
     public void test_SaveStudent_SaveCourse_AddCourseToStudent() {
         Address address = new Address("Street abc", "Ankara", "Spain");
+        addressService.save(address);
 
         Student student = new Student();
         student.setName("Emin");
@@ -113,21 +118,26 @@ public class StudentTestJPA {
     @Order(5)
     public  void test_deleteStudent_ThatWithOnlyAddress(){
         Address address = new Address("Street abc", "Ankara", "Spain");
+        Address address2 = new Address("kucuk cekmece", "Istanbul", "Turkey");
+        addressService.save(address);
+        addressService.save(address2);
+
         Student student = new Student();
-        student.setName("Emin");
+        student.setName("Ahmet Emin");
         student.setGrade(1);
         student.setAddress(address);
         studentService.save(student);
         System.out.println("Student is saved : " + student);
 
+
         Student student2 = new Student();
         student2.setName("Alperen");
         student2.setGrade(3);
-        student2.setAddress(address);
+        student2.setAddress(address2);
         studentService.save(student2);
         System.out.println("Student is saved : " + student2);
 
-//        studentService.delete(1);
+        studentService.deleteById(1);
 
     }
 

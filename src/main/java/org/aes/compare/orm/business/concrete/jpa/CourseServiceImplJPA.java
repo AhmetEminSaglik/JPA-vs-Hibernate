@@ -45,9 +45,13 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         query.setParameter("data", name);
 
         Course course = query.getSingleResult();
+        commit();
+        initializeTransaction();
         System.out.println("Retrieved Course : " + course);
-        System.out.println("course.getStudents() : " + course.getStudents());
 
+        System.out.println(course.getId());
+        System.out.println(course.getName());
+        System.out.println(course.getCredits());
         getEntityManager().remove(course);
         commit();
         System.out.println("Course is removed : " + course);

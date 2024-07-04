@@ -40,18 +40,13 @@ public class AddressTestJPA {
     public void testUpdateAddress() {
         Address address = new Address("1882", "Ankara", "Spain");
         Address address2 = new Address("abc", "abc", "abc");
-        System.out.println("addres 1 saved");
+
         addressService.save(address);
-        System.out.println("addres 2 saved");
         addressService.save(address2);
 
-        System.out.println("address datalari savelendi");
         Address retrievedAddress = addressService.findById(2);
-        System.out.println("retrievedAddress : "+retrievedAddress);
         retrievedAddress.setCity("Updated City");
-        System.out.println("retrievedAddress : "+retrievedAddress);
         addressService.update(retrievedAddress);
-        System.out.println("data savelendi");
 
 
         Assertions.assertEquals(address2.getId(), retrievedAddress.getId());
