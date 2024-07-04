@@ -12,4 +12,12 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
         commit();
         return s;
     }
+
+    @Override
+    public void update(Student s) {
+        initializeTransaction();
+        getEntityManager().merge(s);
+        commit();
+    }
+
 }

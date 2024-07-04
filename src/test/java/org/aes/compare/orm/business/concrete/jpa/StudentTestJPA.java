@@ -1,14 +1,12 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
+import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.model.Address;
+import org.aes.compare.orm.model.EnumCourse;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
-import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
-import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
-import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
-import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.*;
 
@@ -17,6 +15,7 @@ import java.util.Random;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StudentTestJPA {
     private StudentService studentService = new StudentServiceImpJPA();
+    private CourseService courseService = new CourseServiceImplJPA();
     private Random random = new Random();
 
     @Test
@@ -49,7 +48,7 @@ public class StudentTestJPA {
 
     @Test
     @Order(3)
-    public void testSaveStudentWithAddressCourse() {
+    public void test_throwException_SaveStudentWithCourse() {
         Address address = new Address("Street abc", "Ankara", "Spain");
 
         Student student = new Student();
@@ -58,21 +57,36 @@ public class StudentTestJPA {
         student.setAddress(address);
 
         Course courseMath = new MathCourse();
-        Course courseScience = new ScienceCourse();
-        Course courseLiterature = new LiteratureCourse();
-        Course courseJava = new JavaCourse();
-        Course courseFlutter = new FlutterCourse();
 
         student.addCourse(courseMath);
-        student.addCourse(courseScience);
-        student.addCourse(courseLiterature);
-        student.addCourse(courseJava);
-        student.addCourse(courseFlutter);
 
         Assertions.assertThrows(Exception.class, () -> {
             studentService.save(student);
             System.out.println("Student is saved : " + student);
         });
+    }
+
+    @Test
+    @Order(4)
+    public void test_SaveStudent_SaveCourse_AddCourseToStudent() {
+        Address address = new Address("Street abc", "Ankara", "Spain");
+
+        Student student = new Student();
+        student.setName("Emin");
+        student.setGrade(1);
+        student.setAddress(address);
+        studentService.save(student);
+        System.out.println("Student is saved : " + student);
+
+
+        Course courseMath = new MathCourse();
+        courseService.save(courseMath);
+        System.out.println("Savelenen Course :"+courseMath);
+
+        student.addCourse(courseMath);
+        studentService.update(student);
+        System.out.println("Student son : "+student);
+
 
     }
 

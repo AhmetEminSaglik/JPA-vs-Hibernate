@@ -24,7 +24,7 @@ public abstract class Course {
     private double credits;
 
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY,cascade = CascadeType.DETACH)
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     private List<Student> students;
 
 

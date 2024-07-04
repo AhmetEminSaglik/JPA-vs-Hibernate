@@ -4,4 +4,6 @@ import org.aes.compare.orm.model.Student;
 
 public interface StudentService {
     Student save(Student s);
+
+    void update(Student s);
 }
