@@ -10,4 +10,8 @@ public interface CourseService {
     void deleteCourseByName(String name);
 
     void deleteCourseById(int id);
+
+    Course updateCourseByName(Course course);
+
+    void deleteAll();
 }

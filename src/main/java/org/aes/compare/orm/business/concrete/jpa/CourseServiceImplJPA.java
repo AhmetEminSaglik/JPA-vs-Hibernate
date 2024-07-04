@@ -1,7 +1,6 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
@@ -54,6 +53,21 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         getEntityManager().remove(course);
         commit();
         System.out.println("Course is removed by id");
+    }
+
+    @Override
+    public Course updateCourseByName(Course course) {
+        System.out.println("Gelen Course :" + course);
+        Course tmpCourse = getEntityManager().find(Course.class, course.getId());
+        System.out.println("tmp Course : ");
+        course= getEntityManager().merge(course);
+        commit();
+        return course;
+    }
+
+    @Override
+    public void deleteAll() {
+
     }
 
 }

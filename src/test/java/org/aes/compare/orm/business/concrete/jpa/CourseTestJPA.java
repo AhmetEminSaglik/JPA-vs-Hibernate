@@ -2,7 +2,6 @@ package org.aes.compare.orm.business.concrete.jpa;
 
 import jakarta.persistence.NoResultException;
 import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.abstracts.DatabaseCoreService;
 import org.aes.compare.orm.model.EnumCourse;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -82,6 +81,18 @@ public class CourseTestJPA {
         Assertions.assertThrows(NoResultException.class, () -> {
             System.out.println("Retrieved course after deleted : " + courseService.findByName(EnumCourse.MATH.getName()));
         });
+    }
+
+    @Test
+    @Order(5)
+    public void testUpdateCourse() {
+        Course course = courseService.findByName(EnumCourse.JAVA.getName());
+        System.out.println("Retrieved Course : " + course);
+        course.setCredits(6.5);
+        System.out.println("updated Course : " + course);
+        courseService.updateCourseByName(course);
+        System.out.println("Updated and retrieved course : " + courseService.findByName(EnumCourse.JAVA.getName()));
+
     }
 
     private void saveTestData() {
