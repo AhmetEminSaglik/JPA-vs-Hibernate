@@ -19,7 +19,7 @@ public class ExamResult {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private  Course course;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "student_id"/*, nullable = false*/, nullable = false)
     private Student student;
 

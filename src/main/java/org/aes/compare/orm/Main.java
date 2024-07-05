@@ -16,19 +16,13 @@ import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-
-import java.lang.management.ManagementFactory;
-import java.lang.reflect.Executable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Main {
 
     private static StudentService studentService = new StudentServiceImpJPA();
     private static CourseService courseService = new CourseServiceImplJPA();
     private static AddressService addressService = new AddressServiceImplJPA();
+
     public static void main(String[] args) {
 
         Address address = new Address("Street abc", "Ankara", "Spain");

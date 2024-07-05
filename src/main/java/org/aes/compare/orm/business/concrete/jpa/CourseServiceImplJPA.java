@@ -1,5 +1,6 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
@@ -18,15 +19,18 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public Course findByName(String name) {
-        System.out.println("Gelen Name : " + name);
         initializeTransaction();
         TypedQuery<Course> query = getEntityManager().createQuery(
                 "SELECT c FROM Course c WHERE c.name=:data  ", Course.class);
         query.setParameter("data", name);
-
-        Course course = query.getSingleResult();
-        System.out.println(course);
-        commit();
+        Course course = null;
+        try {
+            course = query.getSingleResult();
+        } catch (NoResultException ex) {
+            System.out.println("Course is not found ");
+        } finally {
+            commit();
+        }
         return course;
     }
 
@@ -68,12 +72,10 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void deleteCourseById(int id) {
-        System.out.println("Removing course's id : "+id);
         initializeTransaction();
         Course course=getEntityManager().find(Course.class,id);
         getEntityManager().remove(course);
         commit();
-        System.out.println("Course is removed by id");
     }
 
     @Override

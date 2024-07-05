@@ -15,8 +15,13 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
     @Override
     public void save(Student s) {
         initializeTransaction();
+        try {
         getEntityManager().persist(s);
-        commit();
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            commit();
+        }
     }
 
     @Override
@@ -53,7 +58,7 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
     @Override
     public List<Student> findAll() {
         initializeTransaction();
-        Query query = getEntityManager().createQuery("SELECT s Student ");
+        Query query = getEntityManager().createQuery("SELECT s FROM Student s ");
         List<Student> students = query.getResultList();
         commit();
         return students;

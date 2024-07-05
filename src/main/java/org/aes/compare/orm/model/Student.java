@@ -22,7 +22,7 @@ public class Student {
     @Column(name = "grade",nullable = false)
     private int grade;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,/*CascadeType.PERSIST,*/CascadeType.DETACH,CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
     @JoinTable(/*name = "student_course",*/
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
@@ -32,7 +32,7 @@ public class Student {
     @JoinColumn(name = "address_id",nullable = false/*, referencedColumnName = "id"*/)
     private Address address;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ExamResult> examResults;
 
     public Student() {
@@ -64,8 +64,6 @@ public class Student {
         if (!courses.contains(course)) {
             System.out.println(getName()+"'a "+course.getClass().getSimpleName()+" eklendi");
             courses.add(course);
-        } else {
-            System.out.println("Course zaten ekli");
         }
 
     }
