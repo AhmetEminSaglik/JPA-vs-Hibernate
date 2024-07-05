@@ -1,4 +1,4 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.aes.compare.orm.business.concrete.jpa.abstracts;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -16,35 +16,25 @@ public abstract  class JpaImplementation<T> {
         entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
     }
+
+    static int initCounter = 0;
+    static int closeCounter = 0;
     public  void initializeTransaction(){
+        initCounter++;
        createFactoryJPA();
        createTransactionJPA();
-        System.out.println("Entity is INITIALIZED");
+        System.out.println(initCounter + "-)Entity is INITIALIZED: " + getClass().getSimpleName());
     }
 
-    public void commit() {
+    public synchronized void commit() {
+        closeCounter++;
         entityManager.getTransaction().commit();
         entityManager.close();
-        System.out.println("Entity is CLOSED");
+        System.out.println(closeCounter + "-) Entity is CLOSED: " + getClass().getSimpleName());
     }
 
-    public void saveJPA(T t) {
-        initializeTransaction();
-        entityManager.persist(t);
-        commit();
-    }
 
-    public T find(Class<T> clazz, int id) {
-        initializeTransaction();
-        T t = entityManager.find(clazz, id);
-        commit();
-        return t;
-    }
-
-    public EntityManager getEntityManager() {
-       if(entityManager==null){
-           initializeTransaction();
-       }
+    public synchronized EntityManager getEntityManager() {
         return entityManager;
     }
 }

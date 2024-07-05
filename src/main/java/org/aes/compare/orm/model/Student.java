@@ -5,6 +5,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "students")
@@ -13,7 +14,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -21,7 +22,7 @@ public class Student {
     @Column(name = "grade",nullable = false)
     private int grade;
 
-    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
     @JoinTable(/*name = "student_course",*/
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id"))
@@ -69,11 +70,11 @@ public class Student {
 
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -135,18 +136,22 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", grade=" + grade +
                 ", address=" + address +
-                ", courses=" + courses +
-                ", examResults=" + examResults +
+//                ", courses=" + courses +
+//                ", examResults=" + examResults +
                 '}';
     }
 
-    /*    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", grade=" + grade +
-                ", address=" + address +
-                '}';
-    }*/
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Student student = (Student) o;
+        return id == student.id && grade == student.grade && Objects.equals(name, student.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, grade);
+    }
+
 }

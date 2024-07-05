@@ -15,13 +15,18 @@ import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class CourseTestJPA {
+
     private static CourseService courseService = new CourseServiceImplJPA();
 
-    @BeforeEach
-    public void resetTables() {
-        courseService.resetTable();
+   /* @BeforeEach
+    public void resetTablesBeforeEach() {
+        ResetAllTables.resetAll();
         saveCourseData();
     }
+    @AfterAll
+    public  static  void resetTablesAfterAll(){
+        ResetAllTables.resetAll();
+    }*/
     @Test
     @Order(1)
     public void testSaveCourse() {
@@ -35,8 +40,8 @@ public class CourseTestJPA {
     public void testFindCourseByName() {
 
         Course course = courseService.findByName(EnumCourse.MATH.getName());
-        long expected = 1;
-        long actual = course.getId();
+        int expected = 1;
+        int actual = course.getId();
         Assertions.assertEquals(expected, actual);
 
         course = courseService.findByName(EnumCourse.JAVA.getName());

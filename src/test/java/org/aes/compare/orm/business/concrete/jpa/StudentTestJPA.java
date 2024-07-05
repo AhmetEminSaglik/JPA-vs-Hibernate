@@ -15,21 +15,20 @@ import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class StudentTestJPA {
-    private StudentService studentService = new StudentServiceImpJPA();
-    private CourseService courseService = new CourseServiceImplJPA();
-    private AddressService addressService = new AddressServiceImplJPA();
-    private Random random = new Random();
+    private static StudentService studentService = new StudentServiceImpJPA();
+    private static CourseService courseService = new CourseServiceImplJPA();
+    private static AddressService addressService = new AddressServiceImplJPA();
 
-    @BeforeEach
-    public void resetTables() {
-        courseService.resetTable();
+    @BeforeAll
+    public static void resetTablesBeforeAll() {
         studentService.resetTable();
         addressService.resetTable();
+        courseService.resetTable();
     }
+
     @Test
     @Order(1)
     public void test_throwException_WhileSavingStudentWithoutAddress() {
@@ -44,7 +43,7 @@ public class StudentTestJPA {
     }
 
     @Test
-    @Order(1)
+    @Order(2)
     public void testSaveStudentWithAddress() {
         Address address = new Address("Street abc", "Ankara", "Spain");
         addressService.save(address);
@@ -82,11 +81,11 @@ public class StudentTestJPA {
     @Test
     @Order(4)
     public void test_SaveStudent_SaveCourse_AddCourseToStudent() {
-        Address address = new Address("Street abc", "Ankara", "Spain");
+        Address address = new Address("Street def", "Istanbul", "Turkey");
         addressService.save(address);
 
         Student student = new Student();
-        student.setName("Emin");
+        student.setName("Ahmet Emin");
         student.setGrade(1);
         student.setAddress(address);
         studentService.save(student);
@@ -117,33 +116,70 @@ public class StudentTestJPA {
     @Test
     @Order(5)
     public  void test_deleteStudent_ThatWithOnlyAddress(){
-        Address address = new Address("Street abc", "Ankara", "Spain");
-        Address address2 = new Address("kucuk cekmece", "Istanbul", "Turkey");
-        addressService.save(address);
-        addressService.save(address2);
+//        Address address = new Address("Kucuk Cekmece", "Aksary", "Turkey");
+//        addressService.save(address);
+//        Address address =addressService.findById(1);
+
+//        Student student = new Student();
+//        student.setName("Ahmet Emin Saglik");
+//        student.setGrade(1);
+//        student.setAddress(address);
+//        studentService.save(student);
+//        System.out.println("Student is saved : " + student);
+
+
+//        Student student2 = new Student();
+//        student2.setName("Alperen");
+//        student2.setGrade(3);
+//        student2.setAddress(address2);
+//        studentService.save(student2);
+//        System.out.println("Student is saved : " + student2);
+        Student student = studentService.findById(1);
+        Assertions.assertTrue(student != null);
+
+        studentService.deleteById(1);
+        student = studentService.findById(1);
+        Assertions.assertTrue(student == null);
+
+
+
+    }
+
+
+    @Test
+    @Order(6)
+    public void testFindStudentById() {
+//        Address address = new Address("Street abc", "Ankara", "Spain");
+//        Address address2 = new Address("kucuk cekmece", "Istanbul", "Turkey");
+//        addressService.save(address);
+//        addressService.save(address2);
+//
+//        Student student = new Student();
+//        student.setName("Ahmet Emin");
+//        student.setGrade(1);
+//        student.setAddress(address);
+//        studentService.save(student);
+//        System.out.println("Student is saved : " + student);
+//
+//
+//        Student student2 = new Student();
+//        student2.setName("Alperen");
+//        student2.setGrade(3);
+//        student2.setAddress(address2);
+//        studentService.save(student2);
+//        System.out.println("Student is saved : " + student2);
+//
+        Address address = new Address("Street def", "Istanbul", "Turkey");
 
         Student student = new Student();
+        student.setId(2);
         student.setName("Ahmet Emin");
         student.setGrade(1);
         student.setAddress(address);
-        studentService.save(student);
-        System.out.println("Student is saved : " + student);
 
-
-        Student student2 = new Student();
-        student2.setName("Alperen");
-        student2.setGrade(3);
-        student2.setAddress(address2);
-        studentService.save(student2);
-        System.out.println("Student is saved : " + student2);
-
-        studentService.deleteById(1);
+        Student retrievedStudent = studentService.findById(2);
+        System.out.println("retrieved Student : " + retrievedStudent);
+        Assertions.assertEquals(student, retrievedStudent);
 
     }
-
-    private double getRandomExamResult() {
-        return (random.nextInt(10000) / 100.0);
-    }
-
-
 }

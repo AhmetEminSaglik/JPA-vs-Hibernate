@@ -2,6 +2,7 @@ package org.aes.compare.orm.business.concrete.jpa;
 
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
+import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.List;
@@ -9,15 +10,10 @@ import java.util.List;
 public class CourseServiceImplJPA extends JpaImplementation<Course> implements CourseService {
 
     @Override
-    public Course save(Course c) {
-//        try {
+    public void save(Course c) {
         initializeTransaction();
         getEntityManager().persist(c);
         commit();
-//        } catch (ConstraintViolationException e) {
-//            System.out.println("DATA DAHA ONCE EKLENMIS");
-//        }
-        return c;
     }
 
     @Override
@@ -36,29 +32,38 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void deleteCourseByName(String name) {
+
+        /*
+        * 2. Merge the entity before deleting
+        you can try merging the detached entity back into the Hibernate session before deleting it.
+* */
         initializeTransaction();
-        System.out.println("silinecek dersin adi : " + name);
+        System.out.println("Deleting course with name: " + name);
+        Course course = getEntityManager().createQuery("SELECT c FROM Course c WHERE c.name = :name", Course.class)
+                .setParameter("name", name)
+                .getSingleResult();
+        course = getEntityManager().merge(course);
+        getEntityManager().remove(course);
+        commit();
+        System.out.println("Course deleted: " + course);
+        /*
+
+        initializeTransaction();
         TypedQuery<Course> query = getEntityManager().createQuery(
-//                "SELECT c FROM Course c LEFT JOIN c.student WHERE c.name=:data", Course.class
                 "SELECT c FROM Course c  WHERE c.name=:data", Course.class
         );
         query.setParameter("data", name);
 
         Course course = query.getSingleResult();
-        commit();
-        initializeTransaction();
-        System.out.println("Retrieved Course : " + course);
+
 
         System.out.println(course.getId());
         System.out.println(course.getName());
         System.out.println(course.getCredits());
         getEntityManager().remove(course);
         commit();
-        System.out.println("Course is removed : " + course);
 
-
-//        TypedQuery
-
+*/
     }
 
     @Override
@@ -74,10 +79,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     @Override
     public void updateCourseByName(Course course) {
         initializeTransaction();
-        System.out.println("Gelen Course :" + course);
-        Course tmpCourse = getEntityManager().find(Course.class, course.getId());
-        System.out.println("tmp Course : ");
-        course= getEntityManager().merge(course);
+        getEntityManager().merge(course);
         commit();
     }
 

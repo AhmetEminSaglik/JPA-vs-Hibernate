@@ -1,7 +1,9 @@
 package org.aes.compare.orm;
 
+import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.jpa.AddressServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
 import org.aes.compare.orm.model.Address;
@@ -14,19 +16,47 @@ import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
 
+import java.lang.management.ManagementFactory;
+import java.lang.reflect.Executable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Main {
 
-    private static CourseService courseService = new CourseServiceImplJPA();
     private static StudentService studentService = new StudentServiceImpJPA();
+    private static CourseService courseService = new CourseServiceImplJPA();
+    private static AddressService addressService = new AddressServiceImplJPA();
     public static void main(String[] args) {
 
-        saveStudent();
-        saveCourses();
-        addCoursesToStudent();
+        Address address = new Address("Street abc", "Ankara", "Spain");
+        Address address2 = new Address("kucuk cekmece", "Istanbul", "Turkey");
+        addressService.save(address);
+        addressService.save(address2);
+
+        Student student = new Student();
+        student.setName("Ahmet Emin");
+        student.setGrade(1);
+        student.setAddress(address);
+        studentService.save(student);
+        System.out.println("Student is saved : " + student);
+
+
+        Student student2 = new Student();
+        student2.setName("Alperen");
+        student2.setGrade(3);
+        student2.setAddress(address2);
+        studentService.save(student2);
+        System.out.println("Student is saved : " + student2);
+
+//        studentService.deleteById(1);
+
+
+//        saveStudent();
+//        saveCourses();
+//        addCoursesToStudent();
     }
 
     public static void saveStudent() {
@@ -73,7 +103,7 @@ public class Main {
     }
 
     public static void addCoursesToStudent() {
-        Student student = studentService.findStudentById(1);
+        Student student = studentService.findById(1);
         Course courseMath = courseService.findByName(EnumCourse.MATH.getName());
         Course courseScience = courseService.findByName(EnumCourse.SCIENCE.getName());
         student.addCourse(courseMath);
@@ -84,7 +114,7 @@ public class Main {
         System.out.println("Assigned Courses to first student : " + student);
         System.out.println("-------------");
 
-        student = studentService.findStudentById(2);
+        student = studentService.findById(2);
         Course coursePiano = courseService.findByName("Piano");
         Course courseFlutter = courseService.findByName(EnumCourse.FLUTTER.getName());
 

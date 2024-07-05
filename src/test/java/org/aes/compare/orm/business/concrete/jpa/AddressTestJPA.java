@@ -6,26 +6,22 @@ import org.junit.jupiter.api.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AddressTestJPA {
-    AddressService addressService = new AddressServiceImplJPA();
+    static AddressService addressService = new AddressServiceImplJPA();
 
-    @BeforeEach
-    public void resetTables() {
+    @BeforeAll
+    public static void resetAddressTableBeforeAll() {
         addressService.resetTable();
     }
+
+   /* @AfterAll
+    public static void resetAddressTableAfterAll() {
+        addressService.resetTable();
+        ResetAllTables.resetAll();
+    }*/
 
     @Test
     @Order(1)
     public void testSaveAddress() {
-        Address address = new Address("1882", "Ankara", "Spain");
-        Address address2 = new Address("abc", "abc", "abc");
-        addressService.save(address);
-        addressService.save(address2);
-
-    }
-
-    @Test
-    @Order(2)
-    public void testFindAddress() {
         Address address = new Address("1882", "Ankara", "Spain");
         Address address2 = new Address("abc", "abc", "abc");
         addressService.save(address);
@@ -36,56 +32,22 @@ public class AddressTestJPA {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void testUpdateAddress() {
-        Address address = new Address("1882", "Ankara", "Spain");
-        Address address2 = new Address("abc", "abc", "abc");
+        Address address = addressService.findById(1);
+        address.setCity("Updated City");
+        addressService.update(address);
 
-        addressService.save(address);
-        addressService.save(address2);
-
-        Address retrievedAddress = addressService.findById(2);
-        retrievedAddress.setCity("Updated City");
-        addressService.update(retrievedAddress);
-
-
-        Assertions.assertEquals(address2.getId(), retrievedAddress.getId());
-        Assertions.assertNotEquals(address2, retrievedAddress);
+        Address retrievedAddress = addressService.findById(1);
+        Assertions.assertEquals(address, retrievedAddress);
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public  void testDeleteAddress(){
-
-        Address address = new Address("1882", "Ankara", "Spain");
-        Address address2 = new Address("abc", "abc", "abc");
-        Address address3 = new Address("Teknokent", "Izmir", "Japanase");
-
-        System.out.println("addres 1 saved");
-        addressService.save(address);
-        System.out.println("addres 2 saved");
-        addressService.save(address2);
-
-        System.out.println("addres 3 saved");
-        addressService.save(address3);
-
-        System.out.println("address datalari savelendi");
-        Address retrievedAddress = addressService.findById(2);
-
-        System.out.println("retrievedAddress : "+retrievedAddress);
-        retrievedAddress.setCity("Updated City");
-
-        System.out.println("retrievedAddress : "+retrievedAddress);
-        addressService.update(retrievedAddress);
-
-
-        Assertions.assertEquals(address2.getId(), retrievedAddress.getId());
-        Assertions.assertNotEquals(address2, retrievedAddress);
-
-        addressService.deleteById(2);
-
+        addressService.deleteById(1);
+        int expected = 1;
+        int actual = addressService.findAll().size();
+        Assertions.assertEquals(expected, actual);
     }
-
-
-
 }

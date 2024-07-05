@@ -9,26 +9,27 @@ public class ExamResult {
 //todo, course data degisirse, OneToOne course ile burasida etkilencek mi?
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
     @Column(name = "score")
     private double score;
 
     @OneToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private  Course course;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "student_id"/*, nullable = false*/)
+    @JoinColumn(name = "student_id"/*, nullable = false*/, nullable = false)
     private Student student;
 
     public ExamResult() {
     }
 
-    public ExamResult(double score ,Course course/*, Student student*/) {
+    public ExamResult(double score, Course course, Student student) {
         this.score = score;
         this.course = course;
+        setStudent(student);
 //        this.student = student;
     }
     public  void setStudent(Student student){
@@ -36,11 +37,11 @@ public class ExamResult {
         student.addExamResult(this);
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

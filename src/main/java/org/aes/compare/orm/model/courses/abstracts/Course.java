@@ -15,7 +15,7 @@ public abstract class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -25,6 +25,7 @@ public abstract class Course {
 
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Student> students;
 
 
@@ -39,11 +40,11 @@ public abstract class Course {
     }
 
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

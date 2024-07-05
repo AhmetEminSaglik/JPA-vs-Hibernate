@@ -1,7 +1,11 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
+import jakarta.persistence.Query;
 import org.aes.compare.orm.business.abstracts.AddressService;
+import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.Address;
+
+import java.util.List;
 
 public class AddressServiceImplJPA extends JpaImplementation<Address> implements AddressService {
     @Override
@@ -51,5 +55,15 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
         //if EntityManger is not closed, then pc goes to endless loop
         commit();
         return address;
+    }
+
+    @Override
+    public List<Address> findAll() {
+        initializeTransaction();
+        // todo  test is there any difference between select from Address  vs select a from Adress a
+        Query query = getEntityManager().createQuery("SELECT a FROM Address a ");
+        List<Address> addresses = query.getResultList();
+        commit();
+        return addresses;
     }
 }
