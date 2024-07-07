@@ -74,16 +74,11 @@ public abstract class Course {
 
     public void addStudent(Student student) {
         if (students == null) {
-            System.out.println("Course'a student listesi olusturuldu");
             students = new ArrayList<>();
         }
-
         if (!students.contains(student)) {
-            System.out.println("student eklendi");
             students.add(student);
             student.addCourse(this);
-        } else {
-            System.out.println("student zaten kayitli");
         }
 
     }

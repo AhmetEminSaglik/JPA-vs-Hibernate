@@ -13,8 +13,6 @@ public interface StudentService {
 
     List<Student> findAll();
 
-    boolean isStudentEnrolledInCourse(int studentId, String courseName);
-
     Student findByStudentIdWithCourseName(int studentId, String courseName) throws InvalidStudentCourseMatchForExamResult;
 
     void update(Student s);

@@ -5,37 +5,76 @@
 
     SERVICES :
 ---------------------
- +C +R +U +D Student
+ +C +R +U +D Course     | Completed
 
- +C +R +U +D Course  | Completed
+ +C +R +U +D Address    | Completed
 
- +C +R +U +D Address
+ +C +R +U +D Student    | Completed
 
- -C -R -U -D ExamResult
+ +C +R +U +D ExamResult | Completed
 
 
 
     JUNIT TEST :
 ---------------------
- +C +R +U +D Student
+ +C +R +U +D Course     | Completed
 
- +C +R +U +D Course  | Completed
+ +C +R +U +D Address    | Completed
 
- +C +R +U +D Address
+ +C +R +U +D Student    | Completed
 
- -C -R -U -D ExamResult
+ +C +R +U +D ExamResult | Completed
 
 
 
 
 Scenerio :
     Address :
-    --> ADDRESS must be saved alone. Not with Other objects.
-
+     -> ADDRESS must be saved alone. Not with other objects.
+     -> ADDRESS CRUD functions :
+              [Return Type]    :->   [Function name + Function Parameter]
+            []                 :-> save(Address a)
+            [Address]          :-> findById(int a)
+            [List<Address>]    :-> findByAll()
+            []                 :-> update(Address a)
+            []                 :-> deleteById(int id)
+--------------------------------------------------------------------------------
     Student :
-     -> STUDENT must be saved with Address. But can not save ADDRESS
-     -> STUDENT can be saved with COURSE but COURSE must be saved before.
-     -> STUDENT can have COURSE after saved.
+     -> STUDENT must be saved with ADDRESS. But can not save ADDRESS.
+     -> STUDENT can be saved with COURSE. But can not save COURSE.
+     -> Registered Course can be added to Registered STUDENT.
      -> When STUDENT is deleted, also ADDRESS will be deleted.
      -> Each Student has unique ADDRESS.
-     -> Student can be retrieved by findById(), findAll();
+     -> Student CRUD functions :
+              [Return Type]    :->   [Function name + Function Parameter]
+            []                 :-> save(Student s)
+            [Student]:         :-> findById(int id)
+            [List<Student>]    :-> findAll()
+            [Student]          :-> findByStudentIdWithCourseName(int studentId, String courseName) throws InvalidStudentCourseMatchForExamResult;
+            []                 :-> update(Student s)
+            []                 :-> deleteById(int id)
+--------------------------------------------------------------------------------
+    Course :
+     -> COURSE must be saved alone. Not with other objects.
+     -> Course CRUD functions :
+              [Return Type]    :->   [Function name + Function Parameter]
+            []                 :-> save(Course c)
+            [Course]           :-> findByName(String s)
+            [List<Course>]     :-> findAll()
+            []                 :-> updateCourseByName(Course c)
+            []                 :-> deleteCourseByName(String name)
+            []                 :-> deleteCourseById(int id)
+--------------------------------------------------------------------------------
+    ExamResult :
+     -> EXAMRESULT can be saved with Registered STUDENT and Registered COURSE
+     -> Each STUDENT can have multiple EXAMRESULT with same or different COURSEs.
+     -> ExamResult CRUD functions :
+              [Return Type]    :->   [Function name + Function Parameter]
+            []                 :-> save(ExamResult e) throws InvalidStudentCourseMatchForExamResult
+            [List<ExamResult>] :-> findAll()
+            [List<ExamResult>] :-> findAllByStudentId(int id)
+            [List<ExamResult>] :-> findAllByStudentIdAndCourseName(int id,String name)
+            [List<ExamResult>] :-> findAllByCourseName(String s)
+            [ExamResult]       :-> findById(int id)
+            []                 :-> update(ExamResult e)
+            []                 :-> deleteById(int id)

@@ -64,25 +64,6 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
         return students;
     }
 
-    @Override
-    public boolean isStudentEnrolledInCourse(int studentId, String courseName) {
-        initializeTransaction();
-        Student student = getEntityManager().find(Student.class, studentId);
-        commit();
-        if (student != null) {
-            List<Course> courses = student.getCourses();
-            for (Course course : courses) {
-                if (course.getName().equals(courseName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-//        Student student= getEntityManager().createQuery(
-//                "SELECT s FROM s LEFT JOIN Course where s.id=:studentId AND s.course_"
-//        );
-//        return null;
-    }
 
     @Override
     public Student findByStudentIdWithCourseName(int studentId, String courseName) throws InvalidStudentCourseMatchForExamResult {

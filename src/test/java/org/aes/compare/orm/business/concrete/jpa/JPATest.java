@@ -4,11 +4,9 @@ import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.model.EnumCourse;
-import org.aes.compare.orm.model.ExamResult;
-import org.aes.compare.orm.model.Student;
+import org.aes.compare.orm.model.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -31,6 +29,8 @@ public class JPATest {
 
     @BeforeAll
     public static void resetTablesBeforeAll() {
+        JpaImplementation.setPersistanceUnit(EnumPersistanceType.JUNIT_TEST);
+
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
@@ -101,29 +101,10 @@ public class JPATest {
         Assertions.assertEquals(expected, actual);
     }
 
-    private void saveCourseData() {
-        Course courseMath = new MathCourse();
-        Course courseScience = new ScienceCourse();
-        Course courseLiterature = new LiteratureCourse();
-
-        Course courseJava = new JavaCourse();
-        Course courseFlutter = new FlutterCourse();
-        Course courseOtherPiano = new OtherCourse("Piano");
-        Course courseUnity = new OtherCourse("Unity");
-
-        courseService.save(courseMath);
-        courseService.save(courseScience);
-        courseService.save(courseLiterature);
-        courseService.save(courseJava);
-        courseService.save(courseFlutter);
-        courseService.save(courseOtherPiano);
-        courseService.save(courseUnity);
-    }
-
 
     @Test
-    @Order(200)
-    public void testSaveAddress() {
+    @Order(201)
+    public void testSaveAndReadAddress() {
         Address address = new Address("1882", "Ankara", "Spain");
         Address address2 = new Address("abc", "abc", "abc");
         addressService.save(address);
@@ -135,7 +116,7 @@ public class JPATest {
 
 
     @Test
-    @Order(201)
+    @Order(202)
     public void testUpdateAddress() {
         Address address = addressService.findById(1);
         address.setCity("Updated City");
@@ -147,7 +128,7 @@ public class JPATest {
 
 
     @Test
-    @Order(202)
+    @Order(203)
     public void testDeleteAddress() {
         addressService.deleteById(1);
         int expected = 1;
@@ -164,7 +145,6 @@ public class JPATest {
         Assertions.assertThrows(PropertyValueException.class, () -> {
             studentService.save(student);
         });
-        System.out.println("Assertions.assertThrows BASARILI");
     }
 
 
@@ -179,7 +159,6 @@ public class JPATest {
         student.setGrade(1);
         student.setAddress(address);
         studentService.save(student);
-        System.out.println("Student is saved : " + student);
 
     }
 
@@ -200,7 +179,6 @@ public class JPATest {
 
         Assertions.assertThrows(Exception.class, () -> {
             studentService.save(student);
-            System.out.println("Student is saved : " + student);
         });
     }
 
@@ -216,56 +194,24 @@ public class JPATest {
         student.setGrade(1);
         student.setAddress(address);
         studentService.save(student);
-        System.out.println("Student is saved : " + student);
 
 
         List<Course> courses = new ArrayList<>();
         Course courseJava = courseService.findByName(EnumCourse.JAVA.getName());
-//        Course courseScience = new ScienceCourse();
-//        Course courseMath = new MathCourse();
-        Course coursePianoNew = new OtherCourse("Piano YENI", 5);
+        Course coursePianoNew = new OtherCourse("Guitar", 5);
 
-//        courses.add(courseMath);
         courses.add(coursePianoNew);
         courses.add(courseJava);
-//        courses.add(coursePiano);
 
         student.addCourses(courses);
         List<Student> students = studentService.findAll();
-        for (Student tmp : students) {
-            System.out.println(tmp);
-        }
-        System.out.println("------------");
-        List<Course> courseList = courseService.findAll();
-        for (Course tmp : courseList) {
-            System.out.println(tmp);
-
-        }
-        System.out.println("------------");
-
-        System.out.println("Student : " + student);
-
         student.addCourse(coursePianoNew);
         studentService.update(student);
-        System.out.println("Student son : " + student);
 
     }
 
     @Test
     @Order(305)
-    public void test_deleteStudent_ThatWithOnlyAddress() {
-        Student student = studentService.findById(1);
-        Assertions.assertTrue(student != null);
-
-        studentService.deleteById(1);
-        student = studentService.findById(1);
-        Assertions.assertTrue(student == null);
-
-    }
-
-
-    @Test
-    @Order(306)
     public void testFindStudentById() {
 
         Address address = new Address("Street def", "Istanbul", "Turkey");
@@ -277,15 +223,27 @@ public class JPATest {
         student.setAddress(address);
 
         Student retrievedStudent = studentService.findById(2);
-        System.out.println("retrieved Student : " + retrievedStudent);
+
         Assertions.assertEquals(student, retrievedStudent);
+
+    }
+
+    @Test
+    @Order(306)
+    public void test_deleteStudent_ThatWithOnlyAddress() {
+        Student student = studentService.findById(1);
+        Assertions.assertTrue(student != null);
+
+        studentService.deleteById(1);
+        student = studentService.findById(1);
+        Assertions.assertTrue(student == null);
 
     }
 
     @Test
     @Order(401)
     public void testSaveExamResult() {
-        Student student = new Student("Ahmet Emin", 6, null);
+        Student student = new Student("Omer Koramaz", 6, null);
 
         Course courseMath = new MathCourse();
         courseService.save(courseMath);
@@ -305,6 +263,27 @@ public class JPATest {
         } catch (InvalidStudentCourseMatchForExamResult e) {
             throw new RuntimeException(e);
         }
+
+
+        Student studentAhmetEmin = studentService.findById(2);
+
+        Course courseJava = courseService.findByName(EnumCourse.JAVA.getName());
+
+        Course courseGuitar = courseService.findByName("Guitar");
+
+        ExamResult examResultAhmetEminJava1 = new ExamResult(90.25, courseJava, studentAhmetEmin);
+        ExamResult examResultAhmetEminJava2 = new ExamResult(75.25, courseJava, studentAhmetEmin);
+        ExamResult examResultAhmetEminGuitar = new ExamResult(5.75, courseGuitar, studentAhmetEmin);
+
+        try {
+            examResultService.save(examResultAhmetEminJava1);
+            examResultService.save(examResultAhmetEminJava2);
+            examResultService.save(examResultAhmetEminGuitar);
+        } catch (InvalidStudentCourseMatchForExamResult e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     @Test
@@ -312,12 +291,95 @@ public class JPATest {
     public void testInvalidStudentCourseMatchExamResult() {
 
         Student student = studentService.findById(2);
-        Course courseJava = courseService.findByName(EnumCourse.FLUTTER.getName());
+        Course courseFlutter = courseService.findByName(EnumCourse.FLUTTER.getName());
 
-        ExamResult examResult = new ExamResult(76, courseJava, student);
+        ExamResult examResult = new ExamResult(76, courseFlutter, student);
         examResult.setScore(15.15);
         Assertions.assertThrows(InvalidStudentCourseMatchForExamResult.class, () -> examResultService.save(examResult));
     }
 
+    @Test
+    @Order(403)
+    public void testFindExamResultByStudentId() {
+        List<ExamResult> examResults = examResultService.findAllByStudentId(2);
+        int expected = 3;
+        int actual = examResults.size();
+        Assertions.assertEquals(expected, actual);
 
+    }
+
+    @Test
+    @Order(404)
+    public void testFindAllExamResult() {
+        List<ExamResult> examResults = examResultService.findAll();
+        int expected = 4;
+        int actual = examResults.size();
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    @Order(404)
+    public void testFindExamResultByStudentIdAndCourseName() {
+        List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
+        int expected = 2;
+        int actual = examResults.size();
+        Assertions.assertEquals(expected, actual);
+    }
+
+
+    @Test
+    @Order(404)
+    public void testUpdateExamResultScoreByStudentIdAndCourseName() {
+        List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
+        List<Double> oldScores = new ArrayList<>();
+        int addVal = 15;
+        for (int i = 0; i < examResults.size(); i++) {
+            ExamResult tmp = examResults.get(i);
+            oldScores.add(tmp.getScore());
+            tmp.setScore(tmp.getScore() + addVal);
+            examResultService.update(tmp);
+        }
+        examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
+        for (int i = 0; i < examResults.size(); i++) {
+            double expected = oldScores.get(i) + addVal;
+            double actual = examResults.get(i).getScore();
+            Assertions.assertEquals(expected, actual);
+        }
+    }
+
+    @Test
+    @Order(405)
+    public void testDeleteExamResultById() {
+        List<ExamResult> examResults = examResultService.findAllByStudentId(2);
+        int expected = 3;
+        int actual = examResults.size();
+        Assertions.assertEquals(expected, actual);
+        ExamResult examResult= examResults.get(0);
+        examResultService.deleteById(examResult.getId());
+
+        examResults = examResultService.findAllByStudentId(2);
+        expected = 2;
+        actual = examResults.size();
+        Assertions.assertEquals(expected, actual);
+
+    }
+
+    private void saveCourseData() {
+        Course courseMath = new MathCourse();
+        Course courseScience = new ScienceCourse();
+        Course courseLiterature = new LiteratureCourse();
+
+        Course courseJava = new JavaCourse();
+        Course courseFlutter = new FlutterCourse();
+        Course courseOtherPiano = new OtherCourse("Piano");
+        Course courseUnity = new OtherCourse("Unity");
+
+        courseService.save(courseMath);
+        courseService.save(courseScience);
+        courseService.save(courseLiterature);
+        courseService.save(courseJava);
+        courseService.save(courseFlutter);
+        courseService.save(courseOtherPiano);
+        courseService.save(courseUnity);
+    }
 }

@@ -11,6 +11,12 @@ public interface ExamResultService {
 
     List<ExamResult> findAll();
 
+    List<ExamResult> findAllByStudentId(int studentId);
+
+    List<ExamResult> findAllByStudentIdAndCourseName(int studentId,String courseName);
+
+    List<ExamResult> findAllByCourseName(String courseName);
+
     ExamResult findById(int id);
 
     void update(ExamResult examResult);

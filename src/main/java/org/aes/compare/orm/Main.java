@@ -6,8 +6,10 @@ import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.jpa.AddressServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
+import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.EnumCourse;
+import org.aes.compare.orm.model.EnumPersistanceType;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -25,6 +27,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        JpaImplementation.setPersistanceUnit(EnumPersistanceType.REAL_PRODUCT);
+
         Address address = new Address("Street abc", "Ankara", "Spain");
         Address address2 = new Address("kucuk cekmece", "Istanbul", "Turkey");
         addressService.save(address);
@@ -35,15 +39,12 @@ public class Main {
         student.setGrade(1);
         student.setAddress(address);
         studentService.save(student);
-        System.out.println("Student is saved : " + student);
-
 
         Student student2 = new Student();
         student2.setName("Alperen");
         student2.setGrade(3);
         student2.setAddress(address2);
         studentService.save(student2);
-        System.out.println("Student is saved : " + student2);
 
 //        studentService.deleteById(1);
 
@@ -63,7 +64,6 @@ public class Main {
         student.setGrade(1);
         student.setAddress(address);
         studentService.save(student);
-        System.out.println("Student is saved : " + student);
 
 
         address = new Address("kucuk cekmece", "Istanbul", "Turkey");
@@ -73,7 +73,6 @@ public class Main {
         student.setGrade(3);
         student.setAddress(address);
         studentService.save(student);
-        System.out.println("Student is saved : " + student);
 
     }
 
@@ -103,10 +102,7 @@ public class Main {
         student.addCourse(courseMath);
         student.addCourse(courseScience);
 
-        System.out.println("first Student " +student);
         studentService.update(student);
-        System.out.println("Assigned Courses to first student : " + student);
-        System.out.println("-------------");
 
         student = studentService.findById(2);
         Course coursePiano = courseService.findByName("Piano");
@@ -116,11 +112,7 @@ public class Main {
         student.addCourse(courseFlutter);
         student.addCourse(courseMath);
 
-        System.out.println("Second Student " +student);
         studentService.update(student);
-        System.out.println("Assigned Courses to Second student : " + student);
-
-
     }
 
 }

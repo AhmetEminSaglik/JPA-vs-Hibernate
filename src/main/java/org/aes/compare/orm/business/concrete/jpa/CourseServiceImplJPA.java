@@ -5,6 +5,7 @@ import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         try {
             course = query.getSingleResult();
         } catch (NoResultException ex) {
-            System.out.println("Course is not found ");
+            System.out.println(ColorfulTextDesign.getErrorColorText("Course is not found"));
         } finally {
             commit();
         }
@@ -36,38 +37,15 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void deleteCourseByName(String name) {
-
-        /*
-        * 2. Merge the entity before deleting
-        you can try merging the detached entity back into the Hibernate session before deleting it.
-* */
-        initializeTransaction();
-        System.out.println("Deleting course with name: " + name);
-        Course course = getEntityManager().createQuery("SELECT c FROM Course c WHERE c.name = :name", Course.class)
-                .setParameter("name", name)
-                .getSingleResult();
-        course = getEntityManager().merge(course);
-        getEntityManager().remove(course);
-        commit();
-        System.out.println("Course deleted: " + course);
-        /*
-
         initializeTransaction();
         TypedQuery<Course> query = getEntityManager().createQuery(
                 "SELECT c FROM Course c  WHERE c.name=:data", Course.class
         );
         query.setParameter("data", name);
-
         Course course = query.getSingleResult();
-
-
-        System.out.println(course.getId());
-        System.out.println(course.getName());
-        System.out.println(course.getCredits());
         getEntityManager().remove(course);
         commit();
 
-*/
     }
 
     @Override

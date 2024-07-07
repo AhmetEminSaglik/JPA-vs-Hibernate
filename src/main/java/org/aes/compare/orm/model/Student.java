@@ -32,21 +32,8 @@ public class Student {
     @JoinColumn(name = "address_id",nullable = false/*, referencedColumnName = "id"*/)
     private Address address;
 
-    @OneToMany(mappedBy = "student",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<ExamResult> examResults;
-
     public Student() {
     }
-
-    /* public Student(String name, int grade, List<Course> courses, Address address, List<ExamResult> examResults) {
-         this.name = name;
-         this.grade = grade;
-         this.courses = courses;
-         this.address = address;
-         this.examResults = examResults;
-     }
- */
-
     public Student(String name, int grade, Address address) {
         this.name = name;
         this.grade = grade;
@@ -58,11 +45,9 @@ public class Student {
     }
     public void addCourse(Course course) {
         if (courses == null) {
-            System.out.println("Student courses olusturuldu");
             courses = new ArrayList<>();
         }
         if (!courses.contains(course)) {
-            System.out.println(getName()+"'a "+course.getClass().getSimpleName()+" eklendi");
             courses.add(course);
         }
 
@@ -108,25 +93,6 @@ public class Student {
         this.address = address;
     }
 
-    public List<ExamResult> getExamResults() {
-        return examResults;
-    }
-
-    public void addExamResult(ExamResult examResult) {
-        if (examResults == null) {
-            examResults = new ArrayList<>();
-            System.out.println("Exam result list is initialized");
-        }
-        if (!examResults.contains(examResult)) {
-            examResults.add(examResult);
-            examResult.setStudent(this);
-        } else {
-            System.out.println("Exam result is already added to this student");
-        }
-
-    }
-
-
     @Override
     public String toString() {
         return "Student{" +
@@ -134,8 +100,6 @@ public class Student {
                 ", name='" + name + '\'' +
                 ", grade=" + grade +
                 ", address=" + address +
-//                ", courses=" + courses +
-//                ", examResults=" + examResults +
                 '}';
     }
 

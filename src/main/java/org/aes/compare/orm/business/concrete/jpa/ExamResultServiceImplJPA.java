@@ -1,26 +1,23 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
 import jakarta.persistence.TypedQuery;
+import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
+import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.List;
 
 public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> implements ExamResultService {
-    StudentService studentService = new StudentServiceImpJPA();
+    private StudentService studentService = new StudentServiceImpJPA();
+    private CourseService courseService = new CourseServiceImplJPA();
 
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {
-        /*boolean studentCourseMatchSuccessfull = studentService.isStudentEnrolledInCourse(examResult.getStudent().getId(), examResult.getCourse().getName());
-
-        if (!studentCourseMatchSuccessfull){
-            System.out.println("INVALID Student-Course Match");
-            return;
-        }*/
         Student student = studentService.findByStudentIdWithCourseName(examResult.getStudent().getId(), examResult.getCourse().getName());
         if (student == null) {
             throw new InvalidStudentCourseMatchForExamResult(examResult);
@@ -28,14 +25,52 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         initializeTransaction();
         getEntityManager().persist(examResult);
         commit();
-        System.out.println("Exam Result is saved : " + examResult);
-
     }
 
     @Override
     public List<ExamResult> findAll() {
         initializeTransaction();
         TypedQuery<ExamResult> query = getEntityManager().createQuery("SELECT e FROM ExamResult e", ExamResult.class);
+        List<ExamResult> examResults = query.getResultList();
+        commit();
+        return examResults;
+    }
+
+    @Override
+    public List<ExamResult> findAllByStudentId(int studentId) {
+        initializeTransaction();
+        TypedQuery<ExamResult> query = getEntityManager().createQuery(
+                "SELECT e FROM ExamResult e where " +
+                        "e.student.id=:studentId ", ExamResult.class);
+        query.setParameter("studentId", studentId);
+        List<ExamResult> examResults = query.getResultList();
+        commit();
+        return examResults;
+    }
+
+    @Override
+    public List<ExamResult> findAllByStudentIdAndCourseName(int studentId, String courseName) {
+        Course course = courseService.findByName(courseName);
+
+        initializeTransaction();
+        TypedQuery<ExamResult> query = getEntityManager().
+                createQuery("SELECT e FROM ExamResult e where " +
+                        "e.student.id=:studentId " +
+                        "and e.course.id=:courseId", ExamResult.class);
+        query.setParameter("studentId", studentId);
+        query.setParameter("courseId", course.getId());
+        List<ExamResult> examResults = query.getResultList();
+        commit();
+        return examResults;
+    }
+
+    @Override
+    public List<ExamResult> findAllByCourseName(String courseName) {
+        Course course = courseService.findByName(courseName);
+        initializeTransaction();
+        TypedQuery<ExamResult> query = getEntityManager().createQuery("SELECT e FROM ExamResult e where " +
+                "course_id=:courseId", ExamResult.class);
+        query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();
         return examResults;
