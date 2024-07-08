@@ -23,9 +23,10 @@ public class Student {
     private int grade;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,/*CascadeType.PERSIST,*/CascadeType.DETACH,CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
-    @JoinTable(/*name = "student_course",*/
+    @JoinTable(name = "student_courses",
             joinColumns = @JoinColumn(name = "student_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id"))
+            inverseJoinColumns = @JoinColumn(name = "course_id"),
+            foreignKey = @ForeignKey(name = "FK_students_courses_course_id"))
     private List<Course> courses;
 
     @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.REMOVE})

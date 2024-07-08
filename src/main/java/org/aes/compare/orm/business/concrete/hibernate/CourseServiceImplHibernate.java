@@ -1,27 +1,29 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.aes.compare.orm.business.concrete.hibernate;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class CourseServiceImplJPA extends JpaImplementation<Course> implements CourseService {
+public class CourseServiceImplHibernate extends HibernateImplementation<Course> implements CourseService {
+
 
     @Override
     public void save(Course c) {
         initializeTransaction();
-        entityManager.persist(c);
+        session.persist(c);
         commit();
     }
 
     @Override
     public Course findByName(String name) {
         initializeTransaction();
-        TypedQuery<Course> query = entityManager.createQuery(
+        TypedQuery<Course> query = session.createQuery(
                 "SELECT c FROM Course c WHERE c.name=:data  ", Course.class);
         query.setParameter("data", name);
         Course course = null;
@@ -38,7 +40,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     @Override
     public List<Course> findAll() {
         initializeTransaction();
-        TypedQuery<Course> query = entityManager.createQuery("SELECT c FROM Course c ", Course.class);
+        TypedQuery<Course> query = session.createQuery("SELECT c FROM Course c ", Course.class);
         List<Course> courses = query.getResultList();
         commit();
         return courses;
@@ -47,36 +49,39 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     @Override
     public void updateCourseByName(Course course) {
         initializeTransaction();
-        entityManager.merge(course);
+        session.merge(course);
         commit();
     }
 
     @Override
     public void deleteCourseByName(String name) {
         initializeTransaction();
-        TypedQuery<Course> query = entityManager.createQuery(
+        TypedQuery<Course> query = session.createQuery(
                 "SELECT c FROM Course c  WHERE c.name=:data", Course.class
         );
         query.setParameter("data", name);
         Course course = query.getSingleResult();
-        entityManager.remove(course);
+        session.remove(course);
         commit();
     }
 
     @Override
     public void deleteCourseById(int id) {
         initializeTransaction();
-        Course course=entityManager.find(Course.class,id);
-        entityManager.remove(course);
+        Course course = session.find(Course.class, id);
+        session.remove(course);
         commit();
     }
 
-
     @Override
     public void resetTable() {
+
         initializeTransaction();
 
-        entityManager.createQuery("DELETE FROM Course")
+        session.createNativeQuery("ALTER TABLE student_courses DROP FOREIGN KEY FK_student_courses_course_id")
+                .executeUpdate();
+
+        session.createNativeMutationQuery("DELETE FROM courses")
                 .executeUpdate();
         commit();
 
@@ -84,11 +89,11 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
         //Native query uses database table name
         // Query uses Java Class' name
-        entityManager.createNativeQuery("ALTER TABLE courses AUTO_INCREMENT = 1")
+   /*     session.createNativeMutationQuery("ALTER TABLE courses AUTO_INCREMENT = 1")
+                .executeUpdate();*/
+        session.createNativeQuery("ALTER TABLE student_courses ADD CONSTRAINT FK_student_courses_course_id FOREIGN KEY (course_id) REFERENCES courses(id)")
                 .executeUpdate();
-
         commit();
+
     }
-
-
 }

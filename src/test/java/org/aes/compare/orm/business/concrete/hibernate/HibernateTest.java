@@ -1,10 +1,10 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
@@ -20,16 +20,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class JPATest {
-    private static StudentService studentService = new StudentServiceImpJPA();
-    private static CourseService courseService = new CourseServiceImplJPA();
-    private static AddressService addressService = new AddressServiceImplJPA();
-    private static ExamResultService examResultService = new ExamResultServiceImplJPA();
+public class HibernateTest {
+    private static StudentService studentService = new StudentServiceImplHibernate();
+    private static CourseService courseService = new CourseServiceImplHibernate();
+    private static AddressService addressService = new AddressServiceImplHibernate();
+    private static ExamResultService examResultService = new ExamResultServiceImplHibernate();
 
     @BeforeAll
     public static void resetTablesBeforeAll() {
-        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
-
+        HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.JUNIT_TEST);
+//        HibernateImplementation.setHibernateConfigFile(EnumORMConfigFile.JUNIT_TEST_HIBERNATE);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
@@ -141,7 +141,7 @@ public class JPATest {
         Student student = new Student();
         student.setName("Ahmet");
         student.setGrade(1);
-            studentService.save(student);
+        studentService.save(student);
         student = studentService.findById(1);
         Assertions.assertNull(student);
     }
@@ -183,7 +183,7 @@ public class JPATest {
         } catch (InvalidStudentCourseMatchForExamResult e) {
             isErrorOccured = true;
         }
-        Assertions.assertTrue(isErrorOccured,"Student should not be saved Data: "+student);
+        Assertions.assertTrue(isErrorOccured, "Student should not be saved Data: " + student);
     }
 
 
@@ -358,7 +358,7 @@ public class JPATest {
         int expected = 3;
         int actual = examResults.size();
         Assertions.assertEquals(expected, actual);
-        ExamResult examResult= examResults.get(0);
+        ExamResult examResult = examResults.get(0);
         examResultService.deleteById(examResult.getId());
 
         examResults = examResultService.findAllByStudentId(2);

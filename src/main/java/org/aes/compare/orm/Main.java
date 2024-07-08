@@ -7,10 +7,7 @@ import org.aes.compare.orm.business.concrete.jpa.AddressServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
-import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.model.EnumCourse;
-import org.aes.compare.orm.model.EnumPersistanceType;
-import org.aes.compare.orm.model.Student;
+import org.aes.compare.orm.model.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -27,7 +24,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        JpaImplementation.setPersistanceUnit(EnumPersistanceType.REAL_PRODUCT);
+        /*System.out.println(EnumORMConfigFile.REAL_PRODUCT_JPA.getName()); //persistenceUnitRealProject
+        System.out.println(EnumORMConfigFile.REAL_PRODUCT_JPA.name()); //REAL_PRODUCT_JPA*/
+//        JpaImplementation.setPersistanceUnit(EnumORMConfigFile.REAL_PRODUCT_JPA);
 
         Address address = new Address("Street abc", "Ankara", "Spain");
         Address address2 = new Address("kucuk cekmece", "Istanbul", "Turkey");

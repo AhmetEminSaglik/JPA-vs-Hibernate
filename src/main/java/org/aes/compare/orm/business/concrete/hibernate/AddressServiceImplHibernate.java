@@ -1,24 +1,35 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.aes.compare.orm.business.concrete.hibernate;
 
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.AddressService;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.model.Address;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class AddressServiceImplJPA extends JpaImplementation<Address> implements AddressService {
+public class AddressServiceImplHibernate extends HibernateImplementation<Address> implements AddressService {
+/*
+    @Override
+    protected void createFactory() {
+        factory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(Address.class)
+                .buildSessionFactory();
+    }*/
+
     @Override
     public void save(Address address) {
         initializeTransaction();
-        entityManager.persist(address);
+        session.persist(address);
         commit();
     }
 
     @Override
     public Address findById(int id) {
         initializeTransaction();
-        Address address = entityManager.find(Address.class, id);
+        Address address = session.find(Address.class, id);
         commit();
         return address;
     }
@@ -27,7 +38,7 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
     public List<Address> findAll() {
         initializeTransaction();
         // todo  test is there any difference between select from Address  vs select a from Adress a
-        TypedQuery<Address> query = entityManager.createQuery("SELECT a FROM Address a ", Address.class);
+        TypedQuery<Address> query = session.createQuery("SELECT a FROM Address a ", Address.class);
         List<Address> addresses = query.getResultList();
         commit();
         return addresses;
@@ -36,31 +47,28 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
     @Override
     public void update(Address address) {
         initializeTransaction();
-        entityManager.merge(address);
+        session.merge(address);
         commit();
-
     }
 
     @Override
     public void deleteById(int id) {
         initializeTransaction();
-        Address address = entityManager.find(Address.class, id);
-        entityManager.remove(address);
+        Address address = session.find(Address.class, id);
+        session.remove(address);
         commit();
     }
 
     @Override
     public void resetTable() {
-
         initializeTransaction();
-
-        entityManager.createNativeQuery("DELETE FROM Address")
+        session.createNativeMutationQuery("DELETE FROM address")
                 .executeUpdate();
         commit();
 
         initializeTransaction();
 
-        entityManager.createNativeQuery("ALTER TABLE address AUTO_INCREMENT = 1")
+        session.createNativeMutationQuery("ALTER TABLE address AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
 

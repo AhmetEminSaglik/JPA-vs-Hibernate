@@ -1,20 +1,29 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.aes.compare.orm.business.concrete.hibernate;
 
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> implements ExamResultService {
-    private StudentService studentService = new StudentServiceImpJPA();
-    private CourseService courseService = new CourseServiceImplJPA();
+public class ExamResultServiceImplHibernate extends HibernateImplementation<ExamResult> implements ExamResultService {
+    private StudentService studentService = new StudentServiceImplHibernate();
+    private CourseService courseService = new CourseServiceImplHibernate();
+
+   /* @Override
+    protected void createFactory() {
+        factory = new Configuration()
+                .configure(enumORMConfigFile.getName())
+                .addAnnotatedClass(ExamResult.class)
+                .buildSessionFactory();
+    }*/
 
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {
@@ -23,14 +32,14 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
             throw new InvalidStudentCourseMatchForExamResult(examResult);
         }
         initializeTransaction();
-        entityManager.persist(examResult);
+        session.persist(examResult);
         commit();
     }
 
     @Override
     public List<ExamResult> findAll() {
         initializeTransaction();
-        TypedQuery<ExamResult> query = entityManager.createQuery("SELECT e FROM ExamResult e", ExamResult.class);
+        TypedQuery<ExamResult> query = session.createQuery("SELECT e FROM ExamResult e", ExamResult.class);
         List<ExamResult> examResults = query.getResultList();
         commit();
         return examResults;
@@ -39,13 +48,14 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
     @Override
     public List<ExamResult> findAllByStudentId(int studentId) {
         initializeTransaction();
-        TypedQuery<ExamResult> query = entityManager.createQuery(
+        TypedQuery<ExamResult> query = session.createQuery(
                 "SELECT e FROM ExamResult e where " +
                         "e.student.id=:studentId ", ExamResult.class);
         query.setParameter("studentId", studentId);
         List<ExamResult> examResults = query.getResultList();
         commit();
         return examResults;
+
     }
 
     @Override
@@ -53,7 +63,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         Course course = courseService.findByName(courseName);
 
         initializeTransaction();
-        TypedQuery<ExamResult> query = entityManager.
+        TypedQuery<ExamResult> query = session.
                 createQuery("SELECT e FROM ExamResult e where " +
                         "e.student.id=:studentId " +
                         "and e.course.id=:courseId", ExamResult.class);
@@ -68,7 +78,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
     public List<ExamResult> findAllByCourseName(String courseName) {
         Course course = courseService.findByName(courseName);
         initializeTransaction();
-        TypedQuery<ExamResult> query = entityManager.createQuery("SELECT e FROM ExamResult e where " +
+        TypedQuery<ExamResult> query = session.createQuery("SELECT e FROM ExamResult e where " +
                 "course_id=:courseId", ExamResult.class);
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
@@ -79,7 +89,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
     @Override
     public ExamResult findById(int id) {
         initializeTransaction();
-        ExamResult examResult = entityManager.find(ExamResult.class, id);
+        ExamResult examResult = session.find(ExamResult.class, id);
         commit();
         return examResult;
     }
@@ -87,30 +97,31 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
     @Override
     public void update(ExamResult examResult) {
         initializeTransaction();
-        entityManager.merge(examResult);
+        session.merge(examResult);
         commit();
     }
 
     @Override
     public void deleteById(int id) {
         initializeTransaction();
-        ExamResult examResult = entityManager.find(ExamResult.class, id);
-        entityManager.remove(examResult);
+        ExamResult examResult = session.find(ExamResult.class, id);
+        session.remove(examResult);
         commit();
     }
 
     @Override
     public void resetTable() {
         initializeTransaction();
-        entityManager.createQuery("DELETE FROM ExamResult")
+        session.createNativeMutationQuery("DELETE FROM exam_result")
                 .executeUpdate();
         commit();
         //todo burda init comit init comit yerine, init  2 islem ve comit test edicem
         initializeTransaction();
 
-        entityManager.createNativeQuery(
+        session.createNativeMutationQuery(
                         "ALTER TABLE exam_result AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
+
     }
 }
