@@ -5,21 +5,12 @@ import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class StudentServiceImplHibernate extends HibernateImplementation<Student> implements StudentService {
-/*    @Override
-    protected void createFactory() {
-        factory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Student.class)
-                .buildSessionFactory();
-    }*/
 
     @Override
     public void save(Student s) {
@@ -82,7 +73,6 @@ public class StudentServiceImplHibernate extends HibernateImplementation<Student
     public void deleteById(int id) {
         initializeTransaction();
         Student student = session.find(Student.class, id);
-//        student.setAddress(null);
         session.remove(student);
         commit();
     }
@@ -102,6 +92,5 @@ public class StudentServiceImplHibernate extends HibernateImplementation<Student
                 .executeUpdate();
         commit();
     }
-
 
 }

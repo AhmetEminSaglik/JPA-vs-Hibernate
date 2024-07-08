@@ -20,6 +20,4 @@ public class OtherCourse extends Course {
         super("unknown", -1);
     }
 
-
-
 }

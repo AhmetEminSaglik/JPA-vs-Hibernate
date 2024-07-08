@@ -82,13 +82,10 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
         initializeTransaction();
 
-        //Native query uses database table name
-        // Query uses Java Class' name
         entityManager.createNativeQuery("ALTER TABLE courses AUTO_INCREMENT = 1")
                 .executeUpdate();
 
         commit();
     }
-
 
 }

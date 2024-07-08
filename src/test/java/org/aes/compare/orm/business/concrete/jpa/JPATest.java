@@ -14,6 +14,8 @@ import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
+import org.aes.compare.orm.model.enums.course.EnumCourse;
+import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;

@@ -6,7 +6,6 @@ import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.jpa.AddressServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -15,6 +14,7 @@ import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
+import org.aes.compare.orm.model.enums.course.EnumCourse;
 
 public class Main {
 

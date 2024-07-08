@@ -18,10 +18,10 @@ public class ColorfulTextDesign {
     }
 
     public  static  String getInfoColorText(String  msg){
-        return ps.getColorfulText(ConsoleColors.BLUE_BRIGHT + "[INFO]"+msg + ConsoleColors.RESET);
+        return ps.getColorfulText(ConsoleColors.BLUE_BRIGHT + "[INFO]: " + msg + ConsoleColors.RESET);
     }
     public static String getErrorColorText(String msg) {
-        return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT +"[ERROR : ]"+ msg + ConsoleColors.RESET);
+        return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
     }
 
 }

@@ -9,21 +9,12 @@ import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class ExamResultServiceImplHibernate extends HibernateImplementation<ExamResult> implements ExamResultService {
     private StudentService studentService = new StudentServiceImplHibernate();
     private CourseService courseService = new CourseServiceImplHibernate();
-
-   /* @Override
-    protected void createFactory() {
-        factory = new Configuration()
-                .configure(enumORMConfigFile.getName())
-                .addAnnotatedClass(ExamResult.class)
-                .buildSessionFactory();
-    }*/
 
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {
@@ -114,14 +105,11 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
         initializeTransaction();
         session.createNativeMutationQuery("DELETE FROM exam_result")
                 .executeUpdate();
-        commit();
-        //todo burda init comit init comit yerine, init  2 islem ve comit test edicem
-        initializeTransaction();
 
         session.createNativeMutationQuery(
                         "ALTER TABLE exam_result AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
-
     }
+
 }

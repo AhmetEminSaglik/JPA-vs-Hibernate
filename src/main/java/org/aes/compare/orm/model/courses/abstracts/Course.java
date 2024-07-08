@@ -25,7 +25,6 @@ public abstract class Course {
 
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-//    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Student> students;
 
 
@@ -91,4 +90,5 @@ public abstract class Course {
                 ", credits=" + credits +
                 '}';
     }
+
 }

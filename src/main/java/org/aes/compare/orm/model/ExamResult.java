@@ -3,10 +3,12 @@ package org.aes.compare.orm.model;
 import jakarta.persistence.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
+import java.util.Objects;
+
 @Entity
 @Table(name = "exam_result")
 public class ExamResult {
-    //todo, course data degisirse, OneToOne course ile burasida etkilencek mi?
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -70,5 +72,18 @@ public class ExamResult {
                 ", score=" + score +
                 ", course='" + course + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ExamResult)) return false;
+        ExamResult that = (ExamResult) o;
+        return id == that.id && Double.compare(score, that.score) == 0 && Objects.equals(course, that.course) && Objects.equals(student, that.student);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, score, course, student);
     }
 }

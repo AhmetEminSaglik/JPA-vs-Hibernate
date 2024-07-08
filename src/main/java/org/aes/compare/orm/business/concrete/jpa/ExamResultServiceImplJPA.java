@@ -13,6 +13,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import java.util.List;
 
 public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> implements ExamResultService {
+
     private StudentService studentService = new StudentServiceImpJPA();
     private CourseService courseService = new CourseServiceImplJPA();
 
@@ -104,13 +105,10 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         initializeTransaction();
         entityManager.createQuery("DELETE FROM ExamResult")
                 .executeUpdate();
-        commit();
-        //todo burda init comit init comit yerine, init  2 islem ve comit test edicem
-        initializeTransaction();
-
         entityManager.createNativeQuery(
                         "ALTER TABLE exam_result AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
     }
+
 }

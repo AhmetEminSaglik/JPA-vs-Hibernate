@@ -8,6 +8,7 @@ import org.aes.compare.orm.model.Address;
 import java.util.List;
 
 public class AddressServiceImplJPA extends JpaImplementation<Address> implements AddressService {
+
     @Override
     public void save(Address address) {
         initializeTransaction();
@@ -26,7 +27,6 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
     @Override
     public List<Address> findAll() {
         initializeTransaction();
-        // todo  test is there any difference between select from Address  vs select a from Adress a
         TypedQuery<Address> query = entityManager.createQuery("SELECT a FROM Address a ", Address.class);
         List<Address> addresses = query.getResultList();
         commit();
@@ -51,7 +51,6 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
 
     @Override
     public void resetTable() {
-
         initializeTransaction();
 
         entityManager.createNativeQuery("DELETE FROM Address")
@@ -63,6 +62,6 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
         entityManager.createNativeQuery("ALTER TABLE address AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
-
     }
+
 }

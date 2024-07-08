@@ -7,6 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "address")
 public class Address {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -22,13 +23,6 @@ public class Address {
 
     public Address() {
     }
-
-/*    public Address(String street, String city, String country, Student student) {
-        this.street = street;
-        this.city = city;
-        this.country = country;
-//        this.student = student;
-    }*/
 
     public Address(String street, String city, String country) {
         this.street = street;
@@ -76,7 +70,6 @@ public class Address {
                 ", street='" + street + '\'' +
                 ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
-//                ", student=" + student +
                 '}';
     }
 
@@ -92,5 +85,6 @@ public class Address {
     public int hashCode() {
         return Objects.hash(id, street, city, country, student);
     }
+
 }
 

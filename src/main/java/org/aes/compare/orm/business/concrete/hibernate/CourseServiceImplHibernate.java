@@ -6,12 +6,10 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
 public class CourseServiceImplHibernate extends HibernateImplementation<Course> implements CourseService {
-
 
     @Override
     public void save(Course c) {
@@ -75,39 +73,14 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
 
     @Override
     public void resetTable() {
-
         initializeTransaction();
-
-//        session.createNativeQuery("ALTER TABLE student_courses DROP FOREIGN KEY FK_student_courses_course_id")
-//                .executeUpdate();
         session.createNativeMutationQuery("SET FOREIGN_KEY_CHECKS=0").executeUpdate();
         session.createNativeMutationQuery("TRUNCATE TABLE courses").executeUpdate();
         session.createNativeMutationQuery("TRUNCATE TABLE student_courses").executeUpdate();
-//        session.createNativeMutationQuery("SET FOREIGN_KEY_CHECKS=1").executeUpdate();
-
-        session.createNativeMutationQuery("DELETE FROM courses")
-                .executeUpdate();
-        commit();
-
-        initializeTransaction();
-
-        //Native query uses database table name
-        // Query uses Java Class' name
+        session.createNativeMutationQuery("SET FOREIGN_KEY_CHECKS=1").executeUpdate();
         session.createNativeMutationQuery("ALTER TABLE courses AUTO_INCREMENT = 1")
                 .executeUpdate();
-
-        /*session.createNativeQuery("ALTER TABLE student_courses DROP FOREIGN KEY FK_student_courses_course_id")
-                .executeUpdate();
-
-        session.createNativeQuery("ALTER TABLE student_courses ADD CONSTRAINT FK_student_courses_course_id FOREIGN KEY (course_id) REFERENCES courses(id)")
-                .executeUpdate();*/
         commit();
-
-//        session.createNativeQuery("ALTER TABLE student_courses DROP FOREIGN KEY FK_student_courses_course_id")
-//                .executeUpdate();
-//        session.createNativeQuery("ALTER TABLE student_courses ADD CONSTRAINT FK_student_courses_course_id FOREIGN KEY (course_id) REFERENCES courses(id)")
-//                .executeUpdate();
-
-
     }
+
 }

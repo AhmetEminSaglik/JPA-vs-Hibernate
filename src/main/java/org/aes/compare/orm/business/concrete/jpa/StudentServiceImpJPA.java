@@ -72,7 +72,6 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
     public void deleteById(int id) {
         initializeTransaction();
         Student student = entityManager.find(Student.class, id);
-//        student.setAddress(null);
         entityManager.remove(student);
         commit();
     }
