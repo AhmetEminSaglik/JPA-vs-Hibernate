@@ -6,7 +6,9 @@ import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.model.*;
+import org.aes.compare.orm.model.Address;
+import org.aes.compare.orm.model.ExamResult;
+import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -14,8 +16,8 @@ import org.aes.compare.orm.model.courses.concretes.OtherCourse;
 import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
-import org.aes.compare.orm.model.enums.course.EnumCourse;
 import org.aes.compare.orm.model.enums.configfile.EnumHibernateConfigFile;
+import org.aes.compare.orm.model.enums.course.EnumCourse;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
@@ -31,7 +33,6 @@ public class HibernateTest {
     @BeforeAll
     public static void resetTablesBeforeAll() {
         HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.JUNIT_TEST);
-//        HibernateImplementation.setHibernateConfigFile(EnumORMConfigFile.JUNIT_TEST_HIBERNATE);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
