@@ -1,5 +1,6 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
+import jakarta.persistence.NamedQuery;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;

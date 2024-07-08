@@ -38,8 +38,10 @@ public class JPATest {
         addressService.resetTable();
     }
 
+
     @Test
     @Order(101)
+    @DisplayName("[JPA] - Save Course")
     public void testSaveCourse() {
         saveCourseData();
         int expected = 7;
@@ -50,6 +52,7 @@ public class JPATest {
 
     @Test
     @Order(102)
+    @DisplayName("[JPA] - Find Course - By (Name)")
     public void testFindCourseByName() {
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         int expected = 1;
@@ -70,6 +73,7 @@ public class JPATest {
 
     @Test
     @Order(103)
+    @DisplayName("[JPA] - Delete Course By (Name)")
     public void testDeleteCourseByName() {
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNotNull(course);
@@ -83,6 +87,7 @@ public class JPATest {
 
     @Test
     @Order(104)
+    @DisplayName("[JPA] - Delete Course By (Id)")
     public void testDeleteCourseById() {
         courseService.deleteCourseById(2);
         Course course = courseService.findByName(EnumCourse.MATH.getName());
@@ -92,6 +97,7 @@ public class JPATest {
 
     @Test
     @Order(105)
+    @DisplayName("[JPA] - Update Course By (Course)")
     public void testUpdateCourse() {
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
         course.setCredits(6.5);
@@ -105,6 +111,7 @@ public class JPATest {
 
     @Test
     @Order(201)
+    @DisplayName("[JPA] - Save & Read Address")
     public void testSaveAndReadAddress() {
         Address address = new Address("1882", "Ankara", "Spain");
         Address address2 = new Address("abc", "abc", "abc");
@@ -118,6 +125,7 @@ public class JPATest {
 
     @Test
     @Order(202)
+    @DisplayName("[JPA] - Update Address")
     public void testUpdateAddress() {
         Address address = addressService.findById(1);
         address.setCity("Updated City");
@@ -130,6 +138,7 @@ public class JPATest {
 
     @Test
     @Order(203)
+    @DisplayName("[JPA] - Delete Address")
     public void testDeleteAddress() {
         addressService.deleteById(1);
         int expected = 1;
@@ -139,11 +148,12 @@ public class JPATest {
 
     @Test
     @Order(301)
+    @DisplayName("[JPA] - Throw Exception - Save Student Without Address")
     public void test_throwException_WhileSavingStudentWithoutAddress() {
         Student student = new Student();
         student.setName("Ahmet");
         student.setGrade(1);
-            studentService.save(student);
+        studentService.save(student);
         student = studentService.findById(1);
         Assertions.assertNull(student);
     }
@@ -151,6 +161,7 @@ public class JPATest {
 
     @Test
     @Order(302)
+    @DisplayName("[JPA] - Save Student With Address")
     public void testSaveStudentWithAddress() {
         Address address = new Address("Street abc", "Ankara", "Spain");
         addressService.save(address);
@@ -166,6 +177,7 @@ public class JPATest {
 
     @Test
     @Order(303)
+    @DisplayName("[JPA] - Throw Exception - Save Student With Course")
     public void test_throwException_SaveStudentWithCourse() {
         Address address = new Address("Street abc", "Ankara", "Spain");
 
@@ -185,12 +197,13 @@ public class JPATest {
         } catch (InvalidStudentCourseMatchForExamResult e) {
             isErrorOccured = true;
         }
-        Assertions.assertTrue(isErrorOccured,"Student should not be saved Data: "+student);
+        Assertions.assertTrue(isErrorOccured, "Student should not be saved Data: " + student);
     }
 
 
     @Test
     @Order(304)
+    @DisplayName("[JPA] - Save Student Then Add Course To Student")
     public void test_SaveStudent_SaveCourse_AddCourseToStudent() {
         Address address = new Address("Street def", "Istanbul", "Turkey");
         addressService.save(address);
@@ -218,6 +231,7 @@ public class JPATest {
 
     @Test
     @Order(305)
+    @DisplayName("[JPA] - Find Student By (id)")
     public void testFindStudentById() {
 
         Address address = new Address("Street def", "Istanbul", "Turkey");
@@ -236,6 +250,7 @@ public class JPATest {
 
     @Test
     @Order(306)
+    @DisplayName("[JPA] - Delete Student By (id)")
     public void test_deleteStudent_ThatWithOnlyAddress() {
         Student student = studentService.findById(1);
         Assertions.assertTrue(student != null);
@@ -248,6 +263,7 @@ public class JPATest {
 
     @Test
     @Order(401)
+    @DisplayName("[JPA] - Save ExamResult")
     public void testSaveExamResult() {
         Student student = new Student("Omer Koramaz", 6, null);
 
@@ -294,7 +310,8 @@ public class JPATest {
 
     @Test
     @Order(402)
-    public void testInvalidStudentCourseMatchExamResult() {
+    @DisplayName("[JPA] - Throw Exception - Save ExamResult")
+    public void test_throwException_InvalidStudentCourseMatch_WhileSavingExamResult() {
 
         Student student = studentService.findById(2);
         Course courseFlutter = courseService.findByName(EnumCourse.FLUTTER.getName());
@@ -306,6 +323,7 @@ public class JPATest {
 
     @Test
     @Order(403)
+    @DisplayName("[JPA] - Find ExamResult By (StudentId)")
     public void testFindExamResultByStudentId() {
         List<ExamResult> examResults = examResultService.findAllByStudentId(2);
         int expected = 3;
@@ -316,6 +334,7 @@ public class JPATest {
 
     @Test
     @Order(404)
+    @DisplayName("[JPA] - Find All ExamResult")
     public void testFindAllExamResult() {
         List<ExamResult> examResults = examResultService.findAll();
         int expected = 4;
@@ -325,7 +344,8 @@ public class JPATest {
 
     @Test
     @Order(404)
-    public void testFindExamResultByStudentIdAndCourseName() {
+    @DisplayName("[JPA] - Find All ExamResult By (StudentId,  CourseName)")
+    public void testFindAllExamResultByStudentIdAndCourseName() {
         List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
         int expected = 2;
         int actual = examResults.size();
@@ -335,7 +355,8 @@ public class JPATest {
 
     @Test
     @Order(404)
-    public void testUpdateExamResultScoreByStudentIdAndCourseName() {
+    @DisplayName("[JPA] - Update All ExamResult By (StudentId, CourseName)")
+    public void testUpdateAllExamResultScoreByStudentIdAndCourseName() {
         List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
         List<Double> oldScores = new ArrayList<>();
         int addVal = 15;
@@ -355,12 +376,13 @@ public class JPATest {
 
     @Test
     @Order(405)
+    @DisplayName("[JPA] - Delete ExamResult By (id)")
     public void testDeleteExamResultById() {
         List<ExamResult> examResults = examResultService.findAllByStudentId(2);
         int expected = 3;
         int actual = examResults.size();
         Assertions.assertEquals(expected, actual);
-        ExamResult examResult= examResults.get(0);
+        ExamResult examResult = examResults.get(0);
         examResultService.deleteById(examResult.getId());
 
         examResults = examResultService.findAllByStudentId(2);
