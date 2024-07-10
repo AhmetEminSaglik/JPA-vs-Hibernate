@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
+import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
 import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
 import org.aes.compare.orm.utility.ColorfulTextDesign;

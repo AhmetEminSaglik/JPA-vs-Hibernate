@@ -344,7 +344,7 @@ public class JPATest {
     }
 
     @Test
-    @Order(404)
+    @Order(405)
     @DisplayName("[JPA] - Find All ExamResult By (StudentId,  CourseName)")
     public void testFindAllExamResultByStudentIdAndCourseName() {
         List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
@@ -355,7 +355,7 @@ public class JPATest {
 
 
     @Test
-    @Order(404)
+    @Order(406)
     @DisplayName("[JPA] - Update All ExamResult By (StudentId, CourseName)")
     public void testUpdateAllExamResultScoreByStudentIdAndCourseName() {
         List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
@@ -376,7 +376,7 @@ public class JPATest {
     }
 
     @Test
-    @Order(405)
+    @Order(407)
     @DisplayName("[JPA] - Delete ExamResult By (id)")
     public void testDeleteExamResultById() {
         List<ExamResult> examResults = examResultService.findAllByStudentId(2);

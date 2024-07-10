@@ -1,10 +1,10 @@
-package org.aes.compare.orm.business.concrete.hibernate;
+package org.aes.compare.orm.business.concrete.mixed;
 
 import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
+import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.ExamResult;
@@ -17,6 +17,7 @@ import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.aes.compare.orm.model.enums.configfile.EnumHibernateConfigFile;
+import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
 import org.aes.compare.orm.model.enums.course.EnumCourse;
 import org.junit.jupiter.api.*;
 
@@ -24,25 +25,47 @@ import java.util.ArrayList;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class HibernateTest {
-    private static StudentService studentService = new StudentServiceImplHibernate();
-    private static CourseService courseService = new CourseServiceImplHibernate();
-    private static AddressService addressService = new AddressServiceImplHibernate();
-    private static ExamResultService examResultService = new ExamResultServiceImplHibernate();
+public class MixedORMTest {
+
+    private static ORMConfigSingleton ormConfig = new ORMConfigSingleton();
+    private static StudentService studentService;
+    private static CourseService courseService;
+    private static AddressService addressService;
+    private static ExamResultService examResultService;
 
     @BeforeAll
     public static void resetTablesBeforeAll() {
-//        HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.JUNIT_TEST);
+        enableJPA();
+//        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
         addressService.resetTable();
     }
 
+    private static void enableJPA() {
+        ormConfig.enableJPA(EnumJPAConfigFile.JUNIT_TEST);
+        resetORMServices();
+    }
+
+    private static void enableHibernate() {
+        ormConfig.enableHibernate(EnumHibernateConfigFile.JUNIT_TEST);
+        resetORMServices();
+    }
+
+    private static void resetORMServices() {
+        addressService = ormConfig.getAddressService();
+        studentService = ormConfig.getStudentService();
+        courseService = ormConfig.getCourseService();
+        examResultService = ormConfig.getExamResultService();
+    }
+
+
     @Test
     @Order(101)
-    @DisplayName("[Hibernate] - Save Course")
+    @DisplayName("[JPA] - Save Course")
     public void testSaveCourse() {
+        enableJPA();
         saveCourseData();
         int expected = 7;
         int actual = courseService.findAll().size();
@@ -54,6 +77,7 @@ public class HibernateTest {
     @Order(102)
     @DisplayName("[Hibernate] - Find Course - By (Name)")
     public void testFindCourseByName() {
+        enableHibernate();
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         int expected = 1;
         int actual = course.getId();
@@ -73,8 +97,9 @@ public class HibernateTest {
 
     @Test
     @Order(103)
-    @DisplayName("[Hibernate] - Delete Course By (Name)")
+    @DisplayName("[JPA] - Delete Course By (Name)")
     public void testDeleteCourseByName() {
+        enableJPA();
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNotNull(course);
 
@@ -89,6 +114,7 @@ public class HibernateTest {
     @Order(104)
     @DisplayName("[Hibernate] - Delete Course By (Id)")
     public void testDeleteCourseById() {
+        enableHibernate();
         courseService.deleteCourseById(2);
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNull(course);
@@ -97,8 +123,9 @@ public class HibernateTest {
 
     @Test
     @Order(105)
-    @DisplayName("[Hibernate] - Update Course By (Course)")
+    @DisplayName("[JPA] - Update Course By (Course)")
     public void testUpdateCourse() {
+        enableJPA();
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
         course.setCredits(6.5);
         courseService.updateCourseByName(course);
@@ -113,6 +140,7 @@ public class HibernateTest {
     @Order(201)
     @DisplayName("[Hibernate] - Save & Read Address")
     public void testSaveAndReadAddress() {
+        enableHibernate();
         Address address = new Address("1882", "Ankara", "Spain");
         Address address2 = new Address("abc", "abc", "abc");
         addressService.save(address);
@@ -125,8 +153,9 @@ public class HibernateTest {
 
     @Test
     @Order(202)
-    @DisplayName("[Hibernate] - Update Address")
+    @DisplayName("[JPA] - Update Address")
     public void testUpdateAddress() {
+        enableJPA();
         Address address = addressService.findById(1);
         address.setCity("Updated City");
         addressService.update(address);
@@ -140,6 +169,7 @@ public class HibernateTest {
     @Order(203)
     @DisplayName("[Hibernate] - Delete Address")
     public void testDeleteAddress() {
+        enableHibernate();
         addressService.deleteById(1);
         int expected = 1;
         int actual = addressService.findAll().size();
@@ -148,8 +178,9 @@ public class HibernateTest {
 
     @Test
     @Order(301)
-    @DisplayName("[Hibernate] - Throw Exception - Save Student Without Address")
+    @DisplayName("[JPA] - Throw Exception - Save Student Without Address")
     public void test_throwException_WhileSavingStudentWithoutAddress() {
+        enableJPA();
         Student student = new Student();
         student.setName("Ahmet");
         student.setGrade(1);
@@ -163,6 +194,7 @@ public class HibernateTest {
     @Order(302)
     @DisplayName("[Hibernate] - Save Student With Address")
     public void testSaveStudentWithAddress() {
+        enableHibernate();
         Address address = new Address("Street abc", "Ankara", "Spain");
         addressService.save(address);
 
@@ -177,8 +209,9 @@ public class HibernateTest {
 
     @Test
     @Order(303)
-    @DisplayName("[Hibernate] - Throw Exception - Save Student With Course")
+    @DisplayName("[JPA] - Throw Exception - Save Student With Course")
     public void test_throwException_SaveStudentWithCourse() {
+        enableJPA();
         Address address = new Address("Street abc", "Ankara", "Spain");
 
         Student student = new Student();
@@ -205,6 +238,7 @@ public class HibernateTest {
     @Order(304)
     @DisplayName("[Hibernate] - Save Student Then Add Course To Student")
     public void test_SaveStudent_SaveCourse_AddCourseToStudent() {
+        enableHibernate();
         Address address = new Address("Street def", "Istanbul", "Turkey");
         addressService.save(address);
 
@@ -231,9 +265,9 @@ public class HibernateTest {
 
     @Test
     @Order(305)
-    @DisplayName("[Hibernate] - Find Student By (id)")
+    @DisplayName("[JPA] - Find Student By (id)")
     public void testFindStudentById() {
-
+        enableJPA();
         Address address = new Address("Street def", "Istanbul", "Turkey");
 
         Student student = new Student();
@@ -252,6 +286,7 @@ public class HibernateTest {
     @Order(306)
     @DisplayName("[Hibernate] - Delete Student By (id)")
     public void test_deleteStudent_ThatWithOnlyAddress() {
+        enableHibernate();
         Student student = studentService.findById(1);
         Assertions.assertTrue(student != null);
 
@@ -263,8 +298,9 @@ public class HibernateTest {
 
     @Test
     @Order(401)
-    @DisplayName("[Hibernate] - Save ExamResult")
+    @DisplayName("[JPA] - Save ExamResult")
     public void testSaveExamResult() {
+        enableJPA();
         Student student = new Student("Omer Koramaz", 6, null);
 
         Course courseMath = new MathCourse();
@@ -312,7 +348,7 @@ public class HibernateTest {
     @Order(402)
     @DisplayName("[Hibernate] - Throw Exception - Save ExamResult")
     public void test_throwException_InvalidStudentCourseMatch_WhileSavingExamResult() {
-
+        enableHibernate();
         Student student = studentService.findById(2);
         Course courseFlutter = courseService.findByName(EnumCourse.FLUTTER.getName());
 
@@ -323,8 +359,9 @@ public class HibernateTest {
 
     @Test
     @Order(403)
-    @DisplayName("[Hibernate] - Find ExamResult By (StudentId)")
+    @DisplayName("[JPA] - Find ExamResult By (StudentId)")
     public void testFindExamResultByStudentId() {
+        enableJPA();
         List<ExamResult> examResults = examResultService.findAllByStudentId(2);
         int expected = 3;
         int actual = examResults.size();
@@ -336,6 +373,7 @@ public class HibernateTest {
     @Order(404)
     @DisplayName("[Hibernate] - Find All ExamResult")
     public void testFindAllExamResult() {
+        enableHibernate();
         List<ExamResult> examResults = examResultService.findAll();
         int expected = 4;
         int actual = examResults.size();
@@ -344,8 +382,9 @@ public class HibernateTest {
 
     @Test
     @Order(405)
-    @DisplayName("[Hibernate] - Find All ExamResult By (StudentId,  CourseName)")
+    @DisplayName("[JPA] - Find All ExamResult By (StudentId,  CourseName)")
     public void testFindAllExamResultByStudentIdAndCourseName() {
+        enableJPA();
         List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
         int expected = 2;
         int actual = examResults.size();
@@ -357,6 +396,7 @@ public class HibernateTest {
     @Order(406)
     @DisplayName("[Hibernate] - Update All ExamResult By (StudentId, CourseName)")
     public void testUpdateAllExamResultScoreByStudentIdAndCourseName() {
+        enableHibernate();
         List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(2, EnumCourse.JAVA.getName());
         List<Double> oldScores = new ArrayList<>();
         int addVal = 15;
@@ -376,8 +416,9 @@ public class HibernateTest {
 
     @Test
     @Order(407)
-    @DisplayName("[Hibernate] - Delete ExamResult By (id)")
+    @DisplayName("[JPA] - Delete ExamResult By (id)")
     public void testDeleteExamResultById() {
+        enableJPA();
         List<ExamResult> examResults = examResultService.findAllByStudentId(2);
         int expected = 3;
         int actual = examResults.size();
@@ -410,4 +451,6 @@ public class HibernateTest {
         courseService.save(courseOtherPiano);
         courseService.save(courseUnity);
     }
+
+
 }
