@@ -6,10 +6,18 @@ import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
 import org.aes.compare.customterminal.model.EnumCRUDCommand;
 import org.aes.compare.customterminal.model.EnumModelCommand;
 import org.aes.compare.customterminal.model.TerminalCMD;
+import org.aes.compare.uiconsole.business.UIConsoleDBServiceDisplayAddressMenu;
+import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplCourse;
+import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplExamResult;
+import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplStudent;
 import org.aes.compare.uiconsole.model.EnumUIConsoleOperation;
 
 public class TerminalCommandManager implements RunnableTerminalCommand {
     private static final char underscore = '_';
+    public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu(this);
+    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this);
+    public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse();
+    public UIConsoleDBServiceImplExamResult displayExamResultMenu = new UIConsoleDBServiceImplExamResult();
 
     public TerminalCommandManager() {
     }
@@ -23,70 +31,62 @@ public class TerminalCommandManager implements RunnableTerminalCommand {
         }
     }
 
-    /*public static Map<String, Runnable> getMenuOptions() {
-        if (menuOptions == null) {
-            menuOptions = new HashMap<>();
-            fillMenuOption();
-        }
-        return menuOptions;
-    }*/
-
     private void runModelCommand(TerminalCMD cmd) {
         String operationName = convertCommandstoOperationName(cmd.getCrudCommand(), cmd.getModelCommand());
         switch (EnumUIConsoleOperation.valueOf(operationName)) {
             case CREATE_ADDRESS:
-                System.out.println("Create addrese geldik");
+                displayAddressMenu.save();
                 break;
             case CREATE_STUDENT:
-                System.out.println("Create Studenta geldik");
+                displayStudentMenu.save();
                 break;
             case CREATE_COURSE:
-                System.out.println("Create course geldik");
+                displayCourseMenu.save();
                 break;
             case CREATE_EXAM_RESULT:
-                System.out.println("Create ExamResult'a geldik");
+                displayExamResultMenu.save();
                 break;
 
 
             case READ_ADDRESS:
-                System.out.println("READ addrese geldik");
+                displayAddressMenu.findAll();
                 break;
             case READ_STUDENT:
-                System.out.println("READ Studenta geldik");
+                displayStudentMenu.findAll();
                 break;
             case READ_COURSE:
-                System.out.println("READ course geldik");
+                displayCourseMenu.findAll();
                 break;
             case READ_EXAM_RESULT:
-                System.out.println("READ ExamResult'a geldik");
+                displayExamResultMenu.findAll();
                 break;
 
 
             case UPDATE_ADDRESS:
-                System.out.println("UPDATE addrese geldik");
+                displayAddressMenu.update();
                 break;
             case UPDATE_STUDENT:
-                System.out.println("UPDATE Studenta geldik");
+                displayStudentMenu.update();
                 break;
             case UPDATE_COURSE:
-                System.out.println("UPDATE course geldik");
+                displayCourseMenu.updateCourseByName();
                 break;
             case UPDATE_EXAM_RESULT:
-                System.out.println("UPDATE ExamResult'a geldik");
+                displayExamResultMenu.update();
                 break;
 
 
             case DELETE_ADDRESS:
-                System.out.println("DELETE addrese geldik");
+                displayAddressMenu.delete();
                 break;
             case DELETE_STUDENT:
-                System.out.println("DELETE Studenta geldik");
+                displayStudentMenu.delete();
                 break;
             case DELETE_COURSE:
-                System.out.println("DELETE course geldik");
+                displayCourseMenu.deleteCourseById();
                 break;
             case DELETE_EXAM_RESULT:
-                System.out.println("DELETE ExamResult'a geldik");
+                displayExamResultMenu.delete();
                 break;
 
 

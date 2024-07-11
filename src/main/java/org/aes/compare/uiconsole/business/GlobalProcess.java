@@ -3,6 +3,7 @@ package org.aes.compare.uiconsole.business;
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.customterminal.model.TerminalCMD;
+import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 import org.aes.compare.uiconsole.model.StaticData;
@@ -19,6 +20,8 @@ public class GlobalProcess extends TerminalCommandLayout {
     private List<String> list = StaticData.getGlobalProcessOptions();
 
     public void startProcess() {
+
+        ORMConfigSingleton.enableJPA();
         while (true && isAllowedCurrentProcess) {
             System.out.println("UIConsoleApp > 1.While");
             printListHowToProcess();

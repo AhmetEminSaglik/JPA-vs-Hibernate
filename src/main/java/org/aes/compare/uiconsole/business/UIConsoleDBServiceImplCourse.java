@@ -6,41 +6,39 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.List;
 
-public class UIConsoleDBServiceImplCourse implements CourseService {
+public class UIConsoleDBServiceImplCourse {
     private ORMConfigSingleton ormConfig = new ORMConfigSingleton();
 
-    @Override
-    public void save(Course c) {
-        ormConfig.getCourseService().save(c);
+    public void save() {
+//        ormConfig.getCourseService().save(c);
     }
 
-    @Override
-    public Course findByName(String name) {
-        return ormConfig.getCourseService().findByName(name);
+    public void findByName() {
+//        return ormConfig.getCourseService().findByName(name);
     }
 
-    @Override
-    public List<Course> findAll() {
-        return ormConfig.getCourseService().findAll();
+
+    public void findAll() {
+        // return ormConfig.getCourseService().findAll();
     }
 
-    @Override
-    public void updateCourseByName(Course course) {
-        ormConfig.getCourseService().updateCourseByName(course);
+
+    public void updateCourseByName() {
+        //   ormConfig.getCourseService().updateCourseByName(course);
     }
 
-    @Override
-    public void deleteCourseByName(String name) {
-        ormConfig.getCourseService().deleteCourseByName(name);
+
+    public void deleteCourseByName() {
+        //  ormConfig.getCourseService().deleteCourseByName(name);
     }
 
-    @Override
-    public void deleteCourseById(int id) {
-        ormConfig.getCourseService().deleteCourseById(id);
+
+    public void deleteCourseById() {
+        //  ormConfig.getCourseService().deleteCourseById(id);
     }
 
-    @Override
+
     public void resetTable() {
-        ormConfig.getCourseService().resetTable();
+        //  ormConfig.getCourseService().resetTable();
     }
 }

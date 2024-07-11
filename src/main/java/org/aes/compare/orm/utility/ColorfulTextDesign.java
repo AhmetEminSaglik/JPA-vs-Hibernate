@@ -24,4 +24,11 @@ public class ColorfulTextDesign {
         return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
     }
 
+    public static String getTextForUserFeedback(String msg) {
+        return ps.getColorfulText(ConsoleColors.CYAN_BOLD + msg + ConsoleColors.RESET);
+    }
+    public  static  String getSuccessColorText(String  msg){
+        return ps.getColorfulText(ConsoleColors.GREEN_BRIGHT + "[SUCCESS]: " + msg + ConsoleColors.RESET);
+    }
+
 }

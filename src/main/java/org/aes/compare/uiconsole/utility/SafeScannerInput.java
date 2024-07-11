@@ -1,11 +1,12 @@
 package org.aes.compare.uiconsole.utility;
 
-import java.util.InputMismatchException;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
+
 import java.util.List;
 import java.util.Scanner;
 
 public class SafeScannerInput {
-    Scanner scanner = new Scanner(System.in);
+    private static Scanner scanner = new Scanner(System.in);
 
     public int convertInputToListIndexValue(String input, List<?> list) {
         Integer integer = getInt(input);
@@ -20,7 +21,7 @@ public class SafeScannerInput {
 
     }
 
-    public Integer getInt(String input) {
+    public static Integer getInt(String input) {
         try {
             int num = Integer.parseInt(input);
             return num;
@@ -37,4 +38,23 @@ public class SafeScannerInput {
         System.out.println("Invalid Index range. Please choose number between 0-" + (list.size() - 1));
         return false;
     }
+
+    public static String getStringInput() {
+        String input = scanner.nextLine();
+        if (input.trim().isEmpty()) {
+            System.out.println(ColorfulTextDesign.getErrorColorText("Blank is not allowed. Please type something"));
+            return getStringInput();
+        }
+        return input;
+    }
+
+    public static int getIntInput() {
+        String input = scanner.nextLine();
+        Integer num = getInt(input);
+        if (num == null) {
+            return getIntInput();
+        }
+        return num;
+    }
+
 }
