@@ -1,6 +1,6 @@
 package org.aes.compare.customterminal.model;
 
-public enum EnumCRUDCommands {
+public enum EnumCRUDCommand {
     CREATE("-c", "create"),
     READ("-r", "read"),
     UPDATE("-u", "update"),
@@ -8,7 +8,7 @@ public enum EnumCRUDCommands {
     String shortName;
     String longName;
 
-    EnumCRUDCommands(String shortName, String longName) {
+    EnumCRUDCommand(String shortName, String longName) {
         this.shortName = shortName;
         this.longName = longName;
     }

@@ -1,6 +1,6 @@
 package org.aes.compare.customterminal.model;
 
-public enum EnumModelCommands {
+public enum EnumModelCommand {
     STUDENT("-S", "Student"),
     ADDRESS("-A", "Address"),
     COURSE("-C", "Course"),
@@ -8,7 +8,7 @@ public enum EnumModelCommands {
     String name;
     String shortName;
 
-    EnumModelCommands(String shortcutName, String name) {
+    EnumModelCommand(String shortcutName, String name) {
         this.name = name;
         this.shortName = shortcutName;
     }

@@ -1,13 +1,15 @@
 package org.aes.compare.customterminal.model;
 
-public enum EnumTerminalCommands {
-    QUIT("-q", "quit"),
+public enum EnumStandardCommand {
+    QUIT_PROCESS("-q", "quit"),
+    QUIT_PROGRAM("-e", "exit"),
+    HELP("-h", "help"),
     YES("-y", "yes"),
     NO("-n", "no");
     String shortName;
     String longName;
 
-    EnumTerminalCommands(String shortName, String longName) {
+    EnumStandardCommand(String shortName, String longName) {
         this.shortName = shortName;
         this.longName = longName;
     }
