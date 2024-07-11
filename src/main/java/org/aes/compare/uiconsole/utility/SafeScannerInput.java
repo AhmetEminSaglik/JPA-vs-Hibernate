@@ -2,6 +2,7 @@ package org.aes.compare.uiconsole.utility;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
+import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
 import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
@@ -44,27 +45,33 @@ public class SafeScannerInput {
         return false;
     }
 
-    public static String getStringInput(TerminalCommandLayout tmc) {
+    public static String getStringInput(String inputMsg, TerminalCommandLayout tmc) {
+        System.out.println(inputMsg);
         String input = scanner.nextLine();
-
-
         EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
         if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
             TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
             new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
         }
-
+        if (tmc.isCurrentProcessCanceled()) {
+            return "";
+        }
+        if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
+            return getStringInput(inputMsg, tmc);
+        }
         if (input.trim().isEmpty()) {
             System.out.println(ColorfulTextDesign.getErrorColorText("Blank is not allowed. Please type something"));
-            return getStringInput(tmc);
+            return getStringInput(inputMsg, tmc);
         }
         return input;
     }
 
-    public static int getIntInput(TerminalCommandLayout tmc) {
+    public static int getIntInput(String inputMsg, TerminalCommandLayout tmc) {
+        System.out.println(inputMsg);
         String input = scanner.nextLine();
-
         EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
+
+
         if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
             TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
             new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
@@ -74,8 +81,11 @@ public class SafeScannerInput {
         if (tmc.isCurrentProcessCanceled()) {
             return -1;
         }
+        if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
+            return getIntInput(inputMsg, tmc);
+        }
         if (num == null) {
-            return getIntInput(tmc);
+            return getIntInput(inputMsg, tmc);
         }
         return num;
     }

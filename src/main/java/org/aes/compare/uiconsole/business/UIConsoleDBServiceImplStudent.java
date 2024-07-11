@@ -23,14 +23,14 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
         Student student = new Student();
         System.out.println(ColorfulTextDesign.getInfoColorText("--> Student Save process is initialized"));
 
-        System.out.print(ColorfulTextDesign.getTextForUserFeedback("Type name (String): "));
-        String stringInput = SafeScannerInput.getStringInput(tcm);
+        String inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type name (String): ");
+        String stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
         if (isCanceled()) return;
         student.setName(stringInput);
 
 
-        System.out.print(ColorfulTextDesign.getTextForUserFeedback("Type Grade (int): "));
-        int intInput = SafeScannerInput.getIntInput(tcm);
+        inputMsg=ColorfulTextDesign.getTextForUserFeedback("Type Grade (int): ");
+        int intInput = SafeScannerInput.getIntInput(inputMsg, tcm);
         if (isCanceled()) return;
         student.setGrade(intInput);
 

@@ -8,7 +8,7 @@ import java.util.List;
 public class CmdLineConfigFunctionsImpl implements CmdLineConfigFunctions {
 //TODO burasi duzeltilecek
 //    private boolean isActivated = false;
-    private boolean isActivated = true;
+    private boolean isActivated = false;
     private String prefix = ">>";
 
     @Override
