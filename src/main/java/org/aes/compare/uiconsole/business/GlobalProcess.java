@@ -1,6 +1,7 @@
 package org.aes.compare.uiconsole.business;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
+import org.aes.compare.customterminal.business.concretes.ProcessCommandServiceImpl;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.orm.config.ORMConfigSingleton;

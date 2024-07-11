@@ -10,6 +10,7 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 import org.ahmeteminsaglik.utility.ConsoleColors;
 
+
 public class ProcessCommandServiceImpl implements ProcessCommandService {
     private TerminalCMD terminalCMD = new TerminalCMD();
     //    private EnumCRUDCommand reqCrudOperation;
@@ -27,16 +28,18 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
     public EnumCMDLineParserResult parseCommand(String text) {
         text = clearCommand(text);
         String cmdArr[] = text.split(" ");
-        System.out.println("array length : " + cmdArr.length);
+//        System.out.println("array length : " + cmdArr.length);
 
         try {
             for (int i = 0; i < cmdArr.length; i++) {
-                System.out.println("cmdArr[" + i + "] : " + cmdArr[i]);
+//                System.out.println("cmdArr[" + i + "] : " + cmdArr[i]);
             }
             figureOutRequestedTerminalOperation(cmdArr);
             figureOutRequestedCRUDOperation(cmdArr);
             figureOutRequestedObjectToProcess(cmdArr);
             decideProcess(cmdArr);
+
+
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
         } catch (Exception e) {
             System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, "Error : " + e.getMessage()));
@@ -114,21 +117,20 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
     }
 
     private EnumCMDLineParserResult decideProcess(String[] cmdArr) {
-        String msg = "Decided Process : ";
+//        String msg = "Decided Process : ";
         String errMsg = "Invalid command.";
-        String helpMsg = " Please use '";
 
         if (terminalCMD.getStandardCommand() != null) {
             if (cmdArr.length == 1) {
-                msg += terminalCMD.getStandardCommand().getLongName();
-                System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
+//                msg += terminalCMD.getStandardCommand().getLongName();
+//                System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
                 return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
             } else {
                 System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
             }
         } else if (terminalCMD.getCrudCommand() != null && terminalCMD.getModelCommand() != null) {
-            msg += terminalCMD.getCrudCommand().getLongName() + " -> " + terminalCMD.getModelCommand().getName();
-            System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
+//            msg += terminalCMD.getCrudCommand().getLongName() + " -> " + terminalCMD.getModelCommand().getName();
+//            System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
         } else {
             System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
@@ -137,4 +139,8 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
         return EnumCMDLineParserResult.RUN_FOR_INVALID_COMMAND;
 
     }
+
+
+
+
 }

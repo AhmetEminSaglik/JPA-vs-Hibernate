@@ -23,6 +23,9 @@ public class ColorfulTextDesign {
     public static String getErrorColorText(String msg) {
         return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
     }
+    public static String getTextForCanceledProcess(String msg) {
+        return ps.getColorfulText(ConsoleColors.YELLOW_BRIGHT + msg + ConsoleColors.RESET);
+    }
 
     public static String getTextForUserFeedback(String msg) {
         return ps.getColorfulText(ConsoleColors.CYAN_BOLD + msg + ConsoleColors.RESET);

@@ -7,7 +7,11 @@ public abstract class TerminalCommandLayout {
         isAllowedCurrentProcess = false;
     }
 
-    public void enableNextCurrentProcess() {
+    public void enableNextProcess() {
         isAllowedCurrentProcess = true;
+    }
+
+    public boolean isCurrentProcessCanceled() {
+        return !isAllowedCurrentProcess;
     }
 }

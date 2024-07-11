@@ -6,16 +6,17 @@ import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
 import org.aes.compare.customterminal.model.EnumCRUDCommand;
 import org.aes.compare.customterminal.model.EnumModelCommand;
 import org.aes.compare.customterminal.model.TerminalCMD;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceDisplayAddressMenu;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplCourse;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplExamResult;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplStudent;
 import org.aes.compare.uiconsole.model.EnumUIConsoleOperation;
 
-public class TerminalCommandManager implements RunnableTerminalCommand {
+public class TerminalCommandManager extends TerminalCommandLayout implements RunnableTerminalCommand {
     private static final char underscore = '_';
-    public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu(this);
-    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this);
+    public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu(this, this);
+    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this,this);
     public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse();
     public UIConsoleDBServiceImplExamResult displayExamResultMenu = new UIConsoleDBServiceImplExamResult();
 
@@ -26,7 +27,7 @@ public class TerminalCommandManager implements RunnableTerminalCommand {
     public void runCustomCommand(TerminalCommandLayout layout, TerminalCMD cmd) {
         if (cmd.getStandardCommand() != null) {
             runStandardCommand(layout, cmd);
-        } else {
+        } else if(cmd.getCrudCommand()!=null && cmd.getModelCommand()!=null) {
             runModelCommand(cmd);
         }
     }
@@ -91,7 +92,10 @@ public class TerminalCommandManager implements RunnableTerminalCommand {
 
 
         }
-        cmd.getModelCommand();
+        if (isAllowedCurrentProcess == false) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is canceled."));
+        }
+//        cmd.getModelCommand();
 
     }
 

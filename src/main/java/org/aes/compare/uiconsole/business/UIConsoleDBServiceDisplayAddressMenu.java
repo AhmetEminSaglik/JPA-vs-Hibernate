@@ -1,16 +1,20 @@
 package org.aes.compare.uiconsole.business;
 
+import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
+import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
-public class UIConsoleDBServiceDisplayAddressMenu  {
+public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProcessCheck {
     private final TerminalCommandManager tcm;
+    private final TerminalCommandLayout layout;
 
-    public UIConsoleDBServiceDisplayAddressMenu(TerminalCommandManager tcm) {
+    public UIConsoleDBServiceDisplayAddressMenu(TerminalCommandManager tcm, TerminalCommandLayout layout) {
         this.tcm = tcm;
+        this.layout = layout;
     }
 
     private ORMConfigSingleton ormConfig = new ORMConfigSingleton();
@@ -19,13 +23,19 @@ public class UIConsoleDBServiceDisplayAddressMenu  {
         Address address = new Address();
         System.out.println(ColorfulTextDesign.getInfoColorText("--> Address Save process is initialized"));
         System.out.print(ColorfulTextDesign.getTextForUserFeedback("Type city (String):"));
-        String stringInput = SafeScannerInput.getStringInput();
+        String stringInput = SafeScannerInput.getStringInput(tcm);
+        if (isCanceled()) return null;
         address.setCity(stringInput);
 
-
         System.out.print(ColorfulTextDesign.getTextForUserFeedback("Type Street (String):"));
-        stringInput = SafeScannerInput.getStringInput();
+        stringInput = SafeScannerInput.getStringInput(tcm);
+        if (isCanceled()) return null;
         address.setStreet(stringInput);
+
+        System.out.print(ColorfulTextDesign.getTextForUserFeedback("Type Country (String):"));
+        stringInput = SafeScannerInput.getStringInput(tcm);
+        if (isCanceled()) return null;
+        address.setCountry(stringInput);
 
         ormConfig.getAddressService().save(address);
 
@@ -54,5 +64,10 @@ public class UIConsoleDBServiceDisplayAddressMenu  {
 
     public void resetTable() {
 //        ormConfig.getAddressService().resetTable();
+    }
+
+    @Override
+    public boolean isCanceled() {
+        return tcm.isCurrentProcessCanceled();
     }
 }
