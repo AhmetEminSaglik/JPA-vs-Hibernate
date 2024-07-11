@@ -22,6 +22,6 @@
         <mapping class="org.aes.compare.orm.model.courses.concretes.ScienceCourse"/>
         <mapping class="org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse"/>
         <mapping class="org.aes.compare.orm.model.courses.concretes.programming.JavaCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.programming.React"/>
+        <mapping class="org.aes.compare.orm.model.courses.concretes.programming.ReactCourse"/>
     </session-factory>
 </hibernate-configuration>

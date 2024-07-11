@@ -7,9 +7,9 @@ import org.aes.compare.orm.model.courses.abstracts.ProgrammingCourse;
 
 @Entity
 @DiscriminatorValue("REACT")
-public class React extends ProgrammingCourse {
+public class ReactCourse extends ProgrammingCourse {
 
-    public React() {
+    public ReactCourse() {
         super(EnumCourse.REACT.getName(), 1.5);
     }
 

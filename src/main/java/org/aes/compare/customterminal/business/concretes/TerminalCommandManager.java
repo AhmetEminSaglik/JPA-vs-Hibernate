@@ -17,7 +17,7 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
     private static final char underscore = '_';
     public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu(this, this);
     public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this,this);
-    public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse();
+    public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse(this, this);
     public UIConsoleDBServiceImplExamResult displayExamResultMenu = new UIConsoleDBServiceImplExamResult();
 
     public TerminalCommandManager() {

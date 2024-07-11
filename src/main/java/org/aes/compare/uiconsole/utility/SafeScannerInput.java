@@ -66,6 +66,34 @@ public class SafeScannerInput {
         return input;
     }
 
+    public static int getIntInput(int minRange, int maxRange, String inputMsg, TerminalCommandLayout tmc) {
+        System.out.println(inputMsg);
+        String input = scanner.nextLine();
+        EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
+
+
+        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
+            new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
+        }
+
+        Integer num = getInt(input);
+        if (tmc.isCurrentProcessCanceled()) {
+            return -1;
+        }
+        if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
+            return getIntInput(inputMsg, tmc);
+        }
+        if (num == null) {
+            return getIntInput(inputMsg, tmc);
+        }
+        if (num < minRange || num > maxRange) {
+            System.out.println("Number must be between " + minRange + "-" + maxRange + ".");
+            return getIntInput(minRange, maxRange, inputMsg, tmc);
+        }
+        return num;
+    }
+
     public static int getIntInput(String inputMsg, TerminalCommandLayout tmc) {
         System.out.println(inputMsg);
         String input = scanner.nextLine();
