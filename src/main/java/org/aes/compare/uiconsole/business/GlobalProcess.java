@@ -19,7 +19,7 @@ public class GlobalProcess extends TerminalCommandLayout {
     private List<String> list = StaticData.getGlobalProcessOptions();
 
     public void startProcess() {
-        while (true) {
+        while (true && isAllowedCurrentProcess) {
             System.out.println("UIConsoleApp > 1.While");
             printListHowToProcess();
             selectGlobalProcess();
@@ -52,7 +52,6 @@ public class GlobalProcess extends TerminalCommandLayout {
         if (result.getId() == EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
             runProcessIndexValue(input);
         }
-        //inputParserTree.inputParse();
     }
 
     public void runProcessIndexValue(String index) {

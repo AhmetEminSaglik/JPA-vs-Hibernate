@@ -6,8 +6,9 @@ import org.aes.compare.uiconsole.model.StaticData;
 import java.util.List;
 
 public class CmdLineConfigFunctionsImpl implements CmdLineConfigFunctions {
-
-    private boolean isActivated = false;
+//TODO burasi duzeltilecek
+//    private boolean isActivated = false;
+    private boolean isActivated = true;
     private String prefix = ">>";
 
     @Override

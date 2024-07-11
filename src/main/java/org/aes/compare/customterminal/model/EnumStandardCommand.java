@@ -1,8 +1,8 @@
 package org.aes.compare.customterminal.model;
 
 public enum EnumStandardCommand {
-    QUIT_PROCESS("-q", "quit"),
-    QUIT_PROGRAM("-e", "exit"),
+    QUIT_CURRENT_PROCESS("-q", "quit"),
+    EXIT_PROGRAM("-e", "exit"),
     HELP("-h", "help"),
     YES("-y", "yes"),
     NO("-n", "no");

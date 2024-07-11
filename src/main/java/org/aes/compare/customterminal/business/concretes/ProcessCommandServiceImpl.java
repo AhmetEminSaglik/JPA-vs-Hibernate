@@ -19,6 +19,7 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
 
     @Override
     public EnumCMDLineParserResult processCommand(String text) {
+        terminalCMD = new TerminalCMD();
         return parseCommand(text);
     }
 

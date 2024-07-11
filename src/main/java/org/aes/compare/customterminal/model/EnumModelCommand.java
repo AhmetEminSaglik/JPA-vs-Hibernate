@@ -4,7 +4,7 @@ public enum EnumModelCommand {
     STUDENT("-S", "Student"),
     ADDRESS("-A", "Address"),
     COURSE("-C", "Course"),
-    EXAM_RESULT("-ER", "ExamResult");
+    EXAM_RESULT("-ER", "Exam_Result");
     String name;
     String shortName;
 
