@@ -11,5 +11,5 @@ public interface CmdLineConfigFunctions {
 
     String getPrefix();
 
-    void getHelpForCustomTerminal();
+    void printHelpInfoForCustomTerminal();
 }

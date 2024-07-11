@@ -36,11 +36,10 @@ public class CmdLineConfigFunctionsImpl implements CmdLineConfigFunctions {
     }
 
     @Override
-    public void getHelpForCustomTerminal() {
+    public void printHelpInfoForCustomTerminal() {
         List<String> helpInfos = StaticData.getCustomTerminalHelpInfoData();
         for (int i = 0; i < helpInfos.size(); i++) {
             System.out.println(helpInfos.get(i));
         }
     }
-
 }

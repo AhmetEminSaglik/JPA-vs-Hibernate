@@ -8,10 +8,11 @@ public class UIConsoleApp {
 
     public void start() {
         GlobalProcess globalProcess = new GlobalProcess();
-        while (true) {
+        globalProcess.startProcess();;
+        /*while (true) {
             System.out.println("UIConsoleApp > 1.While");
             globalProcess.startProcess();
-        }
+        }*/
     }
 
 }

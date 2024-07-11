@@ -24,7 +24,7 @@ public abstract class AbstractCMDLineConfiguration {
         return prefix;
     }
 
-    protected void getHelpForCustomTerminal() {
+    protected void printHelpInfoForCustomTerminal() {
         for (int i = 0; i < helpInfos.size(); i++) {
             System.out.println(helpInfos.get(i));
         }
