@@ -27,6 +27,17 @@ public class SafeScannerInput {
 
     }
 
+    public static Integer getIntRecursive() {
+        try {
+            int num = Integer.parseInt(scanner.nextLine());
+            return num;
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid Index Input. Please try again.");
+            return getIntRecursive();
+        }
+    }
+
+
     public static Integer getInt(String input) {
         try {
             int num = Integer.parseInt(input);
