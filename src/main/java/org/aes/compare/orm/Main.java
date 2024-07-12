@@ -4,11 +4,8 @@ import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.consoleapplication.AddressFacade;
 import org.aes.compare.orm.consoleapplication.CourseFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
-import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -47,9 +44,9 @@ public class Main {
             System.out.println("3-) Course");
             System.out.println("4-) ExamResult");
             System.out.println("5-) Exit Program");
-            System.out.print("Type one of the number :");
-            globalOption = scanner.nextInt();
-            scanner.nextLine();
+//            System.out.print("Type one of the number :");
+//            globalOption = scanner.nextInt();
+            globalOption = SafeScannerInput.getCertainIntForSwitch("Type one of the number :",1,5);
 
             switch (globalOption) {
                 case 1:
@@ -135,8 +132,8 @@ public class Main {
         int option = -1;
         while (option != 6) {
             System.out.println("1-) Save");
-            System.out.println("2-) Find By Id");
-            System.out.println("3-) Find All");
+            System.out.println("2-) Find All");
+            System.out.println("3-) Find By Id");
             System.out.println("4-) Update");
             System.out.println("5-) Delete");
             System.out.println("6-) Exit");
@@ -150,16 +147,16 @@ public class Main {
                     addressFacade.save();
                     break;
                 case 2:
-                    addressFacade.findById();
+                    addressFacade.findAll();
                     break;
                 case 3:
-                    addressFacade.findAll();
+                    addressFacade.findById();
                     break;
                 case 4:
                     addressFacade.update();
                     break;
                 case 5:
-                    addressFacade.deleteById();
+                    addressFacade.delete();
                     break;
                 case 6:
                     System.out.println("exitting the address Service");
@@ -174,8 +171,8 @@ public class Main {
         int option = -1;
         while (option != 7) {
             System.out.println("1-) Save");
-            System.out.println("2-) Find By Id");
-            System.out.println("3-) Find All");
+            System.out.println("2-) Find All");
+            System.out.println("3-) Find By Id");
             System.out.println("4-) Find By Student Id And Course Name");
             System.out.println("5-) Update");
             System.out.println("6-) Delete");
@@ -190,10 +187,10 @@ public class Main {
                     studentFacade.save();
                     break;
                 case 2:
-                    studentFacade.findById();
+                    studentFacade.findAll();
                     break;
                 case 3:
-                    studentFacade.findAll();
+                    studentFacade.findById();
                     break;
                 case 4:
                     studentFacade.findByStudentIdWithCourseName();

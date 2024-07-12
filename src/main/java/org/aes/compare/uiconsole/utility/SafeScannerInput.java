@@ -7,7 +7,6 @@ import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -38,7 +37,14 @@ public class SafeScannerInput {
         }
     }
 
-
+    public static String getStringNotBlank() {
+        String text = scanner.nextLine();
+        if (text.isBlank()) {
+            System.out.println("Empty String is not allowed. Please type something.");
+            return getStringNotBlank();
+        }
+        return text;
+    }
     public static Integer getInt(String input) {
         try {
             int num = Integer.parseInt(input);

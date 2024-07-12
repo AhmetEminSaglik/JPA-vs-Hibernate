@@ -31,6 +31,7 @@ public class Student {
     private List<Course> courses;
 
     @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.REMOVE})
+//    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id",nullable = false/*, referencedColumnName = "id"*/)
     private Address address;
 

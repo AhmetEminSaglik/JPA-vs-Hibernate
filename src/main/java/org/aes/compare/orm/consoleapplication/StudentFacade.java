@@ -135,7 +135,7 @@ public class StudentFacade {
         int studentId = SafeScannerInput.getIntRecursive();
 
         System.out.print("Type Course Name  : ");
-        String courseName = scanner.nextLine();
+        String courseName = SafeScannerInput.getStringNotBlank();
 
         Student student = null;
         try {
@@ -289,7 +289,6 @@ public class StudentFacade {
     }
 
     public void delete() {
-        int option = -1;
 //        while (option != 2) {
             List<Student> students = studentService.findAll();
 //            StringBuilder sb = new StringBuilder("Please choose one of the following Student No");
