@@ -17,7 +17,7 @@ public class OtherCourse extends Course {
     }
 
     public OtherCourse() {
-        super("unknown", -1);
+        super("New Course Must be Typed here", -1);
     }
 
 }

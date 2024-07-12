@@ -4,6 +4,7 @@ import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.consoleapplication.AddressFacade;
 import org.aes.compare.orm.consoleapplication.CourseFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
+import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.Scanner;
@@ -18,8 +19,9 @@ public class Main {
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
         addressFacade = new AddressFacade(orm.getAddressService());
+        courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
-        courseFacade= new CourseFacade();
+
 /*
 
 //        List<Address> tmpAddress = orm.getAddressService().findAllSavedAndNotMatchedAnyStudentAddress();
@@ -59,6 +61,7 @@ public class Main {
                     break;
                 case 3:
                     System.out.println("Leads to Course Process");
+                    courseScenario();
                     break;
                 case 4:
                     System.out.println("Leads to Exam Result Process");
@@ -71,61 +74,6 @@ public class Main {
             }
         }
 
-        /*addressFacade.save();
-
-        System.out.println("Press enter  : ");
-        scanner.nextLine();
-
-        addressFacade.save();
-
-        System.out.println("Press enter  : ");
-        scanner.nextLine();
-
-        addressFacade.findAll();
-
-        System.out.println("Press enter  : ");
-        scanner.nextLine();
-*/
-       /* addressFacade.findById();
-
-        System.out.println("Press enter  : ");
-        scanner.nextLine();
-
-        addressFacade.update();
-
-        System.out.println("Press enter  : ");
-        scanner.nextLine();
-
-        addressFacade.deleteById();
-
-        System.out.println("Press enter  : ");
-        scanner.nextLine();*/
-
-
-        /*
-//        UIConsoleApp consoleApp = new UIConsoleApp();
-//        consoleApp.start();
-        ORMConfigSingleton.enableJPA();
-
-        Student student = new Student();
-        student.setName("Ahmet");
-        student.setGrade(3);
-
-        Address address = new Address();
-        address.setCity("city");
-        address.setStreet("street");
-        address.setCountry("Country");
-
-        orm.getAddressService().save(address);
-
-        student.setAddress(address);
-
-//        student.addCourse(javaCourse);
-        orm.getStudentService().save(student);
-
-        Course javaCourse = new JavaCourse();
-        javaCourse.addStudent(student);
-        orm.getCourseService().save(javaCourse);*/
     }
 
     static void addressScenario() {
@@ -210,6 +158,44 @@ public class Main {
         }
     }
 
+    static void courseScenario() {
+        int option = -1;
+        while (option != 7) {
+            System.out.println("1-) Save");
+            System.out.println("2-) Find All");
+            System.out.println("3-) Find By Name");
+            System.out.println("4-) Update");
+            System.out.println("5-) Delete");
+            System.out.println("6-) Exit");
+
+            System.out.println("Select one option");
+            option = SafeScannerInput.getIntRecursive();
+//            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    courseFacade.save();
+                    break;
+                case 2:
+                    courseFacade.findAll();
+                    break;
+                case 3:
+                    courseFacade.findByName();
+                    break;
+                case 4:
+                    courseFacade.update();
+                    break;
+                case 5:
+                    courseFacade.delete();
+                    break;
+                case 6:
+                    System.out.println("Exiting the Course Service");
+                    break;
+                default:
+                    System.out.println("Invalid Choose try again");
+            }
+        }
+    }
 
     /*static class SubaddressFacade {
         private final AddressService addressService;

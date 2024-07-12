@@ -122,9 +122,10 @@ public class StudentFacade {
     public List<Student> findAll() {
         List<Student> students = studentService.findAll();
         System.out.println("All students are retrieved : ");
-        for (int i = 0; i < students.size(); i++) {
+        /*for (int i = 0; i < students.size(); i++) {
             System.out.println((i + 1) + "-) " + students.get(i));
-        }
+        }*/
+        printArrWithNo(students);
         System.out.println("-------------------------");
         return students;
 
@@ -228,7 +229,9 @@ public class StudentFacade {
             int result = -1;
             switch (option) {
                 case 1:
-                    System.out.println("CourseFacade Simdilik Kapali baska tercih ypain");
+                    Course course = courseFacade.save();
+                    studentCourses.add(course);
+//                    System.out.println("CourseFacade Simdilik Kapali baska tercih ypain");
 //                    Course course = courseFacade.save();
 //                    studentCourses.add(course);
                     break;
@@ -238,13 +241,10 @@ public class StudentFacade {
                     } else {
                     sbMsg.append("Please choose one of the following course no\n");
                     sbMsg.append(createMsgFromList(courseStudentDidNotEnroll));
-                   /* for (int i = 0; i < courseStudentDidNotEnroll.size(); i++) {
-                        msg += (i + 1) + "-) " + courseStudentDidNotEnroll.get(i) + "\n";
-                    }*/
                         result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courseStudentDidNotEnroll.size() + 1);
-                    result--;
+                        result--;
 
-                        if (result == studentCourses.size()) {
+                        if (result == courseStudentDidNotEnroll.size()) {
                             System.out.println("Adding course to Student is Cancelled");
                         } else {
                             studentCourses.add(courseStudentDidNotEnroll.get(result));

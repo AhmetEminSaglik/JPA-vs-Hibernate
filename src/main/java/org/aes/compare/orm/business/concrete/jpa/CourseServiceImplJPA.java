@@ -14,6 +14,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     @Override
     public void save(Course c) {
         initializeTransaction();
+//        entityManager.merge(c);
         entityManager.persist(c);
         commit();
     }
