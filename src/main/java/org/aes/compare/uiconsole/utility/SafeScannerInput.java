@@ -134,14 +134,16 @@ public class SafeScannerInput {
         System.out.println(text);
         String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
         try {
-            int val = scanner.nextInt();
+            String inputText = scanner.nextLine();
+            int val = Integer.parseInt(inputText);
+//            scanner.nextLine();
             if (val >= minRange && val <= maxRange) {
                 return val;
             }
             errMsg = "Invalid number : " + val + "." + errMsg;
             System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
-        } catch (InputMismatchException e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
+        } catch (NumberFormatException e) {
+            System.out.println(ColorfulTextDesign.getErrorColorText("Please type only number between ("+minRange+"-"+maxRange+")"));
         }
         return getCertainIntForSwitch(text, minRange, maxRange);
     }

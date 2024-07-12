@@ -59,36 +59,49 @@ public class AddressFacade {
     }
 
     public void update() {
+        List<Address> addresses = addressService.findAll();
+
         counter++;
         System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Update : "));
-        System.out.print("Address Id no: ");
+
+        StringBuilder msg = new StringBuilder();
+        msg.append(createMsgFromList(addresses));
+        msg.append("Address Id no: ");
+//        System.out.println(msg);
+//        System.out.print();
 //            int id = scanner.nextInt();
-        int id = SafeScannerInput.getIntRecursive();
-        Address address = addressService.findById(id);
-        addressService.findById(id);
-        System.out.println("Address is Found: " + address);
+        int id = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, addresses.size() + 1);
+        id--;
+        if (id == addresses.size()) {
+            System.out.println("Address Update Process is Canceled");
+            return;
+        }
+        Address address = addresses.get(id);
+//        addressService.findById(id);
+//        System.out.println("Address is Found: " + address);
         System.out.println("Update process is starting : ");
 
 
         int selected = 0;
         while (selected != 4) {
-            System.out.println("1-) City");
-            System.out.println("2-) Street");
+            System.out.println("1-) Street");
+            System.out.println("2-) City");
             System.out.println("3-) Country");
             System.out.println("4-) Update and Exit");
 
             System.out.println("Current address data : ");
             System.out.println(address);
-            selected = scanner.nextInt();
-            scanner.nextLine();
+//            selected = scanner.nextInt();
+            selected = SafeScannerInput.getCertainIntForSwitch("Select the process :", 1, 4);
+//            scanner.nextLine();
             switch (selected) {
                 case 1:
-                    System.out.print("Type City to update :");
-                    address.setCity(scanner.nextLine());
-                    break;
-                case 2:
                     System.out.print("Type Street to update :");
                     address.setStreet(scanner.nextLine());
+                    break;
+                case 2:
+                    System.out.print("Type City to update :");
+                    address.setCity(scanner.nextLine());
                     break;
                 case 3:
                     System.out.print("Type Country to update :");
@@ -120,6 +133,21 @@ public class AddressFacade {
     }
 
     public void resetTable() {
+    }
+
+    private void printArrWithNo(List<?> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println((i + 1) + "-) " + list.get(i));
+        }
+    }
+
+    private StringBuilder createMsgFromList(List<?> list) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            sb.append((i + 1) + "-) " + list.get(i) + "\n");
+        }
+        sb.append((list.size() + 1) + "-) Exit/Cancel");
+        return sb;
     }
 
 }

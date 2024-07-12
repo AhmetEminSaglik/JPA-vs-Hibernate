@@ -75,23 +75,34 @@ public class StudentFacade {
                 break;
             case 2:
                 if (unmatchedAddress.size() > 0) {
-                    String addressSelectMsg = "Select one of the following address to match the student\n";
-                    for (int i = 0; i < unmatchedAddress.size(); i++) {
+                    StringBuilder addressSelectMsg = new StringBuilder("Select one of the following address to match the student\n");
+                    addressSelectMsg.append(createMsgFromList(unmatchedAddress));
+
+                    /* for (int i = 0; i < unmatchedAddress.size(); i++) {
                         addressSelectMsg += (i + 1) + "-) " + unmatchedAddress.get(i) + "\n";
-                    }
-                    int result = SafeScannerInput.getCertainIntForSwitch(addressSelectMsg, 1, unmatchedAddress.size());
+                    }*/
+                    int result = SafeScannerInput.getCertainIntForSwitch(addressSelectMsg.toString(), 1, unmatchedAddress.size() + 1);
                     result -= 1;
-                    address = unmatchedAddress.get(result);
+                    if (result == unmatchedAddress.size()) {
+                        System.out.println("Address Selection is Canceled");
+//                        return studentDecideAddressProgress();
+                    } else {
+                        address = unmatchedAddress.get(result);
+                    }
                 } else {
                     System.out.println(ColorfulTextDesign.getErrorColorText("There is not any unmatched addres. You must save Address first"));
-                    return studentDecideAddressProgress();
+//                    return studentDecideAddressProgress();
                 }
                 break;
             case 3:
                 System.out.println("Address process for Student is Canceled ");
-                break;
+                return null;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
+        }
+//        return address;
+        if (address == null) {
+            return studentDecideAddressProgress();
         }
         return address;
     }
@@ -143,8 +154,13 @@ public class StudentFacade {
         StringBuilder msg = new StringBuilder("Select one student's index by given list:\n");
         msg.append(createMsgFromList(students));
 
-        int selectedStudent = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, students.size());
+        int selectedStudent = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, students.size() + 1);
         selectedStudent--;
+
+        if (selectedStudent == students.size()) {
+            System.out.println("Update Process is Cancelled.");
+            return null;
+        }
         Student student = students.get(selectedStudent);
         int option = -1;
 
@@ -153,12 +169,13 @@ public class StudentFacade {
         sbStudentProcess.append("2-) Update Student Grade\n");
         sbStudentProcess.append("3-) Update Student Courses\n");
         sbStudentProcess.append("4-) Update Student Address\n");
+        sbStudentProcess.append("5-) Save And Exit\n");
         sbStudentProcess.append("Select process No");
 
 
         while (option != 5) {
             System.out.println("Student : " + student);
-            option = SafeScannerInput.getCertainIntForSwitch(sbStudentProcess.toString(), 1, 4);
+            option = SafeScannerInput.getCertainIntForSwitch(sbStudentProcess.toString(), 1, 5);
             switch (option) {
                 case 1:
                     System.out.print("Type Student new Name:");
@@ -181,6 +198,7 @@ public class StudentFacade {
                     student.setAddress(address);
                     break;
                 case 5:
+                    studentService.update(student);
                     System.out.println("Exiting the student update process...");
                     break;
                 default:
@@ -193,45 +211,71 @@ public class StudentFacade {
 
     private List<Course> studentDecideCoursesProgress(int studentId) {
         List<Course> studentCourses = courseService.findAllCourseOfStudentId(studentId);
-        System.out.println("Students' current courses : (Must finish all to save the course changes)");
-        printArrWithNo(studentCourses);
+        List<Course> courseStudentDidNotEnroll = courseService.findAllCourseThatStudentDoesNotHave(studentId);
         int option = -1;
-        while (option != 10) {
+        while (option != 4) {
+
+            System.out.println("Students' current courses : (Must finish all to save the course changes)");
+            printArrWithNo(studentCourses);
+            System.out.println("------");
+
             System.out.println("1-) Create new Course");
-            System.out.println("2-) Match course from registered Courses");
-            System.out.println("3-) Remove course from student Courses");
-            System.out.println("3-) Remove course from student Courses");
+            System.out.println("2-) Match course from registered Courses (" + courseStudentDidNotEnroll.size() + ")");
+            System.out.println("3-) Remove course from student Courses (" + studentCourses.size() + ")");
             System.out.println("4-) Save and exit ");
-            option = SafeScannerInput.getCertainIntForSwitch("", 1, 3);
+            option = SafeScannerInput.getCertainIntForSwitch("", 1, 4);
             StringBuilder sbMsg = new StringBuilder();
             int result = -1;
             switch (option) {
                 case 1:
-                    Course course = courseFacade.save();
-                    studentCourses.add(course);
+                    System.out.println("CourseFacade Simdilik Kapali baska tercih ypain");
+//                    Course course = courseFacade.save();
+//                    studentCourses.add(course);
                     break;
                 case 2:
-                    List<Course> courseStudentDidNotEnroll = courseService.findAllCourseThatStudentDoesNotHave(studentId);
+                    if (courseStudentDidNotEnroll.size() == 0) {
+                        System.out.println("Not Found any suitable course for the student");
+                    } else {
                     sbMsg.append("Please choose one of the following course no\n");
                     sbMsg.append(createMsgFromList(courseStudentDidNotEnroll));
                    /* for (int i = 0; i < courseStudentDidNotEnroll.size(); i++) {
                         msg += (i + 1) + "-) " + courseStudentDidNotEnroll.get(i) + "\n";
                     }*/
-                    result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courseStudentDidNotEnroll.size());
+                        result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courseStudentDidNotEnroll.size() + 1);
                     result--;
-                    studentCourses.add(courseStudentDidNotEnroll.get(result));
+
+                        if (result == studentCourses.size()) {
+                            System.out.println("Adding course to Student is Cancelled");
+                        } else {
+                            studentCourses.add(courseStudentDidNotEnroll.get(result));
+                            courseStudentDidNotEnroll.remove(result);
+                        }
+
+
+                    }
                     break;
                 case 3:
+
+                    if (studentCourses.size() == 0) {
+                        System.out.println("Student has not any course to remove it.");
+                    } else {
+
                     sbMsg.append("Please choose one of the following course no\n");
                     /*for (int i = 0; i < studentCourses.size(); i++) {
                         msg += (i + 1) + "-) " + studentCourses.get(i) + "\n";
                     }*/
                     sbMsg.append(createMsgFromList(studentCourses));
-                    sbMsg.append((studentCourses.size() + 1) + "-) Exit");
+//                    sbMsg.append((studentCourses.size() + 1) + "-) Exit");
 //                    msg createMsgFromList (studentCourses);
-                    result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, studentCourses.size());
+                        result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, studentCourses.size() + 1);
                     result--;
+                        if (result == studentCourses.size()) {
+                            System.out.println("Remove course From Student is Cancelled");
+                        } else {
+                            courseStudentDidNotEnroll.add(studentCourses.get(result));
                     studentCourses.remove(result);
+                        }
+                    }
                     break;
                 case 4:
                     System.out.println("Exiting the course process");
@@ -246,30 +290,34 @@ public class StudentFacade {
 
     public void delete() {
         int option = -1;
-        while (option != 2) {
+//        while (option != 2) {
             List<Student> students = studentService.findAll();
-            StringBuilder sb = new StringBuilder("Please choose one of the following Student No");
-            sb.append("1-) Delete Student ");
-            sb.append("2-) Exit");
-            sb.append(createMsgFromList(students));
-            option = SafeScannerInput.getCertainIntForSwitch(sb.toString(), 1, 2);
-            switch (option) {
-                case 1:
-                    System.out.println("Delete Student : ");
-                    StringBuilder sbMsg = new StringBuilder("Select Student no to delete.");
+//            StringBuilder sb = new StringBuilder("Please choose one of the following Student No");
+//            sb.append("1-) Delete Student \n");
+//            sb.append("2-) Exit\n");
+//        StringBuilder sb = new StringBuilder();
+//            sb.append(createMsgFromList(students));
+//            option = SafeScannerInput.getCertainIntForSwitch(sb.toString(), 1, students.size());
+//            switch (option) {
+//                case 1:
+        StringBuilder sbMsg = new StringBuilder("Select Student no to delete.\n");
                     sbMsg.append(createMsgFromList(students));
-                    int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, students.size());
+        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, students.size() + 1);
                     result--;
+        if (result == students.size()) {
+            System.out.println("Student Delete process is Cancelled");
+        } else {
                     Student studentToDelete = students.get(result);
                     studentService.deleteById(studentToDelete.getId());
-                    break;
-                case 2:
-                    System.out.println("Exiting from delete student process...");
-                    break;
-                default:
-                    System.out.println("Unknown process. Developer must work to fix this bug.");
-            }
         }
+//                    break;
+//                case 2:
+//                    System.out.println("Exiting from delete student process...");
+//                    break;
+//                default:
+//                    System.out.println("Unknown process. Developer must work to fix this bug.");
+//            }
+//        }
     }
 
 
