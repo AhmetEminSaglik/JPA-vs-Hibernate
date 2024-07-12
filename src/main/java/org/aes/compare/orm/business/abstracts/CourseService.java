@@ -12,6 +12,10 @@ public interface CourseService {
 
     List<Course> findAll();
 
+    List<Course> findAllCourseOfStudentId(int studentid);
+
+    List<Course> findAllCourseThatStudentDoesNotHave(int studentid);
+
     void updateCourseByName(Course course);
 
     void deleteCourseByName(String name);
@@ -19,5 +23,6 @@ public interface CourseService {
     void deleteCourseById(int id);
 
     void resetTable();
+
 
 }

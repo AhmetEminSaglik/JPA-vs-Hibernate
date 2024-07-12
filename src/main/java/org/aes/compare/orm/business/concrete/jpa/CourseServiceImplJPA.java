@@ -45,6 +45,31 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     }
 
     @Override
+    public List<Course> findAllCourseOfStudentId(int studentid) {
+        initializeTransaction();
+        TypedQuery<Course> query = entityManager.createQuery(
+                "SELECT c FROM Course c " +
+                        "JOIN c.students s " +
+                        "WHERE s.id = :studentid", Course.class);
+        query.setParameter("studentid", studentid);
+        List<Course> courses = query.getResultList();
+        commit();
+        return courses;
+
+    }
+
+    @Override
+    public List<Course> findAllCourseThatStudentDoesNotHave(int studentid) {
+        initializeTransaction();
+        TypedQuery<Course> query = entityManager.createQuery(
+                "SELECT c FROM Course c WHERE c NOT IN (SELECT c FROM Course c JOIN c.students s WHERE s.id = :studentid)", Course.class);
+        query.setParameter("studentid", studentid);
+        List<Course> courses = query.getResultList();
+        commit();
+        return courses;
+    }
+
+    @Override
     public void updateCourseByName(Course course) {
         initializeTransaction();
         entityManager.merge(course);

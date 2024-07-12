@@ -32,7 +32,8 @@ public class JPATest {
 
     @BeforeAll
     public static void resetTablesBeforeAll() {
-        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
+//        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
+        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.REAL_PRODUCT);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();

@@ -7,6 +7,7 @@ import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -128,5 +129,22 @@ public class SafeScannerInput {
         }
         return num;
     }
+
+    public static int getCertainIntForSwitch(String text, int minRange, int maxRange) {
+        System.out.println(text);
+        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
+        try {
+            int val = scanner.nextInt();
+            if (val >= minRange && val <= maxRange) {
+                return val;
+            }
+            errMsg = "Invalid number : " + val + "." + errMsg;
+            System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
+        } catch (InputMismatchException e) {
+            System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
+        }
+        return getCertainIntForSwitch(text, minRange, maxRange);
+    }
+
 
 }

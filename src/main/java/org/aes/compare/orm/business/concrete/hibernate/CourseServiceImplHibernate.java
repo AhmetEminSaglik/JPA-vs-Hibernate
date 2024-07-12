@@ -45,6 +45,30 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     }
 
     @Override
+    public List<Course> findAllCourseOfStudentId(int studentid) {
+        initializeTransaction();
+        TypedQuery<Course> query = session.createQuery(
+                "SELECT c FROM Course c " +
+                        "JOIN c.students s " +
+                        "WHERE s.id = :studentid", Course.class);
+        query.setParameter("studentid", studentid);
+        List<Course> courses = query.getResultList();
+        commit();
+        return courses;
+    }
+
+    @Override
+    public List<Course> findAllCourseThatStudentDoesNotHave(int studentid) {
+        initializeTransaction();
+        TypedQuery<Course> query = session.createQuery(
+                "SELECT c FROM Course c WHERE c NOT IN (SELECT c FROM Course c JOIN c.students s WHERE s.id = :studentid)", Course.class);
+        query.setParameter("studentid", studentid);
+        List<Course> courses = query.getResultList();
+        commit();
+        return courses;
+    }
+
+    @Override
     public void updateCourseByName(Course course) {
         initializeTransaction();
         session.merge(course);
