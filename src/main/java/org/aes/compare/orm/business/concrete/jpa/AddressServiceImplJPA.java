@@ -35,6 +35,16 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
     }
 
     @Override
+    public List<Address> findAllSavedAndNotMatchedAnyStudentAddress() {
+        initializeTransaction();
+        TypedQuery<Address> query = entityManager.createQuery("SELECT a FROM Address a " +
+                "LEFT JOIN a.student s WHERE s.id IS NULL", Address.class);
+        List<Address> addresses = query.getResultList();
+        commit();
+        return addresses;
+    }
+
+    @Override
     public void update(Address address) {
         initializeTransaction();
         entityManager.merge(address);

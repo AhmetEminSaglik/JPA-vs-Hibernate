@@ -12,11 +12,12 @@ public interface AddressService {
 
     List<Address> findAll();
 
+    List<Address> findAllSavedAndNotMatchedAnyStudentAddress();
+
     void update(Address address);
 
     void deleteById(int id);
 
     void resetTable();
-
 
 }

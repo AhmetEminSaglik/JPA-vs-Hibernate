@@ -34,6 +34,16 @@ public class AddressServiceImplHibernate extends HibernateImplementation<Address
     }
 
     @Override
+    public List<Address> findAllSavedAndNotMatchedAnyStudentAddress() {
+        initializeTransaction();
+        TypedQuery<Address> query = session.createQuery("SELECT a FROM Address a " +
+                "LEFT JOIN a.student s WHERE s.id IS NULL", Address.class);
+        List<Address> addresses = query.getResultList();
+        commit();
+        return addresses;
+    }
+
+    @Override
     public void update(Address address) {
         initializeTransaction();
         session.merge(address);

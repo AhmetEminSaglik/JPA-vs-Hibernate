@@ -1,9 +1,11 @@
 package org.aes.compare.orm;
 
-import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.config.ORMConfigSingleton;
+import org.aes.compare.orm.consoleapplication.AddressFacade;
+import org.aes.compare.orm.consoleapplication.CourseFacade;
+import org.aes.compare.orm.consoleapplication.StudentFacade;
 import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.List;
@@ -12,72 +14,92 @@ import java.util.Scanner;
 public class Main {
     static Scanner scanner = new Scanner(System.in);
     static ORMConfigSingleton orm = new ORMConfigSingleton();
+    //    static SubaddressFacade addressFacade = new SubaddressFacade(orm.getAddressService());
+    static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
+    static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
+    static CourseFacade courseFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
-        SubClassAddress classAddress = new SubClassAddress(orm.getAddressService());
-        int option = -1;
-        while (option != 6) {
+        addressFacade = new AddressFacade(orm.getAddressService());
+        studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
+        courseFacade= new CourseFacade();
+/*
 
-            System.out.println("1-) Save");
-            System.out.println("2-) Find By Id");
-            System.out.println("3-) Find All");
-            System.out.println("4-) Update");
-            System.out.println("5-) Delete");
-            System.out.println("6-) Exit");
+//        List<Address> tmpAddress = orm.getAddressService().findAllSavedAndNotMatchedAnyStudentAddress();
+//        tmpAddress.forEach(System.out::println);
 
-            System.out.println("select one option");
-            option=SafeScannerInput.getIntRecursive();
-//            scanner.nextLine();
+        int studentId=2;
+        List<Course> tmpCourse = orm.getCourseService().findAllCourseOfStudentId(studentId);
+        System.out.println("Student have : ");
+        tmpCourse.forEach(System.out::println);
 
-            switch (option) {
+        tmpCourse = orm.getCourseService().findAllCourseThatStudentDoesNotHave(studentId);
+        System.out.println("Student does not have : ");
+        tmpCourse.forEach(System.out::println);
+
+        System.exit(0);
+*/
+
+        int globalOption = -1;
+        while (globalOption != 5) {
+            System.out.println("1-) Address");
+            System.out.println("2-) Student");
+            System.out.println("3-) Course");
+            System.out.println("4-) ExamResult");
+            System.out.println("5-) Exit Program");
+            System.out.print("Type one of the number :");
+            globalOption = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (globalOption) {
                 case 1:
-                    classAddress.save();
+                    System.out.println("Leads to Address Process");
+                    addressScenario();
                     break;
                 case 2:
-                    classAddress.findById();
+                    System.out.println("Leads to Student Process");
+                    studentScenario();
                     break;
                 case 3:
-                    classAddress.findAll();
+                    System.out.println("Leads to Course Process");
                     break;
                 case 4:
-                    classAddress.update();
+                    System.out.println("Leads to Exam Result Process");
                     break;
                 case 5:
-                    classAddress.deleteById();
-                    break;
-                case 6:
-                    System.out.println("exitting the address Service");
+                    System.out.println("Exitting the program");
                     break;
                 default:
-                    System.out.println("Invalid Choose try again");
+                    System.out.println("Invalid choose please try again!");
             }
         }
-        /*classAddress.save();
+
+        /*addressFacade.save();
 
         System.out.println("Press enter  : ");
         scanner.nextLine();
 
-        classAddress.save();
+        addressFacade.save();
 
         System.out.println("Press enter  : ");
         scanner.nextLine();
 
-        classAddress.findAll();
+        addressFacade.findAll();
 
         System.out.println("Press enter  : ");
         scanner.nextLine();
 */
-       /* classAddress.findById();
+       /* addressFacade.findById();
 
         System.out.println("Press enter  : ");
         scanner.nextLine();
 
-        classAddress.update();
+        addressFacade.update();
 
         System.out.println("Press enter  : ");
         scanner.nextLine();
 
-        classAddress.deleteById();
+        addressFacade.deleteById();
 
         System.out.println("Press enter  : ");
         scanner.nextLine();*/
@@ -109,12 +131,94 @@ public class Main {
         orm.getCourseService().save(javaCourse);*/
     }
 
+    static void addressScenario() {
+        int option = -1;
+        while (option != 6) {
+            System.out.println("1-) Save");
+            System.out.println("2-) Find By Id");
+            System.out.println("3-) Find All");
+            System.out.println("4-) Update");
+            System.out.println("5-) Delete");
+            System.out.println("6-) Exit");
 
-    static class SubClassAddress {
+            System.out.println("select one option");
+            option = SafeScannerInput.getIntRecursive();
+//            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    addressFacade.save();
+                    break;
+                case 2:
+                    addressFacade.findById();
+                    break;
+                case 3:
+                    addressFacade.findAll();
+                    break;
+                case 4:
+                    addressFacade.update();
+                    break;
+                case 5:
+                    addressFacade.deleteById();
+                    break;
+                case 6:
+                    System.out.println("exitting the address Service");
+                    break;
+                default:
+                    System.out.println("Invalid Choose try again");
+            }
+        }
+    }
+
+    static void studentScenario() {
+        int option = -1;
+        while (option != 7) {
+            System.out.println("1-) Save");
+            System.out.println("2-) Find By Id");
+            System.out.println("3-) Find All");
+            System.out.println("4-) Find By Student Id And Course Name");
+            System.out.println("5-) Update");
+            System.out.println("6-) Delete");
+            System.out.println("7-) Exit");
+
+            System.out.println("select one option");
+            option = SafeScannerInput.getIntRecursive();
+//            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    studentFacade.save();
+                    break;
+                case 2:
+                    studentFacade.findById();
+                    break;
+                case 3:
+                    studentFacade.findAll();
+                    break;
+                case 4:
+                    studentFacade.findByStudentIdWithCourseName();
+                    break;
+                case 5:
+                    studentFacade.update();
+                    break;
+                case 6:
+                    studentFacade.delete();
+                    break;
+                case 7:
+                    System.out.println("Exiting the Student Service");
+                    break;
+                default:
+                    System.out.println("Invalid Choose try again");
+            }
+        }
+    }
+
+
+    /*static class SubaddressFacade {
         private final AddressService addressService;
         private static int counter = 0;
 
-        public SubClassAddress(AddressService addressService) {
+        public SubaddressFacade(AddressService addressService) {
             this.addressService = addressService;
         }
 
@@ -220,5 +324,7 @@ public class Main {
 
         public void resetTable() {
         }
-    }
+    }*/
+
+
 }
