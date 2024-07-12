@@ -39,8 +39,8 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
 
     private void printCourseList() {
         for (int i = 0; i < courses.size(); i++) {
-            System.out.println((i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getCredits() + ")");
-            allCourseInString += (i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getCredits() + "\n";
+            System.out.println((i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getcredit() + ")");
+            allCourseInString += (i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getcredit() + "\n";
         }
     }
     public void save() {

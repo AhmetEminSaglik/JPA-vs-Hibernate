@@ -1,6 +1,7 @@
 package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.orm.business.abstracts.CourseService;
+import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -40,9 +41,9 @@ public class CourseFacade {
             course.setName(name);
 
             System.out.print("Type for Course Credit (int): ");
-            int credit = SafeScannerInput.getIntRecursive();
+            int credit = SafeScannerInput.getCertainIntSafe();
 
-            course.setCredits(credit);
+            course.setcredit(credit);
             System.out.println("Course is saving...");
             courseService.save(course);
 
@@ -87,14 +88,84 @@ public class CourseFacade {
     }
 
     public Course findByName() {
-        return null;
+        System.out.print("Type Course Name : ");
+        String name = SafeScannerInput.getStringNotBlank();
+        Course course = courseService.findByName(name);
+        if (course == null) {
+            System.out.println("Course is not found : ");
+        } else {
+            System.out.println("Found course : " + course);
+        }
+
+        return course;
     }
 
     public Course update() {
-        return null;
+        List<Course> courses = courseService.findAll();
+        StringBuilder msg = new StringBuilder("Select one Course's index by given list:\n");
+        msg.append(createMsgFromList(courses));
+
+        int selectedCourse = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, courses.size() + 1);
+        selectedCourse--;
+
+        if (selectedCourse == courses.size()) {
+            System.out.println("Update Process is Cancelled.");
+            return null;
+        }
+
+        Course course = courses.get(selectedCourse);
+        int option = -1;
+
+        StringBuilder sbProcess = new StringBuilder();
+        sbProcess.append("1-) Update Course Name\n");
+        sbProcess.append("2-) Update Course Credit\n");
+        sbProcess.append("3-) Save And Exit\n");
+        sbProcess.append("Select process No");
+
+        while (option != 3) {
+            System.out.println("Course : " + courses);
+            option = SafeScannerInput.getCertainIntForSwitch(sbProcess.toString(), 1, 3);
+            switch (option) {
+                case 1:
+                    System.out.print("Type Course new Name");
+                    String name = SafeScannerInput.getStringNotBlank();
+                    course.setName(name);
+                    break;
+                case 2:
+                    System.out.print("Type Course new Credit (int)");
+                    int credit = SafeScannerInput.getCertainIntSafe();
+                    course.setcredit(credit);
+                    break;
+                case 3:
+                    System.out.println("Course is updating...");
+                    courseService.updateCourseByName(course);
+                    System.out.println("Course is updated : " + course);
+                    System.out.println("Exiting Course Update Service");
+                    break;
+                default:
+                    System.out.println("Unknown process. Developer must work to fix this bug.");
+            }
+        }
+
+        return course;
     }
 
     public void delete() {
+        List<Course> courses = courseService.findAll();
+
+        StringBuilder sbMsg = new StringBuilder("Select Course number to delete.\n");
+        sbMsg.append(createMsgFromList(courses));
+        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courses.size() + 1);
+        result--;
+        if (result == courses.size()) {
+            System.out.println("Student Delete process is Cancelled");
+        } else {
+            Course course = courses.get(result);
+            System.out.println("Course is deleting...");
+            courseService.deleteCourseById(course.getId());
+            System.out.println("Course is deleted");
+        }
+
     }
 
     private List<Course> getDefinedCourses() {

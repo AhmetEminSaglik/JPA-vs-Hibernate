@@ -100,11 +100,11 @@ public class HibernateTest {
     @DisplayName("[Hibernate] - Update Course By (Course)")
     public void testUpdateCourse() {
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
-        course.setCredits(6.5);
+        course.setcredit(6.5);
         courseService.updateCourseByName(course);
         course = courseService.findByName(EnumCourse.JAVA.getName());
         double expected = 6.5;
-        double actual = course.getCredits();
+        double actual = course.getcredit();
         Assertions.assertEquals(expected, actual);
     }
 

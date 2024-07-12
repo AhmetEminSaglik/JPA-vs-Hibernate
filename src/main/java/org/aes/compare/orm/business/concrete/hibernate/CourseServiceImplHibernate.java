@@ -6,6 +6,7 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 
@@ -13,9 +14,16 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
 
     @Override
     public void save(Course c) {
-        initializeTransaction();
+        String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        try {
+            initializeTransaction();
         session.persist(c);
         commit();
+        } catch (ConstraintViolationException e) {
+            System.out.println(errMsg);
+        } catch (Exception e) {
+            System.out.println(errMsg);
+        }
     }
 
     @Override
@@ -69,10 +77,17 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     }
 
     @Override
-    public void updateCourseByName(Course course) {
+    public void updateCourseByName(Course c) {
+        String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        try {
         initializeTransaction();
-        session.merge(course);
+        session.merge(c);
         commit();
+        } catch (ConstraintViolationException e) {
+            System.out.println(errMsg);
+        } catch (Exception e) {
+            System.out.println(errMsg);
+        }
     }
 
     @Override

@@ -45,7 +45,7 @@ public class AddressFacade {
         System.out.println(ColorfulTextDesign.getInfoColorText("-) [ADDRESS] Find by id : "));
         System.out.print("Id no: ");
 //            int id = scanner.nextInt();
-        int id = SafeScannerInput.getIntRecursive();
+        int id = SafeScannerInput.getCertainIntSafe();
         Address address = addressService.findById(id);
         addressService.findById(id);
         System.out.println("Address is Found: " + address);

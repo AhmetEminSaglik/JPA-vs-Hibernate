@@ -8,8 +8,8 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 @DiscriminatorValue("OTHER")
 public class OtherCourse extends Course {
 
-    public OtherCourse(String name, double credits) {
-        super(name, credits);
+    public OtherCourse(String name, double credit) {
+        super(name, credit);
     }
 
     public OtherCourse(String name) {

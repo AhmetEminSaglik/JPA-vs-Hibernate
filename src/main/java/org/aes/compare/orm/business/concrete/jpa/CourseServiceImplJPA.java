@@ -6,6 +6,7 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;
 
@@ -13,10 +14,17 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void save(Course c) {
+//        String errMsg = "Course name must be unique. Probably " + c.getName() + " is saved before";
+        String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        try {
         initializeTransaction();
-//        entityManager.merge(c);
         entityManager.persist(c);
         commit();
+        } catch (ConstraintViolationException e) {
+            System.out.println(errMsg);
+        } catch (Exception e) {
+            System.out.println(errMsg + "." + e.getMessage());
+        }
     }
 
     @Override
@@ -71,10 +79,17 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     }
 
     @Override
-    public void updateCourseByName(Course course) {
-        initializeTransaction();
-        entityManager.merge(course);
+    public void updateCourseByName(Course c) {
+        String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        try {
+            initializeTransaction();
+            entityManager.merge(c);
         commit();
+        } catch (ConstraintViolationException e) {
+            System.out.println(errMsg);
+        } catch (Exception e) {
+            System.out.println(errMsg);
+        }
     }
 
     @Override

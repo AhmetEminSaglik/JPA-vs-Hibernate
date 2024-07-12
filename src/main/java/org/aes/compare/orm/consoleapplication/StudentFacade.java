@@ -113,7 +113,7 @@ public class StudentFacade {
 
     public Student findById() {
         System.out.print("Type number for Student id  : ");
-        int studentId = SafeScannerInput.getIntRecursive();
+        int studentId = SafeScannerInput.getCertainIntSafe();
         Student student = studentService.findById(studentId);
         System.out.println("Found Student by id : " + student);
         return student;
@@ -133,7 +133,7 @@ public class StudentFacade {
 
     public Student findByStudentIdWithCourseName() {
         System.out.print("Type number for Student id  : ");
-        int studentId = SafeScannerInput.getIntRecursive();
+        int studentId = SafeScannerInput.getCertainIntSafe();
 
         System.out.print("Type Course Name  : ");
         String courseName = SafeScannerInput.getStringNotBlank();

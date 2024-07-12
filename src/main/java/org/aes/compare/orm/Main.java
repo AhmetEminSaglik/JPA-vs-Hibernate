@@ -87,7 +87,7 @@ public class Main {
             System.out.println("6-) Exit");
 
             System.out.println("select one option");
-            option = SafeScannerInput.getIntRecursive();
+            option = SafeScannerInput.getCertainIntSafe();
 //            scanner.nextLine();
 
             switch (option) {
@@ -127,7 +127,7 @@ public class Main {
             System.out.println("7-) Exit");
 
             System.out.println("select one option");
-            option = SafeScannerInput.getIntRecursive();
+            option = SafeScannerInput.getCertainIntSafe();
 //            scanner.nextLine();
 
             switch (option) {
@@ -160,7 +160,7 @@ public class Main {
 
     static void courseScenario() {
         int option = -1;
-        while (option != 7) {
+        while (option != 6) {
             System.out.println("1-) Save");
             System.out.println("2-) Find All");
             System.out.println("3-) Find By Name");
@@ -169,7 +169,7 @@ public class Main {
             System.out.println("6-) Exit");
 
             System.out.println("Select one option");
-            option = SafeScannerInput.getIntRecursive();
+            option = SafeScannerInput.getCertainIntSafe();
 //            scanner.nextLine();
 
             switch (option) {
@@ -224,7 +224,7 @@ public class Main {
             System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Find by id : "));
             System.out.print("Id no: ");
 //            int id = scanner.nextInt();
-            int id = SafeScannerInput.getIntRecursive();
+            int id = SafeScannerInput.getCertainIntSafe();
             Address address = addressService.findById(id);
             addressService.findById(id);
             System.out.println("Address is Found: " + address);
@@ -249,7 +249,7 @@ public class Main {
             System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Update : "));
             System.out.print("Address Id no: ");
 //            int id = scanner.nextInt();
-            int id = SafeScannerInput.getIntRecursive();
+            int id = SafeScannerInput.getCertainIntSafe();
             Address address = addressService.findById(id);
             addressService.findById(id);
             System.out.println("Address is Found: " + address);

@@ -20,21 +20,21 @@ public abstract class Course {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "credits", nullable = false)
-    private double credits;
+    @Column(name = "credit", nullable = false)
+    private double credit;
 
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
     private List<Student> students;
 
 
-    public Course(String name, double credits) {
+    public Course(String name, double credit) {
         this.name = name;
-        this.credits = credits;
+        this.credit = credit;
     }
 
-    public Course(double credits, List<Student> students) {
-        this.credits = credits;
+    public Course(double credit, List<Student> students) {
+        this.credit = credit;
         this.students = students;
     }
 
@@ -55,12 +55,12 @@ public abstract class Course {
         this.name = name;
     }
 
-    public double getCredits() {
-        return credits;
+    public double getcredit() {
+        return credit;
     }
 
-    public void setCredits(double credits) {
-        this.credits = credits;
+    public void setcredit(double credit) {
+        this.credit = credit;
     }
 
     public List<Student> getStudents() {
@@ -87,7 +87,7 @@ public abstract class Course {
         return getClass().getSimpleName().split("Course")[0] + "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", credits=" + credits +
+                ", credit=" + credit +
                 '}';
     }
 
