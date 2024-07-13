@@ -52,7 +52,10 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
     @Override
     public List<ExamResult> findAllByStudentIdAndCourseName(int studentId, String courseName) {
         Course course = courseService.findByName(courseName);
-
+        if (course == null) {
+            System.out.println("Course name is not found : "+courseName);
+            return null;
+        }
         initializeTransaction();
         TypedQuery<ExamResult> query = session.
                 createQuery("SELECT e FROM ExamResult e where " +
@@ -68,9 +71,14 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
     @Override
     public List<ExamResult> findAllByCourseName(String courseName) {
         Course course = courseService.findByName(courseName);
+        if (course == null) {
+            System.out.println("Course name is not found : "+courseName);
+            return null;
+        }
+
         initializeTransaction();
         TypedQuery<ExamResult> query = session.createQuery("SELECT e FROM ExamResult e where " +
-                "course_id=:courseId", ExamResult.class);
+                "e.course.id=:courseId", ExamResult.class);
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();

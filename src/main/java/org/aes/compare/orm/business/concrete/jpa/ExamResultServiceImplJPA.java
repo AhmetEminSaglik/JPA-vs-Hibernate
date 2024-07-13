@@ -53,6 +53,10 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
     public List<ExamResult> findAllByStudentIdAndCourseName(int studentId, String courseName) {
         Course course = courseService.findByName(courseName);
 
+        if (course == null) {
+            System.out.println("Course name is not found : "+courseName);
+            return null;
+        }
         initializeTransaction();
         TypedQuery<ExamResult> query = entityManager.
                 createQuery("SELECT e FROM ExamResult e where " +
@@ -68,9 +72,15 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
     @Override
     public List<ExamResult> findAllByCourseName(String courseName) {
         Course course = courseService.findByName(courseName);
+
+        if (course == null) {
+            System.out.println("Course name is not found : "+courseName);
+            return null;
+        }
+
         initializeTransaction();
         TypedQuery<ExamResult> query = entityManager.createQuery("SELECT e FROM ExamResult e where " +
-                "course_id=:courseId", ExamResult.class);
+                "e.course.id=:courseId", ExamResult.class);
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();
