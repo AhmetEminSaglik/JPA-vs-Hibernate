@@ -37,6 +37,48 @@ public class SafeScannerInput {
         }
     }
 
+
+    public static Integer getCertainIntSafe(int min, int max) {
+//        try {
+
+        int num = getCertainIntSafe();
+        if (num >= min && num <= max) {
+            return num;
+        } else {
+            System.out.println("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]");
+            return getCertainIntSafe(min, max);
+        }
+        /*} catch (NumberFormatException ex) {
+            System.out.println("Invalid Index Input. Please try again.");
+//            return getCertainIntSafe(min,max);
+        }*/
+    }
+    public static Double getCertainDoubleSafe() {
+        try {
+            double num = Double.parseDouble(scanner.nextLine());
+            return num;
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid Index Input. Please try again.");
+            return getCertainDoubleSafe();
+        }
+    }
+
+    public static Double getCertainDoubleSafe(int min, int max) {
+//        try {
+
+        double num = getCertainDoubleSafe();
+        if (num >= min && num <= max) {
+            return num;
+        } else {
+            System.out.println("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]");
+            return getCertainDoubleSafe(min, max);
+        }
+        /*} catch (NumberFormatException ex) {
+            System.out.println("Invalid Index Input. Please try again.");
+//            return getCertainIntSafe(min,max);
+        }*/
+    }
+
     public static String getStringNotBlank() {
         String text = scanner.nextLine();
         if (text.isBlank()) {

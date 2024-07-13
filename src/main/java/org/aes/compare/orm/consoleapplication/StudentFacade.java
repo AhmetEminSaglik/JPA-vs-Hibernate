@@ -38,8 +38,13 @@ public class StudentFacade {
         counter++;
         System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [STUDENT] Save : "));
         Student student = new Student();
-        student.setName(counter + ". Name");
-        student.setGrade(counter);
+        System.out.print("Type Student name : ");
+        String name = SafeScannerInput.getStringNotBlank();
+        student.setName(name);
+
+        System.out.print("Type Student grade: ");
+        int grade = SafeScannerInput.getCertainIntSafe(1, 6);
+        student.setGrade(grade);
 
         Address address = studentDecideAddressProgress();
         if (address != null) {

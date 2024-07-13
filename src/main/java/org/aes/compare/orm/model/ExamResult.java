@@ -65,12 +65,22 @@ public class ExamResult {
         return student;
     }
 
-    @Override
+/*    @Override
     public String toString() {
         return "ExamResult{" +
                 "id=" + id +
                 ", score=" + score +
                 ", course='" + course + '\'' +
+                '}';
+    }*/
+
+    @Override
+    public String toString() {
+        return "ExamResult{" +
+                "id=" + id +
+                ", score=" + score +
+                ", course=" + course +
+                ", student=" + student +
                 '}';
     }
 

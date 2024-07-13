@@ -3,8 +3,8 @@ package org.aes.compare.orm;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.consoleapplication.AddressFacade;
 import org.aes.compare.orm.consoleapplication.CourseFacade;
+import org.aes.compare.orm.consoleapplication.ExamResultFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
-import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.Scanner;
@@ -15,12 +15,17 @@ public class Main {
     //    static SubaddressFacade addressFacade = new SubaddressFacade(orm.getAddressService());
     static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
     static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
-    static CourseFacade courseFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
+    static CourseFacade courseFacade;
+    static ExamResultFacade examResultFacade;
+
+
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
+        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService());
+
 
 /*
 
@@ -65,6 +70,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("Leads to Exam Result Process");
+                    examResultScenario();
                     break;
                 case 5:
                     System.out.println("Exitting the program");
@@ -190,6 +196,53 @@ public class Main {
                     break;
                 case 6:
                     System.out.println("Exiting the Course Service");
+                    break;
+                default:
+                    System.out.println("Invalid Choose try again");
+            }
+        }
+    }
+
+    static void examResultScenario() {
+        int option = -1;
+        while (option != 8) {
+            System.out.println("1-) Save");
+            System.out.println("2-) Find All");
+            System.out.println("3-) Find All By Student Id");
+            System.out.println("4-) Find All By Course Name");
+            System.out.println("5-) Find All By Student Id And Course Name");
+            System.out.println("6-) Update");
+            System.out.println("7-) Delete");
+            System.out.println("8-) Exit");
+
+            System.out.println("Select one option");
+            option = SafeScannerInput.getCertainIntSafe();
+//            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    examResultFacade.save();
+                    break;
+                case 2:
+                    examResultFacade.findAll();
+                    break;
+                case 3:
+                    examResultFacade.findAllByStudentId();
+                    break;
+                case 4:
+                    examResultFacade.findAllByCourseName();
+                    break;
+                case 5:
+                    examResultFacade.findAllByStudentIdAndCourseName();
+                    break;
+                case 6:
+                    examResultFacade.update();
+                    break;
+                case 7:
+                    examResultFacade.delete();
+                    break;
+                case 8:
+                    System.out.println("Exiting the Exam Result Service");
                     break;
                 default:
                     System.out.println("Invalid Choose try again");
