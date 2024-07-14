@@ -20,10 +20,6 @@ public class ExamResultFacade {
     private final StudentService studentService;
     private final CourseService courseService;
 
-//    private final CourseComparator comparatorCourse = new CourseComparator();
-//    private final StudentComparator comparatorStudent = new StudentComparator();
-//    private final ExamResultComparator comparatorExamResult = new ExamResultComparator();
-
     public ExamResultFacade(ExamResultService examResultService, StudentService studentService, CourseService courseService) {
         this.examResultService = examResultService;
         this.studentService = studentService;
@@ -98,22 +94,9 @@ public class ExamResultFacade {
 
 
     private Course pickCourseThatMatchesWithStudentFromList(int studentId) {
-//        List<Course> courses = courseService.findAll();
-//        StringBuilder sb = new StringBuilder("All courses that Student's enrolled:\n");
         System.out.println("All courses that Student's enrolled: ");
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
-//        courses.sort(comparatorCourse);
         return pickCourseFromList(courses);
-//        sb.append(createMsgFromList(courses));
-/*        System.out.println(sb);
-        System.out.println("Type Course's Order Value:");
-        int index = SafeScannerInput.getCertainIntSafe(1, courses.size() + 1);
-        index--;
-
-        if (index == courses.size()) {
-            return null;
-        }
-        return courses.get(index);*/
     }
 
     public void findAll() {
@@ -123,13 +106,11 @@ public class ExamResultFacade {
 
     private List<ExamResult> findAllExamResultSorted() {
         List<ExamResult> examResults = examResultService.findAll();
-//        examResults.sort(new ExamResultComparator());
         return examResults;
     }
 
     private List<Student> findAllStudentSorted() {
         List<Student> students = studentService.findAll();
-//        students.sort(comparatorStudent);
         return students;
     }
     public List<ExamResult> findAllByStudentId() {
@@ -144,22 +125,13 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByStudentIdAndCourseName() {
-//        Student student = pickStudentFromList();
         Student student = decidePickStudentBySelectOrTypeId();
         if (student == null) {
             System.out.println("Not found Student. Find All Exam Result by student and course process is cancelled");
             return null;
         }
-//        List<ExamResult> examResults = exaResultService.findAllByStudentId(student.getId());
         List<ExamResult> examResults = decidePickCourseBySelectOrTypeCourseNameOfStudent(student.getId());
         
-        /*   System.out.print("Type course name : ");
-        String courseName = SafeScannerInput.getStringNotBlank();
-        List<ExamResult> examResults = examResultService.findAllByStudentIdAndCourseName(student.getId(), courseName);
-        if (examResults == null) {
-            System.out.println("Exam Result data is not found as requested Data");
-            return null;
-        }*/
         printArrWithNo(examResults);
         return examResults;
     }
@@ -167,12 +139,6 @@ public class ExamResultFacade {
     private List<ExamResult> decidePickCourseBySelectOrTypeCourseName() {
         List<Course> courses = courseService.findAll();
         Course course = pickCourseFromList(courses);
-        /*StringBuilder msg = createMsgFromCourseList(courses);
-        System.out.println(msg);
-        System.out.print("Type Course index no : ");
-        int indexNo = SafeScannerInput.getCertainIntForSwitch("", 1, courses.size() + 1);
-        indexNo--;
-        */
         if (course != null)
             return examResultService.findAllByCourseName(course.getName());
         return null;
@@ -180,10 +146,6 @@ public class ExamResultFacade {
 
     private List<ExamResult> decidePickCourseBySelectOrTypeCourseNameOfStudent(int studentId) {
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
-//        courses.sort(comparatorCourse);
-//        StringBuilder msg = createMsgFromCourseList(courses);
-//        System.out.println(msg);
-//        System.out.print("Type Course index no : ");
         Course course = pickCourseFromList(courses);
         if (course != null) {
             return examResultService.findAllByCourseName(course.getName());
@@ -229,19 +191,16 @@ public class ExamResultFacade {
     public void update() {
         while (true) {
             List<ExamResult> examResults = examResultService.findAll();
-//            examResults.sort(comparatorExamResult);
             ExamResult examResult = pickExamResultFromList(examResults);
             if (examResult == null) {
                 break;
             } else {
-//                System.out.println("Exam Result is updated : " + examResult);
                 updateProcess(examResult);
             }
         }
     }
 
     private ExamResult updateProcess(ExamResult examResult) {
-//        int choose=Integer.MAX_VALUE;
         while (true) {
             StringBuilder sb = new StringBuilder();
             sb.append("(-1) Cancel & Exit\n")
@@ -259,13 +218,11 @@ public class ExamResultFacade {
                 case -1:
                     System.out.println("Progress is Canceled. Exiting from process");
                     return examResult;
-//                    break;
                 case 0:
                     System.out.println("Changes are updated. Exiting from process");
                     examResultService.update(examResult);
                     return examResult;
                 case 1:
-//                    student = pickStudentFromList(studentService.findAll());
                     student = pickGenericObjectFromList(studentService.findAll());
                     if(student==null){
                         System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student is not selected, process is canceled"));
@@ -293,8 +250,6 @@ public class ExamResultFacade {
                             studentId = examResult.getStudent().getId();
                         }
                         courses = courseService.findAllCourseOfStudentId(studentId);
-//                        pickCourseFromList(courses);
-
                     }
                     Course course = pickGenericObjectFromList(courses);
                     if(course==null){
@@ -308,8 +263,6 @@ public class ExamResultFacade {
                             System.out.println("Error Occured : "+e.getMessage());
                         }
                     }
-
-//                    System.out.println("SECILEN COURES : " + course);
 
                     break;
                 case 3:
@@ -333,26 +286,6 @@ public class ExamResultFacade {
                 System.out.println("Exam Result is deleted : " + examResult);
             }
         }
-        /*
-        List<ExamResult> examResults = examResultService.findAll();
-
-        int inputIndex = 0;
-        while (examResults.size() > 0 && inputIndex != -1) {
-            StringBuilder sb = createMsgFromList(examResults);
-            System.out.println(sb);
-            System.out.println("Type index no to process.");
-            inputIndex = SafeScannerInput.getCertainIntForSwitch(0, examResults.size());
-            inputIndex--;
-            if (inputIndex == -1) {
-                System.out.println("Exiting from Delete Process.");
-            } else {
-                ExamResult examResult = examResults.get(inputIndex);
-                examResultService.deleteById(examResult.getId());
-                examResults.remove(inputIndex);
-                System.out.println("Exam Result is removed : " + examResult);
-            }
-        }
-    */
     }
 
     private ExamResult pickExamResultFromList(List<ExamResult> examResults) {
@@ -361,7 +294,6 @@ public class ExamResultFacade {
         int inputIndex = 0;
         StringBuilder sb = createMsgFromList(examResults);
         System.out.print(sb);
-//        System.out.println("Type index no to process.");
         inputIndex = SafeScannerInput.getCertainIntForSwitch(0, examResults.size());
         inputIndex--;
         if (inputIndex == -1) {
@@ -391,13 +323,11 @@ public class ExamResultFacade {
         }
         StringBuilder sb = createMsgFromList(list);
         System.out.print(sb);
-//        System.out.println("Type Index No From List :");
         int index = SafeScannerInput.getCertainIntSafe(0, list.size());
         index--;
         if (index == -1) {
             return null;
         }
-//        return courses.get(index);
         return list.get(index);
     }
 
