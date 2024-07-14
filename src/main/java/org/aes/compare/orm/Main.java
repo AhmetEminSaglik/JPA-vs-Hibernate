@@ -22,11 +22,6 @@ public class Main {
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
         resetORMServices();
-     /*   ORMConfigSingleton.enableHibernate();
-        addressFacade = new AddressFacade(orm.getAddressService());
-        courseFacade = new CourseFacade(orm.getCourseService());
-        studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
-        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);*/
 
         int globalOption = -1;
         while (globalOption != 0) {
@@ -37,15 +32,13 @@ public class Main {
             indexes.add("Course");
             indexes.add("Exam Result");
             indexes.add("ORM Setting (Switch between JPA - Hibernate)");
-//            indexes.add("Exam Result");
 
-
-            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            msg.insert(0, MetaData.PROCESS_PREFIX_GLOBAL + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            System.out.print(MetaData.SELECT_ONE_OPTION);
             globalOption = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
-
+            System.out.println();
             switch (globalOption) {
                 case 0:
                     System.out.println(MetaData.EXITING_FROM_PROCESS);
@@ -68,6 +61,7 @@ public class Main {
                 default:
                     System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
+            System.out.println();
         }
     }
 
@@ -82,11 +76,11 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            System.out.print(MetaData.SELECT_ONE_OPTION);
-            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+                        option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
                 case 0:
@@ -127,10 +121,10 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            msg.insert(0, MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            System.out.print(MetaData.SELECT_ONE_OPTION);
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
@@ -175,10 +169,10 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            msg.insert(0, MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            System.out.print(MetaData.SELECT_ONE_OPTION);
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
@@ -221,10 +215,10 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            System.out.print(MetaData.SELECT_ONE_OPTION);
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
@@ -260,13 +254,15 @@ public class Main {
     }
 
     static void updateORMSetting() {
-        System.out.println("JPA is selected to use as Default ORM tool");
-        System.out.println("Current using ORM Tool is : " + ORMConfigSingleton.getCurrentORMName());
+//        System.out.println("Default ORM tool is JPA");
+//        System.out.println("Current using ORM Tool is : " + ORMConfigSingleton.getCurrentORMName());
 
         List<String> indexes = new ArrayList<>();
         indexes.add("JPA");
         indexes.add("Hibernate");
-        String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+
+        StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+        msg.insert(0, MetaData.PROCESS_PREFIX_SETTINGS + "Current using ORM Tool is: "+ORMConfigSingleton.getCurrentORMName()+"\n");
         System.out.println(msg);
 
         int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());

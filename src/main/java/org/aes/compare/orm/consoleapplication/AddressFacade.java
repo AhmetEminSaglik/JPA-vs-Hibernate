@@ -1,6 +1,7 @@
 package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.orm.business.abstracts.AddressService;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
@@ -69,7 +70,8 @@ public class AddressFacade {
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Update : "));
 
         StringBuilder msg = new StringBuilder();
-        msg.append(createMsgFromList(addresses));
+//        msg.append(createMsgFromList(addresses));
+        msg.append(FacadeUtility.createMsgFromListExit(addresses));
         msg.append("Address Id no: ");
 //        System.out.println(msg);
 //        System.out.print();
@@ -130,7 +132,8 @@ public class AddressFacade {
         }
         System.out.println("NOTE : Each Student has to have one address. Only address that unmatched can be deleted");
         StringBuilder sbMsg = new StringBuilder("Select Address no to delete.\n");
-        sbMsg.append(createMsgFromList(addresses));
+//        sbMsg.append(createMsgFromList(addresses));
+        sbMsg.append(FacadeUtility.createMsgFromListExit(addresses));
         int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, addresses.size() + 1);
         result--;
         if (result == addresses.size()) {
@@ -168,9 +171,9 @@ public class AddressFacade {
     private StringBuilder createMsgFromList(List<?> list) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
-            sb.append((i + 1) + "-) " + list.get(i) + "\n");
+            sb.append((i + 1)).append("-) ").append(list.get(i)).append("\n");
         }
-        sb.append((list.size() + 1) + "-) Exit/Cancel");
+        sb.append((list.size() + 1)).append("-) Exit/Cancel");
         return sb;
     }
 
