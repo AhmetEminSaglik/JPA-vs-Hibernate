@@ -11,7 +11,8 @@ public abstract class ORMImplementation {
     protected static int closeEntityCounter = 0;
 
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getName()));
+//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getFileName()));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred ORM Tool is: " +getCurrentORMToolName()));
         enumORMConfigFile = configFile;
     }
 
@@ -51,5 +52,7 @@ public abstract class ORMImplementation {
         System.out.println(sb);
     }
 
-
+    public static String getCurrentORMToolName() {
+        return enumORMConfigFile.getORMToolName();
+    }
 }

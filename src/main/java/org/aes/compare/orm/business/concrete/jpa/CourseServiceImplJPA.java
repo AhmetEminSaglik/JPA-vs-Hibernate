@@ -16,7 +16,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void save(Course c) {
-//        String errMsg = "Course name must be unique. Probably " + c.getName() + " is saved before";
+//        String errMsg = "Course name must be unique. Probably " + c.getFileName() + " is saved before";
         String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         try {
         initializeTransaction();

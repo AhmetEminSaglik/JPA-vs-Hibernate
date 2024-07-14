@@ -129,7 +129,7 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
                 System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
             }
         } else if (terminalCMD.getCrudCommand() != null && terminalCMD.getModelCommand() != null) {
-//            msg += terminalCMD.getCrudCommand().getLongName() + " -> " + terminalCMD.getModelCommand().getName();
+//            msg += terminalCMD.getCrudCommand().getLongName() + " -> " + terminalCMD.getModelCommand().getFileName();
 //            System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
         } else {

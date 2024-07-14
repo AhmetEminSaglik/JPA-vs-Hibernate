@@ -19,7 +19,7 @@ public abstract class JpaImplementation<T> extends ORMImplementation {
 
     @Override
     protected void createFactory() {
-        entityManagerFactory = Persistence.createEntityManagerFactory(enumORMConfigFile.getName());
+        entityManagerFactory = Persistence.createEntityManagerFactory(enumORMConfigFile.getFileName());
     }
 
     @Override

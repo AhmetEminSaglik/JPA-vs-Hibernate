@@ -1,5 +1,6 @@
 package org.aes.compare.orm;
 
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.consoleapplication.AddressFacade;
 import org.aes.compare.orm.consoleapplication.CourseFacade;
@@ -12,81 +13,85 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    static ORMConfigSingleton orm = new ORMConfigSingleton();
-    static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
-    static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
-    static CourseFacade courseFacade;
-    static ExamResultFacade examResultFacade;
-
-    private final static String selectOptionText = "Select one of the option";
+    private static ORMConfigSingleton orm = new ORMConfigSingleton();
+    private static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
+    private static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
+    private static CourseFacade courseFacade;
+    private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
-//        ORMConfigSingleton.enableHibernate();
+        resetORMServices();
+     /*   ORMConfigSingleton.enableHibernate();
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
-        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);
+        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);*/
 
         int globalOption = -1;
-        while (globalOption != 5) {
+        while (globalOption != 0) {
 
             List<String> indexes = new ArrayList<>();
             indexes.add("Address");
             indexes.add("Student");
             indexes.add("Course");
-            indexes.add("ExamResult");
+            indexes.add("Exam Result");
+            indexes.add("ORM Setting (Switch between JPA - Hibernate)");
+//            indexes.add("Exam Result");
+
 
             String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
             System.out.println(msg);
 
-            globalOption = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 5);
+            System.out.print(MetaData.SELECT_ONE_OPTION);
+            globalOption = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (globalOption) {
+                case 0:
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    break;
                 case 1:
-                    System.out.println("Leads to Address Process");
                     addressScenario();
                     break;
                 case 2:
-                    System.out.println("Leads to Student Process");
                     studentScenario();
                     break;
                 case 3:
-                    System.out.println("Leads to Course Process");
                     courseScenario();
                     break;
                 case 4:
-                    System.out.println("Leads to Exam Result Process");
                     examResultScenario();
                     break;
                 case 5:
-                    System.out.println("Exitting the program");
+                    updateORMSetting();
                     break;
                 default:
-                    System.out.println("Invalid choose please try again!");
+                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
         }
-
     }
 
     static void addressScenario() {
         int option = -1;
-        while (option != 6) {
+        while (option != 0) {
 
             List<String> indexes = new ArrayList<>();
             indexes.add("Save");
             indexes.add("Find All");
-            indexes.add("Find By Id");
+            indexes.add("Find By (Id)");
             indexes.add("Update");
             indexes.add("Delete");
-//            indexes.add("Exit");
 
             String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
             System.out.println(msg);
 
-            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 6);
+            System.out.print(MetaData.SELECT_ONE_OPTION);
+            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
+                case 0:
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    break;
                 case 1:
                     addressFacade.save();
                     break;
@@ -102,36 +107,36 @@ public class Main {
                 case 5:
                     addressFacade.delete();
                     break;
-                case 6:
-                    System.out.println("exitting the address Service");
-                    break;
+
                 default:
-                    System.out.println("Invalid Choose try again");
+                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
         }
     }
 
     static void studentScenario() {
         int option = -1;
-        while (option != 7) {
+        while (option != 0) {
 
             List<String> indexes = new ArrayList<>();
 
             indexes.add("Save");
             indexes.add("Find All");
-            indexes.add("Find By Id");
-            indexes.add("Find By Student Id And Course Name");
+            indexes.add("Find By (Id)");
+            indexes.add("Find By Student (Id) And Course (Name)");
             indexes.add("Update");
             indexes.add("Delete");
-//            indexes.add("Exit");
 
             String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
             System.out.println(msg);
 
-
-            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 7);
+            System.out.print(MetaData.SELECT_ONE_OPTION);
+            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
+                case 0:
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    break;
                 case 1:
                     studentFacade.save();
                     break;
@@ -150,35 +155,36 @@ public class Main {
                 case 6:
                     studentFacade.delete();
                     break;
-                case 7:
-                    System.out.println("Exiting the Student Service");
-                    break;
+
                 default:
-                    System.out.println("Invalid Choose try again");
+                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
         }
     }
 
     static void courseScenario() {
         int option = -1;
-        while (option != 6) {
+        while (option != 0) {
 
             List<String> indexes = new ArrayList<>();
 
 
-            indexes.add("Exit");
             indexes.add("Save");
             indexes.add("Find All");
-            indexes.add("Find By Name");
+            indexes.add("Find By (Name)");
             indexes.add("Update");
             indexes.add("Delete");
 
             String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
             System.out.println(msg);
 
-            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 6);
+            System.out.print(MetaData.SELECT_ONE_OPTION);
+            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
+                case 0:
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    break;
                 case 1:
                     courseFacade.save();
                     break;
@@ -194,18 +200,16 @@ public class Main {
                 case 5:
                     courseFacade.delete();
                     break;
-                case 6:
-                    System.out.println("Exiting the Course Service");
-                    break;
+
                 default:
-                    System.out.println("Invalid Choose try again");
+                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
         }
     }
 
     static void examResultScenario() {
         int option = -1;
-        while (option != 8) {
+        while (option != 0) {
 
             List<String> indexes = new ArrayList<>();
 
@@ -216,14 +220,17 @@ public class Main {
             indexes.add("Find All By Student (Id) And Course (Name)");
             indexes.add("Update");
             indexes.add("Delete");
-            indexes.add("Exit");
 
             String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
             System.out.println(msg);
 
-            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 6);
+            System.out.print(MetaData.SELECT_ONE_OPTION);
+            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
 
             switch (option) {
+                case 0:
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    break;
                 case 1:
                     examResultFacade.save();
                     break;
@@ -245,13 +252,48 @@ public class Main {
                 case 7:
                     examResultFacade.delete();
                     break;
-                case 8:
-                    System.out.println("Exiting the Exam Result Service");
-                    break;
+
                 default:
-                    System.out.println("Invalid Choose try again");
+                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
         }
     }
 
+    static void updateORMSetting() {
+        System.out.println("JPA is selected to use as Default ORM tool");
+        System.out.println("Current using ORM Tool is : " + ORMConfigSingleton.getCurrentORMName());
+
+        List<String> indexes = new ArrayList<>();
+        indexes.add("JPA");
+        indexes.add("Hibernate");
+        String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+        System.out.println(msg);
+
+        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+        switch (option) {
+            case 0:
+                System.out.println(MetaData.EXITING_FROM_PROCESS);
+                break;
+            case 1:
+                ORMConfigSingleton.enableJPA();
+                resetORMServices();
+                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+                break;
+            case 2:
+                ORMConfigSingleton.enableHibernate();
+                resetORMServices();
+                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+                break;
+            default:
+                System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+        }
+
+    }
+
+    static  void resetORMServices(){
+        addressFacade = new AddressFacade(orm.getAddressService());
+        courseFacade = new CourseFacade(orm.getCourseService());
+        studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
+        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);
+    }
 }

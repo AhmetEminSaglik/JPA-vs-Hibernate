@@ -14,15 +14,19 @@ import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.ExamResultServiceImplJPA;
 import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
 import org.aes.compare.orm.model.enums.configfile.EnumHibernateConfigFile;
 import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
-import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
 
 public class ORMConfigSingleton {
     private static AddressService addressService;
     private static StudentService studentService;
     private static CourseService courseService;
     private static ExamResultService examResultService;
+
+    public static String getCurrentORMName() {
+        return ORMImplementation.getCurrentORMToolName();
+    }
 
     public static void enableJPA() {
         enableJPA(EnumJPAConfigFile.REAL_PRODUCT);

@@ -3,7 +3,6 @@ package org.aes.compare.orm.business.concrete.hibernate.abstracts;
 import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
 import org.aes.compare.orm.model.enums.configfile.EnumHibernateConfigFile;
 import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -21,7 +20,7 @@ public abstract class HibernateImplementation<T> extends ORMImplementation {
     @Override
     protected void createFactory() {
         factory = new Configuration()
-                .configure(enumORMConfigFile.getName())
+                .configure(enumORMConfigFile.getFileName())
                 .addAnnotatedClass(getClass())
                 .buildSessionFactory();
     }

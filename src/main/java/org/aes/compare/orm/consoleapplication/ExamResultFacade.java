@@ -350,7 +350,7 @@ public class ExamResultFacade {
 
         sb.append("(0) Cancel & Exit\n");
         for (int i = 0; i < list.size(); i++) {
-            sb.append("(" + (i + 1) + ") " + list.get(i).getName() + "\n");
+            sb.append("(" + (i + 1) + ") " + list.get(i).getFileName() + "\n");
         }
         sb.append("Type index no to process : ");
         return sb;
