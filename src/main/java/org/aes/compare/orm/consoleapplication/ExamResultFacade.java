@@ -3,6 +3,7 @@ package org.aes.compare.orm.consoleapplication;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.comparator.ExamResultComparator;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
@@ -10,6 +11,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ExamResultFacade {
@@ -110,6 +112,7 @@ public class ExamResultFacade {
 
     public void findAll() {
         List<ExamResult> examResults = examResultService.findAll();
+        examResults.sort(new ExamResultComparator());
         printArrWithNo(examResults);
     }
 
@@ -248,6 +251,10 @@ public class ExamResultFacade {
                 case 1:
 //                    student = pickStudentFromList(studentService.findAll());
                     student = pickGenericObjectFromList(studentService.findAll());
+                    if(student==null){
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student is not selected, process is canceled"));
+                        break;
+                    }
                     courses = courseService.findAllCourseOfStudentId(student.getId());
 
                     if (courses == null) {

@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "students")
-public class Student {
+public class Student  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -106,6 +107,7 @@ public class Student {
                 '}';
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -113,6 +115,7 @@ public class Student {
         Student student = (Student) o;
         return id == student.id && grade == student.grade && Objects.equals(name, student.name);
     }
+
 
     @Override
     public int hashCode() {

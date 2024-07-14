@@ -30,7 +30,6 @@ public abstract class ORMImplementation {
     }
 
     protected final void printInitializedSuccessfully() {
-//        String explanation = initEntityCounter + "-) Entity is INITIALIZED SUCCESSFULLY : " + getClass().getSimpleName();
         StringBuilder sb = new StringBuilder();
         sb.append(ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is "))
                 .append(ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY"))
@@ -45,8 +44,6 @@ public abstract class ORMImplementation {
     }
 
     protected final void printClosedSuccessfully() {
-//        String explanation = closeEntityCounter + "-) Entity is CLOSED SUCCESSFULLy : " + getClass().getSimpleName();
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
         StringBuilder sb = new StringBuilder();
         sb.append(ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is "))
                 .append(ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY"))
