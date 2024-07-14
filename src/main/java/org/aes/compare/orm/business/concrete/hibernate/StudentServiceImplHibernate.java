@@ -3,6 +3,7 @@ package org.aes.compare.orm.business.concrete.hibernate;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.comparator.StudentComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Student;
@@ -11,6 +12,7 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 import java.util.List;
 
 public class StudentServiceImplHibernate extends HibernateImplementation<Student> implements StudentService {
+    private final StudentComparator comparator = new StudentComparator();
 
     @Override
     public void save(Student s) {
@@ -39,6 +41,7 @@ public class StudentServiceImplHibernate extends HibernateImplementation<Student
         TypedQuery<Student> query = session.createQuery("SELECT s FROM Student s ", Student.class);
         List<Student> students = query.getResultList();
         commit();
+        students.sort(comparator);
         return students;
     }
 

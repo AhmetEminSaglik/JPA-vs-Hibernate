@@ -3,6 +3,7 @@ package org.aes.compare.orm.business.concrete.hibernate;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
+import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
@@ -11,6 +12,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import java.util.List;
 
 public class CourseServiceImplHibernate extends HibernateImplementation<Course> implements CourseService {
+    private final CourseComparator comparator = new CourseComparator();
 
     @Override
     public void save(Course c) {
@@ -49,6 +51,7 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         TypedQuery<Course> query = session.createQuery("SELECT c FROM Course c ", Course.class);
         List<Course> courses = query.getResultList();
         commit();
+        courses.sort(comparator);
         return courses;
     }
 
@@ -62,6 +65,7 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         query.setParameter("studentid", studentid);
         List<Course> courses = query.getResultList();
         commit();
+        courses.sort(comparator);
         return courses;
     }
 
@@ -73,6 +77,7 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         query.setParameter("studentid", studentid);
         List<Course> courses = query.getResultList();
         commit();
+        courses.sort(comparator);
         return courses;
     }
 
@@ -83,8 +88,6 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         initializeTransaction();
         session.merge(c);
         commit();
-        } catch (ConstraintViolationException e) {
-            System.out.println(errMsg);
         } catch (Exception e) {
             System.out.println(errMsg);
         }

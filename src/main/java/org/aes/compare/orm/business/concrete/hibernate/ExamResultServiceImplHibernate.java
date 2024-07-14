@@ -4,6 +4,7 @@ import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.comparator.ExamResultComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
@@ -13,9 +14,9 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import java.util.List;
 
 public class ExamResultServiceImplHibernate extends HibernateImplementation<ExamResult> implements ExamResultService {
-    private StudentService studentService = new StudentServiceImplHibernate();
-    private CourseService courseService = new CourseServiceImplHibernate();
-
+    private final StudentService studentService = new StudentServiceImplHibernate();
+    private final CourseService courseService = new CourseServiceImplHibernate();
+    private final ExamResultComparator comparator = new ExamResultComparator();
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {
         Student student = studentService.findByStudentIdWithCourseName(examResult.getStudent().getId(), examResult.getCourse().getName());
@@ -33,6 +34,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
         TypedQuery<ExamResult> query = session.createQuery("SELECT e FROM ExamResult e", ExamResult.class);
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 
@@ -45,6 +47,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
         query.setParameter("studentId", studentId);
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
 
     }
@@ -65,6 +68,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 
@@ -82,6 +86,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 

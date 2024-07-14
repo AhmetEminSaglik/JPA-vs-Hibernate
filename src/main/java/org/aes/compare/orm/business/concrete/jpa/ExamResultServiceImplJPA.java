@@ -4,6 +4,7 @@ import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.comparator.ExamResultComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
@@ -16,6 +17,8 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
 
     private StudentService studentService = new StudentServiceImpJPA();
     private CourseService courseService = new CourseServiceImplJPA();
+
+    private final ExamResultComparator comparator = new ExamResultComparator();
 
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {
@@ -34,6 +37,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         TypedQuery<ExamResult> query = entityManager.createQuery("SELECT e FROM ExamResult e", ExamResult.class);
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 
@@ -46,6 +50,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         query.setParameter("studentId", studentId);
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 
@@ -66,6 +71,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 
@@ -84,6 +90,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         query.setParameter("courseId", course.getId());
         List<ExamResult> examResults = query.getResultList();
         commit();
+        examResults.sort(comparator);
         return examResults;
     }
 

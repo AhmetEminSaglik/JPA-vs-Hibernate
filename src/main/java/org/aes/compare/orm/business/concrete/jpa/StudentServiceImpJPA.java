@@ -3,6 +3,7 @@ package org.aes.compare.orm.business.concrete.jpa;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.comparator.StudentComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Student;
@@ -11,6 +12,7 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 import java.util.List;
 
 public class StudentServiceImpJPA extends JpaImplementation<Student> implements StudentService {
+    private final StudentComparator comparator = new StudentComparator();
 
     @Override
     public void save(Student s) {
@@ -38,6 +40,7 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
         TypedQuery<Student> query = entityManager.createQuery("SELECT s FROM Student s ", Student.class);
         List<Student> students = query.getResultList();
         commit();
+        students.sort(comparator);
         return students;
     }
 

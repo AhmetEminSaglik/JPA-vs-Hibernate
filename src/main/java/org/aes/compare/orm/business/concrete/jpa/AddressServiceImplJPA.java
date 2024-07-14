@@ -1,14 +1,15 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
-import jakarta.persistence.NamedQuery;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.AddressService;
+import org.aes.compare.orm.business.concrete.comparator.AddressComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.Address;
 
 import java.util.List;
 
 public class AddressServiceImplJPA extends JpaImplementation<Address> implements AddressService {
+    private final AddressComparator comparator = new AddressComparator();
 
     @Override
     public void save(Address address) {
@@ -31,6 +32,7 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
         TypedQuery<Address> query = entityManager.createQuery("SELECT a FROM Address a ", Address.class);
         List<Address> addresses = query.getResultList();
         commit();
+        addresses.sort(comparator);
         return addresses;
     }
 
@@ -41,6 +43,7 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
                 "LEFT JOIN a.student s WHERE s.id IS NULL", Address.class);
         List<Address> addresses = query.getResultList();
         commit();
+        addresses.sort(comparator);
         return addresses;
     }
 

@@ -3,7 +3,9 @@ package org.aes.compare.orm.consoleapplication;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.comparator.ExamResultComparator;
+import org.aes.compare.orm.business.concrete.comparator.StudentComparator;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
@@ -11,13 +13,16 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
-import java.util.Collections;
 import java.util.List;
 
 public class ExamResultFacade {
     private final ExamResultService examResultService;
     private final StudentService studentService;
     private final CourseService courseService;
+
+//    private final CourseComparator comparatorCourse = new CourseComparator();
+//    private final StudentComparator comparatorStudent = new StudentComparator();
+//    private final ExamResultComparator comparatorExamResult = new ExamResultComparator();
 
     public ExamResultFacade(ExamResultService examResultService, StudentService studentService, CourseService courseService) {
         this.examResultService = examResultService;
@@ -72,10 +77,10 @@ public class ExamResultFacade {
 
         switch (option) {
             case 0:
-                System.out.println("Process is canceled");
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is canceled"));
                 break;
             case 1:
-                student = pickStudentFromList(studentService.findAll());
+                student = pickStudentFromList(findAllStudentSorted());
                 break;
             case 2:
                 System.out.print("Type Student id (int)");
@@ -97,6 +102,7 @@ public class ExamResultFacade {
 //        StringBuilder sb = new StringBuilder("All courses that Student's enrolled:\n");
         System.out.println("All courses that Student's enrolled: ");
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
+//        courses.sort(comparatorCourse);
         return pickCourseFromList(courses);
 //        sb.append(createMsgFromList(courses));
 /*        System.out.println(sb);
@@ -111,11 +117,21 @@ public class ExamResultFacade {
     }
 
     public void findAll() {
-        List<ExamResult> examResults = examResultService.findAll();
-        examResults.sort(new ExamResultComparator());
+        List<ExamResult> examResults = findAllExamResultSorted();
         printArrWithNo(examResults);
     }
 
+    private List<ExamResult> findAllExamResultSorted() {
+        List<ExamResult> examResults = examResultService.findAll();
+//        examResults.sort(new ExamResultComparator());
+        return examResults;
+    }
+
+    private List<Student> findAllStudentSorted() {
+        List<Student> students = studentService.findAll();
+//        students.sort(comparatorStudent);
+        return students;
+    }
     public List<ExamResult> findAllByStudentId() {
         Student student = pickStudentFromList(studentService.findAll());
         if (student == null) {
@@ -164,6 +180,7 @@ public class ExamResultFacade {
 
     private List<ExamResult> decidePickCourseBySelectOrTypeCourseNameOfStudent(int studentId) {
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
+//        courses.sort(comparatorCourse);
 //        StringBuilder msg = createMsgFromCourseList(courses);
 //        System.out.println(msg);
 //        System.out.print("Type Course index no : ");
@@ -176,7 +193,7 @@ public class ExamResultFacade {
 
     public List<ExamResult> findAllByCourseName() {
         StringBuilder sb = new StringBuilder();
-        sb.append("(0) Exit/Cancel\n")
+        sb.append("(0) Exit\n")
                 .append("(1) Search  with registered Courses\n")
                 .append("(2) Search with Typing course name Manuel\n");
         System.out.println(sb);
@@ -212,6 +229,7 @@ public class ExamResultFacade {
     public void update() {
         while (true) {
             List<ExamResult> examResults = examResultService.findAll();
+//            examResults.sort(comparatorExamResult);
             ExamResult examResult = pickExamResultFromList(examResults);
             if (examResult == null) {
                 break;
@@ -224,8 +242,6 @@ public class ExamResultFacade {
 
     private ExamResult updateProcess(ExamResult examResult) {
 //        int choose=Integer.MAX_VALUE;
-
-
         while (true) {
             StringBuilder sb = new StringBuilder();
             sb.append("(-1) Cancel & Exit\n")

@@ -3,6 +3,7 @@ package org.aes.compare.orm.business.concrete.jpa;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
+import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
@@ -11,6 +12,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import java.util.List;
 
 public class CourseServiceImplJPA extends JpaImplementation<Course> implements CourseService {
+    private final CourseComparator comparator = new CourseComparator();
 
     @Override
     public void save(Course c) {
@@ -63,6 +65,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         query.setParameter("studentid", studentid);
         List<Course> courses = query.getResultList();
         commit();
+        courses.sort(comparator);
         return courses;
 
     }
@@ -75,6 +78,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         query.setParameter("studentid", studentid);
         List<Course> courses = query.getResultList();
         commit();
+        courses.sort(comparator);
         return courses;
     }
 

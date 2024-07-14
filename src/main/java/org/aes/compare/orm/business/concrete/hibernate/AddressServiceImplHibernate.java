@@ -2,13 +2,14 @@ package org.aes.compare.orm.business.concrete.hibernate;
 
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.AddressService;
+import org.aes.compare.orm.business.concrete.comparator.AddressComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.model.Address;
 
 import java.util.List;
 
 public class AddressServiceImplHibernate extends HibernateImplementation<Address> implements AddressService {
-
+    private final AddressComparator comparator = new AddressComparator();
     @Override
     public void save(Address address) {
         initializeTransaction();
@@ -30,6 +31,7 @@ public class AddressServiceImplHibernate extends HibernateImplementation<Address
         TypedQuery<Address> query = session.createQuery("SELECT a FROM Address a ", Address.class);
         List<Address> addresses = query.getResultList();
         commit();
+        addresses.sort(comparator);
         return addresses;
     }
 
@@ -40,6 +42,7 @@ public class AddressServiceImplHibernate extends HibernateImplementation<Address
                 "LEFT JOIN a.student s WHERE s.id IS NULL", Address.class);
         List<Address> addresses = query.getResultList();
         commit();
+        addresses.sort(comparator);
         return addresses;
     }
 
