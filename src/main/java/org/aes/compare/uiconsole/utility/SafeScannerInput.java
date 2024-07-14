@@ -179,7 +179,7 @@ public class SafeScannerInput {
     }
 
     public static int getCertainIntForSwitch(String text, int minRange, int maxRange) {
-        System.out.println(text);
+        System.out.print(text+": ");
         String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
         try {
             String inputText = scanner.nextLine();

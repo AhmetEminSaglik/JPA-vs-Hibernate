@@ -11,26 +11,25 @@ import java.util.Scanner;
 public class AddressFacade {
     Scanner scanner = new Scanner(System.in);
     private final AddressService addressService;
-//    private static int counter = 0;
 
     public AddressFacade(AddressService addressService) {
         this.addressService = addressService;
     }
+    private final static String selectOptionText = "Select one of the option";
 
     public Address save() {
-//        ;
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Save : "));
         Address address = new Address();
 
-        System.out.println("Type for City :");
+        System.out.print("Type for City: ");
         String tmp = SafeScannerInput.getStringNotBlank();
         address.setCity(tmp);
 
-        System.out.println("Type for Street :");
+        System.out.print("Type for Street: ");
         tmp = SafeScannerInput.getStringNotBlank();
         address.setStreet(tmp);
 
-        System.out.println("Type for Country :");
+        System.out.print("Type for Country: ");
         tmp = SafeScannerInput.getStringNotBlank();
         address.setCountry(tmp);
 
@@ -89,15 +88,15 @@ public class AddressFacade {
 
         int selected = 0;
         while (selected != 4) {
+            System.out.print("Current address data : ");
+            System.out.println(address);
             System.out.println("1-) Street");
             System.out.println("2-) City");
             System.out.println("3-) Country");
             System.out.println("4-) Update and Exit");
 
-            System.out.println("Current address data : ");
-            System.out.println(address);
 //            selected = scanner.nextInt();
-            selected = SafeScannerInput.getCertainIntForSwitch("Select the process :", 1, 4);
+            selected = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 4);
 //            scanner.nextLine();
             switch (selected) {
                 case 1:

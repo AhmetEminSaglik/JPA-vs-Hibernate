@@ -5,19 +5,20 @@ import org.aes.compare.orm.consoleapplication.AddressFacade;
 import org.aes.compare.orm.consoleapplication.CourseFacade;
 import org.aes.compare.orm.consoleapplication.ExamResultFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
-    static Scanner scanner = new Scanner(System.in);
     static ORMConfigSingleton orm = new ORMConfigSingleton();
-    //    static SubaddressFacade addressFacade = new SubaddressFacade(orm.getAddressService());
     static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
     static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
     static CourseFacade courseFacade;
     static ExamResultFacade examResultFacade;
 
+    private final static String selectOptionText = "Select one of the option";
 
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
@@ -27,34 +28,19 @@ public class Main {
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
         examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);
 
-
-/*
-
-//        List<Address> tmpAddress = orm.getAddressService().findAllSavedAndNotMatchedAnyStudentAddress();
-//        tmpAddress.forEach(System.out::println);
-
-        int studentId=2;
-        List<Course> tmpCourse = orm.getCourseService().findAllCourseOfStudentId(studentId);
-        System.out.println("Student have : ");
-        tmpCourse.forEach(System.out::println);
-
-        tmpCourse = orm.getCourseService().findAllCourseThatStudentDoesNotHave(studentId);
-        System.out.println("Student does not have : ");
-        tmpCourse.forEach(System.out::println);
-
-        System.exit(0);
-*/
-
         int globalOption = -1;
         while (globalOption != 5) {
-            System.out.println("1-) Address");
-            System.out.println("2-) Student");
-            System.out.println("3-) Course");
-            System.out.println("4-) ExamResult");
-            System.out.println("5-) Exit Program");
-//            System.out.print("Type one of the number :");
-//            globalOption = scanner.nextInt();
-            globalOption = SafeScannerInput.getCertainIntForSwitch("Type one of the number :",1,5);
+
+            List<String> indexes = new ArrayList<>();
+            indexes.add("Address");
+            indexes.add("Student");
+            indexes.add("Course");
+            indexes.add("ExamResult");
+
+            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            System.out.println(msg);
+
+            globalOption = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 5);
 
             switch (globalOption) {
                 case 1:
@@ -86,16 +72,19 @@ public class Main {
     static void addressScenario() {
         int option = -1;
         while (option != 6) {
-            System.out.println("1-) Save");
-            System.out.println("2-) Find All");
-            System.out.println("3-) Find By Id");
-            System.out.println("4-) Update");
-            System.out.println("5-) Delete");
-            System.out.println("6-) Exit");
 
-            System.out.println("select one option");
-            option = SafeScannerInput.getCertainIntSafe();
-//            scanner.nextLine();
+            List<String> indexes = new ArrayList<>();
+            indexes.add("Save");
+            indexes.add("Find All");
+            indexes.add("Find By Id");
+            indexes.add("Update");
+            indexes.add("Delete");
+//            indexes.add("Exit");
+
+            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            System.out.println(msg);
+
+            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 6);
 
             switch (option) {
                 case 1:
@@ -125,17 +114,22 @@ public class Main {
     static void studentScenario() {
         int option = -1;
         while (option != 7) {
-            System.out.println("1-) Save");
-            System.out.println("2-) Find All");
-            System.out.println("3-) Find By Id");
-            System.out.println("4-) Find By Student Id And Course Name");
-            System.out.println("5-) Update");
-            System.out.println("6-) Delete");
-            System.out.println("7-) Exit");
 
-            System.out.println("select one option");
-            option = SafeScannerInput.getCertainIntSafe();
-//            scanner.nextLine();
+            List<String> indexes = new ArrayList<>();
+
+            indexes.add("Save");
+            indexes.add("Find All");
+            indexes.add("Find By Id");
+            indexes.add("Find By Student Id And Course Name");
+            indexes.add("Update");
+            indexes.add("Delete");
+//            indexes.add("Exit");
+
+            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            System.out.println(msg);
+
+
+            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 7);
 
             switch (option) {
                 case 1:
@@ -168,16 +162,21 @@ public class Main {
     static void courseScenario() {
         int option = -1;
         while (option != 6) {
-            System.out.println("1-) Save");
-            System.out.println("2-) Find All");
-            System.out.println("3-) Find By Name");
-            System.out.println("4-) Update");
-            System.out.println("5-) Delete");
-            System.out.println("6-) Exit");
 
-            System.out.println("Select one option");
-            option = SafeScannerInput.getCertainIntSafe();
-//            scanner.nextLine();
+            List<String> indexes = new ArrayList<>();
+
+
+            indexes.add("Exit");
+            indexes.add("Save");
+            indexes.add("Find All");
+            indexes.add("Find By Name");
+            indexes.add("Update");
+            indexes.add("Delete");
+
+            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            System.out.println(msg);
+
+            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 6);
 
             switch (option) {
                 case 1:
@@ -207,18 +206,22 @@ public class Main {
     static void examResultScenario() {
         int option = -1;
         while (option != 8) {
-            System.out.println("1-) Save");
-            System.out.println("2-) Find All");
-            System.out.println("3-) Find All By Student (Id)");
-            System.out.println("4-) Find All By Course (Name)");
-            System.out.println("5-) Find All By Student (Id) And Course (Name)");
-            System.out.println("6-) Update");
-            System.out.println("7-) Delete");
-            System.out.println("8-) Exit");
 
-            System.out.println("Select one option");
-            option = SafeScannerInput.getCertainIntSafe();
-//            scanner.nextLine();
+            List<String> indexes = new ArrayList<>();
+
+            indexes.add("Save");
+            indexes.add("Find All");
+            indexes.add("Find All By Student (Id)");
+            indexes.add("Find All By Course (Name)");
+            indexes.add("Find All By Student (Id) And Course (Name)");
+            indexes.add("Update");
+            indexes.add("Delete");
+            indexes.add("Exit");
+
+            String msg = FacadeUtility.createMsgFromListExit(indexes).toString();
+            System.out.println(msg);
+
+            option = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 6);
 
             switch (option) {
                 case 1:
@@ -250,118 +253,5 @@ public class Main {
             }
         }
     }
-
-    /*static class SubaddressFacade {
-        private final AddressService addressService;
-        private static int counter = 0;
-
-        public SubaddressFacade(AddressService addressService) {
-            this.addressService = addressService;
-        }
-
-        public void save() {
-            counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Save : "));
-            Address address = new Address();
-            address.setCity(counter + ". City");
-            address.setStreet(counter + ". Street");
-            address.setCountry(counter + ". Counter");
-
-
-            addressService.save(address);
-            System.out.println("Address is saved : " + address);
-            System.out.println("----------------------------------");
-        }
-
-        public void findById() {
-            counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Find by id : "));
-            System.out.print("Id no: ");
-//            int id = scanner.nextInt();
-            int id = SafeScannerInput.getCertainIntSafe();
-            Address address = addressService.findById(id);
-            addressService.findById(id);
-            System.out.println("Address is Found: " + address);
-            System.out.println("----------------------------------");
-
-        }
-
-        public void findAll() {
-            counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Find ALL : "));
-            List<Address> addresses = addressService.findAll();
-//            System.out.println("Addresses Found: " + addresses);
-            addresses.forEach(e -> {
-                System.out.println(e);
-            });
-            System.out.println("----------------------------------");
-
-        }
-
-        public void update() {
-            counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Update : "));
-            System.out.print("Address Id no: ");
-//            int id = scanner.nextInt();
-            int id = SafeScannerInput.getCertainIntSafe();
-            Address address = addressService.findById(id);
-            addressService.findById(id);
-            System.out.println("Address is Found: " + address);
-            System.out.println("Update process is starting : ");
-
-
-            int selected = 0;
-            while (selected != 4) {
-                System.out.println("1-) City");
-                System.out.println("2-) Street");
-                System.out.println("3-) Country");
-                System.out.println("4-) Update and Exit");
-
-                System.out.println("Current address data : ");
-                System.out.println(address);
-                selected = scanner.nextInt();
-                scanner.nextLine();
-                switch (selected) {
-                    case 1:
-                        System.out.print("Type City to update :");
-                        address.setCity(scanner.nextLine());
-                        break;
-                    case 2:
-                        System.out.print("Type Street to update :");
-                        address.setStreet(scanner.nextLine());
-                        break;
-                    case 3:
-                        System.out.print("Type Country to update :");
-                        address.setCountry(scanner.nextLine());
-                        break;
-                    case 4:
-                        addressService.update(address);
-                        System.out.println("Address is updated : " + address);
-                        break;
-                    default:
-                        System.out.println("Invalid choice try again");
-                }
-            }
-            System.out.println("----------------------------------");
-        }
-
-        public void deleteById() {
-            counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Delete By Id : "));
-            System.out.print("Id no: ");
-            int id = scanner.nextInt();
-            Address address = addressService.findById(id);
-            addressService.findById(id);
-            System.out.println("Address is Found: " + address);
-            addressService.deleteById(id);
-            System.out.println("address is deleted : ");
-            System.out.println("----------------------------------");
-
-        }
-
-        public void resetTable() {
-        }
-    }*/
-
 
 }

@@ -345,7 +345,7 @@ public class ExamResultFacade {
         return sb;
     }
 
-    private StringBuilder createMsgFromCourseList(List<Course> list) {
+    /*private StringBuilder createMsgFromCourseList(List<Course> list) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("(0) Cancel & Exit\n");
@@ -354,5 +354,5 @@ public class ExamResultFacade {
         }
         sb.append("Type index no to process : ");
         return sb;
-    }
+    }*/
 }

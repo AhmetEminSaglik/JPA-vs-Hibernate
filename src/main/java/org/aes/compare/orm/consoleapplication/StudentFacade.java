@@ -34,7 +34,6 @@ public class StudentFacade {
     private static int counter = 0;
 
     public Student save() {
-
         counter++;
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [STUDENT] Save : "));
         Student student = new Student();
@@ -387,12 +386,23 @@ public class StudentFacade {
     }
 
     private StringBuilder createMsgFromList(List<?> list) {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("(0) Cancel & Exit\n");
+        for (int i = 0; i < list.size(); i++) {
+            sb.append("(" + (i + 1) + ") " + list.get(i) + "\n");
+        }
+        sb.append("Type index no to process : ");
+        return sb;
+
+        /*
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             sb.append((i + 1) + "-) " + list.get(i) + "\n");
         }
         sb.append((list.size() + 1) + "-) Exit/Cancel");
         return sb;
-    }
+    */}
 
 }
