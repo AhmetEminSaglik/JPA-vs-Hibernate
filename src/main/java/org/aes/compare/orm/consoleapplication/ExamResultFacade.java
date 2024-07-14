@@ -14,20 +14,22 @@ import java.util.List;
 
 public class ExamResultFacade {
     private final ExamResultService examResultService;
-    private final StudentService studentService;
+    //    private final StudentService studentService;
     private final CourseService courseService;
+    private final StudentFacade studentFacade;
 
-    public ExamResultFacade(ExamResultService examResultService, StudentService studentService, CourseService courseService) {
+    public ExamResultFacade(ExamResultService examResultService, StudentService studentService, CourseService courseService, StudentFacade studentFacade) {
         this.examResultService = examResultService;
-        this.studentService = studentService;
+//        this.studentService = studentService;
         this.courseService = courseService;
+        this.studentFacade = studentFacade;
     }
 
     public ExamResult save() {
         ExamResult examResult = new ExamResult();
-        String cancelMsg = "Exam Result Save process is canceled";
+        String cancelMsg = "Exam Result Save process is cancelled";
 
-        Student student = pickStudentFromList(studentService.findAll());
+        Student student = studentFacade.pickStudentFromAllStudents();
         if (student == null) {
             System.out.println(cancelMsg);
             return null;
@@ -40,7 +42,7 @@ public class ExamResultFacade {
         }
 
         System.out.print("Type Score (double): ");
-        double score = SafeScannerInput.getCertainDoubleSafe(0, 100);
+        double score = SafeScannerInput.getCertainDoubleSafe(1, 100);
 
         examResult.setStudent(student);
         examResult.setCourse(course);
@@ -58,36 +60,6 @@ public class ExamResultFacade {
         return examResult;
     }
 
-    Student decidePickStudentBySelectOrTypeId() {
-        StringBuilder sp = new StringBuilder();
-        sp.append("(0) Exit/Cancel\n");
-        sp.append("(1) Pick Student from List\n");
-        sp.append("(2) Pick Student by typing Student id\n");
-        System.out.println(sp);
-        String msg = "Type Index No of Option: ";
-        Student student = null;
-        int option = SafeScannerInput.getCertainIntForSwitch(msg, 0, 2);
-
-        switch (option) {
-            case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is canceled"));
-                break;
-            case 1:
-                student = pickStudentFromList(findAllStudentSorted());
-                break;
-            case 2:
-                System.out.print("Type Student id (int)");
-                int id = SafeScannerInput.getCertainIntSafe();
-                student = studentService.findById(id);
-                break;
-            default:
-                System.out.println("Unknown process. Developer must work to fix this bug.");
-                return decidePickStudentBySelectOrTypeId();
-        }
-        return student;
-
-    }
-
 
 
     private Course pickCourseThatMatchesWithStudentFromList(int studentId) {
@@ -97,21 +69,13 @@ public class ExamResultFacade {
     }
 
     public void findAll() {
-        List<ExamResult> examResults = findAllExamResultSorted();
+        List<ExamResult> examResults = examResultService.findAll();
         printArrWithNo(examResults);
     }
 
-    private List<ExamResult> findAllExamResultSorted() {
-        List<ExamResult> examResults = examResultService.findAll();
-        return examResults;
-    }
 
-    private List<Student> findAllStudentSorted() {
-        List<Student> students = studentService.findAll();
-        return students;
-    }
     public List<ExamResult> findAllByStudentId() {
-        Student student = pickStudentFromList(studentService.findAll());
+        Student student = studentFacade.pickStudentFromAllStudents();
         if (student == null) {
             System.out.println("Find Exam results by Student process is cancelled");
             return null;
@@ -122,13 +86,13 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByStudentIdAndCourseName() {
-        Student student = decidePickStudentBySelectOrTypeId();
+        Student student = studentFacade.findByMultipleWay();
         if (student == null) {
-            System.out.println("Not found Student. Find All Exam Result by student and course process is cancelled");
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Not found Student. Find All Exam Result by student and course process is cancelled"));
             return null;
         }
-        List<ExamResult> examResults = decidePickCourseBySelectOrTypeCourseNameOfStudent(student.getId());
-        
+        List<ExamResult> examResults = decidePickCourseBySelectOrTypeCourseNameOfStudent(student);
+
         printArrWithNo(examResults);
         return examResults;
     }
@@ -141,18 +105,23 @@ public class ExamResultFacade {
         return null;
     }
 
-    private List<ExamResult> decidePickCourseBySelectOrTypeCourseNameOfStudent(int studentId) {
-        List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
+    private List<ExamResult> decidePickCourseBySelectOrTypeCourseNameOfStudent(Student student) {
+        List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         Course course = pickCourseFromList(courses);
+
         if (course != null) {
-            return examResultService.findAllByCourseName(course.getName());
+            List<ExamResult> examResults = examResultService.findAllByCourseName(course.getName());
+            if (examResults.isEmpty()) {
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(student.getName() + " does not have any exam result of " + course.getName()+" Course."));
+            }
+            return examResults;
         }
         return null;
     }
 
     public List<ExamResult> findAllByCourseName() {
         StringBuilder sb = new StringBuilder();
-        sb.append("(0) Exit\n")
+        sb.append("(0) Cancel & Exit\n")
                 .append("(1) Search  with registered Courses\n")
                 .append("(2) Search with Typing course name Manuel\n");
         System.out.println(sb);
@@ -220,11 +189,19 @@ public class ExamResultFacade {
                     examResultService.update(examResult);
                     return examResult;
                 case 1:
-                    student = pickGenericObjectFromList(studentService.findAll());
+                    student = studentFacade.pickStudentFromAllStudents();
+                    System.out.println("Selected Student : " + student);
+                    System.out.println("examResult.getStudent() : " + examResult.getStudent());
+
                     if(student==null){
-                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student is not selected, process is canceled"));
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student is not selected, process is cancelled"));
                         break;
                     }
+                    if (student.equals(examResult.getStudent())) {
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("You choose the same student."));
+                        break;
+                    }
+
                     courses = courseService.findAllCourseOfStudentId(student.getId());
 
                     if (courses == null) {
@@ -238,7 +215,6 @@ public class ExamResultFacade {
                     }
 
                 case 2:
-                    System.out.println(" CASE 2 UPDATE STUDENT");
                     if (courses == null) {
                         int studentId;
                         if (student != null) {
@@ -249,22 +225,23 @@ public class ExamResultFacade {
                         courses = courseService.findAllCourseOfStudentId(studentId);
                     }
                     Course course = pickGenericObjectFromList(courses);
-                    if(course==null){
-                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Course is not selected. Process is canceled"));
-                    }else{
+                    if (course == null) {
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Course is not selected. Process is cancelled"));
+                    } else {
                         examResult.setStudent(student);
                         examResult.setCourse(course);
-                        try {
-                            examResultService.save(examResult);
-                        } catch (InvalidStudentCourseMatchForExamResult e) {
-                            System.out.println("Error Occured : "+e.getMessage());
-                        }
+//                        try {
+                        examResultService.update(examResult);
+                        System.out.println("Exam Result is updated : " + examResult);
+//                        } catch (InvalidStudentCourseMatchForExamResult e) {
+//                            System.out.println("Error Occured : "+e.getMessage());
+//                        }
                     }
 
                     break;
                 case 3:
                     System.out.println("Type new Score (double)");
-                    examResult.setScore(SafeScannerInput.getCertainDoubleSafe(0, 100));
+                    examResult.setScore(SafeScannerInput.getCertainDoubleSafe(1, 100));
                     break;
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
@@ -280,6 +257,7 @@ public class ExamResultFacade {
             if (examResult == null) {
                 break;
             } else {
+                examResultService.deleteById(examResult.getId());
                 System.out.println("Exam Result is deleted : " + examResult);
             }
         }
@@ -302,7 +280,7 @@ public class ExamResultFacade {
 
     }
 
-    private Student pickStudentFromList(List<Student> students) {
+    /*private Student pickStudentFromList(List<Student> students) {
         StringBuilder sb = createMsgFromList(students);
         System.out.print(sb);
         int index = SafeScannerInput.getCertainIntSafe(0, students.size());
@@ -311,11 +289,11 @@ public class ExamResultFacade {
             return null;
         }
         return students.get(index);
-    }
+    }*/
 
     private <T> T pickGenericObjectFromList(List<T> list) {
         if (list.isEmpty()) {
-            System.out.println("List is empty. Process is canceled");
+            System.out.println("List is empty. Process is cancelled");
             return null;
         }
         StringBuilder sb = createMsgFromList(list);
@@ -359,7 +337,7 @@ public class ExamResultFacade {
     private StringBuilder createMsgFromList(List<?> list) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("(0) Exit/Cancel\n");
+        sb.append("(0) Cancel & Exit\n");
         for (int i = 0; i < list.size(); i++) {
             sb.append("(" + (i + 1) + ") " + list.get(i) + "\n");
         }
@@ -370,7 +348,7 @@ public class ExamResultFacade {
     private StringBuilder createMsgFromCourseList(List<Course> list) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("(0) Exit/Cancel\n");
+        sb.append("(0) Cancel & Exit\n");
         for (int i = 0; i < list.size(); i++) {
             sb.append("(" + (i + 1) + ") " + list.get(i).getName() + "\n");
         }

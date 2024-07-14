@@ -116,13 +116,68 @@ public class StudentFacade {
         return new ORMConfigSingleton().getAddressService().findAllSavedAndNotMatchedAnyStudentAddress();
     }
 
-    public Student findById() {
+    public Student findByMultipleWay() {
+
+        StringBuilder sp = new StringBuilder();
+        sp.append("(0) Cancel & Exit\n");
+        sp.append("(1) Pick Student from List\n");
+        sp.append("(2) Pick Student by typing Student id\n");
+        System.out.println(sp);
+        String msg = "Type Index No of Option: ";
+        Student student = null;
+        int option = SafeScannerInput.getCertainIntForSwitch(msg, 0, 2);
+
+        switch (option) {
+            case 0:
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is cancelled"));
+                break;
+            case 1:
+                student = pickStudentFromList(studentService.findAll());
+                break;
+            case 2:
+                System.out.print("Type Student id (int)");
+                int id = SafeScannerInput.getCertainIntSafe();
+                student = studentService.findById(id);
+                break;
+            default:
+                System.out.println("Unknown process. Developer must work to fix this bug.");
+                return findByMultipleWay();
+        }
+        return student;
+
+    
+        /*
         System.out.print("Type number for Student id  : ");
         int studentId = SafeScannerInput.getCertainIntSafe();
         Student student = studentService.findById(studentId);
         System.out.println("Found Student by id : " + student);
         return student;
+    */
     }
+
+    public Student pickStudentFromList(List<Student> students) {
+        StringBuilder sb = createMsgFromList(students);
+        System.out.print(sb);
+        int index = SafeScannerInput.getCertainIntSafe(0, students.size());
+        index--;
+        if (index == -1) {
+            return null;
+        }
+        return students.get(index);
+    }
+
+    public Student pickStudentFromAllStudents() {
+        List<Student> students = studentService.findAll();
+        StringBuilder sb = createMsgFromList(students);
+        System.out.print(sb);
+        int index = SafeScannerInput.getCertainIntSafe(0, students.size());
+        index--;
+        if (index == -1) {
+            return null;
+        }
+        return students.get(index);
+    }
+
 
     public List<Student> findAll() {
         List<Student> students = studentService.findAll();

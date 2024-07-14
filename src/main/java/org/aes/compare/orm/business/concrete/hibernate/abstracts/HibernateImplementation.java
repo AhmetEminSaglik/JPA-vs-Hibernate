@@ -36,7 +36,6 @@ public abstract class HibernateImplementation<T> extends ORMImplementation {
     protected void initializeTransaction() {
         printInitializingInfo();
 
-        initEntityCounter++;
         createFactory();
         createTransaction();
 
@@ -47,14 +46,8 @@ public abstract class HibernateImplementation<T> extends ORMImplementation {
     protected void commit() {
         printClosingInfo();
 
-        String explanation = initEntityCounter + "-) Entity is closing: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
-
-        closeEntityCounter++;
         session.getTransaction().commit();
         factory.close();
-        explanation = closeEntityCounter + "-) Entity is closed successfully : " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
 
         printClosedSuccessfully();
     }

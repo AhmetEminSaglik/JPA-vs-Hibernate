@@ -25,7 +25,7 @@ public class Main {
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
-        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService());
+        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);
 
 
 /*
@@ -145,7 +145,7 @@ public class Main {
                     studentFacade.findAll();
                     break;
                 case 3:
-                    studentFacade.findById();
+                    studentFacade.findByMultipleWay();
                     break;
                 case 4:
                     studentFacade.findByStudentIdWithCourseName();
@@ -209,9 +209,9 @@ public class Main {
         while (option != 8) {
             System.out.println("1-) Save");
             System.out.println("2-) Find All");
-            System.out.println("3-) Find All By Student Id");
-            System.out.println("4-) Find All By Course Name");
-            System.out.println("5-) Find All By Student Id And Course Name");
+            System.out.println("3-) Find All By Student (Id)");
+            System.out.println("4-) Find All By Course (Name)");
+            System.out.println("5-) Find All By Student (Id) And Course (Name)");
             System.out.println("6-) Update");
             System.out.println("7-) Delete");
             System.out.println("8-) Exit");
