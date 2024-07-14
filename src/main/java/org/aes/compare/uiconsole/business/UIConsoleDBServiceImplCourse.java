@@ -45,8 +45,8 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
     }
     public void save() {
 
-        System.out.println(ColorfulTextDesign.getInfoColorText("--> Course Save process is initialized"));
-        System.out.println(ColorfulTextDesign.getInfoColorText("Each course's name must be unique"));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Course Save process is initialized"));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Each course's name must be unique"));
         String msg = "Choose one of following course number :";
         printCourseList();
         int selected = SafeScannerInput.getIntInput(0, courses.size() - 1, msg + allCourseInString, tcm);
@@ -78,7 +78,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
 
         ormConfig.getAddressService().save(address);
 
-        System.out.println(ColorfulTextDesign.getSuccessColorText("Address is saved: " + address));*/
+        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Address is saved: " + address));*/
 
         return;
 

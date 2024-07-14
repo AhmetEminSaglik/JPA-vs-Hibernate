@@ -21,6 +21,7 @@ public class Main {
 
     public static void main(String[] args) {
         ORMConfigSingleton.enableJPA();
+//        ORMConfigSingleton.enableHibernate();
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
@@ -260,7 +261,7 @@ public class Main {
 
         public void save() {
             counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Save : "));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Save : "));
             Address address = new Address();
             address.setCity(counter + ". City");
             address.setStreet(counter + ". Street");
@@ -274,7 +275,7 @@ public class Main {
 
         public void findById() {
             counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Find by id : "));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Find by id : "));
             System.out.print("Id no: ");
 //            int id = scanner.nextInt();
             int id = SafeScannerInput.getCertainIntSafe();
@@ -287,7 +288,7 @@ public class Main {
 
         public void findAll() {
             counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Find ALL : "));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Find ALL : "));
             List<Address> addresses = addressService.findAll();
 //            System.out.println("Addresses Found: " + addresses);
             addresses.forEach(e -> {
@@ -299,7 +300,7 @@ public class Main {
 
         public void update() {
             counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Update : "));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Update : "));
             System.out.print("Address Id no: ");
 //            int id = scanner.nextInt();
             int id = SafeScannerInput.getCertainIntSafe();
@@ -346,7 +347,7 @@ public class Main {
 
         public void deleteById() {
             counter++;
-            System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [ADDRESS] Delete By Id : "));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [ADDRESS] Delete By Id : "));
             System.out.print("Id no: ");
             int id = scanner.nextInt();
             Address address = addressService.findById(id);

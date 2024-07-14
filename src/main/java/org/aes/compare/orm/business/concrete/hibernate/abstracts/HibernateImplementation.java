@@ -34,20 +34,29 @@ public abstract class HibernateImplementation<T> extends ORMImplementation {
 
     @Override
     protected void initializeTransaction() {
+        printInitializingInfo();
+
         initEntityCounter++;
         createFactory();
         createTransaction();
-        String text = initEntityCounter + "-) Entity is INITIALIZED: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorText(text));
+
+        printInitializedSuccessfully();
     }
 
     @Override
     protected void commit() {
+        printClosingInfo();
+
+        String explanation = initEntityCounter + "-) Entity is closing: " + getClass().getSimpleName();
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+
         closeEntityCounter++;
         session.getTransaction().commit();
         factory.close();
-        String text = closeEntityCounter + "-) Entity is CLOSED: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorText(text));
+        explanation = closeEntityCounter + "-) Entity is closed successfully : " + getClass().getSimpleName();
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+
+        printClosedSuccessfully();
     }
 
 }

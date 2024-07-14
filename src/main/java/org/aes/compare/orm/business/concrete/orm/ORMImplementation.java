@@ -11,7 +11,7 @@ public abstract class ORMImplementation {
     protected static int closeEntityCounter = 0;
 
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
-        System.out.println(ColorfulTextDesign.getInfoColorText("Preferred CONFIG FILE : "+configFile.getName()));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getName()));
         enumORMConfigFile = configFile;
     }
 
@@ -22,6 +22,37 @@ public abstract class ORMImplementation {
     protected abstract void initializeTransaction();
 
     protected abstract void commit();
+
+    protected final void printInitializingInfo() {
+        initEntityCounter++;
+        String explanation = initEntityCounter + "-) Entity is Initializing: " + getClass().getSimpleName();
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+    }
+
+    protected final void printInitializedSuccessfully() {
+//        String explanation = initEntityCounter + "-) Entity is INITIALIZED SUCCESSFULLY : " + getClass().getSimpleName();
+        StringBuilder sb = new StringBuilder();
+        sb.append(ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is "))
+                .append(ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY"))
+                .append(ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName()));
+        System.out.println(sb);
+    }
+
+    protected final void printClosingInfo() {
+        closeEntityCounter++;
+        String explanation = closeEntityCounter + "-) Entity is closing: " + getClass().getSimpleName();
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+    }
+
+    protected final void printClosedSuccessfully() {
+//        String explanation = closeEntityCounter + "-) Entity is CLOSED SUCCESSFULLy : " + getClass().getSimpleName();
+//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+        StringBuilder sb = new StringBuilder();
+        sb.append(ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is "))
+                .append(ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY"))
+                .append(ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName()));
+        System.out.println(sb);
+    }
 
 
 }

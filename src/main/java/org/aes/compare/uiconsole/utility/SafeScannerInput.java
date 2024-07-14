@@ -195,6 +195,22 @@ public class SafeScannerInput {
         }
         return getCertainIntForSwitch(text, minRange, maxRange);
     }
+    public static int getCertainIntForSwitch( int minRange, int maxRange) {
+        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
+        try {
+            String inputText = scanner.nextLine();
+            int val = Integer.parseInt(inputText);
+//            scanner.nextLine();
+            if (val >= minRange && val <= maxRange) {
+                return val;
+            }
+            errMsg = "Invalid number : " + val + "." + errMsg;
+            System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
+        } catch (NumberFormatException e) {
+            System.out.println(ColorfulTextDesign.getErrorColorText("Please type only number between ("+minRange+"-"+maxRange+")"));
+        }
+        return getCertainIntForSwitch( minRange, maxRange);
+    }
 
 
 }

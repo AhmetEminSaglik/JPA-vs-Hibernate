@@ -4,10 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
-import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
 import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 public abstract class JpaImplementation<T> extends ORMImplementation {
 
@@ -32,20 +30,22 @@ public abstract class JpaImplementation<T> extends ORMImplementation {
 
     @Override
     protected void initializeTransaction() {
-        initEntityCounter++;
+        printInitializingInfo();
+
         createFactory();
         createTransaction();
-        String text = initEntityCounter + "-) Entity is INITIALIZED: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorText(text));
+
+        printInitializedSuccessfully();
     }
 
     @Override
     protected void commit() {
-        closeEntityCounter++;
+        printClosingInfo();
+
         entityManager.getTransaction().commit();
         entityManager.close();
-        String text = closeEntityCounter + "-) Entity is CLOSED: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorText(text));
+
+        printClosedSuccessfully();
     }
 
 }

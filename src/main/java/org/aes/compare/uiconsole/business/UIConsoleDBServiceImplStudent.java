@@ -21,7 +21,7 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
 
     public void save() {
         Student student = new Student();
-        System.out.println(ColorfulTextDesign.getInfoColorText("--> Student Save process is initialized"));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Student Save process is initialized"));
 
         String inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type name (String): ");
         String stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
@@ -39,7 +39,7 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
         if (isCanceled()) return;
         student.setAddress(address);
         ormConfig.getStudentService().save(student);
-        System.out.println(ColorfulTextDesign.getSuccessColorText("Student is saved: " + student));
+        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Student is saved: " + student));
     }
 
 

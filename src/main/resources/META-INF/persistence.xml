@@ -7,10 +7,9 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school_db"/>
             <property name="jakarta.persistence.jdbc.user" value="testuser"/>
             <property name="jakarta.persistence.jdbc.password" value=""/>
-            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="show_sql" value="false"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
-
 
             <property name="jakarta.persistence.jdbc.pool-size" value="50"/>
             <property name="jakarta.persistence.jdbc.min-pool-size" value="20"/>
@@ -26,7 +25,6 @@
             <property name="jakarta.persistence.jdbc.max-idle-time" value="600"/>
 
             <property name="jakarta.persistence.jdbc.allow-pool-suspension" value="true"/>
-
         </properties>
     </persistence-unit>
 
@@ -35,10 +33,9 @@
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school_db_test"/>
             <property name="jakarta.persistence.jdbc.user" value="testuser"/>
             <property name="jakarta.persistence.jdbc.password" value=""/>
-            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="jakarta.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="show_sql" value="false"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
-
 
             <property name="jakarta.persistence.jdbc.pool-size" value="50"/>
             <property name="jakarta.persistence.jdbc.min-pool-size" value="20"/>
@@ -54,7 +51,69 @@
             <property name="jakarta.persistence.jdbc.max-idle-time" value="600"/>
 
             <property name="jakarta.persistence.jdbc.allow-pool-suspension" value="true"/>
-
         </properties>
     </persistence-unit>
 </persistence>
+
+        <!--
+        <persistence xmlns="http://java.sun.com/xml/ns/persistence"
+                     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+                     version="2.0">
+            <persistence-unit name="persistenceUnitRealProject" transaction-type="RESOURCE_LOCAL">
+                <properties>
+                    <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school_db"/>
+                    <property name="jakarta.persistence.jdbc.user" value="testuser"/>
+                    <property name="jakarta.persistence.jdbc.password" value=""/>
+                    <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                    <property name="show_sql" value="false"/>
+                    <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
+
+
+                    <property name="jakarta.persistence.jdbc.pool-size" value="50"/>
+                    <property name="jakarta.persistence.jdbc.min-pool-size" value="20"/>
+
+                    <property name="jakarta.persistence.jdbc.connection-timeout" value="30000"/>
+                    <property name="jakarta.persistence.jdbc.validation-timeout" value="10000"/>
+
+                    <property name="jakarta.persistence.jdbc.driver.properties.useServerPrepStmts" value="true"/>
+                    <property name="jakarta.persistence.jdbc.driver.properties.cachePrepStmts" value="true"/>
+                    <property name="jakarta.persistence.jdbc.driver.properties.prepStmtCacheSize" value="250"/>
+                    <property name="jakarta.persistence.jdbc.driver.properties.prepStmtCacheSqlLimit" value="2048"/>
+
+                    <property name="jakarta.persistence.jdbc.max-idle-time" value="600"/>
+
+                    <property name="jakarta.persistence.jdbc.allow-pool-suspension" value="true"/>
+
+                </properties>
+            </persistence-unit>
+
+            <persistence-unit name="persistenceUnitTest" transaction-type="RESOURCE_LOCAL">
+                <properties>
+                    <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school_db_test"/>
+                    <property name="jakarta.persistence.jdbc.user" value="testuser"/>
+                    <property name="jakarta.persistence.jdbc.password" value=""/>
+                    <property name="jakarta.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+                    <property name="show_sql" value="false"/>
+                    <property name="jakarta.persistence.schema-generation.database.action" value="update"/>
+
+
+                    <property name="jakarta.persistence.jdbc.pool-size" value="50"/>
+                    <property name="jakarta.persistence.jdbc.min-pool-size" value="20"/>
+
+                    <property name="jakarta.persistence.jdbc.connection-timeout" value="30000"/>
+                    <property name="jakarta.persistence.jdbc.validation-timeout" value="10000"/>
+
+                    <property name="jakarta.persistence.jdbc.driver.properties.useServerPrepStmts" value="true"/>
+                    <property name="jakarta.persistence.jdbc.driver.properties.cachePrepStmts" value="true"/>
+                    <property name="jakarta.persistence.jdbc.driver.properties.prepStmtCacheSize" value="250"/>
+                    <property name="jakarta.persistence.jdbc.driver.properties.prepStmtCacheSqlLimit" value="2048"/>
+
+                    <property name="jakarta.persistence.jdbc.max-idle-time" value="600"/>
+
+                    <property name="jakarta.persistence.jdbc.allow-pool-suspension" value="true"/>
+
+                </properties>
+            </persistence-unit>
+        </persistence>
+        -->

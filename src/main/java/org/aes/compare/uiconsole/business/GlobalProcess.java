@@ -63,7 +63,7 @@ public class GlobalProcess extends TerminalCommandLayout {
         String text;
         if (val != -1) {
             text = "Secilen Index degeri  : " + val + "> Daha sonrasinda " + list.get(val) + "'a gidicek";
-            System.out.println(ColorfulTextDesign.getInfoColorText(text));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(text));
 //            HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.REAL_PRODUCT);
 
         }else{

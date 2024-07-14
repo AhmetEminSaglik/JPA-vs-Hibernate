@@ -17,9 +17,14 @@ public class ColorfulTextDesign {
         return ps.getColorfulText(color + msg + ConsoleColors.RESET);
     }
 
-    public  static  String getInfoColorText(String  msg){
+    public static String getInfoColorTextWithPrefix(String msg) {
         return ps.getColorfulText(ConsoleColors.BLUE_BRIGHT + "[INFO]: " + msg + ConsoleColors.RESET);
     }
+
+    public static String getInfoColorText(String msg) {
+        return ps.getColorfulText(ConsoleColors.BLUE_BRIGHT + msg + ConsoleColors.RESET);
+    }
+ 
     public static String getErrorColorText(String msg) {
         return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
     }
@@ -30,8 +35,14 @@ public class ColorfulTextDesign {
     public static String getTextForUserFeedback(String msg) {
         return ps.getColorfulText(ConsoleColors.CYAN_BOLD + msg + ConsoleColors.RESET);
     }
-    public  static  String getSuccessColorText(String  msg){
+
+    public static String getSuccessColorTextWithPrefix(String msg) {
         return ps.getColorfulText(ConsoleColors.GREEN_BRIGHT + "[SUCCESS]: " + msg + ConsoleColors.RESET);
     }
+
+    public static String getSuccessColorText(String msg) {
+        return ps.getColorfulText(ConsoleColors.GREEN_BRIGHT + msg + ConsoleColors.RESET);
+    }
+
 
 }

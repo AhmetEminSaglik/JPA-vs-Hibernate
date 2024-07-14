@@ -19,7 +19,7 @@ public class AddressFacade {
 
     public Address save() {
 //        ;
-        System.out.println(ColorfulTextDesign.getInfoColorText("-) [ADDRESS] Save : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Save : "));
         Address address = new Address();
 
         System.out.println("Type for City :");
@@ -42,7 +42,7 @@ public class AddressFacade {
     }
 
     public void findById() {
-        System.out.println(ColorfulTextDesign.getInfoColorText("-) [ADDRESS] Find by id : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Find by id : "));
         System.out.print("Id no: ");
 //            int id = scanner.nextInt();
         int id = SafeScannerInput.getCertainIntSafe();
@@ -55,7 +55,7 @@ public class AddressFacade {
 
     public void findAll() {
         ;
-        System.out.println(ColorfulTextDesign.getInfoColorText( "-) [ADDRESS] Find ALL : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Find ALL : "));
         List<Address> addresses = addressService.findAll();
 //            System.out.println("Addresses Found: " + addresses);
         printArrWithNo(addresses);
@@ -67,7 +67,7 @@ public class AddressFacade {
         List<Address> addresses = addressService.findAll();
 
         ;
-        System.out.println(ColorfulTextDesign.getInfoColorText( "-) [ADDRESS] Update : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Update : "));
 
         StringBuilder msg = new StringBuilder();
         msg.append(createMsgFromList(addresses));
@@ -145,7 +145,7 @@ public class AddressFacade {
     }
     /*public void deleteById() {
         ;
-        System.out.println(ColorfulTextDesign.getInfoColorText( "-) [ADDRESS] Delete By Id : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Delete By Id : "));
         System.out.print("Id no: ");
         int id = scanner.nextInt();
         Address address = addressService.findById(id);

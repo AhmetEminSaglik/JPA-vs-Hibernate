@@ -36,7 +36,7 @@ public class StudentFacade {
     public Student save() {
 
         counter++;
-        System.out.println(ColorfulTextDesign.getInfoColorText(counter + "-) [STUDENT] Save : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [STUDENT] Save : "));
         Student student = new Student();
         System.out.print("Type Student name : ");
         String name = SafeScannerInput.getStringNotBlank();
