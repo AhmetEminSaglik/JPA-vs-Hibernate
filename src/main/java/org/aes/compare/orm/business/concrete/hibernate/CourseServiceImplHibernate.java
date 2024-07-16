@@ -38,7 +38,7 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         try {
             course = query.getSingleResult();
         } catch (NoResultException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("["+getClass().getSimpleName()+"]: Course is not found"));
         } finally {
             commit();
         }

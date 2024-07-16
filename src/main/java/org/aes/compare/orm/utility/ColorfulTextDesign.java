@@ -26,10 +26,10 @@ public class ColorfulTextDesign {
     }
 
     public static String getErrorColorTextWithPrefix(String msg) {
-        return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
+        return ps.getColorfulText(ConsoleColors.RED_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
     }
     public static String getErrorColorText(String msg) {
-        return ps.getColorfulText(ConsoleColors.PURPLE_BOLD_BRIGHT +  msg + ConsoleColors.RESET);
+        return ps.getColorfulText(ConsoleColors.RED_BOLD_BRIGHT +  msg + ConsoleColors.RESET);
     }
     public static String getTextForCanceledProcess(String msg) {
         return ps.getColorfulText(ConsoleColors.YELLOW_BRIGHT + msg + ConsoleColors.RESET);

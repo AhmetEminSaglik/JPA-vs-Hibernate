@@ -4,7 +4,8 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 public class MetaData {
     public  static  final  String SELECT_ONE_OPTION="Please type option number to run that process: ";
-    public  static  final  String PROCESS_IS_CANCELLED="Process is canceled.";
+    public  static  final  String PROCESS_IS_CANCELLED=ColorfulTextDesign.getTextForCanceledProcess("Process is canceled. ");
+    public  static  final  String PROCESS_IS_CANCELLED_FATAL=ColorfulTextDesign.getErrorColorText("Process is canceled. ");
     public  static  final String SWITCH_DEFAULT_INVALID_CHOICE= ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Choose try again!");
     public  static  final String EXITING_FROM_PROCESS="Exiting from process...";
     public  static  final String PROCESS_PREFIX_ADDRESS="[Address]: ".toUpperCase();
@@ -28,8 +29,13 @@ public class MetaData {
 
 
     public static final String COURSE_NOT_SELECTED_PROCESS_CANCELED = ColorfulTextDesign.getTextForCanceledProcess("Course is not selected. "+PROCESS_IS_CANCELLED);
+    public static final String COURSE_IS_SAVED = ColorfulTextDesign.getSuccessColorText("Course is saved: ");
+    public static final String COURSE_IS_UPDATED= ColorfulTextDesign.getSuccessColorText("Course is updated: ");
     public static final String COURSE_SELECTED = ColorfulTextDesign.getSuccessColorText("Selected Course: ");
+    public static final String COURSE_IS_DELETED = ColorfulTextDesign.getSuccessColorText("Course is deleted");
     public static final String NOT_FOUND_ANY_SAVED_COURSE = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Courses. Please save course first. "+PROCESS_IS_CANCELLED);
+    public static final String COURSE_NAME_MUST_BE_UNIQUE = ColorfulTextDesign.getErrorColorText("Course name must be unique. "+PROCESS_IS_CANCELLED_FATAL);
+    public static final String IS_SAVED_BEFORE = " is saved Before.";
 
 
 

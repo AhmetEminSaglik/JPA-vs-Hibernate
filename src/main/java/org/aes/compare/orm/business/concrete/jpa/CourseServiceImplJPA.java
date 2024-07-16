@@ -2,6 +2,7 @@ package org.aes.compare.orm.business.concrete.jpa;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
@@ -17,7 +18,11 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     @Override
     public void save(Course c) {
 //        String errMsg = "Course name must be unique. Probably " + c.getFileName() + " is saved before";
-        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+//        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        StringBuilder errMsg = new StringBuilder();
+        errMsg.append(MetaData.COURSE_NAME_MUST_BE_UNIQUE)
+                .append(ColorfulTextDesign.getInfoColorText(c.getName().toUpperCase()))
+                .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_BEFORE));
         try {
         initializeTransaction();
         entityManager.persist(c);
@@ -39,7 +44,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         try {
             course = query.getSingleResult();
         } catch (NoResultException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("["+getClass().getSimpleName()+"]: Course is not found"));
         } finally {
             commit();
         }
@@ -84,7 +89,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void updateCourseByName(Course c) {
-        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.COURSE_NAME_MUST_BE_UNIQUE + c.getName() + MetaData.IS_SAVED_BEFORE);
         try {
             initializeTransaction();
             entityManager.merge(c);

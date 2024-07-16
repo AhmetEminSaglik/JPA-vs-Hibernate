@@ -26,14 +26,15 @@ public class CourseFacade {
 
     public Course save(){
         List<Course> properCourses = getProperCoursesToSave();
-        StringBuilder sbCourses = new StringBuilder();
-        sbCourses.append(createMsgFromListForCourses(properCourses))
-                .append("Select one option");
-        int result = SafeScannerInput.getCertainIntForSwitch(sbCourses.toString(), 0, properCourses.size() + 1);
+//        StringBuilder sbCourses = new StringBuilder();
+//        sbCourses.append(createMsgFromListForCourses(properCourses))
+//                .append("Select one option");
+//        int result = SafeScannerInput.getCertainIntForSwitch(sbCourses.toString(), 0, properCourses.size() + 1);
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, properCourses);
         result--;
         Course course = properCourses.get(0);
-        if (result == properCourses.size()) {
-            System.out.println("Course Save process is Cancelled.");
+        if (result == -1) {
+            System.out.println("Course Save " + MetaData.PROCESS_IS_CANCELLED);
             System.out.println("Exiting from Course Save process...");
         } else if (result == properCourses.size() - 1) {
             course = properCourses.get(result);
@@ -55,7 +56,7 @@ public class CourseFacade {
             courseService.save(course);
         }
 //        courseService.save(course);
-        System.out.println("Course is saved : " + course);
+        System.out.println(MetaData.COURSE_IS_SAVED + course);
 
         return course;
     }
@@ -190,71 +191,84 @@ public class CourseFacade {
             return null;
         }
         List<Course> courses = courseService.findAll();
-        StringBuilder msg = new StringBuilder("Select one Course's index by given list:\n");
-        msg.append(createMsgFromList(courses));
+        int selectedCourse = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, courses);
 
-        int selectedCourse = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, courses.size() + 1);
         selectedCourse--;
 
-        if (selectedCourse == courses.size()) {
-            System.out.println("Update Process is Cancelled.");
+        if (selectedCourse == -1) {
+            System.out.println(MetaData.PROCESS_IS_CANCELLED);
             return null;
         }
-
         Course course = courses.get(selectedCourse);
-        int option = -1;
+        return updateSpecificCourse(course);
+    }
 
-        StringBuilder sbProcess = new StringBuilder();
-        sbProcess.append("1-) Update Course Name\n");
-        sbProcess.append("2-) Update Course Credit\n");
-        sbProcess.append("3-) Save And Exit\n");
-        sbProcess.append("Select process No");
+    private Course updateSpecificCourse(Course course) {
+        int option = Integer.MAX_VALUE;
 
-        while (option != 3) {
-            System.out.println("Course : " + courses);
-            option = SafeScannerInput.getCertainIntForSwitch(sbProcess.toString(), 1, 3);
+        List<String> indexed = new ArrayList<>();
+        indexed.add("Update Course Name");
+        indexed.add("Update Course Credit");
+
+        while (option != -1 && option != -2) {
+            System.out.println("Current Course : " + course);
+            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_COURSE, indexed);
+//            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 1, 3);
             switch (option) {
+                case -1:
+                    System.out.println(MetaData.PROCESS_IS_CANCELLED);
+//                    courseService.updateCourseByName(course);
+//                    System.out.println("Course is updated : " + course);
+//                    System.out.println("Exiting Course Update Service");
+                    return null;
+                case 0:
+                    courseService.updateCourseByName(course);
+//                    System.out.println("Course is updated : " + course);
+                    System.out.println(MetaData.COURSE_IS_UPDATED + course);
+                    return course;
+//                    System.out.println("Exiting Course Update Service");
                 case 1:
-                    System.out.print("Type Course new Name");
+                    System.out.print("Type Course new Name: ");
                     String name = SafeScannerInput.getStringNotBlank();
                     course.setName(name);
                     break;
                 case 2:
-                    System.out.print("Type Course new Credit (int)");
-                    int credit = SafeScannerInput.getCertainIntSafe();
+                    System.out.print("Type Course new Credit (double): ");
+                    double credit = SafeScannerInput.getCertainDoubleSafe(1, 20);
                     course.setcredit(credit);
                     break;
-                case 3:
-                    System.out.println("Course is updating...");
-                    courseService.updateCourseByName(course);
-                    System.out.println("Course is updated : " + course);
-                    System.out.println("Exiting Course Update Service");
-                    break;
+
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }
         }
 
         return course;
+
     }
 
     public void delete() {
         if (!isAnyCourseSaved()) {
             return;
         }
-        List<Course> courses = courseService.findAll();
+        /*List<Course> courses = courseService.findAll();
 
         StringBuilder sbMsg = new StringBuilder("Select Course number to delete.\n");
         sbMsg.append(createMsgFromList(courses));
-        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courses.size() + 1);
+        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courses.size() + 1);*/
+        List<Course> courses = courseService.findAll();
+
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, courses);
+
+
         result--;
         if (result == courses.size()) {
-            System.out.println("Student Delete process is Cancelled");
+            System.out.println("Course Delete process is Cancelled");
         } else {
             Course course = courses.get(result);
             System.out.println("Course is deleting...");
             courseService.deleteCourseById(course.getId());
-            System.out.println("Course is deleted");
+            System.out.println(MetaData.COURSE_IS_DELETED);
         }
 
     }
