@@ -1,11 +1,13 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,27 +18,30 @@ public class AddressFacade {
     public AddressFacade(AddressService addressService) {
         this.addressService = addressService;
     }
-    private final static String selectOptionText = "Select one of the option";
+
+    private final static String selectOptionText = MetaData.SELECT_ONE_OPTION;
 
     public Address save() {
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Save : "));
         Address address = new Address();
 
+        String tmp;
+
+        System.out.print("Type for Country: ");
+        tmp = SafeScannerInput.getStringNotBlank();
+        address.setCountry(tmp);
+
         System.out.print("Type for City: ");
-        String tmp = SafeScannerInput.getStringNotBlank();
+        tmp = SafeScannerInput.getStringNotBlank();
         address.setCity(tmp);
 
         System.out.print("Type for Street: ");
         tmp = SafeScannerInput.getStringNotBlank();
         address.setStreet(tmp);
 
-        System.out.print("Type for Country: ");
-        tmp = SafeScannerInput.getStringNotBlank();
-        address.setCountry(tmp);
-
 
         addressService.save(address);
-        System.out.println("Address is saved : " + address);
+        System.out.println(ColorfulTextDesign.getSuccessColorText("Address is saved : ") + address);
         System.out.println("----------------------------------");
         return address;
     }
@@ -47,60 +52,75 @@ public class AddressFacade {
 //            int id = scanner.nextInt();
         int id = SafeScannerInput.getCertainIntSafe();
         Address address = addressService.findById(id);
-        addressService.findById(id);
-        System.out.println("Address is Found: " + address);
+//        addressService.findById(id);
+        if (address != null) {
+            System.out.println(ColorfulTextDesign.getSuccessColorText("Address is Found: ") + address);
+        } else {
+            System.out.println(ColorfulTextDesign.getErrorColorText("Address is not found with the given id(" + id + "): "));
+        }
         System.out.println("----------------------------------");
 
     }
 
     public void findAll() {
         ;
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Find ALL : "));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS] Find All : "));
         List<Address> addresses = addressService.findAll();
 //            System.out.println("Addresses Found: " + addresses);
-        printArrWithNo(addresses);
+
+        if (addresses != null) {
+            System.out.println(ColorfulTextDesign.getSuccessColorText("All Address data is retrieved:"));
+            printArrWithNo(addresses);
+        } else {
+            System.out.println(ColorfulTextDesign.getErrorColorText("Has not found any address data."));
+        }
         System.out.println("----------------------------------");
 
     }
 
     public void update() {
         List<Address> addresses = addressService.findAll();
-
-        ;
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Update : "));
 
         StringBuilder msg = new StringBuilder();
-//        msg.append(createMsgFromList(addresses));
         msg.append(FacadeUtility.createMsgFromListExit(addresses));
-        msg.append("Address Id no: ");
-//        System.out.println(msg);
-//        System.out.print();
-//            int id = scanner.nextInt();
-        int id = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, addresses.size() + 1);
+        msg.append(MetaData.SELECT_ONE_OPTION);
+        int id = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 0, addresses.size());
         id--;
-        if (id == addresses.size()) {
-            System.out.println("Address Update Process is Canceled");
+        if (id == -1) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Update Process is Canceled"));
             return;
         }
         Address address = addresses.get(id);
 //        addressService.findById(id);
 //        System.out.println("Address is Found: " + address);
-        System.out.println("Update process is starting : ");
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS]: Update process is starting : "));
 
 
-        int selected = 0;
-        while (selected != 4) {
+        int selected = Integer.MAX_VALUE;
+        while (selected != 0 && selected != -1) {
             System.out.print("Current address data : ");
             System.out.println(address);
-            System.out.println("1-) Street");
-            System.out.println("2-) City");
-            System.out.println("3-) Country");
-            System.out.println("4-) Update and Exit");
 
-//            selected = scanner.nextInt();
-            selected = SafeScannerInput.getCertainIntForSwitch(selectOptionText, 1, 4);
+            List<String> indexes = new ArrayList<>();
+            indexes.add("Street");
+            indexes.add("City");
+            indexes.add("Country");
+
+            msg = FacadeUtility.createMsgFromListWithSaveAndCancelExit(indexes);
+            msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_LIST);
+            System.out.println(msg);
+
+            selected = SafeScannerInput.getCertainIntForSwitch(selectOptionText, -1, indexes.size());
 //            scanner.nextLine();
             switch (selected) {
+                case -1:
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address is update process is canceled : "));
+                    break;
+                case 0:
+                    addressService.update(address);
+                    System.out.println("Address is updated : " + address);
+                    break;
                 case 1:
                     System.out.print("Type Street to update :");
                     address.setStreet(SafeScannerInput.getStringNotBlank());
@@ -112,10 +132,6 @@ public class AddressFacade {
                 case 3:
                     System.out.print("Type Country to update :");
                     address.setCountry(SafeScannerInput.getStringNotBlank());
-                    break;
-                case 4:
-                    addressService.update(address);
-                    System.out.println("Address is updated : " + address);
                     break;
                 default:
                     System.out.println("Invalid choice try again");
@@ -134,10 +150,10 @@ public class AddressFacade {
         StringBuilder sbMsg = new StringBuilder("Select Address no to delete.\n");
 //        sbMsg.append(createMsgFromList(addresses));
         sbMsg.append(FacadeUtility.createMsgFromListExit(addresses));
-        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, addresses.size() + 1);
+        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 0, addresses.size() );
         result--;
-        if (result == addresses.size()) {
-            System.out.println("Address Delete process is Cancelled");
+        if (result == -1) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Delete process is Cancelled."));
         } else {
             Address addressToDelete = addresses.get(result);
             addressService.deleteById(addressToDelete.getId());
