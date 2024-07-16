@@ -1,9 +1,11 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.config.ORMConfigSingleton;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.Student;
@@ -11,6 +13,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -47,13 +50,13 @@ public class StudentFacade {
 
         Address address = studentDecideAddressProgress();
         if (address != null) {
-            System.out.println("Using address : " + address);
+            System.out.println(MetaData.ADDRESS_IS_USING);
 
             student.setAddress(address);
             studentService.save(student);
-            System.out.println("Student is saved : " + student);
+            System.out.println(MetaData.STUDENT_IS_SAVED + student);
         }else{
-            System.out.println("Student Save process is Cancelled. -> Student can not save without Address Data.");
+            System.out.println(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED);
         }
 
         System.out.println("----------------------------------");
@@ -64,43 +67,52 @@ public class StudentFacade {
     private Address studentDecideAddressProgress() {
         List<Address> unmatchedAddress = findSavedAndUnMatchAddress();
 
-        StringBuilder msg = new StringBuilder();
-        msg.append("1-) Save new Address\n")
-                .append("2-) Select from unmatched address (" + unmatchedAddress.size() + ")\n")
-                .append("3-) Exit");
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Save new Address");
+        indexes.add("Select from unmatched address (" + unmatchedAddress.size() + ")");
 
-        int selected = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, 3);
+/*
 
+        StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+        msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.PROCESS_LIST);
+        System.out.println(msg);
+
+        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+*/
+        int selected = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
         Address address = null;
 
         switch (selected) {
+            case 0:
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address is not selected. Student save process is Canceled."));
+                return null;
             case 1:
                 address = addressFacade.save();
                 break;
             case 2:
                 if (unmatchedAddress.size() > 0) {
                     StringBuilder addressSelectMsg = new StringBuilder("Select one of the following address to match the student\n");
-                    addressSelectMsg.append(createMsgFromList(unmatchedAddress));
+
+//                    addressSelectMsg.append(createMsgFromList(unmatchedAddress));
 
                     /* for (int i = 0; i < unmatchedAddress.size(); i++) {
                         addressSelectMsg += (i + 1) + "-) " + unmatchedAddress.get(i) + "\n";
                     }*/
-                    int result = SafeScannerInput.getCertainIntForSwitch(addressSelectMsg.toString(), 1, unmatchedAddress.size() + 1);
-                    result -= 1;
-                    if (result == unmatchedAddress.size()) {
-                        System.out.println("Address Selection is Canceled");
+//                    int result = SafeScannerInput.getCertainIntForSwitch(addressSelectMsg.toString(), 1, unmatchedAddress.size() + 1);
+                    int result = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_STUDENT, unmatchedAddress);
+                    result--;
+                    if (result == -1) {
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Selection is Canceled"));
 //                        return studentDecideAddressProgress();
                     } else {
                         address = unmatchedAddress.get(result);
                     }
                 } else {
-                    System.out.println(ColorfulTextDesign.getErrorColorText("There is not any unmatched addres. You must save Address first"));
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("There is not any unmatched address. You must save Address first"));
 //                    return studentDecideAddressProgress();
                 }
                 break;
-            case 3:
-                System.out.println("Address process for Student is Canceled ");
-                return null;
+
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
         }
@@ -117,26 +129,44 @@ public class StudentFacade {
 
     public Student findByMultipleWay() {
 
-        StringBuilder sp = new StringBuilder();
+
+        /*StringBuilder sp = new StringBuilder();
         sp.append("(0) Cancel & Exit\n");
         sp.append("(1) Pick Student from List\n");
         sp.append("(2) Pick Student by typing Student id\n");
         System.out.println(sp);
         String msg = "Type Index No of Option: ";
-        Student student = null;
-        int option = SafeScannerInput.getCertainIntForSwitch(msg, 0, 2);
+        int option = SafeScannerInput.getCertainIntForSwitch(msg, 0, 2);*/
 
+        Student student = null;
+
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Pick Student from List");
+        indexes.add("Pick Student by typing Student id");
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
+        final String studentNotSelectedErr = "Student is not selected. Process is cancelled.";
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is cancelled"));
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(studentNotSelectedErr));
                 break;
             case 1:
                 student = pickStudentFromList(studentService.findAll());
+                if (student == null) {
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(studentNotSelectedErr));
+                } else {
+                    System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Student : ") + student);
+                }
                 break;
             case 2:
-                System.out.print("Type Student id (int)");
+                System.out.print("Type Student id (int): ");
                 int id = SafeScannerInput.getCertainIntSafe();
                 student = studentService.findById(id);
+                if (student == null) {
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Student is not found with given Id(" + id + "). Please try again"));
+                    return findByMultipleWay();
+                } else {
+                    System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Student : ") + student);
+                }
                 break;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
@@ -190,19 +220,56 @@ public class StudentFacade {
 
     }
 
+    public int getTotalStudentNumber() {
+        return studentService.findAll().size();
+    }
+
+    public boolean isAvailableProcessToFindStudentWithStudentIdAndCourseName() {
+        boolean resultStudent = isAnyStudentSaved();
+        boolean resultCourse = isAnCourseSaved();
+        if (resultStudent && resultCourse) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAnyStudentSaved() {
+        int totalStudent = getTotalStudentNumber();
+        if (totalStudent == 0) {
+            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_STUDENT);
+            return false;
+        }
+        return true;
+    }
+
+    public boolean isAnCourseSaved() {
+        int totalCourse = courseFacade.getTotalCourseNumber();
+        if (totalCourse == 0) {
+            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
+            return false;
+        }
+        return true;
+    }
     public Student findByStudentIdWithCourseName() {
-        System.out.print("Type number for Student id  : ");
-        int studentId = SafeScannerInput.getCertainIntSafe();
+//        System.out.print("Type number for Student id  : ");
+//        int studentId = SafeScannerInput.getCertainIntSafe();
 
-        System.out.print("Type Course Name  : ");
-        String courseName = SafeScannerInput.getStringNotBlank();
 
-        Student student = null;
+        Student student = findByMultipleWay();
+        if (student == null) {
+            return null;
+        }
+//        System.out.print("Type Course Name  : ");
+//        String courseName = SafeScannerInput.getStringNotBlank();
+        Course course = courseFacade.findByMultipleWay();
+        if (course == null) {
+            return null;
+        }
         try {
-            student = studentService.findByStudentIdWithCourseName(studentId, courseName);
+            student = studentService.findByStudentIdWithCourseName(student.getId(), course.getName());
             System.out.println("Found Student : " + student);
         } catch (InvalidStudentCourseMatchForExamResult e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText(e.getMessage()));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
         }
         return student;
 

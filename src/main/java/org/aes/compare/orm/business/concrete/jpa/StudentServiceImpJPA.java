@@ -20,7 +20,7 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
         try {
         entityManager.persist(s);
         } catch (Exception e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText(e.getMessage()));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
         } finally {
             commit();
         }

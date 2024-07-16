@@ -51,7 +51,7 @@ public class ExamResultFacade {
         try {
             examResultService.save(examResult);
         } catch (InvalidStudentCourseMatchForExamResult e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Error occurred: " + e.getMessage()));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error occurred: " + e.getMessage()));
             return null;
         }
         System.out.println("Exam Result is saving...");
@@ -77,7 +77,7 @@ public class ExamResultFacade {
     public List<ExamResult> findAllByStudentId() {
         Student student = studentFacade.pickStudentFromAllStudents();
         if (student == null) {
-            System.out.println("Find Exam results by Student process is cancelled");
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Find Exam results by Student process is cancelled"));
             return null;
         }
         List<ExamResult> examResults = examResultService.findAllByStudentId(student.getId());
@@ -205,12 +205,12 @@ public class ExamResultFacade {
                     courses = courseService.findAllCourseOfStudentId(student.getId());
 
                     if (courses == null) {
-                        System.out.println(ColorfulTextDesign.getErrorColorText("Student is not enrolled any course."));
+                        System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Student is not enrolled any course."));
                         break;
 
                     } else {
                         if ((!courses.contains(examResult.getCourse()))) {
-                            System.out.println(ColorfulTextDesign.getErrorColorText("Invalid Student - Course Match. Student does not enrolled this course. Please select one of the following course. Or progress wont be saved."));
+                            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Student - Course Match. Student does not enrolled this course. Please select one of the following course. Or progress wont be saved."));
                         }
                     }
 

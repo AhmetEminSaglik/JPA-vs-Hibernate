@@ -56,7 +56,7 @@ public class AddressFacade {
         if (address != null) {
             System.out.println(ColorfulTextDesign.getSuccessColorText("Address is Found: ") + address);
         } else {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Address is not found with the given id(" + id + "): "));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Address is not found with the given id(" + id + "): "));
         }
         System.out.println("----------------------------------");
 
@@ -72,7 +72,7 @@ public class AddressFacade {
             System.out.println(ColorfulTextDesign.getSuccessColorText("All Address data is retrieved:"));
             printArrWithNo(addresses);
         } else {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Has not found any address data."));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Has not found any address data."));
         }
         System.out.println("----------------------------------");
 
@@ -82,10 +82,11 @@ public class AddressFacade {
         List<Address> addresses = addressService.findAll();
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Update : "));
 
-        StringBuilder msg = new StringBuilder();
+        /*StringBuilder msg = new StringBuilder();
         msg.append(FacadeUtility.createMsgFromListExit(addresses));
         msg.append(MetaData.SELECT_ONE_OPTION);
-        int id = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 0, addresses.size());
+        int id = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 0, addresses.size());*/
+        int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         id--;
         if (id == -1) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Update Process is Canceled"));
@@ -107,11 +108,12 @@ public class AddressFacade {
             indexes.add("City");
             indexes.add("Country");
 
-            msg = FacadeUtility.createMsgFromListWithSaveAndCancelExit(indexes);
+            /*StringBuilder msg = FacadeUtility.createMsgFromListWithSaveAndCancelExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            selected = SafeScannerInput.getCertainIntForSwitch(selectOptionText, -1, indexes.size());
+            selected = SafeScannerInput.getCertainIntForSwitch(selectOptionText, -1, indexes.size());*/
+            selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
 //            scanner.nextLine();
             switch (selected) {
                 case -1:
@@ -119,7 +121,7 @@ public class AddressFacade {
                     break;
                 case 0:
                     addressService.update(address);
-                    System.out.println("Address is updated : " + address);
+                    System.out.println(MetaData.ADDRESS_IS_UPDATED+ address);
                     break;
                 case 1:
                     System.out.print("Type Street to update :");
@@ -147,10 +149,11 @@ public class AddressFacade {
             return;
         }
         System.out.println("NOTE : Each Student has to have one address. Only address that unmatched can be deleted");
-        StringBuilder sbMsg = new StringBuilder("Select Address no to delete.\n");
+        /*StringBuilder sbMsg = new StringBuilder("Select Address no to delete.\n");
 //        sbMsg.append(createMsgFromList(addresses));
         sbMsg.append(FacadeUtility.createMsgFromListExit(addresses));
-        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 0, addresses.size() );
+        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 0, addresses.size() );*/
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         result--;
         if (result == -1) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Delete process is Cancelled."));

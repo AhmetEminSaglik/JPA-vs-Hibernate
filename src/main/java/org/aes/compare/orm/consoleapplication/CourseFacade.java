@@ -1,7 +1,8 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.model.Student;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -10,6 +11,7 @@ import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.ReactCourse;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
@@ -67,9 +69,9 @@ public class CourseFacade {
 //        definedCoursesAsObject.forEach(System.out::println);
 
 
-        for (int i = 0; i < registeredCourses.size(); i++) {
+        for (Course registeredCours : registeredCourses) {
             for (int j = 0; j < definedCoursesAsObject.size(); j++) {
-                if (registeredCourses.get(i).getName().equals(definedCoursesAsObject.get(j).getName())) {
+                if (registeredCours.getName().equals(definedCoursesAsObject.get(j).getName())) {
                     definedCoursesAsObject.remove(j);
                     j--;
                 }
@@ -88,16 +90,85 @@ public class CourseFacade {
     }
 
     public Course findByName() {
-        System.out.print("Type Course Name : ");
-        String name = SafeScannerInput.getStringNotBlank();
-        Course course = courseService.findByName(name);
-        if (course == null) {
-            System.out.println("Course is not found : ");
-        } else {
-            System.out.println("Found course : " + course);
-        }
+        return findByMultipleWay();
+//        System.out.print("Type Course Name : ");
+//        String name = SafeScannerInput.getStringNotBlank();
+//        Course course = courseService.findByName(name);
+//        if (course == null) {
+//            System.out.println("Course is not found : ");
+//        } else {
+//            System.out.println("Found course : " + course);
+//        }
+//        return course;
+    }
 
+    public int getTotalCourseNumber() {
+        return courseService.findAll().size();
+    }
+
+    public Course findByMultipleWay() {
+        List<Course> courses=courseService.findAll();
+        if(courses.isEmpty()){
+            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
+            return null;
+        }
+        Course course = null;
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Pick Course from List");
+        indexes.add("Pick Course by typing course name");
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_COURSE, indexes);
+
+        switch (option) {
+            case 0:
+                System.out.println(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED);
+                break;
+            case 1:
+                course = pickCourseFromList(courses);
+                /*if (course == null) {
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(courseNotSelectedErr));
+                } else {
+                    System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Course : ") + course);
+                }*/
+                break;
+            case 2:
+                System.out.print("Type Course Name : ");
+                String courseName = SafeScannerInput.getStringNotBlank();
+                course = courseService.findByName(courseName);
+                if (course == null) {
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found with given name(" + courseName + "). Please try again"));
+                    return findByMultipleWay();
+                } else {
+                    System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Course : ") + courseName);
+                }
+                break;
+            default:
+                System.out.println("Unknown process. Developer must work to fix this bug.");
+                return findByMultipleWay();
+        }
         return course;
+    }
+
+    public Course pickCourseFromList(List<Course> courses) {
+//        final String courseNotSelectedErr = "Course is not selected. Process is cancelled.";
+        int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_COURSE, courses);
+        selected--;
+        if (selected == -1) {
+            System.out.println(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED);
+            return null;
+        } else {
+            System.out.println(MetaData.COURSE_SELECTED + courses);
+            return courses.get(selected);
+        }
+        /*
+        StringBuilder sb = createMsgFromList(courses);
+        System.out.print(sb);
+        int index = SafeScannerInput.getCertainIntSafe(0, courses.size());
+        index--;
+        if (index == -1) {
+            return null;
+        }
+        return students.get(index);
+    */
     }
 
     public Course update() {

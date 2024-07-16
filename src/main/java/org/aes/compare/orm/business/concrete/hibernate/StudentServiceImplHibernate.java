@@ -21,7 +21,7 @@ public class StudentServiceImplHibernate extends HibernateImplementation<Student
             initializeTransaction();
             session.persist(s);
         } catch (Exception e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText(e.getMessage()));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
         } finally {
             commit();
         }

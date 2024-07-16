@@ -17,7 +17,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     @Override
     public void save(Course c) {
 //        String errMsg = "Course name must be unique. Probably " + c.getFileName() + " is saved before";
-        String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         try {
         initializeTransaction();
         entityManager.persist(c);
@@ -39,7 +39,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         try {
             course = query.getSingleResult();
         } catch (NoResultException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Course is not found"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found"));
         } finally {
             commit();
         }
@@ -84,7 +84,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void updateCourseByName(Course c) {
-        String errMsg = ColorfulTextDesign.getErrorColorText("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         try {
             initializeTransaction();
             entityManager.merge(c);

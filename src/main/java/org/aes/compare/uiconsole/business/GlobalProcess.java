@@ -68,7 +68,7 @@ public class GlobalProcess extends TerminalCommandLayout {
 
         }else{
             text = "Tekrardan index alincak";
-            System.out.println(ColorfulTextDesign.getErrorColorText(text));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(text));
 //            JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.REAL_PRODUCT);
         }
     }

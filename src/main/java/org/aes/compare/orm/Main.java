@@ -7,7 +7,6 @@ import org.aes.compare.orm.consoleapplication.CourseFacade;
 import org.aes.compare.orm.consoleapplication.ExamResultFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +32,13 @@ public class Main {
             indexes.add("Exam Result");
             indexes.add("ORM Setting (Switch between JPA - Hibernate)");
 
-            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_GLOBAL + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
             globalOption = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
-            System.out.println();
+            System.out.println();*/
+            globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, indexes);
             switch (globalOption) {
                 case 0:
                     System.out.println(MetaData.EXITING_FROM_PROCESS);
@@ -76,12 +76,12 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+           /* StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-                        option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
-
+                        option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
+            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
             switch (option) {
                 case 0:
                     System.out.println(MetaData.EXITING_FROM_PROCESS);
@@ -121,11 +121,12 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
+            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
 
             switch (option) {
                 case 0:
@@ -135,19 +136,29 @@ public class Main {
                     studentFacade.save();
                     break;
                 case 2:
-                    studentFacade.findAll();
+                    if (studentFacade.isAnyStudentSaved()) {
+                        studentFacade.findAll();
+                    }
                     break;
                 case 3:
-                    studentFacade.findByMultipleWay();
+                    if (studentFacade.isAnyStudentSaved()) {
+                        studentFacade.findByMultipleWay();
+                    }
                     break;
                 case 4:
+                    if (studentFacade.isAvailableProcessToFindStudentWithStudentIdAndCourseName()) {
                     studentFacade.findByStudentIdWithCourseName();
+                    }
                     break;
                 case 5:
-                    studentFacade.update();
+                    if (studentFacade.isAnyStudentSaved()) {
+                        studentFacade.update();
+                    }
                     break;
                 case 6:
-                    studentFacade.delete();
+                    if (studentFacade.isAnyStudentSaved()) {
+                        studentFacade.delete();
+                    }
                     break;
 
                 default:
@@ -169,11 +180,14 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
+            /*
             StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_LIST);
             System.out.println(msg);
-
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+            */
+
+            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, indexes);
 
             switch (option) {
                 case 0:
@@ -215,11 +229,12 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+            /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.PROCESS_LIST);
             System.out.println(msg);
 
-            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
+            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
 
             switch (option) {
                 case 0:
@@ -261,11 +276,12 @@ public class Main {
         indexes.add("JPA");
         indexes.add("Hibernate");
 
-        StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
+        /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
         msg.insert(0, MetaData.PROCESS_PREFIX_SETTINGS + "Current using ORM Tool is: "+ORMConfigSingleton.getCurrentORMName()+"\n");
         System.out.println(msg);
 
-        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
+        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
                 System.out.println(MetaData.EXITING_FROM_PROCESS);

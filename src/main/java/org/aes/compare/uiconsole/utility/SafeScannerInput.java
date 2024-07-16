@@ -32,7 +32,7 @@ public class SafeScannerInput {
             int num = Integer.parseInt(scanner.nextLine());
             return num;
         } catch (NumberFormatException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Invalid Index Input. Please try again."));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Integer Input. Please try again."));
             return getCertainIntSafe();
         }
     }
@@ -45,7 +45,7 @@ public class SafeScannerInput {
         if (num >= min && num <= max) {
             return num;
         } else {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
             return getCertainIntSafe(min, max);
         }
         /*} catch (NumberFormatException ex) {
@@ -58,7 +58,7 @@ public class SafeScannerInput {
             double num = Double.parseDouble(scanner.nextLine());
             return num;
         } catch (NumberFormatException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Invalid Index Input. Please try again."));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Double value Input. Please try again. (Example : 12.34)"));
             return getCertainDoubleSafe();
         }
     }
@@ -70,7 +70,7 @@ public class SafeScannerInput {
         if (num >= min && num <= max) {
             return num;
         } else {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
             return getCertainDoubleSafe(min, max);
         }
         /*} catch (NumberFormatException ex) {
@@ -82,7 +82,7 @@ public class SafeScannerInput {
     public static String getStringNotBlank() {
         String text = scanner.nextLine();
         if (text.isBlank()) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Empty String is not allowed. Please type something."));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Empty String is not allowed. Please type something."));
             return getStringNotBlank();
         }
         return text;
@@ -92,7 +92,7 @@ public class SafeScannerInput {
             int num = Integer.parseInt(input);
             return num;
         } catch (NumberFormatException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Invalid Index Input. Please try again."));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Index Input. Please try again."));
             return null;
         }
     }
@@ -120,7 +120,7 @@ public class SafeScannerInput {
             return getStringInput(inputMsg, tmc);
         }
         if (input.trim().isEmpty()) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Blank is not allowed. Please type something"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Blank is not allowed. Please type something"));
             return getStringInput(inputMsg, tmc);
         }
         return input;
@@ -189,9 +189,9 @@ public class SafeScannerInput {
                 return val;
             }
             errMsg = "Invalid number : " + val + "." + errMsg;
-            System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(errMsg));
         } catch (NumberFormatException e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Please type only number between ("+minRange+"-"+maxRange+")"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please type only number between ("+minRange+"-"+maxRange+")"));
         }
         return getCertainIntForSwitch(text, minRange, maxRange);
     }
@@ -205,9 +205,9 @@ public class SafeScannerInput {
                 return val;
             }
             errMsg = "Invalid number : " + val + "." + errMsg;
-            System.out.println(ColorfulTextDesign.getErrorColorText(errMsg));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(errMsg));
         } catch (NumberFormatException e) {
-            System.out.println(ColorfulTextDesign.getErrorColorText("Please type only number between ("+minRange+"-"+maxRange+")"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please type only number between ("+minRange+"-"+maxRange+")"));
         }
         return getCertainIntForSwitch( minRange, maxRange);
     }
