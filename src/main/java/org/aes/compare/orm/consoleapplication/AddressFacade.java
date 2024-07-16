@@ -46,7 +46,19 @@ public class AddressFacade {
         return address;
     }
 
+    public boolean isAnyAddressSaved() {
+        int totalAddress = addressService.findAll().size();
+        if (totalAddress == 0) {
+            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_ADDRESS);
+            return false;
+        }
+        return true;
+    }
+
     public void findById() {
+        if (!isAnyAddressSaved()) {
+            return;
+        }
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Find by id : "));
         System.out.print("Id no: ");
 //            int id = scanner.nextInt();
@@ -63,7 +75,9 @@ public class AddressFacade {
     }
 
     public void findAll() {
-        ;
+        if (!isAnyAddressSaved()) {
+            return;
+        }
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS] Find All : "));
         List<Address> addresses = addressService.findAll();
 //            System.out.println("Addresses Found: " + addresses);
@@ -79,6 +93,9 @@ public class AddressFacade {
     }
 
     public void update() {
+        if (!isAnyAddressSaved()) {
+            return;
+        }
         List<Address> addresses = addressService.findAll();
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Update : "));
 
@@ -143,6 +160,9 @@ public class AddressFacade {
     }
 
     public void delete() {
+        if (!isAnyAddressSaved()) {
+            return;
+        }
         List<Address> addresses = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
         if (addresses.size() == 0) {
             System.out.println("Not found any data to process in Delete Process.\nExiting Delete Process...");

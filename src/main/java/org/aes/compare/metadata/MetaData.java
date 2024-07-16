@@ -17,6 +17,7 @@ public class MetaData {
 
     public static final String ADDRESS_IS_UPDATED = ColorfulTextDesign.getSuccessColorText("Address is updated: ");
     public static final String ADDRESS_IS_USING = ColorfulTextDesign.getSuccessColorText("Using address is: ");
+    public static final String NOT_FOUND_ANY_SAVED_ADDRESS = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved address. Please save address first. "+PROCESS_IS_CANCELLED);
 
 
     public static final String STUDENT_IS_UPDATED = ColorfulTextDesign.getSuccessColorText("Student is updated: ");

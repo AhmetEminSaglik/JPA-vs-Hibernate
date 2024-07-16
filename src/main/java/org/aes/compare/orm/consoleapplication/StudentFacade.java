@@ -128,6 +128,9 @@ public class StudentFacade {
     }
 
     public Student findByMultipleWay() {
+        if (!isAnyStudentSaved()) {
+            return null;
+        }
 
 
         /*StringBuilder sp = new StringBuilder();
@@ -209,6 +212,9 @@ public class StudentFacade {
 
 
     public List<Student> findAll() {
+        if (!isAnyStudentSaved()) {
+            return null;
+        }
         List<Student> students = studentService.findAll();
         System.out.println("All students are retrieved : ");
         /*for (int i = 0; i < students.size(); i++) {
@@ -226,7 +232,7 @@ public class StudentFacade {
 
     public boolean isAvailableProcessToFindStudentWithStudentIdAndCourseName() {
         boolean resultStudent = isAnyStudentSaved();
-        boolean resultCourse = isAnCourseSaved();
+        boolean resultCourse = courseFacade.isAnyCourseSaved();
         if (resultStudent && resultCourse) {
             return true;
         }
@@ -242,15 +248,11 @@ public class StudentFacade {
         return true;
     }
 
-    public boolean isAnCourseSaved() {
-        int totalCourse = courseFacade.getTotalCourseNumber();
-        if (totalCourse == 0) {
-            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
-            return false;
-        }
-        return true;
-    }
+
     public Student findByStudentIdWithCourseName() {
+        if (!isAvailableProcessToFindStudentWithStudentIdAndCourseName()) {
+            return null;
+        }
 //        System.out.print("Type number for Student id  : ");
 //        int studentId = SafeScannerInput.getCertainIntSafe();
 
@@ -276,6 +278,9 @@ public class StudentFacade {
     }
 
     public Student update() {
+        if (!isAnyStudentSaved()) {
+            return null;
+        }
 
         List<Student> students = studentService.findAll();
         StringBuilder msg = new StringBuilder("Select one student's index by given list:\n");
@@ -415,6 +420,9 @@ public class StudentFacade {
     }
 
     public void delete() {
+        if (!isAnyStudentSaved()) {
+            return;
+        }
 //        while (option != 2) {
             List<Student> students = studentService.findAll();
 //            StringBuilder sb = new StringBuilder("Please choose one of the following Student No");

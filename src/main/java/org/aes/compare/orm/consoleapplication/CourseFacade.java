@@ -82,6 +82,9 @@ public class CourseFacade {
     }
 
     public List<Course> findAll() {
+        if (!isAnyCourseSaved()) {
+            return null;
+        }
         List<Course> courses = courseService.findAll();
         System.out.println("All Courses are retrieved :");
         printArrWithNo(courses);
@@ -90,6 +93,9 @@ public class CourseFacade {
     }
 
     public Course findByName() {
+        if (!isAnyCourseSaved()) {
+            return null;
+        }
         return findByMultipleWay();
 //        System.out.print("Type Course Name : ");
 //        String name = SafeScannerInput.getStringNotBlank();
@@ -102,8 +108,16 @@ public class CourseFacade {
 //        return course;
     }
 
-    public int getTotalCourseNumber() {
-        return courseService.findAll().size();
+    /*    public int getTotalCourseNumber() {
+            return courseService.findAll().size();
+        }*/
+    public boolean isAnyCourseSaved() {
+        int totalCourse = courseService.findAll().size();
+        if (totalCourse == 0) {
+            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
+            return false;
+        }
+        return true;
     }
 
     public Course findByMultipleWay() {
@@ -172,6 +186,9 @@ public class CourseFacade {
     }
 
     public Course update() {
+        if (!isAnyCourseSaved()) {
+            return null;
+        }
         List<Course> courses = courseService.findAll();
         StringBuilder msg = new StringBuilder("Select one Course's index by given list:\n");
         msg.append(createMsgFromList(courses));
@@ -222,6 +239,9 @@ public class CourseFacade {
     }
 
     public void delete() {
+        if (!isAnyCourseSaved()) {
+            return;
+        }
         List<Course> courses = courseService.findAll();
 
         StringBuilder sbMsg = new StringBuilder("Select Course number to delete.\n");

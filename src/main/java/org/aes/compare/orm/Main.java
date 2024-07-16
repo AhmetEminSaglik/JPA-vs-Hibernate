@@ -136,29 +136,19 @@ public class Main {
                     studentFacade.save();
                     break;
                 case 2:
-                    if (studentFacade.isAnyStudentSaved()) {
-                        studentFacade.findAll();
-                    }
+                    studentFacade.findAll();
                     break;
                 case 3:
-                    if (studentFacade.isAnyStudentSaved()) {
-                        studentFacade.findByMultipleWay();
-                    }
+                    studentFacade.findByMultipleWay();
                     break;
                 case 4:
-                    if (studentFacade.isAvailableProcessToFindStudentWithStudentIdAndCourseName()) {
                     studentFacade.findByStudentIdWithCourseName();
-                    }
                     break;
                 case 5:
-                    if (studentFacade.isAnyStudentSaved()) {
-                        studentFacade.update();
-                    }
+                    studentFacade.update();
                     break;
                 case 6:
-                    if (studentFacade.isAnyStudentSaved()) {
-                        studentFacade.delete();
-                    }
+                    studentFacade.delete();
                     break;
 
                 default:
@@ -172,7 +162,6 @@ public class Main {
         while (option != 0) {
 
             List<String> indexes = new ArrayList<>();
-
 
             indexes.add("Save");
             indexes.add("Find All");
@@ -208,7 +197,6 @@ public class Main {
                 case 5:
                     courseFacade.delete();
                     break;
-
                 default:
                     System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
