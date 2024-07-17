@@ -38,14 +38,13 @@ public class ExamResultFacade {
 
     public ExamResult save() {
         if (!courseFacade.isAnyCourseSaved()
-                || !studentFacade.isAnyStudentSaved()
-                || !isAnyExamResultSaved()) {
+                || !studentFacade.isAnyStudentSaved()) {
             return null;
         }
         ExamResult examResult = new ExamResult();
-        String cancelMsg = "Exam Result Save process is cancelled";
+        final String cancelMsg = MetaData.EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED;
 
-        Student student = studentFacade.pickStudentFromList(studentFacade.findAll());
+        Student student = studentFacade.pickStudentFromList(studentService.findAll());
         if (student == null) {
             System.out.println(cancelMsg);
             return null;

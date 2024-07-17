@@ -70,11 +70,11 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     }
 
     @Override
-    public List<Course> findAllCourseThatStudentDoesNotHave(int studentid) {
+    public List<Course> findAllCourseThatStudentDoesNotHave(int studentId) {
         initializeTransaction();
         TypedQuery<Course> query = session.createQuery(
-                "SELECT c FROM Course c WHERE c NOT IN (SELECT c FROM Course c JOIN c.students s WHERE s.id = :studentid)", Course.class);
-        query.setParameter("studentid", studentid);
+                "SELECT c FROM Course c WHERE c NOT IN (SELECT c FROM Course c JOIN c.students s WHERE s.id = :studentId)", Course.class);
+        query.setParameter("studentId", studentId);
         List<Course> courses = query.getResultList();
         commit();
         courses.sort(comparator);

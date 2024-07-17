@@ -2,8 +2,8 @@ package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
+import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -16,14 +16,22 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CourseFacade {
     private final CourseService courseService;
+    private StudentFacade studentFacade;
 
     public CourseFacade(CourseService courseService) {
         this.courseService = courseService;
+    }
+
+    public void setStudentFacade(StudentFacade studentFacade) {
+//        if (studentFacade == null) {
+        this.studentFacade = studentFacade;
+//        }else{
+//            System.out.println(ColorfulTextDesign.getErrorColorText("StudentFacade is already created."));
+//        }
     }
 
     public Course save(){
@@ -110,6 +118,15 @@ public class CourseFacade {
 //            System.out.println("Found course : " + course);
 //        }
 //        return course;
+    }
+
+    public List<Course> findAllCoursesBelongsToStudent() {
+        Student student=studentFacade.findByMultipleWay();
+
+        List<Course> courses =courseService.findAllCourseOfStudentId(student.getId());
+        System.out.println("Alinan courses : ");
+        courses.forEach(System.out::println);
+        return courses;
     }
 
     /*    public int getTotalCourseNumber() {

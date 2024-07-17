@@ -124,6 +124,7 @@ public class Main {
             indexes.add("Save");
             indexes.add("Find All");
             indexes.add("Find By (Id)");
+            indexes.add("Find Student's all courses ");
             indexes.add("Find By Student (Id) And Course (Name)");
             indexes.add("Update");
             indexes.add("Delete");
@@ -149,15 +150,17 @@ public class Main {
                     studentFacade.findByMultipleWay();
                     break;
                 case 4:
-                    studentFacade.findByStudentIdWithCourseName();
+                    studentFacade.findStudentAllCourses();
                     break;
                 case 5:
-                    studentFacade.update();
+                    studentFacade.findByStudentIdWithCourseName();
                     break;
                 case 6:
+                    studentFacade.update();
+                    break;
+                case 7:
                     studentFacade.delete();
                     break;
-
                 default:
                     System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
             }
@@ -173,6 +176,7 @@ public class Main {
             indexes.add("Save");
             indexes.add("Find All");
             indexes.add("Find By (Name)");
+            indexes.add("Find All Courses Belongs to Student");
             indexes.add("Update");
             indexes.add("Delete");
 
@@ -199,9 +203,12 @@ public class Main {
                     courseFacade.findByName();
                     break;
                 case 4:
-                    courseFacade.update();
+                    courseFacade.findAllCoursesBelongsToStudent();
                     break;
                 case 5:
+                    courseFacade.update();
+                    break;
+                case 6:
                     courseFacade.delete();
                     break;
                 default:
@@ -336,6 +343,7 @@ public class Main {
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
+        courseFacade.setStudentFacade(studentFacade);
         examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getCourseService(), courseFacade, orm.getStudentService(), studentFacade);
     }
 }

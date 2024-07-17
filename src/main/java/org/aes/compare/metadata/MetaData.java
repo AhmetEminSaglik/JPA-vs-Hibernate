@@ -36,6 +36,9 @@ public class MetaData {
     public static final String STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED= ColorfulTextDesign.getErrorColorTextWithPrefix("Student can not save without Address Data. "+PROCESS_IS_CANCELLED);
     public static final String NOT_FOUND_ANY_SAVED_STUDENT = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved student. Please save student first. "+PROCESS_IS_CANCELLED);
     public static final String STUDENT_UPDATE_PROCESS_IS_CANCELLED= ColorfulTextDesign.getTextForCanceledProcess("Student update Process is canceled ");
+    public static final String NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT= ColorfulTextDesign.getTextForCanceledProcess("Not Found any suitable course for the student.");
+    public static final String STUDENT_COURSES_ARE_UPDATED= ColorfulTextDesign.getSuccessColorText("Not Found any suitable course for the student.");
+
 
 
 
@@ -50,6 +53,7 @@ public class MetaData {
 
 
     public static final String NOT_FOUND_ANY_SAVED_EXAM_RESULT = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Exam Result. Please save Exam Result first. " + PROCESS_IS_CANCELLED);
+    public static final String EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED = ColorfulTextDesign.getTextForCanceledProcess("Exam Result Save process is cancelled. ");
 
 
 

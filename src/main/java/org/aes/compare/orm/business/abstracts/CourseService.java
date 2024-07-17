@@ -12,9 +12,9 @@ public interface CourseService {
 
     List<Course> findAll();
 
-    List<Course> findAllCourseOfStudentId(int studentid);
+    List<Course> findAllCourseOfStudentId(int studentId);
 
-    List<Course> findAllCourseThatStudentDoesNotHave(int studentid);
+    List<Course> findAllCourseThatStudentDoesNotHave(int studentId);
 
     void updateCourseByName(Course course);
 

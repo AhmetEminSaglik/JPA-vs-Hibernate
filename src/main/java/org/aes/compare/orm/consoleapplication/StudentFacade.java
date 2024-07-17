@@ -205,6 +205,11 @@ public class StudentFacade {
         return student;
     */
     }
+    public  List<Course> findStudentAllCourses(){
+//        Student student=findByMultipleWay();
+//        List<Course> courses=courseFacade.findAllCoursesBelongsToStudent();
+        return courseFacade.findAllCoursesBelongsToStudent();
+    }
 
     public Student pickStudentFromList(List<Student> students) {
         StringBuilder sb = createMsgFromList(students);
@@ -308,8 +313,6 @@ public class StudentFacade {
         if (!isAnyStudentSaved()) {
             return null;
         }
-
-
         List<Student> students = studentService.findAll();
 
         int selectedStudent = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, students);
@@ -363,9 +366,12 @@ public class StudentFacade {
                     break;
                 case 3:
                     if (courseFacade.isAnyCourseSaved()) {
-                    List<Course> courses = studentDecideCoursesProgress(student.getId());
-                    student.setCourses(courses);
-                    studentService.update(student);
+                        List<Course> courses = updateStudentCourseProgress(student.getId());
+                        if (courses != null) {
+                            student.setCourses(courses);
+                            studentService.update(student);
+                            System.out.println(MetaData.STUDENT_COURSES_ARE_UPDATED);
+                        }
                     }
                     break;
                 case 4:
@@ -383,72 +389,66 @@ public class StudentFacade {
         return student;
     }
 
-    private List<Course> studentDecideCoursesProgress(int studentId) {
+    private List<Course> updateStudentCourseProgress(int studentId) {
         List<Course> studentCourses = courseService.findAllCourseOfStudentId(studentId);
         List<Course> courseStudentDidNotEnroll = courseService.findAllCourseThatStudentDoesNotHave(studentId);
+
+        /*if (courseFacade.isAnyCourseSaved()) {
+            System.out.println(ColorfulTextDesign.getWarningColorText("Has not been found any registered Course. Please save at least one course."));
+            Course course = courseFacade.save();
+        }*/
         int option = -1;
+        final String processPrefix = MetaData.PROCESS_PREFIX_STUDENT;
         while (option != 4) {
 
             System.out.println("Students' current courses : (Must finish all to save the course changes)");
             printArrWithNo(studentCourses);
-            System.out.println("------");
+            List<String> indexes = new ArrayList<>();
+            indexes.add("Match course from registered Courses (" + courseStudentDidNotEnroll.size() + ")");
+            indexes.add("Remove course from student Courses (" + studentCourses.size() + ")");
+            indexes.add("Create new Course");
 
-            System.out.println("1-) Create new Course");
-            System.out.println("2-) Match course from registered Courses (" + courseStudentDidNotEnroll.size() + ")");
-            System.out.println("3-) Remove course from student Courses (" + studentCourses.size() + ")");
-            System.out.println("4-) Save and exit ");
-            option = SafeScannerInput.getCertainIntForSwitch("", 1, 4);
-            StringBuilder sbMsg = new StringBuilder();
-            int result = -1;
+            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(processPrefix, indexes);
+            int result;
             switch (option) {
+                case -1:
+                    System.out.println(MetaData.PROCESS_IS_CANCELLED);
+                    return null;
+                case 0:
+                    return studentCourses;
+//                    courseService.updateCourseByName();
                 case 1:
-                    Course course = courseFacade.save();
-                    studentCourses.add(course);
-//                    System.out.println("CourseFacade Simdilik Kapali baska tercih ypain");
-//                    Course course = courseFacade.save();
-//                    studentCourses.add(course);
-                    break;
-                case 2:
-                    if (courseStudentDidNotEnroll.size() == 0) {
-                        System.out.println("Not Found any suitable course for the student");
+                    if (courseStudentDidNotEnroll.isEmpty()) {
+                        System.out.println(MetaData.NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT);
                     } else {
-                    sbMsg.append("Please choose one of the following course no\n");
-                    sbMsg.append(createMsgFromList(courseStudentDidNotEnroll));
-                        result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, courseStudentDidNotEnroll.size() + 1);
+                        result = FacadeUtility.getIndexValueOfMsgListIncludesExit(processPrefix, courseStudentDidNotEnroll);
                         result--;
 
-                        if (result == courseStudentDidNotEnroll.size()) {
+                        if (result == -1) {
                             System.out.println("Adding course to Student is Cancelled");
                         } else {
                             studentCourses.add(courseStudentDidNotEnroll.get(result));
                             courseStudentDidNotEnroll.remove(result);
                         }
-
-
                     }
                     break;
-                case 3:
-
-                    if (studentCourses.size() == 0) {
+                case 2:
+                    if (studentCourses.isEmpty()) {
                         System.out.println("Student has not any course to remove it.");
                     } else {
-
-                    sbMsg.append("Please choose one of the following course no\n");
-                    /*for (int i = 0; i < studentCourses.size(); i++) {
-                        msg += (i + 1) + "-) " + studentCourses.get(i) + "\n";
-                    }*/
-                    sbMsg.append(createMsgFromList(studentCourses));
-//                    sbMsg.append((studentCourses.size() + 1) + "-) Exit");
-//                    msg createMsgFromList (studentCourses);
-                        result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, studentCourses.size() + 1);
-                    result--;
-                        if (result == studentCourses.size()) {
+                        result = FacadeUtility.getIndexValueOfMsgListIncludesExit(processPrefix, studentCourses);
+                        result--;
+                        if (result == -1) {
                             System.out.println("Remove course From Student is Cancelled");
                         } else {
                             courseStudentDidNotEnroll.add(studentCourses.get(result));
-                    studentCourses.remove(result);
+                            studentCourses.remove(result);
                         }
                     }
+                    break;
+                case 3:
+                    Course course = courseFacade.save();
+                    studentCourses.add(course);
                     break;
                 case 4:
                     System.out.println("Exiting the course process");
