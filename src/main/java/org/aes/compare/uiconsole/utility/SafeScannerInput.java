@@ -65,7 +65,6 @@ public class SafeScannerInput {
 
     public static Double getCertainDoubleSafe(int min, int max) {
 //        try {
-
         double num = getCertainDoubleSafe();
         if (num >= min && num <= max) {
             return num;

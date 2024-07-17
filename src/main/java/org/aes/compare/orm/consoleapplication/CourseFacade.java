@@ -2,6 +2,7 @@ package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
+import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -15,6 +16,7 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CourseFacade {
@@ -36,15 +38,16 @@ public class CourseFacade {
         if (result == -1) {
             System.out.println("Course Save " + MetaData.PROCESS_IS_CANCELLED);
             System.out.println("Exiting from Course Save process...");
-        } else if (result == properCourses.size() - 1) {
+//        } else if (result == properCourses.size() - 1) {
+        } else if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
             course = properCourses.get(result);
 
             System.out.print("Type for Course name : ");
             String name = SafeScannerInput.getStringNotBlank();
             course.setName(name);
 
-            System.out.print("Type for Course Credit (int): ");
-            int credit = SafeScannerInput.getCertainIntSafe();
+            System.out.print("Type for Course Credit (double): ");
+            double credit = SafeScannerInput.getCertainDoubleSafe(1,20);
 
             course.setcredit(credit);
             System.out.println("Course is saving...");
@@ -153,7 +156,7 @@ public class CourseFacade {
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found with given name(" + courseName + "). Please try again"));
                     return findByMultipleWay();
                 } else {
-                    System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Course : ") + courseName);
+                    System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Course : ") + course);
                 }
                 break;
             default:
@@ -171,7 +174,7 @@ public class CourseFacade {
             System.out.println(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED);
             return null;
         } else {
-            System.out.println(MetaData.COURSE_SELECTED + courses);
+            System.out.println(MetaData.COURSE_SELECTED + courses.get(selected));
             return courses.get(selected);
         }
         /*
@@ -275,13 +278,13 @@ public class CourseFacade {
 
     private List<Course> getDefinedCourses() {
         List<Course> courses = new ArrayList<>();
+        courses.add(new OtherCourse("New Course", 0));
         courses.add(new MathCourse());
         courses.add(new ScienceCourse());
         courses.add(new LiteratureCourse());
         courses.add(new JavaCourse());
         courses.add(new FlutterCourse());
         courses.add(new ReactCourse());
-        courses.add(new OtherCourse("New Course", 0));
         return courses;
     }
 
