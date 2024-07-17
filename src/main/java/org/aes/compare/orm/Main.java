@@ -7,6 +7,9 @@ import org.aes.compare.orm.consoleapplication.CourseFacade;
 import org.aes.compare.orm.consoleapplication.ExamResultFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.config.PrintConsoleServiceConfig;
+import org.ahmeteminsaglik.printable.EnumPrintOption;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,7 @@ public class Main {
             indexes.add("Course");
             indexes.add("Exam Result");
             indexes.add("ORM Setting (Switch between JPA - Hibernate)");
+            indexes.add("Printing Setting (CMD - IDE)");
 
             /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
             msg.insert(0, MetaData.PROCESS_PREFIX_GLOBAL + MetaData.PROCESS_LIST);
@@ -57,6 +61,9 @@ public class Main {
                     break;
                 case 5:
                     updateORMSetting();
+                    break;
+                case 6:
+                    updatePrintingSetting();
                     break;
                 default:
                     System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
@@ -96,7 +103,7 @@ public class Main {
                     addressFacade.findById();
                     break;
                 case 4:
-                    addressFacade.update();
+                    addressFacade.updateAddressProcess();
                     break;
                 case 5:
                     addressFacade.delete();
@@ -204,6 +211,16 @@ public class Main {
     }
 
     static void examResultScenario() {
+        boolean result = true;
+        if (!studentFacade.isAnyStudentSaved()) {
+            result = false;
+        }
+        if (!courseFacade.isAnyCourseSaved()) {
+            result = false;
+        }
+        if (!result) {
+            System.out.println(MetaData.GLOBAL_WARNING_FOR_EXAM_RESULT);
+        }
         int option = -1;
         while (option != 0) {
 
@@ -256,19 +273,11 @@ public class Main {
         }
     }
 
-    static void updateORMSetting() {
-//        System.out.println("Default ORM tool is JPA");
-//        System.out.println("Current using ORM Tool is : " + ORMConfigSingleton.getCurrentORMName());
-
+    private static void updateORMSetting() {
         List<String> indexes = new ArrayList<>();
         indexes.add("JPA");
         indexes.add("Hibernate");
 
-        /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-        msg.insert(0, MetaData.PROCESS_PREFIX_SETTINGS + "Current using ORM Tool is: "+ORMConfigSingleton.getCurrentORMName()+"\n");
-        System.out.println(msg);
-
-        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
@@ -290,10 +299,43 @@ public class Main {
 
     }
 
+    private static void updatePrintingSetting() {
+        List<String> indexes = new ArrayList<>();
+        indexes.add("CMD (Windows Command Line)");
+        indexes.add("IDE (Java Ide)");
+        indexes.add("Standard");
+
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        switch (option) {
+            case 0:
+                System.out.println(MetaData.EXITING_FROM_PROCESS);
+                break;
+            case 1:
+                /*ORMConfigSingleton.enableJPA();
+                resetORMServices();*/
+                ColorfulTextDesign.enableCMDPrinting();
+                System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected CMD printing Option"));
+                break;
+            case 2:
+                ColorfulTextDesign.enableIDEPrinting();
+                System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected IDE printing Option"));
+                break;
+
+            case 3:
+                ColorfulTextDesign.enableStandardPrinting();
+                PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.STANDARD);
+                System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected Standard Option"));
+                break;
+            default:
+                System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+        }
+
+    }
+
     static  void resetORMServices(){
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
-        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getStudentService(), orm.getCourseService(),studentFacade);
+        examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getCourseService(), courseFacade, orm.getStudentService(), studentFacade);
     }
 }

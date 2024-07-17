@@ -2,49 +2,77 @@ package org.aes.compare.orm.utility;
 
 import org.ahmeteminsaglik.config.PrintConsoleServiceConfig;
 import org.ahmeteminsaglik.config.PrintableConsoleServiceManager;
+import org.ahmeteminsaglik.printable.EnumPrintOption;
 import org.ahmeteminsaglik.printable.abstracts.PrintableConsoleService;
-import org.ahmeteminsaglik.utility.ConsoleColors;
 
 public class ColorfulTextDesign {
     private static PrintableConsoleService ps = new PrintableConsoleServiceManager();
 
-    public static String getText(String msg) {
+    public static void enableCMDPrinting() {
+        PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.WINDOWS_CMD);
+        ps=PrintConsoleServiceConfig.getPrintableService();
+    }
+
+    public static void enableIDEPrinting() {
+        PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.JAVA_IDE);
+        ps=PrintConsoleServiceConfig.getPrintableService();
+    }
+
+    public static void enableStandardPrinting() {
+        PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.STANDARD);
+        ps=PrintConsoleServiceConfig.getPrintableService();
+    }
+/*    public static String getText(String msg) {
         PrintConsoleServiceConfig.setIdeColor(ConsoleColors.BLUE_BRIGHT);
         return ps.getColorfulText(msg);
-    }
+    }*/
 
     public static String getText(String color, String msg) {
-        return ps.getColorfulText(color + msg + ConsoleColors.RESET);
+        return ps.getColorfulText(color + msg );
     }
 
+
     public static String getInfoColorTextWithPrefix(String msg) {
-        return ps.getColorfulText(ConsoleColors.BLUE_BRIGHT + "[INFO]: " + msg + ConsoleColors.RESET);
+        return ps.getInfoColor( "[INFO]: " + msg );
     }
 
     public static String getInfoColorText(String msg) {
-        return ps.getColorfulText(ConsoleColors.BLUE_BRIGHT + msg + ConsoleColors.RESET);
+        return ps.getInfoColor( msg );
     }
+
 
     public static String getErrorColorTextWithPrefix(String msg) {
-        return ps.getColorfulText(ConsoleColors.RED_BRIGHT + "[ERROR]: " + msg + ConsoleColors.RESET);
+        return ps.getErrorColor("[ERROR]: " + msg );
     }
     public static String getErrorColorText(String msg) {
-        return ps.getColorfulText(ConsoleColors.RED_BOLD_BRIGHT +  msg + ConsoleColors.RESET);
-    }
-    public static String getTextForCanceledProcess(String msg) {
-        return ps.getColorfulText(ConsoleColors.YELLOW_BRIGHT + msg + ConsoleColors.RESET);
+        return ps.getErrorColor(  msg );
     }
 
+
+    public static String getTextForCanceledProcess(String msg) {
+        return ps.getCancelColor( msg );
+    }
+
+
     public static String getTextForUserFeedback(String msg) {
-        return ps.getColorfulText(ConsoleColors.CYAN_BOLD + msg + ConsoleColors.RESET);
+        return ps.getColorfulText(msg );
     }
 
     public static String getSuccessColorTextWithPrefix(String msg) {
-        return ps.getColorfulText(ConsoleColors.GREEN_BRIGHT + "[SUCCESS]: " + msg + ConsoleColors.RESET);
+        return ps.getSuccessColor( "[SUCCESS]: " + msg);
     }
 
     public static String getSuccessColorText(String msg) {
-        return ps.getColorfulText(ConsoleColors.GREEN_BRIGHT + msg + ConsoleColors.RESET);
+        return ps.getSuccessColor( msg );
+    }
+
+
+    public static String getWarningColorTextWithPrefix(String msg) {
+        return ps.getWarningColor("[WARNING]: " + msg);
+    }
+
+    public static String getWarningColorText(String msg) {
+        return ps.getWarningColor( msg);
     }
 
 

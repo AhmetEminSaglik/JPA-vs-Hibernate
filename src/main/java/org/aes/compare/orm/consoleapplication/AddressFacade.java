@@ -92,31 +92,22 @@ public class AddressFacade {
 
     }
 
-    public void update() {
+    //    public void update() {
+    public Address updateAddressProcess() {
+        Address address = null;
         if (!isAnyAddressSaved()) {
-            return;
+            return address;
         }
-        List<Address> addresses = addressService.findAll();
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix( "-) [ADDRESS] Update : "));
-
-        /*StringBuilder msg = new StringBuilder();
-        msg.append(FacadeUtility.createMsgFromListExit(addresses));
-        msg.append(MetaData.SELECT_ONE_OPTION);
-        int id = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 0, addresses.size());*/
-        int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
-        id--;
-        if (id == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Update Process is Canceled"));
-            return;
+        address = selectAddressToUpdate();
+        if (address == null) {
+            return address;
         }
-        Address address = addresses.get(id);
-//        addressService.findById(id);
-//        System.out.println("Address is Found: " + address);
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS]: Update process is starting : "));
+        return  updateSelectedAddress(address);
 
+    }
 
-        int selected = Integer.MAX_VALUE;
-        while (selected != 0 && selected != -1) {
+    public Address updateSelectedAddress(Address address) {
+        while (true) {
             System.out.print("Current address data : ");
             System.out.println(address);
 
@@ -130,16 +121,16 @@ public class AddressFacade {
             System.out.println(msg);
 
             selected = SafeScannerInput.getCertainIntForSwitch(selectOptionText, -1, indexes.size());*/
-            selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
 //            scanner.nextLine();
             switch (selected) {
                 case -1:
                     System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address is update process is canceled : "));
-                    break;
+                    return null;
                 case 0:
                     addressService.update(address);
-                    System.out.println(MetaData.ADDRESS_IS_UPDATED+ address);
-                    break;
+                    System.out.println(MetaData.ADDRESS_IS_UPDATED + address);
+                    return address;
                 case 1:
                     System.out.print("Type Street to update :");
                     address.setStreet(SafeScannerInput.getStringNotBlank());
@@ -156,7 +147,21 @@ public class AddressFacade {
                     System.out.println("Invalid choice try again");
             }
         }
-        System.out.println("----------------------------------");
+    }
+
+    private Address selectAddressToUpdate() {
+        List<Address> addresses = addressService.findAll();
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Update : "));
+
+        int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        id--;
+        if (id == -1) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Update Process is Canceled"));
+            return null;
+        }
+        Address address = addresses.get(id);
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS]: Update process is starting : "));
+        return address;
     }
 
     public void delete() {

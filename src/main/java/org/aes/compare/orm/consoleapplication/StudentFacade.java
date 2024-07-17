@@ -48,9 +48,9 @@ public class StudentFacade {
         int grade = SafeScannerInput.getCertainIntSafe(1, 6);
         student.setGrade(grade);
 
-        Address address = studentDecideAddressProgress();
+        Address address = studentSaveProcessDecideAddressProgress();
         if (address != null) {
-            System.out.println(MetaData.ADDRESS_IS_USING);
+            System.out.println(MetaData.ADDRESS_IS_USING + address);
 
             student.setAddress(address);
             studentService.save(student);
@@ -64,63 +64,82 @@ public class StudentFacade {
 
     }
 
-    private Address studentDecideAddressProgress() {
+    private Address updateStudentAddressProgress(Address address) {
+//        List<Address> unmatchedAddress = findSavedAndUnMatchAddress();
+//        int selected = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
+//
+//        switch (selected) {
+//            case 0:
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("///////  Address is not selected. Student save process is Canceled."));
+//                return null;
+//            case 1:
+//                address = addressFacade.save();
+//                break;
+//            case 2:
+//                address = pickAddressFromList(unmatchedAddress);
+//                break;
+//            default:
+//                System.out.println("Unknown process. Developer must work to fix this bug.");
+//        }
+//        return address;
+//        if (address == null) {
+//            return studentSaveProcessDecideAddressProgress();
+//        }
+//        return address;
+        return addressFacade.updateSelectedAddress(address);
+    }
+
+    private Address studentSaveProcessDecideAddressProgress() {
         List<Address> unmatchedAddress = findSavedAndUnMatchAddress();
 
         List<String> indexes = new ArrayList<>();
         indexes.add("Save new Address");
         indexes.add("Select from unmatched address (" + unmatchedAddress.size() + ")");
 
-/*
-
-        StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-        msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.PROCESS_LIST);
-        System.out.println(msg);
-
-        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
-*/
         int selected = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
         Address address = null;
 
         switch (selected) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address is not selected. Student save process is Canceled."));
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess("///////  Address is not selected. Student save process is Canceled."));
                 return null;
             case 1:
                 address = addressFacade.save();
                 break;
             case 2:
-                if (unmatchedAddress.size() > 0) {
-                    StringBuilder addressSelectMsg = new StringBuilder("Select one of the following address to match the student\n");
-
-//                    addressSelectMsg.append(createMsgFromList(unmatchedAddress));
-
-                    /* for (int i = 0; i < unmatchedAddress.size(); i++) {
-                        addressSelectMsg += (i + 1) + "-) " + unmatchedAddress.get(i) + "\n";
-                    }*/
-//                    int result = SafeScannerInput.getCertainIntForSwitch(addressSelectMsg.toString(), 1, unmatchedAddress.size() + 1);
-                    int result = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_STUDENT, unmatchedAddress);
-                    result--;
-                    if (result == -1) {
-                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Selection is Canceled"));
-//                        return studentDecideAddressProgress();
-                    } else {
-                        address = unmatchedAddress.get(result);
-                    }
-                } else {
-                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("There is not any unmatched address. You must save Address first"));
-//                    return studentDecideAddressProgress();
-                }
+                address = pickAddressFromList(unmatchedAddress);
                 break;
-
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
         }
 //        return address;
         if (address == null) {
-            return studentDecideAddressProgress();
+            return studentSaveProcessDecideAddressProgress();
         }
         return address;
+    }
+
+    private Address pickAddressFromList(List<Address> unmatchedAddress) {
+
+//        StringBuilder addressSelectMsg = new StringBuilder("Select one of the following address to match the student\n");
+        if (unmatchedAddress.isEmpty()) {
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("There is not any unmatched address. You must save Address first"));
+            return null;
+        }
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_STUDENT, unmatchedAddress);
+        result--;
+        if (result == -1) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Selection is Canceled"));
+        } else {
+            return unmatchedAddress.get(result);
+        }
+        return null;
+    }
+
+    public Address pickAddressFromUnMatchedAddressList() {
+        List<Address> unmatchedAddress = findSavedAndUnMatchAddress();
+        return pickAddressFromList(unmatchedAddress);
+
     }
 
     private List<Address> findSavedAndUnMatchAddress() {
@@ -198,7 +217,10 @@ public class StudentFacade {
         return students.get(index);
     }
 
-    public Student pickStudentFromAllStudents() {
+    /*public Student pickStudentFromAllStudents() {
+        if(!isAnyStudentSaved()){
+            return null;
+        }
         List<Student> students = studentService.findAll();
         StringBuilder sb = createMsgFromList(students);
         System.out.print(sb);
@@ -208,7 +230,7 @@ public class StudentFacade {
             return null;
         }
         return students.get(index);
-    }
+    }*/
 
 
     public List<Student> findAll() {
@@ -230,14 +252,14 @@ public class StudentFacade {
         return studentService.findAll().size();
     }
 
-    public boolean isAvailableProcessToFindStudentWithStudentIdAndCourseName() {
+    /*public boolean isAvailableProcessToFindStudentWithStudentIdAndCourseName() {
         boolean resultStudent = isAnyStudentSaved();
         boolean resultCourse = courseFacade.isAnyCourseSaved();
         if (resultStudent && resultCourse) {
             return true;
         }
         return false;
-    }
+    }*/
 
     public boolean isAnyStudentSaved() {
         int totalStudent = getTotalStudentNumber();
@@ -250,9 +272,13 @@ public class StudentFacade {
 
 
     public Student findByStudentIdWithCourseName() {
-        if (!isAvailableProcessToFindStudentWithStudentIdAndCourseName()) {
+        if (!courseFacade.isAnyCourseSaved()) {
             return null;
         }
+        if (!isAnyStudentSaved()) {
+            return null;
+        }
+
 //        System.out.print("Type number for Student id  : ");
 //        int studentId = SafeScannerInput.getCertainIntSafe();
 
@@ -277,62 +303,78 @@ public class StudentFacade {
 
     }
 
+
     public Student update() {
         if (!isAnyStudentSaved()) {
             return null;
         }
 
+
         List<Student> students = studentService.findAll();
-        StringBuilder msg = new StringBuilder("Select one student's index by given list:\n");
-        msg.append(createMsgFromList(students));
 
-        int selectedStudent = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, students.size() + 1);
+        int selectedStudent = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, students);
         selectedStudent--;
+//        StringBuilder msg = new StringBuilder("Select one student's index by given list:\n");
+//        msg.append(createMsgFromList(students));
+//
+//        int selectedStudent = SafeScannerInput.getCertainIntForSwitch(msg.toString(), 1, students.size() + 1);
+//        selectedStudent--;
 
-        if (selectedStudent == students.size()) {
+        if (selectedStudent == -1) {
             System.out.println("Update Process is Cancelled.");
             return null;
         }
         Student student = students.get(selectedStudent);
+
+        List<String> indexes = new ArrayList<>();
+//        StringBuilder sbStudentProcess = new StringBuilder();
+        indexes.add("Update Student Name");
+        indexes.add("Update Student Grade");
+        indexes.add("Update Student Courses");
+        indexes.add("Update Student Address");
+
+
         int option = -1;
-
-        StringBuilder sbStudentProcess = new StringBuilder();
-        sbStudentProcess.append("1-) Update Student Name\n");
-        sbStudentProcess.append("2-) Update Student Grade\n");
-        sbStudentProcess.append("3-) Update Student Courses\n");
-        sbStudentProcess.append("4-) Update Student Address\n");
-        sbStudentProcess.append("5-) Save And Exit\n");
-        sbStudentProcess.append("Select process No");
-
-
         while (option != 5) {
             System.out.println("Student : " + student);
-            option = SafeScannerInput.getCertainIntForSwitch(sbStudentProcess.toString(), 1, 5);
+//            option = SafeScannerInput.getCertainIntForSwitch(sbStudentProcess.toString(), 1, 5);
+            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_STUDENT, indexes);
             switch (option) {
+                case -1:
+//                    studentService.update(student);
+                    System.out.println(MetaData.STUDENT_UPDATE_PROCESS_IS_CANCELLED);
+                    System.out.println("Exiting the student update process...");
+                    return null;
+                case 0:
+                    studentService.update(student);
+                    System.out.println(MetaData.STUDENT_IS_UPDATED + student);
+                    System.out.println("Exiting the student update process...");
+                    return student;
+
                 case 1:
                     System.out.print("Type Student new Name:");
-                    String name = scanner.nextLine();
+                    String name = SafeScannerInput.getStringNotBlank();
                     student.setName(name);
                     break;
                 case 2:
-                    System.out.print("Type Student new Name:");
-                    int grade = scanner.nextInt();
-                    scanner.nextLine();
+                    System.out.print("Type Student Grade (int):");
+                    int grade = SafeScannerInput.getCertainIntSafe(1,6);
                     student.setGrade(grade);
                     break;
                 case 3:
+                    if (courseFacade.isAnyCourseSaved()) {
                     List<Course> courses = studentDecideCoursesProgress(student.getId());
                     student.setCourses(courses);
                     studentService.update(student);
+                    }
                     break;
                 case 4:
-                    Address address = studentDecideAddressProgress();
-                    student.setAddress(address);
+                    Address dummyAddress=new Address(student.getAddress());
+                    Address address =updateStudentAddressProgress(dummyAddress);
+                    if(address!=null){
+                    student.setAddress(address);}
                     break;
-                case 5:
-                    studentService.update(student);
-                    System.out.println("Exiting the student update process...");
-                    break;
+
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }

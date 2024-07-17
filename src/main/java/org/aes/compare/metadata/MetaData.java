@@ -15,6 +15,16 @@ public class MetaData {
     public  static  final String PROCESS_PREFIX_GLOBAL="[Global]: ".toUpperCase();
     public  static  final String PROCESS_PREFIX_SETTINGS="[Settings]: ".toUpperCase();
     public  static  final String PROCESS_LIST="Process List\n";
+    private static final StringBuilder sbForExamResuyltWarning = new StringBuilder(
+            ColorfulTextDesign.getErrorColorText("Without creating any Student or Course, you may not run the functions of the Exam Result processes.\nStrongly recommend to create " +
+                    ColorfulTextDesign.getInfoColorText("Student") +
+                    ColorfulTextDesign.getErrorColorText(" and ") +
+                    ColorfulTextDesign.getInfoColorText("Courses") +
+                    ColorfulTextDesign.getErrorColorText(" before visit this option. ")));
+    
+
+    public static final String GLOBAL_WARNING_FOR_EXAM_RESULT = sbForExamResuyltWarning.toString();
+
 
     public static final String ADDRESS_IS_UPDATED = ColorfulTextDesign.getSuccessColorText("Address is updated: ");
     public static final String ADDRESS_IS_USING = ColorfulTextDesign.getSuccessColorText("Using address is: ");
@@ -25,6 +35,7 @@ public class MetaData {
     public static final String STUDENT_IS_SAVED = ColorfulTextDesign.getSuccessColorText("Student is saved: ");
     public static final String STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED= ColorfulTextDesign.getErrorColorTextWithPrefix("Student can not save without Address Data. "+PROCESS_IS_CANCELLED);
     public static final String NOT_FOUND_ANY_SAVED_STUDENT = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved student. Please save student first. "+PROCESS_IS_CANCELLED);
+    public static final String STUDENT_UPDATE_PROCESS_IS_CANCELLED= ColorfulTextDesign.getTextForCanceledProcess("Student update Process is canceled ");
 
 
 
@@ -38,6 +49,7 @@ public class MetaData {
     public static final String IS_SAVED_BEFORE = " is saved Before.";
 
 
+    public static final String NOT_FOUND_ANY_SAVED_EXAM_RESULT = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Exam Result. Please save Exam Result first. " + PROCESS_IS_CANCELLED);
 
 
 

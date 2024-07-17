@@ -23,6 +23,12 @@ public class Address {
 
     public Address() {
     }
+    public Address(Address dummyAddress) {
+        street=dummyAddress.getStreet();
+        city=dummyAddress.getCity();
+        country=dummyAddress.getCountry();
+
+    }
 
     public Address(String street, String city, String country) {
         this.street = street;

@@ -1,5 +1,6 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
@@ -16,20 +17,35 @@ public class ExamResultFacade {
     private final ExamResultService examResultService;
     //    private final StudentService studentService;
     private final CourseService courseService;
+    private final CourseFacade courseFacade;
+    private final StudentService studentService;
     private final StudentFacade studentFacade;
 
-    public ExamResultFacade(ExamResultService examResultService, StudentService studentService, CourseService courseService, StudentFacade studentFacade) {
+    /*public ExamResultFacade(ExamResultService examResultService, StudentService studentService, CourseService courseService, StudentFacade studentFacade) {
         this.examResultService = examResultService;
 //        this.studentService = studentService;
         this.courseService = courseService;
         this.studentFacade = studentFacade;
+    }*/
+
+    public ExamResultFacade(ExamResultService examResultService, CourseService courseService, CourseFacade courseFacade, StudentService studentService, StudentFacade studentFacade) {
+        this.examResultService = examResultService;
+        this.courseService = courseService;
+        this.courseFacade = courseFacade;
+        this.studentService = studentService;
+        this.studentFacade = studentFacade;
     }
 
     public ExamResult save() {
+        if (!courseFacade.isAnyCourseSaved()
+                || !studentFacade.isAnyStudentSaved()
+                || !isAnyExamResultSaved()) {
+            return null;
+        }
         ExamResult examResult = new ExamResult();
         String cancelMsg = "Exam Result Save process is cancelled";
 
-        Student student = studentFacade.pickStudentFromAllStudents();
+        Student student = studentFacade.pickStudentFromList(studentFacade.findAll());
         if (student == null) {
             System.out.println(cancelMsg);
             return null;
@@ -61,7 +77,14 @@ public class ExamResultFacade {
     }
 
 
-
+    public boolean isAnyExamResultSaved() {
+        int totalExamResult = examResultService.findAll().size();
+        if (totalExamResult == 0) {
+            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_EXAM_RESULT);
+            return false;
+        }
+        return true;
+    }
     private Course pickCourseThatMatchesWithStudentFromList(int studentId) {
         System.out.println("All courses that Student's enrolled: ");
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
@@ -69,13 +92,21 @@ public class ExamResultFacade {
     }
 
     public void findAll() {
+        if (!isAnyExamResultSaved()) {
+            return;
+        }
         List<ExamResult> examResults = examResultService.findAll();
         printArrWithNo(examResults);
     }
 
 
     public List<ExamResult> findAllByStudentId() {
-        Student student = studentFacade.pickStudentFromAllStudents();
+        if (!courseFacade.isAnyCourseSaved()
+                || !studentFacade.isAnyStudentSaved()
+                || !isAnyExamResultSaved()) {
+            return null;
+        }
+        Student student = studentFacade.pickStudentFromList(studentService.findAll());
         if (student == null) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Find Exam results by Student process is cancelled"));
             return null;
@@ -86,6 +117,11 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByStudentIdAndCourseName() {
+        if (!courseFacade.isAnyCourseSaved()
+                || !studentFacade.isAnyStudentSaved()
+                || !isAnyExamResultSaved()) {
+            return null;
+        }
         Student student = studentFacade.findByMultipleWay();
         if (student == null) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Not found Student. Find All Exam Result by student and course process is cancelled"));
@@ -120,6 +156,11 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByCourseName() {
+        if (!courseFacade.isAnyCourseSaved()
+                || !studentFacade.isAnyStudentSaved()
+                || !isAnyExamResultSaved()) {
+            return null;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("(0) Cancel & Exit\n")
                 .append("(1) Search  with registered Courses\n")
@@ -155,6 +196,11 @@ public class ExamResultFacade {
     }
 
     public void update() {
+        if (!courseFacade.isAnyCourseSaved()
+                || !studentFacade.isAnyStudentSaved()
+                || !isAnyExamResultSaved()) {
+            return;
+        }
         while (true) {
             List<ExamResult> examResults = examResultService.findAll();
             ExamResult examResult = pickExamResultFromList(examResults);
@@ -189,7 +235,7 @@ public class ExamResultFacade {
                     examResultService.update(examResult);
                     return examResult;
                 case 1:
-                    student = studentFacade.pickStudentFromAllStudents();
+                    student = studentFacade.pickStudentFromList(studentService.findAll());
                     System.out.println("Selected Student : " + student);
                     System.out.println("examResult.getStudent() : " + examResult.getStudent());
 
@@ -251,6 +297,11 @@ public class ExamResultFacade {
     }
 
     public void delete() {
+        if (!courseFacade.isAnyCourseSaved()
+                || !studentFacade.isAnyStudentSaved()
+                || !isAnyExamResultSaved()) {
+            return ;
+        }
         while (true) {
             List<ExamResult> examResults = examResultService.findAll();
             ExamResult examResult = pickExamResultFromList(examResults);
