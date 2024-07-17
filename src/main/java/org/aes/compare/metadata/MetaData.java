@@ -7,7 +7,7 @@ public class MetaData {
     public  static  final  String PROCESS_IS_CANCELLED=ColorfulTextDesign.getTextForCanceledProcess("Process is canceled. ");
     public  static  final  String PROCESS_IS_CANCELLED_FATAL=ColorfulTextDesign.getErrorColorText("Process is canceled. ");
     public  static  final String SWITCH_DEFAULT_INVALID_CHOICE= ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Choose try again!");
-    public  static  final String EXITING_FROM_PROCESS="Exiting from process...";
+    public static final String EXITING_FROM_PROCESS = ColorfulTextDesign.getTextForCanceledProcess("Exiting from process...");
     public  static  final String PROCESS_PREFIX_ADDRESS="[Address]: ".toUpperCase();
     public  static  final String PROCESS_PREFIX_STUDENT="[Student]: ".toUpperCase();
     public  static  final String PROCESS_PREFIX_COURSE="[Course]: ".toUpperCase();
@@ -56,6 +56,6 @@ public class MetaData {
     public static final String EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED = ColorfulTextDesign.getTextForCanceledProcess("Exam Result Save process is cancelled. ");
 
 
-
+    public static final String CHANGES_ARE_UPDATED = ColorfulTextDesign.getSuccessColorText("Changes are updated.");
 
 }

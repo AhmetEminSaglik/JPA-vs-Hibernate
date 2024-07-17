@@ -182,7 +182,8 @@ public class ExamResultFacade {
                 examResults = examResultService.findAllByCourseName(courseName);
                 if (examResults == null) {
                     System.out.println("Exam Result data is not found as requested Data");
-                    return null;
+
+                    return findAllByCourseName();
                 }
                 printArrWithNo(examResults);
                 break;
@@ -227,10 +228,12 @@ public class ExamResultFacade {
             Student student = examResult.getStudent();
             switch (choose) {
                 case -1:
-                    System.out.println("Progress is Canceled. Exiting from process");
+                    System.out.println(MetaData.PROCESS_IS_CANCELLED);
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
                     return examResult;
                 case 0:
-                    System.out.println("Changes are updated. Exiting from process");
+                    System.out.println(MetaData.CHANGES_ARE_UPDATED);
+                    System.out.println(MetaData.EXITING_FROM_PROCESS);
                     examResultService.update(examResult);
                     return examResult;
                 case 1:
@@ -322,7 +325,7 @@ public class ExamResultFacade {
         inputIndex = SafeScannerInput.getCertainIntForSwitch(0, examResults.size());
         inputIndex--;
         if (inputIndex == -1) {
-            System.out.println("Exiting from Process.");
+            System.out.println(MetaData.EXITING_FROM_PROCESS);
         } else {
             examResult = examResults.get(inputIndex);
         }
