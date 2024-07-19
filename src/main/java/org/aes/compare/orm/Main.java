@@ -22,7 +22,8 @@ public class Main {
     private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
-        ORMConfigSingleton.enableJPA();
+//        ORMConfigSingleton.enableJPA();
+        ORMConfigSingleton.enableHibernate();
         resetORMServices();
 
         int globalOption = -1;

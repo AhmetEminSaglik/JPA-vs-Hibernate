@@ -1,3 +1,4 @@
+/*
 package org.aes.compare.orm.business.concrete.jpa;
 
 import org.aes.compare.orm.business.abstracts.AddressService;
@@ -32,15 +33,19 @@ public class JPATest {
     private static ExamResultService examResultService = new ExamResultServiceImplJPA();
 
     @BeforeAll
-    public static void resetTablesBeforeAll() {
+    public static void resetTablesBeforeAll() throws InterruptedException {
 //        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
         JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.REAL_PRODUCT);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
         addressService.resetTable();
+        Thread.sleep(1500);
     }
-
+    @BeforeEach
+    public  void sleep() throws InterruptedException {
+//        Thread.sleep(100);
+    }
 
     @Test
     @Order(101)
@@ -77,7 +82,7 @@ public class JPATest {
     @Test
     @Order(103)
     @DisplayName("[JPA] - Delete Course By (Name)")
-    public void testDeleteCourseByName() {
+    public void testDeleteCourseByName() throws InvalidCourseDeleteRequestStudentEnrolled {
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNotNull(course);
 
@@ -418,3 +423,4 @@ public class JPATest {
         courseService.save(courseUnity);
     }
 }
+*/

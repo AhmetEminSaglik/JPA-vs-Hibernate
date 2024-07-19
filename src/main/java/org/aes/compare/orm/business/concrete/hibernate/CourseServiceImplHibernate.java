@@ -34,8 +34,9 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     public Course findByName(String name) {
         initializeTransaction();
         TypedQuery<Course> query = session.createQuery(
-                "SELECT c FROM Course c WHERE c.name=:data  ", Course.class);
+                "SELECT c FROM Course c WHERE c.name=:data ", Course.class);
         query.setParameter("data", name);
+        System.out.println("course name : "+name);
         Course course = null;
         try {
             course = query.getSingleResult();

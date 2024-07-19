@@ -4,6 +4,7 @@ import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
@@ -35,15 +36,19 @@ public class MixedORMTest {
     private static ExamResultService examResultService;
 
     @BeforeAll
-    public static void resetTablesBeforeAll() {
+    public static void resetTablesBeforeAll() throws InterruptedException {
         enableJPA();
-//        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
+        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
         addressService.resetTable();
+        Thread.sleep(1500);
     }
-
+    @BeforeEach
+    public  void sleep() throws InterruptedException {
+//        Thread.sleep(500);
+    }
     private static void enableJPA() {
         ormConfig.enableJPA(EnumJPAConfigFile.JUNIT_TEST);
         resetORMServices();
@@ -99,7 +104,7 @@ public class MixedORMTest {
     @Test
     @Order(103)
     @DisplayName("[JPA] - Delete Course By (Name)")
-    public void testDeleteCourseByName() {
+    public void testDeleteCourseByName() throws InvalidCourseDeleteRequestStudentEnrolled {
         enableJPA();
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNotNull(course);
