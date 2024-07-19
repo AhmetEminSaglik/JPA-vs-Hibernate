@@ -1,6 +1,7 @@
 package org.aes.compare.orm.business.concrete.hibernate;
 
 import jakarta.persistence.TypedQuery;
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
@@ -56,7 +57,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
     public List<ExamResult> findAllByStudentIdAndCourseName(int studentId, String courseName) {
         Course course = courseService.findByName(courseName);
         if (course == null) {
-            System.out.println("Course name is not found : "+courseName);
+            System.out.println(MetaData.getCourseNameIsNotFound(courseName));
             return null;
         }
         initializeTransaction();
@@ -76,7 +77,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
     public List<ExamResult> findAllByCourseName(String courseName) {
         Course course = courseService.findByName(courseName);
         if (course == null) {
-            System.out.println("Course name is not found : "+courseName);
+            System.out.println(MetaData.getCourseNameIsNotFound(courseName));
             return null;
         }
 

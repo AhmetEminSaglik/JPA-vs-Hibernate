@@ -4,6 +4,7 @@ import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
@@ -11,6 +12,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExamResultFacade {
@@ -132,13 +134,13 @@ public class ExamResultFacade {
         return examResults;
     }
 
-    private List<ExamResult> decidePickCourseBySelectOrTypeCourseName() {
+    /*private List<ExamResult> decidePickCourseBySelectOrTypeCourseName() {
         List<Course> courses = courseService.findAll();
         Course course = pickCourseFromList(courses);
         if (course != null)
             return examResultService.findAllByCourseName(course.getName());
         return null;
-    }
+    }*/
 
     private List<ExamResult> decidePickCourseBySelectOrTypeCourseNameOfStudent(Student student) {
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
@@ -160,32 +162,26 @@ public class ExamResultFacade {
                 || !isAnyExamResultSaved()) {
             return null;
         }
-        StringBuilder sb = new StringBuilder();
-        sb.append("(0) Cancel & Exit\n")
-                .append("(1) Search  with registered Courses\n")
-                .append("(2) Search with Typing course name Manuel\n");
-        System.out.println(sb);
-        System.out.print("Type index No : ");
-        int option = SafeScannerInput.getCertainIntForSwitch("", 0, 2);
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Search  with registered Courses");
+        indexes.add("Search with Typing course name Manuel");
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+
         List<ExamResult> examResults = null;
         switch (option) {
             case 0:
-                System.out.println("Exiting the process.");
+                System.out.println(MetaData.EXITING_FROM_PROCESS);
                 break;
             case 1:
-                examResults = decidePickCourseBySelectOrTypeCourseName();
-                printArrWithNo(examResults);
-                break;
+                Course course = pickCourseFromList(courseService.findAll());
+                if (course != null) {
+                    printCourseDataOfExamResult(course.getName());
+                }
+                return findAllByCourseName();
             case 2:
                 System.out.print("Type Course Name:  ");
                 String courseName = SafeScannerInput.getStringNotBlank();
-                examResults = examResultService.findAllByCourseName(courseName);
-                if (examResults == null) {
-                    System.out.println("Exam Result data is not found as requested Data");
-
-                    return findAllByCourseName();
-                }
-                printArrWithNo(examResults);
+                printCourseDataOfExamResult(courseName);
                 break;
 
             default:
@@ -194,6 +190,18 @@ public class ExamResultFacade {
         return examResults;
 
     }
+
+    private void printCourseDataOfExamResult(String courseName) {
+        List<ExamResult> examResults = examResultService.findAllByCourseName(courseName);
+        if (examResults == null || examResults.isEmpty()) {
+            System.out.println(MetaData.getNotFoundExamResultWithCourseName(courseName));
+            findAllByCourseName();
+        } else {
+            printArrWithNo(examResults);
+        }
+
+    }
+
 
     public void update() {
         if (!courseFacade.isAnyCourseSaved()
@@ -366,6 +374,7 @@ public class ExamResultFacade {
         int index = SafeScannerInput.getCertainIntSafe(0, courses.size());
         index--;
         if (index == -1) {
+            System.out.println(MetaData.PROCESS_IS_CANCELLED);
             return null;
         }
         return courses.get(index);

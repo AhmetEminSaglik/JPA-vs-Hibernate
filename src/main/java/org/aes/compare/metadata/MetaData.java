@@ -49,14 +49,21 @@ public class MetaData {
     public static final String COURSE_SELECTED = ColorfulTextDesign.getSuccessColorText("Selected Course: ");
     public static final String COURSE_IS_DELETED = ColorfulTextDesign.getSuccessColorText("Course is deleted");
     public static final String NOT_FOUND_ANY_SAVED_COURSE = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Courses. Please save course first.\n"+PROCESS_IS_CANCELLED);
+//    private static final String COURSE_NAME_IS_NOT_FOUND ="Course name is not found : ";
+    public  static String getCourseNameIsNotFound(String courseName){
+        return  ColorfulTextDesign.getErrorColorText("Course with course name ("+courseName+") is not found.");
+    }
     public static final String COURSE_NAME_MUST_BE_UNIQUE = ColorfulTextDesign.getErrorColorText("Course name must be unique. "+PROCESS_IS_CANCELLED_FATAL);
     public static final String IS_SAVED_BEFORE = " is saved Before.";
 
 
     public static final String NOT_FOUND_ANY_SAVED_EXAM_RESULT = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Exam Result. Please save Exam Result first. " + PROCESS_IS_CANCELLED);
     public static final String EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED = ColorfulTextDesign.getTextForCanceledProcess("Exam Result Save process is cancelled. ");
-
+    public  static String getNotFoundExamResultWithCourseName(String courseName){
+        return  ColorfulTextDesign.getErrorColorText("Not found any exam result data with course name ("+courseName+").");
+    }
 
     public static final String CHANGES_ARE_UPDATED = ColorfulTextDesign.getSuccessColorText("Changes are updated.");
+//    public static final String PLEASE_TAKE_SCREENSHOT_AND_CREATE_ISSUE_TO_FIX_THE_PROBLEM= ColorfulTextDesign.getSuccessColorText("Please take screenshot, write steps for developer to create same error. And create an issue by clicking following url to get fixed the problem.");
 
 }

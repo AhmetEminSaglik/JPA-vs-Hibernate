@@ -1,6 +1,7 @@
 package org.aes.compare.orm.business.concrete.jpa;
 
 import jakarta.persistence.TypedQuery;
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
@@ -59,7 +60,8 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         Course course = courseService.findByName(courseName);
 
         if (course == null) {
-            System.out.println("Course name is not found : "+courseName);
+//            System.out.println("Course name is not found : "+courseName);
+            System.out.println(MetaData.getCourseNameIsNotFound(courseName));
             return null;
         }
         initializeTransaction();
@@ -80,7 +82,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         Course course = courseService.findByName(courseName);
 
         if (course == null) {
-            System.out.println("Course name is not found : "+courseName);
+            System.out.println(MetaData.getCourseNameIsNotFound(courseName));
             return null;
         }
 
