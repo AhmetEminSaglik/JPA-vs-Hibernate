@@ -3,6 +3,7 @@ package org.aes.compare.orm.consoleapplication;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
+import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -124,8 +125,19 @@ public class CourseFacade {
         Student student=studentFacade.findByMultipleWay();
 
         List<Course> courses =courseService.findAllCourseOfStudentId(student.getId());
-        System.out.println("Alinan courses : ");
+        if (courses.isEmpty()) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student has not been enrolled to any course yet."));
+        } else {
         courses.forEach(System.out::println);
+        }
+        return courses;
+    }
+
+    public List<Course> printAllCoursesBelongsToStudent() {
+        List<Course> courses = findAllCoursesBelongsToStudent();
+        StringBuilder sb = FacadeUtility.createMsgFromListExit(courses);
+        System.out.println(sb);
+
         return courses;
     }
 
@@ -287,8 +299,12 @@ public class CourseFacade {
         } else {
             Course course = courses.get(result);
             System.out.println("Course is deleting...");
-            courseService.deleteCourseById(course.getId());
-            System.out.println(MetaData.COURSE_IS_DELETED);
+            try {
+                courseService.deleteCourseById(course.getId());
+                System.out.println(MetaData.COURSE_IS_DELETED);
+            } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
+            }
         }
 
     }

@@ -41,11 +41,13 @@ public abstract class JpaImplementation<T> extends ORMImplementation {
     @Override
     protected void commit() {
         printClosingInfo();
-
         entityManager.getTransaction().commit();
-        entityManager.close();
-
-        printClosedSuccessfully();
+        close();
     }
 
+    @Override
+    protected void close() {
+        entityManager.close();
+        printClosedSuccessfully();
+    }
 }

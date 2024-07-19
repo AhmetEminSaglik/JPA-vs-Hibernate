@@ -5,6 +5,7 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
+import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.ExamResult;
@@ -32,7 +33,7 @@ public class HibernateTest {
 
     @BeforeAll
     public static void resetTablesBeforeAll() {
-//        HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.JUNIT_TEST);
+        HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.JUNIT_TEST);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
@@ -89,7 +90,11 @@ public class HibernateTest {
     @Order(104)
     @DisplayName("[Hibernate] - Delete Course By (Id)")
     public void testDeleteCourseById() {
-        courseService.deleteCourseById(2);
+        try {
+            courseService.deleteCourseById(2);
+        } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
+            throw new RuntimeException(e);
+        }
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNull(course);
     }

@@ -24,6 +24,8 @@ public abstract class ORMImplementation {
 
     protected abstract void commit();
 
+    protected abstract void close();
+
     protected final void printInitializingInfo() {
         initEntityCounter++;
         String explanation = initEntityCounter + "-) Entity is Initializing: " + getClass().getSimpleName();

@@ -55,9 +55,9 @@ public class AddressFacade {
         return true;
     }
 
-    public void findById() {
+    public Address findById() {
         if (!isAnyAddressSaved()) {
-            return;
+            return null;
         }
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Find by id : "));
         System.out.print("Id no: ");
@@ -69,8 +69,11 @@ public class AddressFacade {
             System.out.println(ColorfulTextDesign.getSuccessColorText("Address is Found: ") + address);
         } else {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Address is not found with the given id(" + id + "): "));
+            return  findById();
         }
         System.out.println("----------------------------------");
+        return  address;
+
 
     }
 

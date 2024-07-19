@@ -7,6 +7,7 @@ import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -56,7 +57,9 @@ public class SafeScannerInput {
     public static Double getCertainDoubleSafe() {
         try {
             double num = Double.parseDouble(scanner.nextLine());
-            return num;
+            DecimalFormat df = new DecimalFormat("#.00");
+            return  Double.parseDouble(df.format(num));
+//            return num;
         } catch (NumberFormatException ex) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Double value Input. Please try again. (Example : 12.34)"));
             return getCertainDoubleSafe();

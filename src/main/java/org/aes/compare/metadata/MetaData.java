@@ -19,8 +19,8 @@ public class MetaData {
             ColorfulTextDesign.getErrorColorText("Without creating any Student or Course, you may not run the functions of the Exam Result processes.\nStrongly recommend to create " +
                     ColorfulTextDesign.getInfoColorText("Student") +
                     ColorfulTextDesign.getErrorColorText(" and ") +
-                    ColorfulTextDesign.getInfoColorText("Courses") +
-                    ColorfulTextDesign.getErrorColorText(" before visit this option. ")));
+                    ColorfulTextDesign.getInfoColorText("Course") +
+                    ColorfulTextDesign.getErrorColorText(" data before visit this option. ")));
     
 
     public static final String GLOBAL_WARNING_FOR_EXAM_RESULT = sbForExamResuyltWarning.toString();
@@ -38,6 +38,7 @@ public class MetaData {
     public static final String STUDENT_UPDATE_PROCESS_IS_CANCELLED= ColorfulTextDesign.getTextForCanceledProcess("Student update Process is canceled ");
     public static final String NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT= ColorfulTextDesign.getTextForCanceledProcess("Not Found any suitable course for the student.");
     public static final String STUDENT_COURSES_ARE_UPDATED= ColorfulTextDesign.getSuccessColorText("Not Found any suitable course for the student.");
+    public static final String STUDENT_DELETE_PROCESS_CANCELED= ColorfulTextDesign.getTextForCanceledProcess("Student Delete process is Cancelled");
 
 
 
@@ -47,7 +48,7 @@ public class MetaData {
     public static final String COURSE_IS_UPDATED= ColorfulTextDesign.getSuccessColorText("Course is updated: ");
     public static final String COURSE_SELECTED = ColorfulTextDesign.getSuccessColorText("Selected Course: ");
     public static final String COURSE_IS_DELETED = ColorfulTextDesign.getSuccessColorText("Course is deleted");
-    public static final String NOT_FOUND_ANY_SAVED_COURSE = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Courses. Please save course first. "+PROCESS_IS_CANCELLED);
+    public static final String NOT_FOUND_ANY_SAVED_COURSE = ColorfulTextDesign.getTextForCanceledProcess("Has not found any saved Courses. Please save course first.\n"+PROCESS_IS_CANCELLED);
     public static final String COURSE_NAME_MUST_BE_UNIQUE = ColorfulTextDesign.getErrorColorText("Course name must be unique. "+PROCESS_IS_CANCELLED_FATAL);
     public static final String IS_SAVED_BEFORE = " is saved Before.";
 

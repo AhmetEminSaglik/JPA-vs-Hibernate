@@ -5,6 +5,7 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.ExamResult;
@@ -91,7 +92,11 @@ public class JPATest {
     @Order(104)
     @DisplayName("[JPA] - Delete Course By (Id)")
     public void testDeleteCourseById() {
-        courseService.deleteCourseById(2);
+        try {
+            courseService.deleteCourseById(2);
+        } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
+            throw new RuntimeException(e);
+        }
         Course course = courseService.findByName(EnumCourse.MATH.getName());
         Assertions.assertNull(course);
     }

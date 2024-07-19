@@ -1,10 +1,12 @@
 package org.aes.compare.orm.business.concrete.hibernate;
 
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.RollbackException;
 import jakarta.persistence.TypedQuery;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
+import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.hibernate.exception.ConstraintViolationException;
@@ -37,10 +39,11 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         Course course = null;
         try {
             course = query.getSingleResult();
+            commit();
         } catch (NoResultException ex) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("["+getClass().getSimpleName()+"]: Course is not found"));
         } finally {
-            commit();
+            close();
         }
         return course;
     }
@@ -94,23 +97,36 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     }
 
     @Override
-    public void deleteCourseByName(String name) {
+    public void deleteCourseByName(String name) throws InvalidCourseDeleteRequestStudentEnrolled {
         initializeTransaction();
         TypedQuery<Course> query = session.createQuery(
                 "SELECT c FROM Course c  WHERE c.name=:data", Course.class
         );
         query.setParameter("data", name);
+
         Course course = query.getSingleResult();
-        session.remove(course);
-        commit();
+        try {
+            session.remove(course);
+            commit();
+        } catch (RollbackException e) {
+            throw new InvalidCourseDeleteRequestStudentEnrolled(course.getName());
+        } finally {
+            close();
+        }
     }
 
     @Override
-    public void deleteCourseById(int id) {
+    public void deleteCourseById(int id) throws InvalidCourseDeleteRequestStudentEnrolled {
         initializeTransaction();
         Course course = session.find(Course.class, id);
-        session.remove(course);
-        commit();
+        try {
+            session.remove(course);
+            commit();
+        } catch (RollbackException e) {
+            throw new InvalidCourseDeleteRequestStudentEnrolled(course.getName());
+        } finally {
+            close();
+        }
     }
 
     @Override

@@ -44,11 +44,15 @@ public abstract class HibernateImplementation<T> extends ORMImplementation {
     @Override
     protected void commit() {
         printClosingInfo();
-
         session.getTransaction().commit();
-        factory.close();
-
-        printClosedSuccessfully();
+        close();
     }
 
+    @Override
+    protected void close() {
+        if (session.isOpen()) {
+            factory.close();
+            printClosedSuccessfully();
+        }
+    }
 }

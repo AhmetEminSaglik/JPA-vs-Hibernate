@@ -208,7 +208,7 @@ public class StudentFacade {
     public  List<Course> findStudentAllCourses(){
 //        Student student=findByMultipleWay();
 //        List<Course> courses=courseFacade.findAllCoursesBelongsToStudent();
-        return courseFacade.findAllCoursesBelongsToStudent();
+        return courseFacade.printAllCoursesBelongsToStudent();
     }
 
     public Student pickStudentFromList(List<Student> students) {
@@ -475,12 +475,13 @@ public class StudentFacade {
 //            option = SafeScannerInput.getCertainIntForSwitch(sb.toString(), 1, students.size());
 //            switch (option) {
 //                case 1:
-        StringBuilder sbMsg = new StringBuilder("Select Student no to delete.\n");
-                    sbMsg.append(createMsgFromList(students));
-        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 1, students.size() + 1);
+//        StringBuilder sbMsg = new StringBuilder("Select Student no to delete.\n");
+//                    sbMsg.append(createMsgFromList(students));
+//        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 0, students.size());
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, students);
                     result--;
-        if (result == students.size()) {
-            System.out.println("Student Delete process is Cancelled");
+        if (result == -1) {
+            System.out.println(MetaData.STUDENT_DELETE_PROCESS_CANCELED);
         } else {
                     Student studentToDelete = students.get(result);
                     studentService.deleteById(studentToDelete.getId());
