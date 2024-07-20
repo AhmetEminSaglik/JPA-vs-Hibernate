@@ -46,7 +46,7 @@ public class SafeScannerInput {
         if (num >= min && num <= max) {
             return num;
         } else {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error Occurred: Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
             return getCertainIntSafe(min, max);
         }
         /*} catch (NumberFormatException ex) {

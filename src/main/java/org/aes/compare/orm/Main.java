@@ -22,10 +22,11 @@ public class Main {
     private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
-//        ORMConfigSingleton.enableJPA();
-        ORMConfigSingleton.enableHibernate();
+        ColorfulTextDesign.enableStandardPrinting();
+        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.\n");
+        updatePrintingSetting();
+        ORMConfigSingleton.enableJPA();
         resetORMServices();
-
         int globalOption = -1;
         while (globalOption != 0) {
 
@@ -311,7 +312,7 @@ public class Main {
         List<String> indexes = new ArrayList<>();
         indexes.add("CMD (Windows Command Line)");
         indexes.add("IDE (Java Ide)");
-        indexes.add("Standard");
+        indexes.add("Standard (Default)");
 
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {

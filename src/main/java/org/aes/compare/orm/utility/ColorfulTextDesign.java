@@ -50,7 +50,7 @@ public class ColorfulTextDesign {
 
 
     public static String getTextForCanceledProcess(String msg) {
-        return ps.getCancelColor( msg );
+        return ps.getCancelColor(msg);
     }
 
 

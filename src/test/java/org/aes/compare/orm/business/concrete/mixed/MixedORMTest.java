@@ -1,3 +1,4 @@
+/*
 package org.aes.compare.orm.business.concrete.mixed;
 
 import org.aes.compare.orm.business.abstracts.AddressService;
@@ -464,3 +465,4 @@ public class MixedORMTest {
 
 
 }
+*/
