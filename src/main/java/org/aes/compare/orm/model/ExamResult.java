@@ -33,10 +33,6 @@ public class ExamResult {
         setStudent(student);
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
-    }
-
     public int getId() {
         return id;
     }
@@ -63,6 +59,10 @@ public class ExamResult {
 
     public Student getStudent() {
         return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
 /*    @Override

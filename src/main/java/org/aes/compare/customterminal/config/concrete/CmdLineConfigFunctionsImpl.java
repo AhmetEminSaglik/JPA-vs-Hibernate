@@ -6,7 +6,7 @@ import org.aes.compare.uiconsole.model.StaticData;
 import java.util.List;
 
 public class CmdLineConfigFunctionsImpl implements CmdLineConfigFunctions {
-//TODO burasi duzeltilecek
+    //TODO burasi duzeltilecek
 //    private boolean isActivated = false;
     private boolean isActivated = false;
     private String prefix = ">>";

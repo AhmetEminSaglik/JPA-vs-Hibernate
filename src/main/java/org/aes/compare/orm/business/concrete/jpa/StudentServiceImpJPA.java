@@ -18,7 +18,7 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
     public void save(Student s) {
         initializeTransaction();
         try {
-        entityManager.persist(s);
+            entityManager.persist(s);
         } catch (Exception e) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
         } finally {

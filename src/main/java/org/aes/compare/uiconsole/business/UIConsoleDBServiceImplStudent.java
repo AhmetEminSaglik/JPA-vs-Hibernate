@@ -10,9 +10,9 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessCheck {
-    private ORMConfigSingleton ormConfig = new ORMConfigSingleton();
     private final TerminalCommandManager tcm;
     private final TerminalCommandLayout layout;
+    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
 
     public UIConsoleDBServiceImplStudent(TerminalCommandManager tcm, TerminalCommandLayout layout) {
         this.tcm = tcm;
@@ -29,7 +29,7 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
         student.setName(stringInput);
 
 
-        inputMsg=ColorfulTextDesign.getTextForUserFeedback("Type Grade (int): ");
+        inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Grade (int): ");
         int intInput = SafeScannerInput.getIntInput(inputMsg, tcm);
         if (isCanceled()) return;
         student.setGrade(intInput);
@@ -74,7 +74,7 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
 
     @Override
     public boolean isCanceled() {
-        System.out.println("isAllowed : "+tcm.isCurrentProcessCanceled());
+        System.out.println("isAllowed : " + tcm.isCurrentProcessCanceled());
         return tcm.isCurrentProcessCanceled();
     }
 }

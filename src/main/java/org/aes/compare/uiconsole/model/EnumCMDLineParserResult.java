@@ -7,7 +7,7 @@ public enum EnumCMDLineParserResult {
 
     int id;
 
-    private EnumCMDLineParserResult(int id) {
+    EnumCMDLineParserResult(int id) {
         this.id = id;
     }
 

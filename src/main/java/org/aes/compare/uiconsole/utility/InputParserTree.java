@@ -8,8 +8,8 @@ import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 
 public class InputParserTree {
     private TerminalCMD terminalCMD;// = new TerminalCMD();
-    private CmdLineConfigFunctions cmdLine = CMDLineSingletonBuilder.getCmdLine();
-    private ProcessCommandServiceImpl processCommand = new ProcessCommandServiceImpl();
+    private final CmdLineConfigFunctions cmdLine = CMDLineSingletonBuilder.getCmdLine();
+    private final ProcessCommandServiceImpl processCommand = new ProcessCommandServiceImpl();
 
     public EnumCMDLineParserResult decideProcess(String input) {
         if (cmdLine.isActivated() || input.startsWith(cmdLine.getPrefix())) {

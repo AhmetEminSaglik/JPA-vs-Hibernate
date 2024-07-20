@@ -10,6 +10,7 @@ import java.util.List;
 
 public class AddressServiceImplHibernate extends HibernateImplementation<Address> implements AddressService {
     private final AddressComparator comparator = new AddressComparator();
+
     @Override
     public void save(Address address) {
         initializeTransaction();

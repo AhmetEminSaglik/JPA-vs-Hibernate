@@ -31,24 +31,24 @@ public class FacadeUtility {
     public static int getIndexValueOfMsgListIncludesExit(String objectPrefix, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.PROCESS_LIST);
         msg.append('(').append(0).append(") Exit\n");
-        return getUserIndexInputOfOptionList(msg, list,0);
+        return getUserIndexInputOfOptionList(msg, list, 0);
 
     }
 
     public static int getIndexValueOfMsgListIncludesCancelAndExit(String objectPrefix, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.PROCESS_LIST);
         msg.append('(').append(0).append(") Cancel & Exit\n");
-        return getUserIndexInputOfOptionList(msg, list,0);
+        return getUserIndexInputOfOptionList(msg, list, 0);
     }
 
     public static int getIndexValueOfMsgListIncludesCancelAndSaveExits(String objectPrefix, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.PROCESS_LIST);
         msg.append('(').append(-1).append(") Cancel & Exit\n");
         msg.append('(').append(0).append(") Save & Exit\n");
-        return getUserIndexInputOfOptionList(msg, list,-1);
+        return getUserIndexInputOfOptionList(msg, list, -1);
     }
 
-    private static int getUserIndexInputOfOptionList(StringBuilder msg, List<?> list,int minRange) {
+    private static int getUserIndexInputOfOptionList(StringBuilder msg, List<?> list, int minRange) {
 //        msg.append(createMsgFromListExit(list));
         for (int i = 0; i < list.size(); i++) {
             msg.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");

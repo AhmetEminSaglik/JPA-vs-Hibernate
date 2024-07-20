@@ -18,15 +18,16 @@ public class Address {
     @Column(name = "country")
     private String country;
 
-    @OneToOne(mappedBy = "address",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "address", fetch = FetchType.LAZY)
     private Student student;
 
     public Address() {
     }
+
     public Address(Address dummyAddress) {
-        street=dummyAddress.getStreet();
-        city=dummyAddress.getCity();
-        country=dummyAddress.getCountry();
+        street = dummyAddress.getStreet();
+        city = dummyAddress.getCity();
+        country = dummyAddress.getCountry();
 
     }
 

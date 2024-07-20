@@ -1,7 +1,6 @@
 package org.aes.compare.uiconsole.business;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.concretes.ProcessCommandServiceImpl;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.orm.config.ORMConfigSingleton;
@@ -15,15 +14,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class GlobalProcess extends TerminalCommandLayout {
-    private Scanner scanner = new Scanner(System.in);
     SafeScannerInput safeScannerInput = new SafeScannerInput();
-    private InputParserTree inputParserTree = new InputParserTree();
-    private List<String> list = StaticData.getGlobalProcessOptions();
+    private final Scanner scanner = new Scanner(System.in);
+    private final InputParserTree inputParserTree = new InputParserTree();
+    private final List<String> list = StaticData.getGlobalProcessOptions();
 
     public void startProcess() {
 
         ORMConfigSingleton.enableJPA();
-        while (true && isAllowedCurrentProcess) {
+        while (isAllowedCurrentProcess) {
             System.out.println("UIConsoleApp > 1.While");
             printListHowToProcess();
             selectGlobalProcess();
@@ -66,7 +65,7 @@ public class GlobalProcess extends TerminalCommandLayout {
             System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(text));
 //            HibernateImplementation.setHibernateConfigFile(EnumHibernateConfigFile.REAL_PRODUCT);
 
-        }else{
+        } else {
             text = "Tekrardan index alincak";
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(text));
 //            JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.REAL_PRODUCT);

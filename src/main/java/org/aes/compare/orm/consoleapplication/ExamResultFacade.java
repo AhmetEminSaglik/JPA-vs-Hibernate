@@ -86,6 +86,7 @@ public class ExamResultFacade {
         }
         return true;
     }
+
     private Course pickCourseThatMatchesWithStudentFromList(int studentId) {
         System.out.println("All courses that Student's enrolled: ");
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
@@ -149,7 +150,7 @@ public class ExamResultFacade {
         if (course != null) {
             List<ExamResult> examResults = examResultService.findAllByCourseName(course.getName());
             if (examResults.isEmpty()) {
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(student.getName() + " does not have any exam result of " + course.getName()+" Course."));
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(student.getName() + " does not have any exam result of " + course.getName() + " Course."));
             }
             return examResults;
         }
@@ -222,12 +223,11 @@ public class ExamResultFacade {
 
     private ExamResult updateProcess(ExamResult examResult) {
         while (true) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("(-1) Cancel & Exit\n")
-                    .append("(0) Save & Exit\n")
-                    .append("(1) Update Student  [Current : " + examResult.getStudent() + "]\n")
-                    .append("(2) Update Course  [Current : " + examResult.getCourse() + "]\n")
-                    .append("(3) Update Score  [Current : " + examResult.getScore() + "]\n");
+            String sb = "(-1) Cancel & Exit\n" +
+                    "(0) Save & Exit\n" +
+                    "(1) Update Student  [Current : " + examResult.getStudent() + "]\n" +
+                    "(2) Update Course  [Current : " + examResult.getCourse() + "]\n" +
+                    "(3) Update Score  [Current : " + examResult.getScore() + "]\n";
 
             System.out.println(sb);
             System.out.println("Type index No to process ");
@@ -249,7 +249,7 @@ public class ExamResultFacade {
                     System.out.println("Selected Student : " + student);
                     System.out.println("examResult.getStudent() : " + examResult.getStudent());
 
-                    if(student==null){
+                    if (student == null) {
                         System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student is not selected, process is cancelled"));
                         break;
                     }
@@ -310,7 +310,7 @@ public class ExamResultFacade {
         if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
-            return ;
+            return;
         }
         while (true) {
             List<ExamResult> examResults = examResultService.findAll();
@@ -382,9 +382,9 @@ public class ExamResultFacade {
 
     private void printArrWithNo(List<?> list) {
         if (list != null) {
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println("(" + (i + 1) + ") " + list.get(i));
-        }
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("(" + (i + 1) + ") " + list.get(i));
+            }
         } else {
             System.out.println("LIST IS EMPTY");
         }

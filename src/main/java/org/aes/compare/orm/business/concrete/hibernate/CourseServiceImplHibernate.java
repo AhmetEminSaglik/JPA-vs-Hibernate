@@ -21,8 +21,8 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         try {
             initializeTransaction();
-        session.persist(c);
-        commit();
+            session.persist(c);
+            commit();
         } catch (ConstraintViolationException e) {
             System.out.println(errMsg);
         } catch (Exception e) {
@@ -36,13 +36,13 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
         TypedQuery<Course> query = session.createQuery(
                 "SELECT c FROM Course c WHERE c.name=:data ", Course.class);
         query.setParameter("data", name);
-        System.out.println("course name : "+name);
+        System.out.println("course name : " + name);
         Course course = null;
         try {
             course = query.getSingleResult();
             commit();
         } catch (NoResultException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("["+getClass().getSimpleName()+"]: Course is not found"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("[" + getClass().getSimpleName() + "]: Course is not found"));
         } finally {
             close();
         }
@@ -89,9 +89,9 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     public void updateCourseByName(Course c) {
         String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         try {
-        initializeTransaction();
-        session.merge(c);
-        commit();
+            initializeTransaction();
+            session.merge(c);
+            commit();
         } catch (Exception e) {
             System.out.println(errMsg);
         }

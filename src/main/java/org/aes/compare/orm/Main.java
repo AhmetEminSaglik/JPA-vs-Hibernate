@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    private static ORMConfigSingleton orm = new ORMConfigSingleton();
+    private static final ORMConfigSingleton orm = new ORMConfigSingleton();
     private static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
     private static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
     private static CourseFacade courseFacade;
@@ -220,10 +220,7 @@ public class Main {
     }
 
     static void examResultScenario() {
-        boolean result = true;
-        if (!studentFacade.isAnyStudentSaved()) {
-            result = false;
-        }
+        boolean result = studentFacade.isAnyStudentSaved();
         if (!courseFacade.isAnyCourseSaved()) {
             result = false;
         }
@@ -341,10 +338,10 @@ public class Main {
 
     }
 
-    static  void resetORMServices(){
+    static void resetORMServices() {
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
-        studentFacade = new StudentFacade(orm.getStudentService(),addressFacade,courseFacade);
+        studentFacade = new StudentFacade(orm.getStudentService(), addressFacade, courseFacade);
         courseFacade.setStudentFacade(studentFacade);
         examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getCourseService(), courseFacade, orm.getStudentService(), studentFacade);
     }

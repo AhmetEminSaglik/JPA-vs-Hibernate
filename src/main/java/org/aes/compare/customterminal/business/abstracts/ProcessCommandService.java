@@ -11,6 +11,7 @@ public interface ProcessCommandService {
     EnumCMDLineParserResult parseCommand(String text) throws Exception; // --> lower chars, long chars,
 
     String clearCommand(String text);
+
     TerminalCMD getDecidedTerminalCMD();
     /*
      * -c -S

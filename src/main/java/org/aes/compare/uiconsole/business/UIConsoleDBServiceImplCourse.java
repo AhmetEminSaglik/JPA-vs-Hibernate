@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck {
-    private ORMConfigSingleton ormConfig = new ORMConfigSingleton();
     private final TerminalCommandManager tcm;
     private final TerminalCommandLayout layout;
-    private List<Course> courses = new ArrayList<>();
+    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
+    private final List<Course> courses = new ArrayList<>();
     private String allCourseInString = "";
 
     public UIConsoleDBServiceImplCourse(TerminalCommandManager tcm, TerminalCommandLayout layout) {
@@ -43,6 +43,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
             allCourseInString += (i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getcredit() + "\n";
         }
     }
+
     public void save() {
 
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Course Save process is initialized"));
@@ -80,9 +81,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
 
         System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Address is saved: " + address));*/
 
-        return;
-
-//        ormConfig.getAddressService().save(address);
+        //        ormConfig.getAddressService().save(address);
 
 //        ormConfig.getCourseService().save(c);
     }

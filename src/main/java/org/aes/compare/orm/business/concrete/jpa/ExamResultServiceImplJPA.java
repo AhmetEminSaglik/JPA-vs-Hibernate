@@ -16,10 +16,9 @@ import java.util.List;
 
 public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> implements ExamResultService {
 
-    private StudentService studentService = new StudentServiceImpJPA();
-    private CourseService courseService = new CourseServiceImplJPA();
-
     private final ExamResultComparator comparator = new ExamResultComparator();
+    private final StudentService studentService = new StudentServiceImpJPA();
+    private final CourseService courseService = new CourseServiceImplJPA();
 
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {

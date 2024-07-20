@@ -18,6 +18,7 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
     private final StudentService studentService = new StudentServiceImplHibernate();
     private final CourseService courseService = new CourseServiceImplHibernate();
     private final ExamResultComparator comparator = new ExamResultComparator();
+
     @Override
     public void save(ExamResult examResult) throws InvalidStudentCourseMatchForExamResult {
         Student student = studentService.findByStudentIdWithCourseName(examResult.getStudent().getId(), examResult.getCourse().getName());

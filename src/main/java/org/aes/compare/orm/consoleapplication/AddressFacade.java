@@ -12,14 +12,13 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AddressFacade {
-    Scanner scanner = new Scanner(System.in);
+    private final static String selectOptionText = MetaData.SELECT_ONE_OPTION;
     private final AddressService addressService;
+    Scanner scanner = new Scanner(System.in);
 
     public AddressFacade(AddressService addressService) {
         this.addressService = addressService;
     }
-
-    private final static String selectOptionText = MetaData.SELECT_ONE_OPTION;
 
     public Address save() {
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Save : "));
@@ -69,10 +68,10 @@ public class AddressFacade {
             System.out.println(ColorfulTextDesign.getSuccessColorText("Address is Found: ") + address);
         } else {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Address is not found with the given id(" + id + "): "));
-            return  findById();
+            return findById();
         }
         System.out.println("----------------------------------");
-        return  address;
+        return address;
 
 
     }
@@ -105,7 +104,7 @@ public class AddressFacade {
         if (address == null) {
             return address;
         }
-        return  updateSelectedAddress(address);
+        return updateSelectedAddress(address);
 
     }
 

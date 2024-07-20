@@ -12,11 +12,11 @@ import org.ahmeteminsaglik.utility.ConsoleColors;
 
 
 public class ProcessCommandServiceImpl implements ProcessCommandService {
-    private TerminalCMD terminalCMD = new TerminalCMD();
     //    private EnumCRUDCommand reqCrudOperation;
 //    private EnumModelCommand reqModel;
 //    private EnumStandardCommand reqTerminalCmd;
     private final String helpMsg = "Type '" + EnumStandardCommand.HELP.getShortName() + "' or '" + EnumStandardCommand.HELP.getLongName() + "'to get help.";
+    private TerminalCMD terminalCMD = new TerminalCMD();
 
     @Override
     public EnumCMDLineParserResult processCommand(String text) {
@@ -27,7 +27,7 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
     @Override
     public EnumCMDLineParserResult parseCommand(String text) {
         text = clearCommand(text);
-        String cmdArr[] = text.split(" ");
+        String[] cmdArr = text.split(" ");
 //        System.out.println("array length : " + cmdArr.length);
 
         try {
@@ -139,8 +139,6 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
         return EnumCMDLineParserResult.RUN_FOR_INVALID_COMMAND;
 
     }
-
-
 
 
 }

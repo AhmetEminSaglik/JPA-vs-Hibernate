@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StaticData {
-    private static List<String> globalProcessOptions = new ArrayList<>();
+    private static final List<String> globalProcessOptions = new ArrayList<>();
 
     private static void fillGlobalProcessOptions() {
         globalProcessOptions.add("CRUD > Object  (First select CRUD process, then select Object)");

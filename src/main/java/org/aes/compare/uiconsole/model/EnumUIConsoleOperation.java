@@ -4,7 +4,7 @@ import org.aes.compare.customterminal.model.EnumCRUDCommand;
 import org.aes.compare.customterminal.model.EnumModelCommand;
 
 public enum EnumUIConsoleOperation {
-//    CREATE_STUDENT(EnumCRUDCommand.CREATE.getLongName() + "-" + EnumModelCommand.STUDENT.getFileName()),
+    //    CREATE_STUDENT(EnumCRUDCommand.CREATE.getLongName() + "-" + EnumModelCommand.STUDENT.getFileName()),
     CREATE_STUDENT("create-Course"),
     CREATE_ADDRESS(EnumCRUDCommand.CREATE.getLongName() + "-" + EnumModelCommand.ADDRESS.getName()),
     CREATE_COURSE(EnumCRUDCommand.CREATE.getLongName() + "-" + EnumModelCommand.COURSE.getName()),
@@ -28,7 +28,7 @@ public enum EnumUIConsoleOperation {
     DELETE_COURSE(EnumCRUDCommand.DELETE.getLongName() + "-" + EnumModelCommand.COURSE.getName()),
     DELETE_EXAM_RESULT(EnumCRUDCommand.DELETE.getLongName() + "-" + EnumModelCommand.EXAM_RESULT.getName());
 
-    private String getOperationName;
+    private final String getOperationName;
 
     EnumUIConsoleOperation(String getOperationName) {
         this.getOperationName = getOperationName;

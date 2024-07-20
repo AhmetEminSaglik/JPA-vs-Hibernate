@@ -16,7 +16,7 @@ import org.aes.compare.uiconsole.model.EnumUIConsoleOperation;
 public class TerminalCommandManager extends TerminalCommandLayout implements RunnableTerminalCommand {
     private static final char underscore = '_';
     public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu(this, this);
-    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this,this);
+    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this, this);
     public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse(this, this);
     public UIConsoleDBServiceImplExamResult displayExamResultMenu = new UIConsoleDBServiceImplExamResult();
 
@@ -27,7 +27,7 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
     public void runCustomCommand(TerminalCommandLayout layout, TerminalCMD cmd) {
         if (cmd.getStandardCommand() != null) {
             runStandardCommand(layout, cmd);
-        } else if(cmd.getCrudCommand()!=null && cmd.getModelCommand()!=null) {
+        } else if (cmd.getCrudCommand() != null && cmd.getModelCommand() != null) {
             runModelCommand(cmd);
         }
     }
@@ -92,7 +92,7 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
 
 
         }
-        if (isAllowedCurrentProcess == false) {
+        if (!isAllowedCurrentProcess) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is canceled."));
         }
 //        cmd.getModelCommand();

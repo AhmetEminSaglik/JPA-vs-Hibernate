@@ -11,13 +11,12 @@ import org.aes.compare.uiconsole.utility.SafeScannerInput;
 public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProcessCheck {
     private final TerminalCommandManager tcm;
     private final TerminalCommandLayout layout;
+    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
 
     public UIConsoleDBServiceDisplayAddressMenu(TerminalCommandManager tcm, TerminalCommandLayout layout) {
         this.tcm = tcm;
         this.layout = layout;
     }
-
-    private ORMConfigSingleton ormConfig = new ORMConfigSingleton();
 
     public Address save() {
         Address address = new Address();
@@ -35,7 +34,7 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
 
         inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Country (String):");
 
-        stringInput = SafeScannerInput.getStringInput(inputMsg,tcm);
+        stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
         if (isCanceled()) return null;
         address.setCountry(stringInput);
 

@@ -26,9 +26,9 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
                 .append(ColorfulTextDesign.getInfoColorText(c.getName().toUpperCase()))
                 .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_BEFORE));
         try {
-        initializeTransaction();
-        entityManager.persist(c);
-        commit();
+            initializeTransaction();
+            entityManager.persist(c);
+            commit();
         } catch (ConstraintViolationException e) {
             System.out.println(errMsg);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
             course = query.getSingleResult();
             commit();
         } catch (NoResultException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("["+getClass().getSimpleName()+"]: Course is not found"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("[" + getClass().getSimpleName() + "]: Course is not found"));
         } finally {
             close();
         }
@@ -96,7 +96,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         try {
             initializeTransaction();
             entityManager.merge(c);
-        commit();
+            commit();
         } catch (ConstraintViolationException e) {
             System.out.println(errMsg);
         } catch (Exception e) {
@@ -113,8 +113,8 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
         query.setParameter("data", name);
         Course course = query.getSingleResult();
         try {
-        entityManager.remove(course);
-        commit();
+            entityManager.remove(course);
+            commit();
         } catch (RollbackException e) {
             throw new InvalidCourseDeleteRequestStudentEnrolled(course.getName());
         } finally {

@@ -3,7 +3,7 @@ package org.aes.compare.uiconsole.business;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 
 public class UIConsoleDBServiceImplExamResult {
-    private ORMConfigSingleton ormConfig = new ORMConfigSingleton();
+    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
 
 
     public void save() {

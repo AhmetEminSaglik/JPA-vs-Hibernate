@@ -35,7 +35,7 @@ public class CourseFacade {
 //        }
     }
 
-    public Course save(){
+    public Course save() {
         List<Course> properCourses = getProperCoursesToSave();
 //        StringBuilder sbCourses = new StringBuilder();
 //        sbCourses.append(createMsgFromListForCourses(properCourses))
@@ -56,7 +56,7 @@ public class CourseFacade {
             course.setName(name);
 
             System.out.print("Type for Course Credit (double): ");
-            double credit = SafeScannerInput.getCertainDoubleSafe(1,20);
+            double credit = SafeScannerInput.getCertainDoubleSafe(1, 20);
 
             course.setcredit(credit);
             System.out.println("Course is saving...");
@@ -122,13 +122,13 @@ public class CourseFacade {
     }
 
     public List<Course> findAllCoursesBelongsToStudent() {
-        Student student=studentFacade.findByMultipleWay();
+        Student student = studentFacade.findByMultipleWay();
 
-        List<Course> courses =courseService.findAllCourseOfStudentId(student.getId());
+        List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student has not been enrolled to any course yet."));
         } else {
-        courses.forEach(System.out::println);
+            courses.forEach(System.out::println);
         }
         return courses;
     }
@@ -154,8 +154,8 @@ public class CourseFacade {
     }
 
     public Course findByMultipleWay() {
-        List<Course> courses=courseService.findAll();
-        if(courses.isEmpty()){
+        List<Course> courses = courseService.findAll();
+        if (courses.isEmpty()) {
             System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
             return null;
         }

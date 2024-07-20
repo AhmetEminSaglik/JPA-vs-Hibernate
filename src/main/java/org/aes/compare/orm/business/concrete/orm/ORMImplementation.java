@@ -5,15 +5,19 @@ import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 public abstract class ORMImplementation {
 
-    protected static EnumORMConfigFile enumORMConfigFile=EnumORMConfigFile.REAL_PRODUCT_JPA;
+    protected static EnumORMConfigFile enumORMConfigFile = EnumORMConfigFile.REAL_PRODUCT_JPA;
 
     protected static int initEntityCounter = 0;
     protected static int closeEntityCounter = 0;
 
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
 //        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getFileName()));
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred ORM Tool is: " +getCurrentORMToolName()));
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred ORM Tool is: " + getCurrentORMToolName()));
         enumORMConfigFile = configFile;
+    }
+
+    public static String getCurrentORMToolName() {
+        return enumORMConfigFile.getORMToolName();
     }
 
     protected abstract void createFactory();
@@ -33,10 +37,9 @@ public abstract class ORMImplementation {
     }
 
     protected final void printInitializedSuccessfully() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is "))
-                .append(ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY"))
-                .append(ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName()));
+        String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
+                ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY") +
+                ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
         System.out.println(sb);
     }
 
@@ -47,14 +50,9 @@ public abstract class ORMImplementation {
     }
 
     protected final void printClosedSuccessfully() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is "))
-                .append(ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY"))
-                .append(ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName()));
+        String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
+                ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY") +
+                ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
         System.out.println(sb);
-    }
-
-    public static String getCurrentORMToolName() {
-        return enumORMConfigFile.getORMToolName();
     }
 }

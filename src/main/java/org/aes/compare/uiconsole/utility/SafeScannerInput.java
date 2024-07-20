@@ -12,21 +12,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SafeScannerInput {
-    private static Scanner scanner = new Scanner(System.in);
-    private static InputParserTree inputParserTree = new InputParserTree();
-
-    public int convertInputToListIndexValue(String input, List<?> list) {
-        Integer integer = getInt(input);
-        if (integer != null) {
-            int num = --integer;
-            boolean result = isNumberSuitableListRange(num, list);
-            if (result) {
-                return num;
-            }
-        }
-        return -1;
-
-    }
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final InputParserTree inputParserTree = new InputParserTree();
 
     public static Integer getCertainIntSafe() {
         try {
@@ -37,7 +24,6 @@ public class SafeScannerInput {
             return getCertainIntSafe();
         }
     }
-
 
     public static Integer getCertainIntSafe(int min, int max) {
 //        try {
@@ -54,11 +40,12 @@ public class SafeScannerInput {
 //            return getCertainIntSafe(min,max);
         }*/
     }
+
     public static Double getCertainDoubleSafe() {
         try {
             double num = Double.parseDouble(scanner.nextLine());
             DecimalFormat df = new DecimalFormat("#.00");
-            return  Double.parseDouble(df.format(num));
+            return Double.parseDouble(df.format(num));
 //            return num;
         } catch (NumberFormatException ex) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Double value Input. Please try again. (Example : 12.34)"));
@@ -89,6 +76,7 @@ public class SafeScannerInput {
         }
         return text;
     }
+
     public static Integer getInt(String input) {
         try {
             int num = Integer.parseInt(input);
@@ -97,14 +85,6 @@ public class SafeScannerInput {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Index Input. Please try again."));
             return null;
         }
-    }
-
-    private boolean isNumberSuitableListRange(int num, List<?> list) {
-        if (num >= 0 && num < list.size()) {
-            return true;
-        }
-        System.out.println("Invalid Index range. Please choose number between 0-" + (list.size() - 1));
-        return false;
     }
 
     public static String getStringInput(String inputMsg, TerminalCommandLayout tmc) {
@@ -184,7 +164,7 @@ public class SafeScannerInput {
         System.out.print(text);
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
-        String errMsg =(ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between ["+minRange+","+maxRange+"]"));
+        String errMsg = (ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between [" + minRange + "," + maxRange + "]"));
         try {
             String inputText = scanner.nextLine();
             int val = Integer.parseInt(inputText);
@@ -195,11 +175,12 @@ public class SafeScannerInput {
             errMsg = "Invalid number : " + val + "." + errMsg;
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(errMsg));
         } catch (NumberFormatException e) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between ["+minRange+","+maxRange+"]"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between [" + minRange + "," + maxRange + "]"));
         }
         return getCertainIntForSwitch(text, minRange, maxRange);
     }
-    public static int getCertainIntForSwitch( int minRange, int maxRange) {
+
+    public static int getCertainIntForSwitch(int minRange, int maxRange) {
         String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
         try {
             String inputText = scanner.nextLine();
@@ -211,9 +192,30 @@ public class SafeScannerInput {
             errMsg = "Invalid number : " + val + "." + errMsg;
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(errMsg));
         } catch (NumberFormatException e) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please type only number between ("+minRange+"-"+maxRange+")"));
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please type only number between (" + minRange + "-" + maxRange + ")"));
         }
-        return getCertainIntForSwitch( minRange, maxRange);
+        return getCertainIntForSwitch(minRange, maxRange);
+    }
+
+    public int convertInputToListIndexValue(String input, List<?> list) {
+        Integer integer = getInt(input);
+        if (integer != null) {
+            int num = --integer;
+            boolean result = isNumberSuitableListRange(num, list);
+            if (result) {
+                return num;
+            }
+        }
+        return -1;
+
+    }
+
+    private boolean isNumberSuitableListRange(int num, List<?> list) {
+        if (num >= 0 && num < list.size()) {
+            return true;
+        }
+        System.out.println("Invalid Index range. Please choose number between 0-" + (list.size() - 1));
+        return false;
     }
 
 

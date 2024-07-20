@@ -13,7 +13,7 @@ public interface ExamResultService {
 
     List<ExamResult> findAllByStudentId(int studentId);
 
-    List<ExamResult> findAllByStudentIdAndCourseName(int studentId,String courseName);
+    List<ExamResult> findAllByStudentIdAndCourseName(int studentId, String courseName);
 
     List<ExamResult> findAllByCourseName(String courseName);
 

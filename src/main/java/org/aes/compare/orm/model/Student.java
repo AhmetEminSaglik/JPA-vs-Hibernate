@@ -4,13 +4,12 @@ import jakarta.persistence.*;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "students")
-public class Student  {
+public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +19,10 @@ public class Student  {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "grade",nullable = false)
+    @Column(name = "grade", nullable = false)
     private int grade;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,/*CascadeType.PERSIST,*/CascadeType.DETACH,CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,/*CascadeType.PERSIST,*/CascadeType.DETACH, CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
     @JoinTable(name = "student_courses",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
@@ -31,13 +30,14 @@ public class Student  {
     )
     private List<Course> courses;
 
-    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.REMOVE})
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
 //    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id",nullable = false/*, referencedColumnName = "id"*/)
+    @JoinColumn(name = "address_id", nullable = false/*, referencedColumnName = "id"*/)
     private Address address;
 
     public Student() {
     }
+
     public Student(String name, int grade, Address address) {
         this.name = name;
         this.grade = grade;
@@ -47,6 +47,7 @@ public class Student  {
     public void addCourses(List<Course> courses) {
         courses.forEach(this::addCourse);
     }
+
     public void addCourse(Course course) {
         if (courses == null) {
             courses = new ArrayList<>();

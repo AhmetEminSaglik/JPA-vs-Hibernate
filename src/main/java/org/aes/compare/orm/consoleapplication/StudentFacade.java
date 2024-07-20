@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class StudentFacade {
+    private static int counter = 0;
     private final StudentService studentService;
     private final AddressFacade addressFacade;
     private final CourseFacade courseFacade;
@@ -33,8 +34,6 @@ public class StudentFacade {
         this.addressService = orm.getAddressService();
         this.courseService = orm.getCourseService();
     }
-
-    private static int counter = 0;
 
     public Student save() {
         counter++;
@@ -55,7 +54,7 @@ public class StudentFacade {
             student.setAddress(address);
             studentService.save(student);
             System.out.println(MetaData.STUDENT_IS_SAVED + student);
-        }else{
+        } else {
             System.out.println(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED);
         }
 
@@ -205,7 +204,8 @@ public class StudentFacade {
         return student;
     */
     }
-    public  List<Course> findStudentAllCourses(){
+
+    public List<Course> findStudentAllCourses() {
 //        Student student=findByMultipleWay();
 //        List<Course> courses=courseFacade.findAllCoursesBelongsToStudent();
         return courseFacade.printAllCoursesBelongsToStudent();
@@ -361,7 +361,7 @@ public class StudentFacade {
                     break;
                 case 2:
                     System.out.print("Type Student Grade (int):");
-                    int grade = SafeScannerInput.getCertainIntSafe(1,6);
+                    int grade = SafeScannerInput.getCertainIntSafe(1, 6);
                     student.setGrade(grade);
                     break;
                 case 3:
@@ -375,10 +375,11 @@ public class StudentFacade {
                     }
                     break;
                 case 4:
-                    Address dummyAddress=new Address(student.getAddress());
-                    Address address =updateStudentAddressProgress(dummyAddress);
-                    if(address!=null){
-                    student.setAddress(address);}
+                    Address dummyAddress = new Address(student.getAddress());
+                    Address address = updateStudentAddressProgress(dummyAddress);
+                    if (address != null) {
+                        student.setAddress(address);
+                    }
                     break;
 
                 default:
@@ -466,7 +467,7 @@ public class StudentFacade {
             return;
         }
 //        while (option != 2) {
-            List<Student> students = studentService.findAll();
+        List<Student> students = studentService.findAll();
 //            StringBuilder sb = new StringBuilder("Please choose one of the following Student No");
 //            sb.append("1-) Delete Student \n");
 //            sb.append("2-) Exit\n");
@@ -479,12 +480,12 @@ public class StudentFacade {
 //                    sbMsg.append(createMsgFromList(students));
 //        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 0, students.size());
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, students);
-                    result--;
+        result--;
         if (result == -1) {
             System.out.println(MetaData.STUDENT_DELETE_PROCESS_CANCELED);
         } else {
-                    Student studentToDelete = students.get(result);
-                    studentService.deleteById(studentToDelete.getId());
+            Student studentToDelete = students.get(result);
+            studentService.deleteById(studentToDelete.getId());
         }
 //                    break;
 //                case 2:
@@ -521,6 +522,7 @@ public class StudentFacade {
         }
         sb.append((list.size() + 1) + "-) Exit/Cancel");
         return sb;
-    */}
+    */
+    }
 
 }

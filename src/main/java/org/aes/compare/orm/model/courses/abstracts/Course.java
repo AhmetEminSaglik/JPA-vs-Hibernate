@@ -4,12 +4,11 @@ import jakarta.persistence.*;
 import org.aes.compare.orm.model.Student;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 
 @Entity
-@Table(name = "courses",uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
+@Table(name = "courses", uniqueConstraints = {@UniqueConstraint(columnNames = {"name"})})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Course {
 
@@ -25,7 +24,7 @@ public abstract class Course {
     private double credit;
 
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Student> students;
 
 

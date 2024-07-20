@@ -10,17 +10,17 @@ public class ColorfulTextDesign {
 
     public static void enableCMDPrinting() {
         PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.WINDOWS_CMD);
-        ps=PrintConsoleServiceConfig.getPrintableService();
+        ps = PrintConsoleServiceConfig.getPrintableService();
     }
 
     public static void enableIDEPrinting() {
         PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.JAVA_IDE);
-        ps=PrintConsoleServiceConfig.getPrintableService();
+        ps = PrintConsoleServiceConfig.getPrintableService();
     }
 
     public static void enableStandardPrinting() {
         PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.STANDARD);
-        ps=PrintConsoleServiceConfig.getPrintableService();
+        ps = PrintConsoleServiceConfig.getPrintableService();
     }
 /*    public static String getText(String msg) {
         PrintConsoleServiceConfig.setIdeColor(ConsoleColors.BLUE_BRIGHT);
@@ -28,24 +28,25 @@ public class ColorfulTextDesign {
     }*/
 
     public static String getText(String color, String msg) {
-        return ps.getColorfulText(color + msg );
+        return ps.getColorfulText(color + msg);
     }
 
 
     public static String getInfoColorTextWithPrefix(String msg) {
-        return ps.getInfoColor( "[INFO]: " + msg );
+        return ps.getInfoColor("[INFO]: " + msg);
     }
 
     public static String getInfoColorText(String msg) {
-        return ps.getInfoColor( msg );
+        return ps.getInfoColor(msg);
     }
 
 
     public static String getErrorColorTextWithPrefix(String msg) {
-        return ps.getErrorColor("[ERROR]: " + msg );
+        return ps.getErrorColor("[ERROR]: " + msg);
     }
+
     public static String getErrorColorText(String msg) {
-        return ps.getErrorColor(  msg );
+        return ps.getErrorColor(msg);
     }
 
 
@@ -55,15 +56,15 @@ public class ColorfulTextDesign {
 
 
     public static String getTextForUserFeedback(String msg) {
-        return ps.getColorfulText(msg );
+        return ps.getColorfulText(msg);
     }
 
     public static String getSuccessColorTextWithPrefix(String msg) {
-        return ps.getSuccessColor( "[SUCCESS]: " + msg);
+        return ps.getSuccessColor("[SUCCESS]: " + msg);
     }
 
     public static String getSuccessColorText(String msg) {
-        return ps.getSuccessColor( msg );
+        return ps.getSuccessColor(msg);
     }
 
 
@@ -72,9 +73,8 @@ public class ColorfulTextDesign {
     }
 
     public static String getWarningColorText(String msg) {
-        return ps.getWarningColor( msg);
+        return ps.getWarningColor(msg);
     }
-
 
 
 }
