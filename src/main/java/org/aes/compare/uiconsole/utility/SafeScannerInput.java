@@ -164,7 +164,7 @@ public class SafeScannerInput {
         System.out.print(text);
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
-        String errMsg = (ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between [" + minRange + "," + maxRange + "]"));
+        String errMsg = (ColorfulTextDesign.getErrorColorText("Please Type number between [" + minRange + "," + maxRange + "]"));
         try {
             String inputText = scanner.nextLine();
             int val = Integer.parseInt(inputText);
@@ -172,7 +172,7 @@ public class SafeScannerInput {
             if (val >= minRange && val <= maxRange) {
                 return val;
             }
-            errMsg = "Invalid number : " + val + "." + errMsg;
+            errMsg = "Invalid number (" + val + ") . " + errMsg;
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(errMsg));
         } catch (NumberFormatException e) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between [" + minRange + "," + maxRange + "]"));

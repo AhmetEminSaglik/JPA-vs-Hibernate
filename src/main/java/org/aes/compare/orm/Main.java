@@ -21,7 +21,7 @@ public class Main {
     private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
-        LoggerConfigORM.enable();
+        LoggerConfigORM.disable();
         /*ColorfulTextDesign.enableCMDPrinting();
         System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
         updatePrintingSetting();*/
@@ -49,7 +49,7 @@ public class Main {
             globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, indexes);
             switch (globalOption) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess("[MAIN]: "+MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     addressScenario();
@@ -95,7 +95,7 @@ public class Main {
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     addressFacade.save();
@@ -142,7 +142,7 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     studentFacade.save();
@@ -195,7 +195,7 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_COURSE + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     courseFacade.save();
@@ -223,7 +223,7 @@ public class Main {
 
     static void examResultScenario() {
         boolean result = studentFacade.isAnyStudentSaved();
-        if (!courseFacade.isAnyCourseSaved()) {
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)) {
             result = false;
         }
         if (!result) {
@@ -255,7 +255,7 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_EXAM_RESULT + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     examResultFacade.save();
@@ -294,7 +294,7 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
                 break;
             case 1:
                 updateORMSetting();
@@ -372,7 +372,7 @@ public class Main {
         switch (option) {
             case 0:
                 System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
                 break;
             case 1:
                 ColorfulTextDesign.enableCMDPrinting();

@@ -39,7 +39,7 @@ public class ExamResultFacade {
     }
 
     public ExamResult save() {
-        if (!courseFacade.isAnyCourseSaved()
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()) {
             return null;
         }
@@ -103,7 +103,7 @@ public class ExamResultFacade {
 
 
     public List<ExamResult> findAllByStudentId() {
-        if (!courseFacade.isAnyCourseSaved()
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
@@ -119,7 +119,7 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByStudentIdAndCourseName() {
-        if (!courseFacade.isAnyCourseSaved()
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
@@ -158,7 +158,7 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByCourseName() {
-        if (!courseFacade.isAnyCourseSaved()
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
@@ -205,7 +205,7 @@ public class ExamResultFacade {
 
 
     public void update() {
-        if (!courseFacade.isAnyCourseSaved()
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return;
@@ -307,7 +307,7 @@ public class ExamResultFacade {
     }
 
     public void delete() {
-        if (!courseFacade.isAnyCourseSaved()
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return;

@@ -95,7 +95,7 @@ public class CourseFacade {
     }
 
     public List<Course> findAll() {
-        if (!isAnyCourseSaved()) {
+        if (!isAnyCourseSaved("")) {
             return null;
         }
         List<Course> courses = courseService.findAll();
@@ -106,7 +106,7 @@ public class CourseFacade {
     }
 
     public Course findByName() {
-        if (!isAnyCourseSaved()) {
+        if (!isAnyCourseSaved("")) {
             return null;
         }
         return findByMultipleWay();
@@ -126,30 +126,54 @@ public class CourseFacade {
         if (student == null) {
             return null;
         }
+        return findAllCoursesOfStudent("", student);
+        /*if (student == null) {
+            return null;
+        }
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student has not been enrolled to any course yet."));
+
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX+"Student has not been enrolled to any course yet."));
         } else {
             courses.forEach(System.out::println);
+        }*/
+//        return findAllCoursesOfStudent(student);
+    }
+
+    public List<Course> findAllCoursesOfStudent(String parentProcessName, Student student) {
+//        Student student = studentFacade.findByMultipleWay();
+        String processPrefixName = parentProcessName + MetaData.INNER_PROCESS_PREFIX + MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_SELECT;
+        List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
+        if (courses.isEmpty()) {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + "Student has not been enrolled to any course yet."));
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(processPrefixName + MetaData.PROCESS_IS_CANCELLED));
+        } else {
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(processPrefixName + MetaData.PROCESS_COMPLETED));
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student's all courses(" + courses.size() + ") are retrieved.");
         }
+        FacadeUtility.printSlash();
         return courses;
     }
 
-    public List<Course> printAllCoursesBelongsToStudent() {
+  /*  public List<Course> printAllCoursesBelongsToStudent() {
         List<Course> courses = findAllCoursesBelongsToStudent();
         StringBuilder sb = FacadeUtility.createMsgFromListExit(courses);
         System.out.println(sb);
 
         return courses;
-    }
+    }*/
 
     /*    public int getTotalCourseNumber() {
             return courseService.findAll().size();
         }*/
-    public boolean isAnyCourseSaved() {
+    public boolean isAnyCourseSaved(String parentProcessName) {
         int totalCourse = courseService.findAll().size();
         if (totalCourse == 0) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_COURSE));
+            if (parentProcessName != null && parentProcessName.length() > 0) {
+                parentProcessName += MetaData.INNER_PROCESS_PREFIX;
+            }
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(parentProcessName + MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
             return false;
         }
         return true;
@@ -184,7 +208,7 @@ public class CourseFacade {
                 String courseName = SafeScannerInput.getStringNotBlank();
                 course = courseService.findByName(courseName);
                 if (course == null) {
-                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found with given name(" + courseName + "). Please try again"));
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Course is not found with given name(" + courseName + ").\nPlease try again"));
                     return findByMultipleWay();
                 } else {
                     System.out.println(ColorfulTextDesign.getSuccessColorText("Selected Course : ") + course);
@@ -221,7 +245,7 @@ public class CourseFacade {
     }
 
     public Course update() {
-        if (!isAnyCourseSaved()) {
+        if (!isAnyCourseSaved("")) {
             return null;
         }
         List<Course> courses = courseService.findAll();
@@ -282,7 +306,7 @@ public class CourseFacade {
     }
 
     public void delete() {
-        if (!isAnyCourseSaved()) {
+        if (!isAnyCourseSaved("")) {
             return;
         }
         /*List<Course> courses = courseService.findAll();

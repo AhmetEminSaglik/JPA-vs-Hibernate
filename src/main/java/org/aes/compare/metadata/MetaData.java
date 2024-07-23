@@ -14,7 +14,7 @@ public class MetaData {
     public static final String PROCESS_RESULT_PREFIX = " --> ";
 
 
-    public static final String INNER_PROCESS_PREFIX = "[Inner Process]-";
+    public static final String INNER_PROCESS_PREFIX = " >>> [Inner Process]-";
     public static final String PROCESS_PREFIX_ADDRESS = "[Address]:".toUpperCase();
     public static final String PROCESS_PREFIX_STUDENT = "[Student]:".toUpperCase();
     public static final String PROCESS_PREFIX_COURSE = "[Course]:".toUpperCase();
@@ -29,8 +29,8 @@ public class MetaData {
 
     public static final String STUDENT_IS_UPDATED = "Student is updated: ";
     public static final String STUDENT_IS_SAVED = "Student is saved: ";
-    public static final String STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED = "Student can not save without Address Data.\n" + PROCESS_IS_CANCELLED;
-    public static final String NOT_FOUND_ANY_SAVED_STUDENT = "Has not found any saved student. Please save student first.\n" + PROCESS_IS_CANCELLED;
+    public static final String STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED = "Student can not save without address data." ;
+    public static final String NOT_FOUND_ANY_SAVED_STUDENT = "Has not found any saved student. Please save student first." ;
     public static final String STUDENT_UPDATE_PROCESS_IS_CANCELLED = "Student update Process is cancelled ";
 
     public static final String NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT = "Not Found any suitable course for the student.";

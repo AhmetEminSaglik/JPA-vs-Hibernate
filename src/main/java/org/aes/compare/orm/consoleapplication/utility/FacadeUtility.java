@@ -90,4 +90,9 @@ public class FacadeUtility {
         }
         System.out.println(sb);
     }*/
+
+    public static void printSlash() {
+        System.out.println("-------------------------");
+    }
+
 }
