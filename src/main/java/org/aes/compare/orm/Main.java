@@ -8,8 +8,7 @@ import org.aes.compare.orm.consoleapplication.ExamResultFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.ahmeteminsaglik.config.PrintConsoleServiceConfig;
-import org.ahmeteminsaglik.printable.EnumPrintOption;
+import org.aes.compare.uiconsole.business.LoggerConfigORM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,7 @@ public class Main {
     private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
+        LoggerConfigORM.enable();
         /*ColorfulTextDesign.enableCMDPrinting();
         System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
         updatePrintingSetting();*/
@@ -36,7 +36,8 @@ public class Main {
             indexes.add("Student");
             indexes.add("Course");
             indexes.add("Exam Result");
-            indexes.add("ORM Setting (Switch between JPA - Hibernate)");
+//            indexes.add("ORM Setting (Switch between JPA - Hibernate)");
+            indexes.add("Setting");
             indexes.add("Printing Setting (CMD - IDE)");
 
             /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
@@ -63,7 +64,7 @@ public class Main {
                     examResultScenario();
                     break;
                 case 5:
-                    updateORMSetting();
+                    updateSetting();
                     break;
                 case 6:
                     updatePrintingSetting();
@@ -284,6 +285,33 @@ public class Main {
         }
     }
 
+    private static void updateSetting() {
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Select ORM Tool (JPA-Hibernate)");
+        indexes.add("Enable-Disable ORM Logs");
+
+
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        switch (option) {
+            case 0:
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                break;
+            case 1:
+                updateORMSetting();
+                updateSetting();
+//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+                break;
+            case 2:
+                updateORMLogSettings();
+                updateSetting();
+//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+                break;
+            default:
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
+        }
+
+
+    }
     private static void updateORMSetting() {
         List<String> indexes = new ArrayList<>();
         indexes.add("JPA");
@@ -303,6 +331,30 @@ public class Main {
                 ORMConfigSingleton.enableHibernate();
                 resetORMServices();
 //                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+                break;
+            default:
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
+        }
+
+    }
+
+    private static void updateORMLogSettings() {
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Enable ORM Logs");
+        indexes.add("Disable ORM Logs");
+
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        switch (option) {
+            case 0:
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                break;
+            case 1:
+                LoggerConfigORM.enable();
+                System.out.println(ColorfulTextDesign.getSuccessColorText("ORM Logs are enabled."));
+                break;
+            case 2:
+                LoggerConfigORM.disable();
+                System.out.println(ColorfulTextDesign.getSuccessColorText("ORM Logs are disabled."));
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));

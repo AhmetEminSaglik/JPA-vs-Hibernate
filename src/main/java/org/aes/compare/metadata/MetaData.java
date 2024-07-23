@@ -14,13 +14,14 @@ public class MetaData {
     public static final String PROCESS_RESULT_PREFIX = " --> ";
 
 
-    public static final String PROCESS_PREFIX_ADDRESS = "[Address]: ".toUpperCase();
-    public static final String PROCESS_PREFIX_STUDENT = "[Student]: ".toUpperCase();
-    public static final String PROCESS_PREFIX_COURSE = "[Course]: ".toUpperCase();
-    public static final String PROCESS_PREFIX_EXAM_RESULT = "[Exam Result]: ".toUpperCase();
-    public static final String PROCESS_PREFIX_GLOBAL = "[Global]: ".toUpperCase();
-    public static final String PROCESS_PREFIX_SETTINGS = "[Settings]: ".toUpperCase();
-    public static final String AVAILABLE_OPTIONS = "Available Options: \n";
+    public static final String INNER_PROCESS_PREFIX = "[Inner Process]-";
+    public static final String PROCESS_PREFIX_ADDRESS = "[Address]:".toUpperCase();
+    public static final String PROCESS_PREFIX_STUDENT = "[Student]:".toUpperCase();
+    public static final String PROCESS_PREFIX_COURSE = "[Course]:".toUpperCase();
+    public static final String PROCESS_PREFIX_EXAM_RESULT = "[Exam Result]:".toUpperCase();
+    public static final String PROCESS_PREFIX_GLOBAL = "[Global]:".toUpperCase();
+    public static final String PROCESS_PREFIX_SETTINGS = "[Settings]:".toUpperCase();
+    public static final String AVAILABLE_OPTIONS = " Available Options: \n";
 
     public static final String ADDRESS_IS_UPDATED = "Address is updated: ";
     public static final String ADDRESS_IS_USING = "Using address is: ";
@@ -58,7 +59,8 @@ public class MetaData {
     }
 
 
-    public static final String PROCESS_SAVE = "[SAVE] -> ";
+    public static final String PROCESS_SAVE = "[SAVE] -> : ";
+    public static final String PROCESS_SELECT = "[SELECT] -> : ";
     public static final String PROCESS_UPDATE = "[UPDATE] -> : ";
     public static final String PROCESS_DELETE = "[DELETE] -> : ";
     public static final String PROCESS_READ = "[READ] -> : ";

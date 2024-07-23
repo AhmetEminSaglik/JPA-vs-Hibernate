@@ -2,6 +2,7 @@ package org.aes.compare.orm.business.concrete.orm;
 
 import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.uiconsole.business.LoggerConfigORM;
 
 public abstract class ORMImplementation {
 
@@ -32,27 +33,35 @@ public abstract class ORMImplementation {
 
     protected final void printInitializingInfo() {
         initEntityCounter++;
-        String explanation = initEntityCounter + "-) Entity is Initializing: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+        if (LoggerConfigORM.isAllowedPrint()) {
+            String explanation = initEntityCounter + "-) Entity is Initializing: " + getClass().getSimpleName();
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+        }
     }
 
     protected final void printInitializedSuccessfully() {
+        if (LoggerConfigORM.isAllowedPrint()) {
         String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
                 ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY") +
                 ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
         System.out.println(sb);
+        }
     }
 
     protected final void printClosingInfo() {
         closeEntityCounter++;
-        String explanation = closeEntityCounter + "-) Entity is closing: " + getClass().getSimpleName();
+        if (LoggerConfigORM.isAllowedPrint()) {
+            String explanation = closeEntityCounter + "-) Entity is closing: " + getClass().getSimpleName();
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+        }
     }
 
     protected final void printClosedSuccessfully() {
-        String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
+        if (LoggerConfigORM.isAllowedPrint()) {
+            String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
                 ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY") +
                 ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
         System.out.println(sb);
+        }
     }
 }
