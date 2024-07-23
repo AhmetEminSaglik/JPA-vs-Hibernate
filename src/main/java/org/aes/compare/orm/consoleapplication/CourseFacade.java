@@ -68,7 +68,7 @@ public class CourseFacade {
             courseService.save(course);
         }
 //        courseService.save(course);
-        System.out.println(MetaData.COURSE_IS_SAVED + course);
+        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_SAVED) + course);
 
         return course;
     }
@@ -147,7 +147,7 @@ public class CourseFacade {
     public boolean isAnyCourseSaved() {
         int totalCourse = courseService.findAll().size();
         if (totalCourse == 0) {
-            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_COURSE));
             return false;
         }
         return true;
@@ -156,7 +156,7 @@ public class CourseFacade {
     public Course findByMultipleWay() {
         List<Course> courses = courseService.findAll();
         if (courses.isEmpty()) {
-            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_COURSE));
             return null;
         }
         Course course = null;
@@ -167,7 +167,7 @@ public class CourseFacade {
 
         switch (option) {
             case 0:
-                System.out.println(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED);
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED));
                 break;
             case 1:
                 course = pickCourseFromList(courses);
@@ -200,10 +200,10 @@ public class CourseFacade {
         int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_COURSE, courses);
         selected--;
         if (selected == -1) {
-            System.out.println(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED));
             return null;
         } else {
-            System.out.println(MetaData.COURSE_SELECTED + courses.get(selected));
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_SELECTED) + courses.get(selected));
             return courses.get(selected);
         }
         /*
@@ -228,7 +228,7 @@ public class CourseFacade {
         selectedCourse--;
 
         if (selectedCourse == -1) {
-            System.out.println(MetaData.PROCESS_IS_CANCELLED);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
             return null;
         }
         Course course = courses.get(selectedCourse);
@@ -248,7 +248,7 @@ public class CourseFacade {
 //            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 1, 3);
             switch (option) {
                 case -1:
-                    System.out.println(MetaData.PROCESS_IS_CANCELLED);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
 //                    courseService.updateCourseByName(course);
 //                    System.out.println("Course is updated : " + course);
 //                    System.out.println("Exiting Course Update Service");
@@ -256,7 +256,7 @@ public class CourseFacade {
                 case 0:
                     courseService.updateCourseByName(course);
 //                    System.out.println("Course is updated : " + course);
-                    System.out.println(MetaData.COURSE_IS_UPDATED + course);
+                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_UPDATED) + course);
                     return course;
 //                    System.out.println("Exiting Course Update Service");
                 case 1:
@@ -301,7 +301,7 @@ public class CourseFacade {
             System.out.println("Course is deleting...");
             try {
                 courseService.deleteCourseById(course.getId());
-                System.out.println(MetaData.COURSE_IS_DELETED);
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_DELETED));
             } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
             }

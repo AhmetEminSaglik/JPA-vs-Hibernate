@@ -48,7 +48,7 @@ public class AddressFacade {
     public boolean isAnyAddressSaved() {
         int totalAddress = addressService.findAll().size();
         if (totalAddress == 0) {
-            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_ADDRESS);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_ADDRESS));
             return false;
         }
         return true;
@@ -131,7 +131,7 @@ public class AddressFacade {
                     return null;
                 case 0:
                     addressService.update(address);
-                    System.out.println(MetaData.ADDRESS_IS_UPDATED + address);
+                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.ADDRESS_IS_UPDATED) + address);
                     return address;
                 case 1:
                     System.out.print("Type Street to update :");

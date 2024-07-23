@@ -11,7 +11,7 @@ public abstract class ORMImplementation {
     protected static int closeEntityCounter = 0;
 
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getFileName()));
+//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getFileName()));git
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred ORM Tool is: " + getCurrentORMToolName()));
         enumORMConfigFile = configFile;
     }

@@ -22,6 +22,7 @@ public class Main {
     private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
+//        MetaDataColorful
         ColorfulTextDesign.enableStandardPrinting();
         System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.\n");
         updatePrintingSetting();
@@ -47,7 +48,7 @@ public class Main {
             globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, indexes);
             switch (globalOption) {
                 case 0:
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     addressScenario();
@@ -68,7 +69,7 @@ public class Main {
                     updatePrintingSetting();
                     break;
                 default:
-                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
             System.out.println();
         }
@@ -93,7 +94,7 @@ public class Main {
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
             switch (option) {
                 case 0:
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     addressFacade.save();
@@ -112,7 +113,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
     }
@@ -140,7 +141,7 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     studentFacade.save();
@@ -164,7 +165,7 @@ public class Main {
                     studentFacade.delete();
                     break;
                 default:
-                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
     }
@@ -193,7 +194,7 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     courseFacade.save();
@@ -214,7 +215,7 @@ public class Main {
                     courseFacade.delete();
                     break;
                 default:
-                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
     }
@@ -225,7 +226,11 @@ public class Main {
             result = false;
         }
         if (!result) {
-            System.out.println(MetaData.GLOBAL_WARNING_FOR_EXAM_RESULT);
+            ColorfulTextDesign.getErrorColorText("Without creating any Student or Course, you may not run the functions of the Exam Result processes.\nStrongly recommend to create " +
+                    ColorfulTextDesign.getInfoColorText("Student") +
+                    ColorfulTextDesign.getErrorColorText(" and ") +
+                    ColorfulTextDesign.getInfoColorText("Course") +
+                    ColorfulTextDesign.getErrorColorText(" data before visit this option. "));
         }
         int option = -1;
         while (option != 0) {
@@ -249,7 +254,7 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     examResultFacade.save();
@@ -274,7 +279,7 @@ public class Main {
                     break;
 
                 default:
-                    System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
     }
@@ -287,7 +292,7 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(MetaData.EXITING_FROM_PROCESS);
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                 break;
             case 1:
                 ORMConfigSingleton.enableJPA();
@@ -300,7 +305,7 @@ public class Main {
                 System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             default:
-                System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
 
     }
@@ -314,16 +319,18 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(MetaData.EXITING_FROM_PROCESS);
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                 break;
             case 1:
                 /*ORMConfigSingleton.enableJPA();
                 resetORMServices();*/
-                ColorfulTextDesign.enableCMDPrinting();
                 System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected CMD printing Option"));
+                ColorfulTextDesign.enableCMDPrinting();
+//                colorTest();
                 break;
             case 2:
                 ColorfulTextDesign.enableIDEPrinting();
+//                colorTest();
                 System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected IDE printing Option"));
                 break;
 
@@ -333,10 +340,22 @@ public class Main {
                 System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected Standard Option"));
                 break;
             default:
-                System.out.println(MetaData.SWITCH_DEFAULT_INVALID_CHOICE);
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
 
     }
+
+    /*static private void colorTest() {
+        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected CMD printing Option"));
+        System.out.println(ColorfulTextDesign.getSuccessColorText("Success"));
+        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Success"));
+        System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error"));
+        System.out.println(ColorfulTextDesign.getErrorColorText("Error"));
+        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Cancel"));
+        System.out.println(ColorfulTextDesign.getInfoColorText("Info"));
+        System.out.println(ColorfulTextDesign.getWarningColorText("Warning"));
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("Warning"));
+    }*/
 
     static void resetORMServices() {
         addressFacade = new AddressFacade(orm.getAddressService());

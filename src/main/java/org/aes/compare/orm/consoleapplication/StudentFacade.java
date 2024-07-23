@@ -49,13 +49,13 @@ public class StudentFacade {
 
         Address address = studentSaveProcessDecideAddressProgress();
         if (address != null) {
-            System.out.println(MetaData.ADDRESS_IS_USING + address);
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.ADDRESS_IS_USING) + address);
 
             student.setAddress(address);
             studentService.save(student);
-            System.out.println(MetaData.STUDENT_IS_SAVED + student);
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.STUDENT_IS_SAVED) + student);
         } else {
-            System.out.println(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED);
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
         }
 
         System.out.println("----------------------------------");
@@ -269,7 +269,7 @@ public class StudentFacade {
     public boolean isAnyStudentSaved() {
         int totalStudent = getTotalStudentNumber();
         if (totalStudent == 0) {
-            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_STUDENT);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_STUDENT));
             return false;
         }
         return true;
@@ -345,12 +345,12 @@ public class StudentFacade {
             switch (option) {
                 case -1:
 //                    studentService.update(student);
-                    System.out.println(MetaData.STUDENT_UPDATE_PROCESS_IS_CANCELLED);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.STUDENT_UPDATE_PROCESS_IS_CANCELLED));
                     System.out.println("Exiting the student update process...");
                     return null;
                 case 0:
                     studentService.update(student);
-                    System.out.println(MetaData.STUDENT_IS_UPDATED + student);
+                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.STUDENT_IS_UPDATED + student));
                     System.out.println("Exiting the student update process...");
                     return student;
 
@@ -370,7 +370,7 @@ public class StudentFacade {
                         if (courses != null) {
                             student.setCourses(courses);
                             studentService.update(student);
-                            System.out.println(MetaData.STUDENT_COURSES_ARE_UPDATED);
+                            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.STUDENT_COURSES_ARE_UPDATED));
                         }
                     }
                     break;
@@ -413,14 +413,14 @@ public class StudentFacade {
             int result;
             switch (option) {
                 case -1:
-                    System.out.println(MetaData.PROCESS_IS_CANCELLED);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
                     return null;
                 case 0:
                     return studentCourses;
 //                    courseService.updateCourseByName();
                 case 1:
                     if (courseStudentDidNotEnroll.isEmpty()) {
-                        System.out.println(MetaData.NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT);
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT));
                     } else {
                         result = FacadeUtility.getIndexValueOfMsgListIncludesExit(processPrefix, courseStudentDidNotEnroll);
                         result--;
@@ -482,7 +482,7 @@ public class StudentFacade {
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, students);
         result--;
         if (result == -1) {
-            System.out.println(MetaData.STUDENT_DELETE_PROCESS_CANCELED);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.STUDENT_DELETE_PROCESS_CANCELED));
         } else {
             Student studentToDelete = students.get(result);
             studentService.deleteById(studentToDelete.getId());

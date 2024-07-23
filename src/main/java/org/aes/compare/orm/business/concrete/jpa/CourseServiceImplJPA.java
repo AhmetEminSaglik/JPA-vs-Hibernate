@@ -22,7 +22,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 //        String errMsg = "Course name must be unique. Probably " + c.getFileName() + " is saved before";
 //        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         StringBuilder errMsg = new StringBuilder();
-        errMsg.append(MetaData.COURSE_NAME_MUST_BE_UNIQUE)
+        errMsg.append( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE))
                 .append(ColorfulTextDesign.getInfoColorText(c.getName().toUpperCase()))
                 .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_BEFORE));
         try {
@@ -92,7 +92,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void updateCourseByName(Course c) {
-        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.COURSE_NAME_MUST_BE_UNIQUE + c.getName() + MetaData.IS_SAVED_BEFORE);
+        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE) + c.getName() + MetaData.IS_SAVED_BEFORE);
         try {
             initializeTransaction();
             entityManager.merge(c);

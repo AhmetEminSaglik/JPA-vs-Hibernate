@@ -44,7 +44,7 @@ public class ExamResultFacade {
             return null;
         }
         ExamResult examResult = new ExamResult();
-        final String cancelMsg = MetaData.EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED;
+        final String cancelMsg = ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED);
 
         Student student = studentFacade.pickStudentFromList(studentService.findAll());
         if (student == null) {
@@ -171,7 +171,7 @@ public class ExamResultFacade {
         List<ExamResult> examResults = null;
         switch (option) {
             case 0:
-                System.out.println(MetaData.EXITING_FROM_PROCESS);
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                 break;
             case 1:
                 Course course = pickCourseFromList(courseService.findAll());
@@ -236,12 +236,12 @@ public class ExamResultFacade {
             Student student = examResult.getStudent();
             switch (choose) {
                 case -1:
-                    System.out.println(MetaData.PROCESS_IS_CANCELLED);
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     return examResult;
                 case 0:
-                    System.out.println(MetaData.CHANGES_ARE_UPDATED);
-                    System.out.println(MetaData.EXITING_FROM_PROCESS);
+                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.CHANGES_ARE_UPDATED));
+                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     examResultService.update(examResult);
                     return examResult;
                 case 1:
@@ -333,7 +333,7 @@ public class ExamResultFacade {
         inputIndex = SafeScannerInput.getCertainIntForSwitch(0, examResults.size());
         inputIndex--;
         if (inputIndex == -1) {
-            System.out.println(MetaData.EXITING_FROM_PROCESS);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
         } else {
             examResult = examResults.get(inputIndex);
         }
@@ -374,7 +374,7 @@ public class ExamResultFacade {
         int index = SafeScannerInput.getCertainIntSafe(0, courses.size());
         index--;
         if (index == -1) {
-            System.out.println(MetaData.PROCESS_IS_CANCELLED);
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
             return null;
         }
         return courses.get(index);
