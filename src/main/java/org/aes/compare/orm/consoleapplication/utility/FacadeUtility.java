@@ -29,20 +29,20 @@ public class FacadeUtility {
     }
 
     public static int getIndexValueOfMsgListIncludesExit(String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.PROCESS_LIST);
+        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Exit\n");
         return getUserIndexInputOfOptionList(msg, list, 0);
 
     }
 
     public static int getIndexValueOfMsgListIncludesCancelAndExit(String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.PROCESS_LIST);
+        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Cancel & Exit\n");
         return getUserIndexInputOfOptionList(msg, list, 0);
     }
 
     public static int getIndexValueOfMsgListIncludesCancelAndSaveExits(String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.PROCESS_LIST);
+        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(-1).append(") Cancel & Exit\n");
         msg.append('(').append(0).append(") Save & Exit\n");
         return getUserIndexInputOfOptionList(msg, list, -1);
@@ -50,6 +50,7 @@ public class FacadeUtility {
 
     private static int getUserIndexInputOfOptionList(StringBuilder msg, List<?> list, int minRange) {
 //        msg.append(createMsgFromListExit(list));
+        msg.insert(0,"\n");
         for (int i = 0; i < list.size(); i++) {
             msg.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");
         }
@@ -70,7 +71,7 @@ public class FacadeUtility {
         }
 //        return sb;
 
-        msg.insert(0, objectPrefix + MetaData.PROCESS_LIST);
+        msg.insert(0, objectPrefix + MetaData.AVAILABLE_OPTIONS);
 //        System.out.println(msg);
 //        int option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, list.size());
 

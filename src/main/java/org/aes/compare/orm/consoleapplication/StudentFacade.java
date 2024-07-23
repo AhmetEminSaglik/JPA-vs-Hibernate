@@ -482,7 +482,7 @@ public class StudentFacade {
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, students);
         result--;
         if (result == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.STUDENT_DELETE_PROCESS_CANCELED));
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.STUDENT_DELETE_PROCESS_CANCELLED));
         } else {
             Student studentToDelete = students.get(result);
             studentService.deleteById(studentToDelete.getId());

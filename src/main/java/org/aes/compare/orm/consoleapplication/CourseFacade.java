@@ -123,7 +123,9 @@ public class CourseFacade {
 
     public List<Course> findAllCoursesBelongsToStudent() {
         Student student = studentFacade.findByMultipleWay();
-
+        if (student == null) {
+            return null;
+        }
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Student has not been enrolled to any course yet."));
@@ -167,7 +169,7 @@ public class CourseFacade {
 
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED));
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELLED));
                 break;
             case 1:
                 course = pickCourseFromList(courses);
@@ -200,7 +202,7 @@ public class CourseFacade {
         int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_COURSE, courses);
         selected--;
         if (selected == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELED));
+            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELLED));
             return null;
         } else {
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_SELECTED) + courses.get(selected));

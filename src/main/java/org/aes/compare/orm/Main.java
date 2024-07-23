@@ -22,10 +22,10 @@ public class Main {
     private static ExamResultFacade examResultFacade;
 
     public static void main(String[] args) {
-//        MetaDataColorful
-        ColorfulTextDesign.enableStandardPrinting();
-        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.\n");
-        updatePrintingSetting();
+        /*ColorfulTextDesign.enableCMDPrinting();
+        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
+        updatePrintingSetting();*/
+        ColorfulTextDesign.enableIDEPrinting();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
         int globalOption = -1;
@@ -40,7 +40,7 @@ public class Main {
             indexes.add("Printing Setting (CMD - IDE)");
 
             /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_GLOBAL + MetaData.PROCESS_LIST);
+            msg.insert(0, MetaData.PROCESS_PREFIX_GLOBAL + MetaData.AVAILABLE_OPTIONS);
             System.out.println(msg);
 
             globalOption = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
@@ -71,7 +71,7 @@ public class Main {
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
-            System.out.println();
+//            System.out.println();
         }
     }
 
@@ -87,7 +87,7 @@ public class Main {
             indexes.add("Delete");
 
            /* StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_LIST);
+            msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.AVAILABLE_OPTIONS);
             System.out.println(msg);
 
                         option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
@@ -133,7 +133,7 @@ public class Main {
             indexes.add("Delete");
 
             /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_LIST);
+            msg.insert(0, MetaData.PROCESS_PREFIX_STUDENT + MetaData.AVAILABLE_OPTIONS);
             System.out.println(msg);
 
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
@@ -185,7 +185,7 @@ public class Main {
 
             /*
             StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_LIST);
+            msg.insert(0, MetaData.PROCESS_PREFIX_COURSE + MetaData.AVAILABLE_OPTIONS);
             System.out.println(msg);
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
             */
@@ -246,7 +246,7 @@ public class Main {
             indexes.add("Delete");
 
             /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.PROCESS_LIST);
+            msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.AVAILABLE_OPTIONS);
             System.out.println(msg);
 
             option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
@@ -297,12 +297,12 @@ public class Main {
             case 1:
                 ORMConfigSingleton.enableJPA();
                 resetORMServices();
-                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             case 2:
                 ORMConfigSingleton.enableHibernate();
                 resetORMServices();
-                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
@@ -319,25 +319,17 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
+                System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
                 System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                 break;
             case 1:
-                /*ORMConfigSingleton.enableJPA();
-                resetORMServices();*/
-                System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected CMD printing Option"));
                 ColorfulTextDesign.enableCMDPrinting();
-//                colorTest();
                 break;
             case 2:
                 ColorfulTextDesign.enableIDEPrinting();
-//                colorTest();
-                System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected IDE printing Option"));
                 break;
-
             case 3:
                 ColorfulTextDesign.enableStandardPrinting();
-                PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.STANDARD);
-                System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected Standard Option"));
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));

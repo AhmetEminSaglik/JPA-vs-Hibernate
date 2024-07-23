@@ -74,9 +74,9 @@ public class Address {
     public String toString() {
         return "Address{" +
                 "id=" + id +
-                ", street='" + street + '\'' +
-                ", city='" + city + '\'' +
                 ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
                 '}';
     }
 
