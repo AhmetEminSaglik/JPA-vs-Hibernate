@@ -23,7 +23,7 @@ public class Main {
     private static ExamResultFacade examResultFacade;
     private static MusicPlayer musicPlayer = new MusicPlayer();
     public static void main(String[] args) {
-        musicPlayer.start();
+//        musicPlayer.start();
         LoggerConfigORM.disable();
         /*ColorfulTextDesign.enableCMDPrinting();
         System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
@@ -31,6 +31,7 @@ public class Main {
         ColorfulTextDesign.enableIDEPrinting();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
+        LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
 
         int globalOption = -1;
         while (globalOption != 0) {
@@ -51,42 +52,53 @@ public class Main {
             globalOption = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
             System.out.println();*/
             globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, indexes);
+            /*if (globalOption > 0 *//*&& globalOption < 7*//*) {
+                LoggerProcessStack.add(MetaData.INNER_PROCESS_PREFIX);
+            }*/
             switch (globalOption) {
                 case 0:
                     System.out.println(ColorfulTextDesign.getTextForCanceledProcess("[MAIN]: "+MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
-                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_ADDRESS);
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
                     addressScenario();
-                    LoggerProcessStack.pop();
+//                    LoggerProcessStack.pop();
                     break;
                 case 2:
-                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_STUDENT);
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
                     studentScenario();
-                    LoggerProcessStack.pop();
+//                    LoggerProcessStack.pop();
                     break;
                 case 3:
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
                     courseScenario();
-                    LoggerProcessStack.pop();
+//                    LoggerProcessStack.pop();
                     break;
                 case 4:
-                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_EXAM_RESULT);
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_EXAM_RESULT);
                     examResultScenario();
-                    LoggerProcessStack.pop();
+//                    LoggerProcessStack.pop();
                     break;
                 case 5:
-                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_SETTINGS);
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
                     updateSetting();
-                    LoggerProcessStack.pop();
+//                    LoggerProcessStack.pop();
                     break;
                 case 6:
-                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_SETTINGS);
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
                     updatePrintingSetting();
-                    LoggerProcessStack.pop();
+//                    LoggerProcessStack.pop();
                     break;
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
+
+//            System.out.println("[main] pop olucak geldi");
+            if (globalOption > 0 /*&& globalOption < 7*/) {
+//                LoggerProcessStack.add(MetaData.INNER_PROCESS_PREFIX);
+                LoggerProcessStack.pop();
+            }
+//            LoggerProcessStack.pop();
 //            System.out.println();
         }
     }
@@ -110,7 +122,9 @@ public class Main {
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + " " + MetaData.EXITING_FROM_PROCESS));
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + " " + MetaData.EXITING_FROM_PROCESS));
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
                     break;
                 case 1:
                     addressFacade.save();
@@ -157,7 +171,9 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + " " + MetaData.EXITING_FROM_PROCESS));
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     studentFacade.save();
@@ -210,7 +226,8 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_COURSE + " " + MetaData.EXITING_FROM_PROCESS));
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
                     break;
                 case 1:
                     courseFacade.save();
@@ -270,7 +287,8 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_EXAM_RESULT + " " + MetaData.EXITING_FROM_PROCESS));
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
                     break;
                 case 1:
                     examResultFacade.save();
@@ -310,7 +328,9 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
+                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
                 break;
             case 1:
                 updateORMSetting();
@@ -342,7 +362,6 @@ public class Main {
         switch (option) {
             case 0:
                 System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
-                break;
             case 1:
                 ORMConfigSingleton.enableJPA();
                 resetORMServices();
@@ -416,8 +435,10 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
+//                System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
+                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
                 break;
             case 1:
                 ColorfulTextDesign.enableCMDPrinting();

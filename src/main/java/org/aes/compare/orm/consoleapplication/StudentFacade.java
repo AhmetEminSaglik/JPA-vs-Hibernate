@@ -11,6 +11,7 @@ import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
@@ -36,9 +37,10 @@ public class StudentFacade {
     }
 
     public Student save() {
-        counter++;
+        FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
+//        counter++;
 //        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [STUDENT] Save : "));
-        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_STARTS));
+//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_STARTS));
         Student student = new Student();
         System.out.print("Type Student name: ");
         String name = SafeScannerInput.getStringNotBlank();
@@ -49,17 +51,22 @@ public class StudentFacade {
         student.setGrade(grade);
 
         Address address = studentSaveProcessDecideAddressProgress();
-        if (address != null) {
+        if (address == null) {
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_IS_CANCELLED));
+            LoggerProcessStack.add(MetaData.INNER_PROCESS_PREFIX+MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 1);
+//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
+        } else {
 //            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.ADDRESS_IS_USING) + address);
 
             student.setAddress(address);
             studentService.save(student);
 //            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.STUDENT_IS_SAVED) + student);
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_COMPLETED));
+            LoggerProcessStack.add(MetaData.PROCESS_COMPLETED);
+//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_COMPLETED));
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
-        } else {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_IS_CANCELLED));
 
         }
 
@@ -94,7 +101,17 @@ public class StudentFacade {
     }
 
     private Address studentSaveProcessDecideAddressProgress() {
-        return addressFacade.pickAddressForStudentSaveProcess(MetaData.PROCESS_PREFIX_STUDENT);
+        LoggerProcessStack.add(/*MetaData.INNER_PROCESS_PREFIX +*/ MetaData.PROCESS_PREFIX_ADDRESS);
+        Address address = addressFacade.pickAddressForStudentSaveProcess("<><><><><><><>");
+        if (address == null) {
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+        } else {
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
+        }
+        System.out.println("??????");
+
+        return address;
     }
 
     private Address pickAddressFromList(List<Address> unmatchedAddress) {

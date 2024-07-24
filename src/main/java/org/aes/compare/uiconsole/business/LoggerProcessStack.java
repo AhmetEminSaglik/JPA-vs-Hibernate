@@ -1,5 +1,6 @@
 package org.aes.compare.uiconsole.business;
 
+import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 import java.util.Stack;
@@ -16,6 +17,8 @@ public class LoggerProcessStack {
     public static String pop() {
         if (!stack.isEmpty()) {
             System.out.println("SILINENLER :" +stack.pop());;
+            /*if (stack.peek().equalsIgnoreCase(MetaData.INNER_PROCESS_PREFIX))
+                stack.pop();*/
             return "stack.pop()";
 //            return stack.pop();
         }
@@ -31,6 +34,10 @@ public class LoggerProcessStack {
 
     public static void add(String data) {
         stack.add(data);
+    }
+
+    public static void addWithInnerPrefix(String data) {
+        stack.add(MetaData.INNER_PROCESS_PREFIX + data);
     }
 
     public static String getAllInOrder() {
