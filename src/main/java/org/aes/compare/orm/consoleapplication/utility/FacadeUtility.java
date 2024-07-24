@@ -2,6 +2,7 @@ package org.aes.compare.orm.consoleapplication.utility;
 
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.List;
@@ -29,20 +30,20 @@ public class FacadeUtility {
     }
 
     public static int getIndexValueOfMsgListIncludesExit(String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.AVAILABLE_OPTIONS);
+        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Exit\n");
         return getUserIndexInputOfOptionList(msg, list, 0);
 
     }
 
     public static int getIndexValueOfMsgListIncludesCancelAndExit(String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.AVAILABLE_OPTIONS);
+        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Cancel & Exit\n");
         return getUserIndexInputOfOptionList(msg, list, 0);
     }
 
     public static int getIndexValueOfMsgListIncludesCancelAndSaveExits(String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(objectPrefix) + MetaData.AVAILABLE_OPTIONS);
+        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(-1).append(") Cancel & Exit\n");
         msg.append('(').append(0).append(") Save & Exit\n");
         return getUserIndexInputOfOptionList(msg, list, -1);
@@ -91,6 +92,23 @@ public class FacadeUtility {
         System.out.println(sb);
     }*/
 
+    public static void initProcess(String processName, String processSituation) {
+        LoggerProcessStack.add(processName);
+        LoggerProcessStack.add(processSituation);
+        //        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_SAVE + MetaData.PROCESS_STARTS));
+        System.out.println(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()));
+        LoggerProcessStack.pop();
+    }
+
+//    public static void destroyProcess(String processSituation, ColorfulTextFunction function, int popVal) {
+//        LoggerProcessStack.add(processSituation);
+//        destroyProcess(function, popVal);
+//    }
+
+    public static void destroyProcess(ColorfulTextFunction function, int popVal) {
+        System.out.println(function.apply(LoggerProcessStack.getAllInOrder()));
+        LoggerProcessStack.popLoop(popVal);
+    }
     public static void printSlash() {
         System.out.println("-------------------------");
     }

@@ -9,6 +9,7 @@ import org.aes.compare.orm.consoleapplication.StudentFacade;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerConfigORM;
+import org.aes.compare.uiconsole.business.LoggerProcessStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ public class Main {
     private static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
     private static CourseFacade courseFacade;
     private static ExamResultFacade examResultFacade;
-
     public static void main(String[] args) {
         LoggerConfigORM.disable();
         /*ColorfulTextDesign.enableCMDPrinting();
@@ -28,6 +28,7 @@ public class Main {
         ColorfulTextDesign.enableIDEPrinting();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
+
         int globalOption = -1;
         while (globalOption != 0) {
 
@@ -52,22 +53,33 @@ public class Main {
                     System.out.println(ColorfulTextDesign.getTextForCanceledProcess("[MAIN]: "+MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
+                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_ADDRESS);
                     addressScenario();
+                    LoggerProcessStack.pop();
                     break;
                 case 2:
+                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_STUDENT);
                     studentScenario();
+                    LoggerProcessStack.pop();
                     break;
                 case 3:
                     courseScenario();
+                    LoggerProcessStack.pop();
                     break;
                 case 4:
+                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_EXAM_RESULT);
                     examResultScenario();
+                    LoggerProcessStack.pop();
                     break;
                 case 5:
+                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_SETTINGS);
                     updateSetting();
+                    LoggerProcessStack.pop();
                     break;
                 case 6:
+                    LoggerProcessStack.add(MetaData.PROCESS_PREFIX_SETTINGS);
                     updatePrintingSetting();
+                    LoggerProcessStack.pop();
                     break;
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
