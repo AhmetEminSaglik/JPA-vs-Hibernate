@@ -8,6 +8,7 @@ import org.aes.compare.orm.consoleapplication.ExamResultFacade;
 import org.aes.compare.orm.consoleapplication.StudentFacade;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.orm.utility.MusicPlayer;
 import org.aes.compare.uiconsole.business.LoggerConfigORM;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
 
@@ -20,7 +21,9 @@ public class Main {
     private static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
     private static CourseFacade courseFacade;
     private static ExamResultFacade examResultFacade;
+    private static MusicPlayer musicPlayer = new MusicPlayer();
     public static void main(String[] args) {
+        musicPlayer.start();
         LoggerConfigORM.disable();
         /*ColorfulTextDesign.enableCMDPrinting();
         System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
@@ -300,7 +303,8 @@ public class Main {
     private static void updateSetting() {
         List<String> indexes = new ArrayList<>();
         indexes.add("Select ORM Tool (JPA-Hibernate)");
-        indexes.add("Enable-Disable ORM Logs");
+        indexes.add("ORM Logs (Enable-Disable)");
+        indexes.add("Music (On-Off)");
 
 
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
@@ -315,6 +319,11 @@ public class Main {
                 break;
             case 2:
                 updateORMLogSettings();
+                updateSetting();
+//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
+                break;
+            case 3:
+                updateMusicSetting();
                 updateSetting();
 //                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
@@ -367,6 +376,30 @@ public class Main {
             case 2:
                 LoggerConfigORM.disable();
                 System.out.println(ColorfulTextDesign.getSuccessColorText("ORM Logs are disabled."));
+                break;
+            default:
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
+        }
+
+    }
+
+    private static void updateMusicSetting() {
+        List<String> indexes = new ArrayList<>();
+        indexes.add("Enable Music");
+        indexes.add("Disable Music");
+
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        switch (option) {
+            case 0:
+                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                break;
+            case 1:
+                musicPlayer.resume();
+                System.out.println(ColorfulTextDesign.getSuccessColorText("Music is resumed"));
+                break;
+            case 2:
+                musicPlayer.pause();
+                System.out.println(ColorfulTextDesign.getSuccessColorText("Music is paused"));
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
