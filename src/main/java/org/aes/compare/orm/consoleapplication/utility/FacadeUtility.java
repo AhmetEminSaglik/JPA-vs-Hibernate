@@ -94,7 +94,7 @@ public class FacadeUtility {
 
     public static void initProcess(String processName, String processSituation) {
         LoggerProcessStack.add(processName);
-        LoggerProcessStack.add(processSituation);
+        LoggerProcessStack.addWithInnerPrefix(processSituation);
         //        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_SAVE + MetaData.PROCESS_STARTS));
         System.out.println(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()));
         LoggerProcessStack.pop();
