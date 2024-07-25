@@ -14,7 +14,6 @@ import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.ReactCourse;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
@@ -114,19 +113,32 @@ public class CourseFacade {
     }
 
     public Course findByName() {
+        return findByMultipleWay();
+    }
+
+    public Course findByMultipleWay() {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+
         if (!isAnyCourseSaved("")) {
             return null;
         }
-        return findByMultipleWay();
-//        System.out.print("Type Course Name : ");
-//        String name = SafeScannerInput.getStringNotBlank();
-//        Course course = courseService.findByName(name);
-//        if (course == null) {
-//            System.out.println("Course is not found : ");
-//        } else {
-//            System.out.println("Found course : " + course);
+        List<Course> courses = courseService.findAll();
+        if (courses.isEmpty()) {
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_COURSE));
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcessCancelled(2);
+//            System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
+            FacadeUtility.printColorfulWarningResult(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
+            return null;
+        }
+        Course course = selectCourse(courses);
+//        FacadeUtility.destroyProcessWithoutPrint(2);
+//        if (course != null) {
+//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + course);
 //        }
-//        return course;
+
+        FacadeUtility.printSlash();
+        return course;
     }
 
     public List<Course> findAllCoursesBelongsToStudent() {
@@ -194,26 +206,6 @@ public class CourseFacade {
         return true;
     }
 
-    public Course findByMultipleWay() {
-        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
-        List<Course> courses = courseService.findAll();
-        if (courses.isEmpty()) {
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_COURSE));
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-            FacadeUtility.destroyProcessCancelled(3);
-            System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
-            return null;
-        }
-        Course course = selectCourse(courses);
-        FacadeUtility.destroyProcessWithoutPrint(2);
-//        if (course != null) {
-//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + course);
-//        }
-
-        FacadeUtility.printSlash();
-        return course;
-    }
 
     private Course selectCourse(List<Course> courses) {
         Course course;
@@ -255,7 +247,8 @@ public class CourseFacade {
         if (course == null) {
             // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
             FacadeUtility.destroyProcessCancelled();
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.COURSE_NOT_SELECTED));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.COURSE_NOT_SELECTED));
+            FacadeUtility.printColorfulWarningResult(MetaData.COURSE_NOT_SELECTED);
         } else {
             // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
             FacadeUtility.destroyProcessSuccessfully();

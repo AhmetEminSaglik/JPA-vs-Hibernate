@@ -104,7 +104,7 @@ StudentFacade:
 CourseFacade:
 + save()
 + findAll()
-- findByName()
++ findByName()
 - findAllCoursesBelongsToStudent()
 - update()
 - delete()

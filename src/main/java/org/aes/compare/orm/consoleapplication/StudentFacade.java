@@ -330,6 +330,7 @@ public class StudentFacade {
         LoggerProcessStack.add(MetaData.PROCESS_READ);
 //        System.out.print("Type Course Name  : ");
 //        String courseName = SafeScannerInput.getStringNotBlank();
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         Course course = courseFacade.findByMultipleWay();
         if (course == null) {
             return null;

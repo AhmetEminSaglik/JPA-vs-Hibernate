@@ -51,7 +51,7 @@ public class MetaData {
     public static final String COURSE_IS_UPDATED = "Course is updated: ";
     public static final String COURSE_SELECTED = "Selected Course: ";
     public static final String COURSE_IS_DELETED = "Course is deleted";
-    public static final String NOT_FOUND_ANY_SAVED_COURSE = "Has not found any saved Courses. Please save course first.\n" + PROCESS_IS_CANCELLED;
+    public static final String NOT_FOUND_ANY_SAVED_COURSE = "Has not found any saved Courses. Please save course first.";
     public static final String COURSE_NAME_MUST_BE_UNIQUE = "Course name must be unique. " + PROCESS_IS_CANCELLED_FATAL;
     public static final String IS_SAVED_BEFORE = " is saved Before.";
 
