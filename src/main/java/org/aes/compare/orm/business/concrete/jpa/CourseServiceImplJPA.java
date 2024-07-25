@@ -8,6 +8,7 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.hibernate.exception.ConstraintViolationException;
@@ -23,8 +24,8 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 //        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         StringBuilder errMsg = new StringBuilder();
         errMsg.append( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE))
-                .append(ColorfulTextDesign.getInfoColorText(c.getName().toUpperCase()))
-                .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_BEFORE));
+                .append(ColorfulTextDesign.getInfoColorText(c.getName()))
+                .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_ALREADY));
         try {
             initializeTransaction();
             entityManager.persist(c);
@@ -91,16 +92,21 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
     }
 
     @Override
-    public void updateCourseByName(Course c) {
-        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE) + c.getName() + MetaData.IS_SAVED_BEFORE);
+    public void updateCourseByName(Course c) throws InvalidCourseNameSaveRequestException {
+//        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE) + c.getName() + MetaData.IS_SAVED_ALREADY);
+//        StringBuilder errMsg = new StringBuilder();
+//        errMsg.append(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.COURSE_NAME_MUST_BE_UNIQUE))
+//                .append(ColorfulTextDesign.getInfoColorText(c.getName()))
+//                .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_ALREADY));
         try {
             initializeTransaction();
             entityManager.merge(c);
             commit();
-        } catch (ConstraintViolationException e) {
-            System.out.println(errMsg);
         } catch (Exception e) {
-            System.out.println(errMsg);
+            throw new InvalidCourseNameSaveRequestException(c.getName());
+//            System.out.println(errMsg);
+        /*} catch (Exception e) {
+            System.out.println(errMsg);*/
         }
     }
 

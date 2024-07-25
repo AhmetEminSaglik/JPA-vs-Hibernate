@@ -1,6 +1,7 @@
 package org.aes.compare.orm.business.abstracts;
 
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface CourseService {
 
     List<Course> findAllCourseThatStudentDoesNotHave(int studentId);
 
-    void updateCourseByName(Course course);
+    void updateCourseByName(Course course) throws InvalidCourseNameSaveRequestException;
 
     void deleteCourseByName(String name) throws InvalidCourseDeleteRequestStudentEnrolled;
 

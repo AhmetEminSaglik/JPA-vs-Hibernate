@@ -106,8 +106,8 @@ CourseFacade:
 + findAll()
 + findByName()
 + findAllCoursesBelongsToStudent()
-- update()
-- delete()
++ update()
++ delete()
 
 ExamResultFacade:
 - save()

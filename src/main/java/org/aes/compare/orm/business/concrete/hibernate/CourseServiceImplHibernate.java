@@ -7,6 +7,7 @@ import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.hibernate.exception.ConstraintViolationException;
@@ -86,14 +87,15 @@ public class CourseServiceImplHibernate extends HibernateImplementation<Course> 
     }
 
     @Override
-    public void updateCourseByName(Course c) {
-        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
+    public void updateCourseByName(Course c) throws InvalidCourseNameSaveRequestException {
+//        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         try {
             initializeTransaction();
             session.merge(c);
             commit();
         } catch (Exception e) {
-            System.out.println(errMsg);
+//            System.out.println(errMsg);
+            throw new InvalidCourseNameSaveRequestException(c.getName());
         }
     }
 

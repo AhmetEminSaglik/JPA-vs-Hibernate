@@ -4,6 +4,7 @@ import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -305,10 +306,10 @@ public class CourseFacade {
             return null;
         }
         Course course = courses.get(selectedCourse);
-        return updateSelectedCourse(course);
+        return updateSelectedCourse(courses, course);
     }
 
-    private Course updateSelectedCourse(Course course) {
+    private Course updateSelectedCourse(List<Course> courses, Course course) {
         int option = Integer.MAX_VALUE;
 
         List<String> indexed = new ArrayList<>();
@@ -328,13 +329,25 @@ public class CourseFacade {
                     FacadeUtility.destroyProcessCancelled();
                     return null;
                 case 0:
-                    courseService.updateCourseByName(course);
+                    try {
+                        for (Course tmp : courses) {
+                            if (tmp.getName().equalsIgnoreCase(course.getName())) {
+                                throw new InvalidCourseNameSaveRequestException(course.getName());
+                            }
+                        }
+                        courseService.updateCourseByName(course);
+                        FacadeUtility.destroyProcessSuccessfully();
+                        FacadeUtility.printSuccessResult("Course : " + course);
+                        return course;
+                    } catch (InvalidCourseNameSaveRequestException e) {
+                        System.out.println(e.getMessage());
+                    }
 //                    System.out.println("Course is updated : " + course);
 //                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_UPDATED) + course);
-                    FacadeUtility.destroyProcessSuccessfully();
-                    FacadeUtility.printSuccessResult("Course : " + course);
-                    return course;
+
+//                    return course;
 //                    System.out.println("Exiting Course Update Service");
+                    break;
                 case 1:
                     System.out.print("Type Course new Name: ");
                     String name = SafeScannerInput.getStringNotBlank();
@@ -353,6 +366,7 @@ public class CourseFacade {
     }
 
     public void delete() {
+        FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
         if (!isAnyCourseSaved("")) {
             return;
         }
@@ -367,16 +381,23 @@ public class CourseFacade {
 
 
         result--;
-        if (result == courses.size()) {
-            System.out.println("Course Delete process is Cancelled");
+        if (result == -1) {
+//            System.out.println("Course Delete process is Cancelled");
+            FacadeUtility.destroyProcessCancelled();
         } else {
             Course course = courses.get(result);
-            System.out.println("Course is deleting...");
+//            System.out.println("Course is deleting...");
             try {
                 courseService.deleteCourseById(course.getId());
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_DELETED));
+                FacadeUtility.destroyProcessSuccessfully();
+                FacadeUtility.printSuccessResult("Course (name=" + course.getName() + ") is deleted.");
+//                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_DELETED));
             } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
-                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
+//                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
+                System.out.println(e.getMessage());
+//                ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + "To delete this course first remove all students who take this course."))
+                FacadeUtility.destroyProcessCancelled();
+                FacadeUtility.printColorfulWarningResult("To delete this course first remove all students who take this course.");
             }
         }
 
