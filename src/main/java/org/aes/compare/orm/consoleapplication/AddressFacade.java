@@ -311,7 +311,7 @@ public class AddressFacade {
             System.out.println("Not found any data to process in Delete Process.\nExiting Delete Process...");
             return;
         }
-        System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses that are unmatched by any student are listed below."));
+        System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
         /*StringBuilder sbMsg = new StringBuilder("Select Address no to delete.\n");
 //        sbMsg.append(createMsgFromList(addresses));
         sbMsg.append(FacadeUtility.createMsgFromListExit(addresses));

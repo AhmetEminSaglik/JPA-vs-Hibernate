@@ -558,6 +558,8 @@ public class StudentFacade {
         } else {
             Student studentToDelete = students.get(result);
             studentService.deleteById(studentToDelete.getId());
+            FacadeUtility.destroyProcessSuccessfully();
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student(id=" + studentToDelete.getId() + ") is deleted.");
         }
 //                    break;
 //                case 2:
