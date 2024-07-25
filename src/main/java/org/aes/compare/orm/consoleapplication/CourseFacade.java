@@ -142,6 +142,8 @@ public class CourseFacade {
     }
 
     public List<Course> findAllCoursesBelongsToStudent() {
+//        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+
         Student student = studentFacade.findByMultipleWay();
         if (student == null) {
             return null;
@@ -173,6 +175,10 @@ public class CourseFacade {
             // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student's all courses(" + courses.size() + ") are retrieved.");
+            if (!courses.isEmpty()) {
+                FacadeUtility.printArrResult(courses);
+
+            }
         }
         FacadeUtility.printSlash();
         return courses;

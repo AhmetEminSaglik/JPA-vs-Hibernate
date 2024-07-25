@@ -155,6 +155,14 @@ public class FacadeUtility {
         System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + msg));
     }
 
+    public static void printErrorResult(String msg) {
+        System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX) + msg);
+    }
+
+    public static void printColorfulErrorResult(String msg) {
+        System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX + msg));
+    }
+
     public static void printCancelResult(String msg) {
         System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX) + msg);
     }
@@ -178,6 +186,12 @@ public class FacadeUtility {
 
     public static void printColorfulInfoResult(String msg) {
         System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX + msg));
+    }
+
+    public static void printArrResult(List<?> list) {
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + (i + 1) + "-) " + list.get(i));
+        }
     }
 
 }
