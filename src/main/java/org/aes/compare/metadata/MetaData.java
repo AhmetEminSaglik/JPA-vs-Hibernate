@@ -18,6 +18,11 @@ public class MetaData {
     public static final String INNER_PROCESS_PREFIX = " >> ";
 //    public static final String INNER_PROCESS_PREFIX = " <-> ";
     public static final String PROCESS_PREFIX_ADDRESS = "[Address]".toUpperCase();
+    public static final String PREFIX_ORM_SELECT = "[ORM-SELECT]".toUpperCase();
+    public static final String PREFIX_ORM_LOGS = "[ORM-LOGS]".toUpperCase();
+    public static final String PREFIX_MUSIC = "[MUSIC]".toUpperCase();
+//    public static final String PREFIX_JPA = "[JPA]".toUpperCase();
+    public static final String NOTE_PREFIX= "[NOTE] : ";
     public static final String PROCESS_PREFIX_MAIN = "[Main]".toUpperCase();
     public static final String PROCESS_PREFIX_STUDENT = "[Student]".toUpperCase();
     public static final String PROCESS_PREFIX_COURSE = "[Course]".toUpperCase();
@@ -38,7 +43,7 @@ public class MetaData {
     public static final String STUDENT_UPDATE_PROCESS_IS_CANCELLED = "Student update Process is cancelled ";
 
     public static final String NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT = "Not Found any suitable course for the student.";
-    public static final String STUDENT_COURSES_ARE_UPDATED = "Not Found any suitable course for the student.";
+    public static final String STUDENT_COURSES_ARE_UPDATED = "Student's courses are updated.";
     public static final String STUDENT_DELETE_PROCESS_CANCELLED = "Student Delete process is Cancelled";
 
     public static final String COURSE_NOT_SELECTED = "Course is not selected. " ;

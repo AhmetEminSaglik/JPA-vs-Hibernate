@@ -110,6 +110,32 @@ public class FacadeUtility {
         LoggerProcessStack.popLoop(popVal);
     }
 
+    public static void destroyProcessSuccessfully(int popVal) {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+        destroyProcess(ColorfulTextDesign::getSuccessColorText, popVal);
+    }
+
+    public static void destroyProcessSuccessfully() {
+        destroyProcessSuccessfully(2);
+    }
+
+    public static void destroyProcessCancelled(int popVal) {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+        destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, popVal);
+    }
+
+    public static void destroyProcessCancelled() {
+        destroyProcessCancelled(2);
+    }
+
+    public static void destroyProcessExiting(int popVal) {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+        destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, popVal);
+    }
+
+    public static void destroyProcessExiting() {
+        destroyProcessExiting(2);
+    }
     public static void destroyProcessWithoutPrint(int popVal) {
         LoggerProcessStack.popLoop(popVal);
     }

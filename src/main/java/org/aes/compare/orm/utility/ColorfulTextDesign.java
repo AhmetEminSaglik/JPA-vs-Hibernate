@@ -1,5 +1,6 @@
 package org.aes.compare.orm.utility;
 
+import org.aes.compare.metadata.MetaData;
 import org.ahmeteminsaglik.config.PrintConsoleServiceConfig;
 import org.ahmeteminsaglik.config.PrintableConsoleServiceManager;
 import org.ahmeteminsaglik.printable.EnumPrintOption;
@@ -17,21 +18,21 @@ public class ColorfulTextDesign {
         PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.WINDOWS_CMD);
         ps = PrintConsoleServiceConfig.getPrintableService();
         currentSelectedPrintObject=EnumPrintOption.WINDOWS_CMD.getName();
-        System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
+        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX) + "Activated Printing Tool : " + ColorfulTextDesign.getSuccessColorText(ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
     }
 
     public static void enableIDEPrinting() {
         PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.JAVA_IDE);
         ps = PrintConsoleServiceConfig.getPrintableService();
         currentSelectedPrintObject=EnumPrintOption.JAVA_IDE.getName();
-        System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
+        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX) + "Activated Printing Tool : " + ColorfulTextDesign.getSuccessColorText(ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
     }
 
     public static void enableStandardPrinting() {
         PrintConsoleServiceConfig.updatePrintableService(EnumPrintOption.STANDARD);
         ps = PrintConsoleServiceConfig.getPrintableService();
         currentSelectedPrintObject=EnumPrintOption.STANDARD.getName();
-        System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
+        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX) + "Activated Printing Tool : " + ColorfulTextDesign.getSuccessColorText(ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
     }
 /*    public static String getText(String msg) {
         PrintConsoleServiceConfig.setIdeColor(ConsoleColors.BLUE_BRIGHT);

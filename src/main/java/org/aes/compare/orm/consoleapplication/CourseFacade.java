@@ -147,12 +147,12 @@ public class CourseFacade {
 //        String processPrefixName = parentProcessName + MetaData.INNER_PROCESS_PREFIX + MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_SELECT;
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
-            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcessCancelled( 2);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + "Student has not been enrolled to any course yet."));
         } else {
-            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+            FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student's all courses(" + courses.size() + ") are retrieved.");
         }
         FacadeUtility.printSlash();
@@ -176,10 +176,10 @@ public class CourseFacade {
 //            if (parentProcessName != null && parentProcessName.length() > 0) {
 //                parentProcessName += MetaData.INNER_PROCESS_PREFIX;
 //            }
-            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
 //            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(parentProcessName + MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
 //            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+            FacadeUtility.destroyProcessCancelled();
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
             return false;
         }
@@ -192,8 +192,8 @@ public class CourseFacade {
         List<Course> courses = courseService.findAll();
         if (courses.isEmpty()) {
 //            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.NOT_FOUND_ANY_SAVED_COURSE));
-            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 3);
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcessCancelled(3);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
             return null;
         }
@@ -217,8 +217,8 @@ public class CourseFacade {
         switch (option) {
             case 0:
 //                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.COURSE_NOT_SELECTED_PROCESS_CANCELLED));
-//                LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-//                FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+//                // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+//                FacadeUtility.destroyProcessCancelled();
 //                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.COURSE_NOT_SELECTED));
                 course = null;
                 break;
@@ -245,12 +245,12 @@ public class CourseFacade {
                 return selectCourse(courses);
         }
         if (course == null) {
-            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcessCancelled();
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.COURSE_NOT_SELECTED));
         } else {
-            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
+            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+            FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + course);
         }
         return course;

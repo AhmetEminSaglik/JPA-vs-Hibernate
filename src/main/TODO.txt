@@ -97,6 +97,6 @@ StudentFacade:
 + findByMultipleWay()
 + findStudentAllCourses()
 + findByStudentIdWithCourseName()
-- update()
++ update()
 - delete()
 

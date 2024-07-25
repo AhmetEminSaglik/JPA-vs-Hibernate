@@ -13,7 +13,10 @@ public abstract class ORMImplementation {
 
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
 //        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getFileName()));git
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(getCurrentORMToolName()+" ORM tool is activated."));
+
+        if (LoggerConfigORM.isAllowedPrint()) {
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(getCurrentORMToolName()+" ORM tool is activated."));
+        }
         enumORMConfigFile = configFile;
     }
 

@@ -57,7 +57,8 @@ public class Main {
             }*/
             switch (globalOption) {
                 case 0:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess("[MAIN]: "+MetaData.EXITING_FROM_PROCESS));
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess("[MAIN]: "+MetaData.EXITING_FROM_PROCESS));
+                    FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
@@ -123,8 +124,8 @@ public class Main {
             switch (option) {
                 case 0:
 //                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + " " + MetaData.EXITING_FROM_PROCESS));
-                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+//                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
                     addressFacade.save();
@@ -171,8 +172,9 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+/*                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcessCancelled(1);*/
+                    FacadeUtility.destroyProcessExiting(1);
 //                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
@@ -226,8 +228,9 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+                    /*LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcessCancelled(1);*/
+                    FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
                     courseFacade.save();
@@ -287,8 +290,9 @@ public class Main {
 
             switch (option) {
                 case 0:
-                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+                    /*LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                    FacadeUtility.destroyProcessCancelled(1);*/
+                    FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
                     examResultFacade.save();
@@ -329,8 +333,9 @@ public class Main {
         switch (option) {
             case 0:
 //                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
-                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+                /*LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                FacadeUtility.destroyProcessCancelled(1);*/
+                FacadeUtility.destroyProcessExiting(1);
                 break;
             case 1:
                 updateORMSetting();
@@ -354,6 +359,7 @@ public class Main {
 
     }
     private static void updateORMSetting() {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_SELECT);
         List<String> indexes = new ArrayList<>();
         indexes.add("JPA");
         indexes.add("Hibernate");
@@ -361,24 +367,31 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                FacadeUtility.destroyProcessCancelled();
+                break;
             case 1:
                 ORMConfigSingleton.enableJPA();
                 resetORMServices();
+                FacadeUtility.destroyProcessSuccessfully();
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "JPA is activated "));
 //                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             case 2:
                 ORMConfigSingleton.enableHibernate();
                 resetORMServices();
+                FacadeUtility.destroyProcessSuccessfully();
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "Hibernate is activated "));
 //                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
-
     }
 
     private static void updateORMLogSettings() {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_LOGS);
+
         List<String> indexes = new ArrayList<>();
         indexes.add("Enable ORM Logs");
         indexes.add("Disable ORM Logs");
@@ -386,15 +399,18 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                FacadeUtility.destroyProcessExiting();
                 break;
             case 1:
                 LoggerConfigORM.enable();
-                System.out.println(ColorfulTextDesign.getSuccessColorText("ORM Logs are enabled."));
+                FacadeUtility.destroyProcessSuccessfully();
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "ORM Logs are " + ColorfulTextDesign.getSuccessColorText("enabled") + ".");
                 break;
             case 2:
                 LoggerConfigORM.disable();
-                System.out.println(ColorfulTextDesign.getSuccessColorText("ORM Logs are disabled."));
+                FacadeUtility.destroyProcessSuccessfully();
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "ORM Logs are " + ColorfulTextDesign.getSuccessColorText("disabled") + ".");
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
@@ -403,6 +419,8 @@ public class Main {
     }
 
     private static void updateMusicSetting() {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_MUSIC);
+
         List<String> indexes = new ArrayList<>();
         indexes.add("Enable Music");
         indexes.add("Disable Music");
@@ -410,15 +428,18 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                FacadeUtility.destroyProcessCancelled();
                 break;
             case 1:
                 musicPlayer.resume();
-                System.out.println(ColorfulTextDesign.getSuccessColorText("Music is resumed"));
+                FacadeUtility.destroyProcessSuccessfully();
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "Music is activated."));
                 break;
             case 2:
                 musicPlayer.pause();
-                System.out.println(ColorfulTextDesign.getSuccessColorText("Music is paused"));
+                FacadeUtility.destroyProcessSuccessfully();
+                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX+ "Music is paused."));
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
@@ -437,8 +458,9 @@ public class Main {
             case 0:
 //                System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
 //                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
-                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 1);
+/*                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+                FacadeUtility.destroyProcessCancelled(1);*/
+                FacadeUtility.destroyProcessExiting(1);
                 break;
             case 1:
                 ColorfulTextDesign.enableCMDPrinting();
