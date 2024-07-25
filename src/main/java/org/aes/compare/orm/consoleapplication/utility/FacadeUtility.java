@@ -147,4 +147,37 @@ public class FacadeUtility {
         System.out.println("-------------------------");
     }
 
+    public static void printSuccessResult(String msg) {
+        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + msg);
+    }
+
+    public static void printColorfulSuccessResult(String msg) {
+        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + msg));
+    }
+
+    public static void printCancelResult(String msg) {
+        System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX) + msg);
+    }
+
+    public static void printColorfulCancelResult(String msg) {
+        System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + msg));
+    }
+
+    public static void printWarningResult(String msg) {
+        System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX) + msg);
+    }
+
+    public static void printColorfulWarningResult(String msg) {
+        System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + msg));
+    }
+
+
+    public static void printInfoResult(String msg) {
+        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX) + msg);
+    }
+
+    public static void printColorfulInfoResult(String msg) {
+        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX + msg));
+    }
+
 }

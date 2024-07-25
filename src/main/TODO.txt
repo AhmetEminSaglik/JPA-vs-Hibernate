@@ -100,3 +100,20 @@ StudentFacade:
 + update()
 + delete()
 
+
+CourseFacade:
++ save()
++ findAll()
+- findByName()
+- findAllCoursesBelongsToStudent()
+- update()
+- delete()
+
+ExamResultFacade:
+- save()
+- findAll()
+- findAllByStudentId()
+- findAllByCourseName()
+- findAllByStudentIdAndCourseName()
+- update()
+- delete()

@@ -37,6 +37,7 @@ public class CourseFacade {
     }
 
     public Course save() {
+        FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
         List<Course> properCourses = getProperCoursesToSave();
 //        StringBuilder sbCourses = new StringBuilder();
 //        sbCourses.append(createMsgFromListForCourses(properCourses))
@@ -46,10 +47,12 @@ public class CourseFacade {
         result--;
         Course course = properCourses.get(0);
         if (result == -1) {
-            System.out.println("Course Save " + MetaData.PROCESS_IS_CANCELLED);
-            System.out.println("Exiting from Course Save process...");
+            /*System.out.println("Course Save " + MetaData.PROCESS_IS_CANCELLED);
+            System.out.println("Exiting from Course Save process...");*/
+            FacadeUtility.destroyProcessCancelled();
 //        } else if (result == properCourses.size() - 1) {
-        } else if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
+        } else {
+            if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
             course = properCourses.get(result);
 
             System.out.print("Type for Course name : ");
@@ -68,8 +71,10 @@ public class CourseFacade {
             System.out.println("Course is saving...");
             courseService.save(course);
         }
-//        courseService.save(course);
-        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_SAVED) + course);
+            FacadeUtility.destroyProcessSuccessfully();
+            FacadeUtility.printSuccessResult(course.toString());
+        }
+        FacadeUtility.printSlash();
 
         return course;
     }
@@ -96,13 +101,15 @@ public class CourseFacade {
     }
 
     public List<Course> findAll() {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyCourseSaved("")) {
             return null;
         }
         List<Course> courses = courseService.findAll();
         System.out.println("All Courses are retrieved :");
         printArrWithNo(courses);
-        System.out.println("-------------------------");
+
+        FacadeUtility.printSlash();
         return courses;
     }
 
@@ -180,7 +187,8 @@ public class CourseFacade {
 //            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(parentProcessName + MetaData.PROCESS_PREFIX_COURSE + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
 //            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
             FacadeUtility.destroyProcessCancelled();
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + MetaData.NOT_FOUND_ANY_SAVED_COURSE));
+            FacadeUtility.printColorfulWarningResult(MetaData.NOT_FOUND_ANY_SAVED_COURSE);
             return false;
         }
         return true;
@@ -386,7 +394,8 @@ public class CourseFacade {
 
     private void printArrWithNo(List<?> list) {
         for (int i = 0; i < list.size(); i++) {
-            System.out.println((i + 1) + "-) " + list.get(i));
+//            System.out.println((i + 1) + "-) " + list.get(i));
+            FacadeUtility.printSuccessResult((i + 1) + "-) " + list.get(i));
         }
     }
 
