@@ -108,6 +108,7 @@ public class CourseFacade {
         System.out.println("All Courses are retrieved :");
         printArrWithNo(courses);
 
+        FacadeUtility.destroyProcessSuccessfully();
         FacadeUtility.printSlash();
         return courses;
     }
@@ -288,6 +289,8 @@ public class CourseFacade {
     }
 
     public Course update() {
+        FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
+
         if (!isAnyCourseSaved("")) {
             return null;
         }
@@ -297,14 +300,15 @@ public class CourseFacade {
         selectedCourse--;
 
         if (selectedCourse == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
+            FacadeUtility.destroyProcessCancelled();
             return null;
         }
         Course course = courses.get(selectedCourse);
-        return updateSpecificCourse(course);
+        return updateSelectedCourse(course);
     }
 
-    private Course updateSpecificCourse(Course course) {
+    private Course updateSelectedCourse(Course course) {
         int option = Integer.MAX_VALUE;
 
         List<String> indexed = new ArrayList<>();
@@ -317,15 +321,18 @@ public class CourseFacade {
 //            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 1, 3);
             switch (option) {
                 case -1:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
 //                    courseService.updateCourseByName(course);
 //                    System.out.println("Course is updated : " + course);
 //                    System.out.println("Exiting Course Update Service");
+                    FacadeUtility.destroyProcessCancelled();
                     return null;
                 case 0:
                     courseService.updateCourseByName(course);
 //                    System.out.println("Course is updated : " + course);
-                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_UPDATED) + course);
+//                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.COURSE_IS_UPDATED) + course);
+                    FacadeUtility.destroyProcessSuccessfully();
+                    FacadeUtility.printSuccessResult("Course : " + course);
                     return course;
 //                    System.out.println("Exiting Course Update Service");
                 case 1:
@@ -338,14 +345,11 @@ public class CourseFacade {
                     double credit = SafeScannerInput.getCertainDoubleSafe(1, 20);
                     course.setcredit(credit);
                     break;
-
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }
         }
-
         return course;
-
     }
 
     public void delete() {

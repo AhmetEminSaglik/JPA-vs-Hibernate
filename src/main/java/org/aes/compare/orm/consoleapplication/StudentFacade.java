@@ -412,7 +412,8 @@ public class StudentFacade {
                     // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
                     FacadeUtility.destroyProcessSuccessfully();
 
-                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student : " + student);
+//                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student : " + student);
+                    FacadeUtility.printSuccessResult("Student : " + student);
                     return student;
 
                 case 1:
@@ -426,7 +427,6 @@ public class StudentFacade {
                     student.setGrade(grade);
                     break;
                 case 3:
-
                     if (courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_STUDENT)) {
                         List<Course> courses = updateStudentCourseProgress(student.getId());
                         if (courses != null) {
@@ -444,7 +444,6 @@ public class StudentFacade {
                         student.setAddress(address);
                     }
                     break;
-
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }
