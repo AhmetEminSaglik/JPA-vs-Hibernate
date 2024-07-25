@@ -30,6 +30,7 @@ public class MetaData {
     public static final String ADDRESS_IS_USING = "Using address is: ";
     public static final String NOT_FOUND_ANY_SAVED_ADDRESS = PROCESS_RESULT_PREFIX + "Has not found any saved address. Please save address first.";
 
+    public static final String STUDENT_NOT_SELECTED = "Student is not selected. " ;
     public static final String STUDENT_IS_UPDATED = "Student is updated: ";
     public static final String STUDENT_IS_SAVED = "Student is saved: ";
     public static final String STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED = "Student can not save without address data." ;
@@ -40,7 +41,7 @@ public class MetaData {
     public static final String STUDENT_COURSES_ARE_UPDATED = "Not Found any suitable course for the student.";
     public static final String STUDENT_DELETE_PROCESS_CANCELLED = "Student Delete process is Cancelled";
 
-    public static final String COURSE_NOT_SELECTED_PROCESS_CANCELLED = "Course is not selected.\n" + PROCESS_IS_CANCELLED;
+    public static final String COURSE_NOT_SELECTED = "Course is not selected. " ;
     public static final String COURSE_IS_SAVED = "Course is saved: ";
     public static final String COURSE_IS_UPDATED = "Course is updated: ";
     public static final String COURSE_SELECTED = "Selected Course: ";

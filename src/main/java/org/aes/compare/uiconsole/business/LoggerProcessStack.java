@@ -16,7 +16,7 @@ public class LoggerProcessStack {
 
     public static String pop() {
         if (!stack.isEmpty()) {
-            System.out.println("SILINENLER :" +stack.pop());;
+            System.out.println("SILINENLER :  " +stack.pop());;
             /*if (stack.peek().equalsIgnoreCase(MetaData.INNER_PROCESS_PREFIX))
                 stack.pop();*/
             return "stack.pop()";

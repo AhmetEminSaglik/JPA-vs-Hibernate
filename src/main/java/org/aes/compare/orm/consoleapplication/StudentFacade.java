@@ -38,9 +38,7 @@ public class StudentFacade {
 
     public Student save() {
         FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
-//        counter++;
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(counter + "-) [STUDENT] Save : "));
-//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_STARTS));
+
         Student student = new Student();
         System.out.print("Type Student name: ");
         String name = SafeScannerInput.getStringNotBlank();
@@ -50,26 +48,19 @@ public class StudentFacade {
         int grade = SafeScannerInput.getCertainIntSafe(1, 6);
         student.setGrade(grade);
 
+//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
         Address address = studentSaveProcessDecideAddressProgress();
         if (address == null) {
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_IS_CANCELLED));
-            LoggerProcessStack.add(MetaData.INNER_PROCESS_PREFIX+MetaData.PROCESS_IS_CANCELLED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 1);
-//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
+            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+            System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
         } else {
-//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.ADDRESS_IS_USING) + address);
-
             student.setAddress(address);
             studentService.save(student);
-//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.STUDENT_IS_SAVED) + student);
-            LoggerProcessStack.add(MetaData.PROCESS_COMPLETED);
-//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SAVE + MetaData.PROCESS_COMPLETED));
+            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
             FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
-
         }
-
         FacadeUtility.printSlash();
         return student;
 
@@ -101,14 +92,16 @@ public class StudentFacade {
     }
 
     private Address studentSaveProcessDecideAddressProgress() {
-        LoggerProcessStack.add(/*MetaData.INNER_PROCESS_PREFIX +*/ MetaData.PROCESS_PREFIX_ADDRESS);
-        Address address = addressFacade.pickAddressForStudentSaveProcess("<><><><><><><>");
-        if (address == null) {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
+        Address address = addressFacade.pickAddressForStudentSaveProcess();
+//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
+        FacadeUtility.destroyProcessWithoutPrint();
+        /*if (address == null) {
             FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
         } else {
             FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
-        }
+        }*/
         System.out.println("??????");
 
         return address;
@@ -141,21 +134,38 @@ public class StudentFacade {
 //    }
 
     public Student findByMultipleWay() {
-        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_STARTS));
+//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_STARTS));
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyStudentSaved()) {
             return null;
         }
+        Student student = selectStudent();
+//        if (student != null) {
+//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
+//        }
 
-        Student student = null;
+        FacadeUtility.printSlash();
+
+        return student;
+    }
+
+    private Student selectStudent() {
+
+        Student student;
 
         List<String> indexes = new ArrayList<>();
         indexes.add("Pick Student from List");
         indexes.add("Pick Student by typing Student id");
         int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
-        final String studentNotSelectedErr = ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED);
+//        final String studentNotSelectedErr = ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED);
         switch (option) {
             case 0:
 //                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(studentNotSelectedErr));
+//                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
+//                LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+//                FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+//                return null;
+                student=null;
                 break;
             case 1:
                 student = pickStudentFromList(studentService.findAll());
@@ -165,25 +175,32 @@ public class StudentFacade {
                 int id = SafeScannerInput.getCertainIntSafe();
                 student = studentService.findById(id);
                 if (student == null) {
-                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Student is not found with given Id(" + id + ").\nPlease try again."));
-                    return findByMultipleWay();
+//                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Student is not found with given Id(" + id + ").\nPlease try again."));
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.PROCESS_RESULT_PREFIX + "Student is not found with given Id(" + id + "). Please try again."));
+                    return selectStudent();
                 }
                 break;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
-                return findByMultipleWay();
+                return selectStudent();
         }
         if (student == null) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(studentNotSelectedErr));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(studentNotSelectedErr));
+            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
+            System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX+MetaData.STUDENT_NOT_SELECTED));
         } else {
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SELECT + MetaData.PROCESS_COMPLETED));
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
+            LoggerProcessStack.add(MetaData.PROCESS_SELECT);
+            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 3);
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX)+student);
+//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_SELECT + MetaData.PROCESS_COMPLETED));
+//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
         }
 
-        FacadeUtility.printSlash();
         return student;
 
-    
+
         /*
         System.out.print("Type number for Student id  : ");
         int studentId = SafeScannerInput.getCertainIntSafe();
@@ -191,19 +208,20 @@ public class StudentFacade {
         System.out.println("Found Student by id : " + student);
         return student;
     */
+
     }
 
     public List<Course> findStudentAllCourses() {
+//        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         Student student = findByMultipleWay();
 //        List<Course> courses=courseFacade.findAllCoursesBelongsToStudent();
         if (student == null) {
             return null;
         }
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         List<Course> courses = courseFacade.findAllCoursesOfStudent(MetaData.PROCESS_PREFIX_STUDENT, student);
-        if (courses.isEmpty()) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
-        } else {
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
+        FacadeUtility.destroyProcessWithoutPrint();
+        if (!courses.isEmpty()) {
             printArrResult(courses);
         }
         return courses;
@@ -237,14 +255,16 @@ public class StudentFacade {
 
 
     public List<Student> findAll() {
-        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_STARTS));
+//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_STARTS));
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyStudentSaved()) {
             return null;
         }
         List<Student> students = studentService.findAll();
 //        System.out.println("All students are retrieved : ");
-        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_COMPLETED));
-
+//        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_COMPLETED));
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+        FacadeUtility.destroyProcess(ColorfulTextDesign::getSuccessColorText, 2);
         /*for (int i = 0; i < students.size(); i++) {
             System.out.println((i + 1) + "-) " + students.get(i));
         }*/
@@ -270,7 +290,9 @@ public class StudentFacade {
     public boolean isAnyStudentSaved() {
         int totalStudent = getTotalStudentNumber();
         if (totalStudent == 0) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
+            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess, 2);
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX) + ColorfulTextDesign.getWarningColorText(MetaData.NOT_FOUND_ANY_SAVED_STUDENT));
             return false;
         }
@@ -280,6 +302,10 @@ public class StudentFacade {
 
     public Student findByStudentIdWithCourseName() {
 //        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_STARTS));
+
+//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+//        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+
         if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_STUDENT)) {
 //            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
             return null;
@@ -289,14 +315,19 @@ public class StudentFacade {
             return null;
         }
 
+
 //        System.out.print("Type number for Student id  : ");
 //        int studentId = SafeScannerInput.getCertainIntSafe();
 
         Student student = findByMultipleWay();
         if (student == null) {
-
+//            LoggerProcessStack.add(MetaData.PROCESS_IS_CANCELLED);
+//            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess,2);
+//            FacadeUtility.destroyProcessWithoutPrint();
+//            FacadeUtility.destroyProcessWithoutPrint();
             return null;
         }
+        LoggerProcessStack.add(MetaData.PROCESS_READ);
 //        System.out.print("Type Course Name  : ");
 //        String courseName = SafeScannerInput.getStringNotBlank();
         Course course = courseFacade.findByMultipleWay();

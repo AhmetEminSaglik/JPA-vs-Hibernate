@@ -109,6 +109,14 @@ public class FacadeUtility {
         System.out.println(function.apply(LoggerProcessStack.getAllInOrder()));
         LoggerProcessStack.popLoop(popVal);
     }
+
+    public static void destroyProcessWithoutPrint(int popVal) {
+        LoggerProcessStack.popLoop(popVal);
+    }
+
+    public static void destroyProcessWithoutPrint() {
+        LoggerProcessStack.popLoop(1);
+    }
     public static void printSlash() {
         System.out.println("-------------------------");
     }

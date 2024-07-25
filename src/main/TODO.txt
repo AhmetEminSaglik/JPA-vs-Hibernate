@@ -78,3 +78,25 @@ Scenerio :
             [ExamResult]       :-> findById(int id)
             []                 :-> update(ExamResult e)
             []                 :-> deleteById(int id)
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+AddressFacade:
++ save()
++ findAll()
++ findById()
++ updateAddressProcess()
++ delete()
+
+
+StudentFacade:
++ save()
++ findAll()
++ findByMultipleWay()
++ findStudentAllCourses()
++ findByStudentIdWithCourseName()
+- update()
+- delete()
+
