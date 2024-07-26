@@ -183,6 +183,8 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByStudentIdAndCourseName() {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
@@ -190,12 +192,22 @@ public class ExamResultFacade {
         }
         Student student = studentFacade.findByMultipleWay();
         if (student == null) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Not found Student. Find All Exam Result by student and course process is cancelled"));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Not found Student. Find All Exam Result by student and course process is cancelled"));
+            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
             return null;
         }
+//        List<ExamResult> examResults = decidePickCourseBySelectOrTypeCourseNameOfStudent(student);
         List<ExamResult> examResults = decidePickCourseBySelectOrTypeCourseNameOfStudent(student);
-
-        printArrWithNo(examResults);
+        if (examResults == null) {
+            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
+            return null;
+        }
+        FacadeUtility.destroyProcessWithoutPrint();
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printSuccessResult("Exam Results are retrieved : ");
+        FacadeUtility.printArrResult(examResults);
         return examResults;
     }
 

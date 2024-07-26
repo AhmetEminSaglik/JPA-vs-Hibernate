@@ -114,7 +114,7 @@ ExamResultFacade:
 + findAll()
 + findAllByStudentId()
 + findAllByCourseName()
-- findAllByStudentIdAndCourseName()
++ findAllByStudentIdAndCourseName()
 - update()
 - delete()
 
