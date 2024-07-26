@@ -65,7 +65,7 @@ public class ExamResultFacade {
         FacadeUtility.destroyProcessWithoutPrint();
         if (student == null) {
 //            System.out.println(cancelMsg);
-            FacadeUtility.destroyProcessWithoutPrint();
+//            FacadeUtility.destroyProcessWithoutPrint();
             FacadeUtility.destroyProcessCancelled();
             FacadeUtility.printColorfulWarningResult("Student must be selected to save Exam Result.");
             return null;
@@ -73,6 +73,7 @@ public class ExamResultFacade {
 
 //        Course course = pickCourseThatMatchesWithStudentFromList(student.getId());
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+        FacadeUtility.initProcess(MetaData.PROCESS_READ,MetaData.PROCESS_STARTS);
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
             FacadeUtility.destroyProcessWithoutPrint();
@@ -87,7 +88,10 @@ public class ExamResultFacade {
         Course course = pickCourseFromList(courses);
 
         if (course == null) {
+            FacadeUtility.destroyProcessCancelled();
             FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.printColorfulWarningResult("Course is not selected.");
+
             FacadeUtility.destroyProcessCancelled();
             FacadeUtility.printColorfulWarningResult("Course must be selected to save Exam Result.");
 //            System.out.println(cancelMsg);
@@ -140,12 +144,15 @@ public class ExamResultFacade {
         return pickCourseFromList(courses);
     }
 
-    public void findAll() {
+    public List<ExamResult>  findAll() {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyExamResultSaved()) {
-            return;
+            return null;
         }
+        FacadeUtility.destroyProcessSuccessfully();
         List<ExamResult> examResults = examResultService.findAll();
-        printArrWithNo(examResults);
+        FacadeUtility.printArrResult(examResults);
+        return examResults;
     }
 
 

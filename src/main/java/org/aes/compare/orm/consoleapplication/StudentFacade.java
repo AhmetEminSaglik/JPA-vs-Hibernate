@@ -432,8 +432,11 @@ public class StudentFacade {
                         if (courses != null) {
                             student.setCourses(courses);
                             studentService.update(student);
-                            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + MetaData.STUDENT_COURSES_ARE_UPDATED);
+ //                            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + MetaData.STUDENT_COURSES_ARE_UPDATED);
+                            FacadeUtility.printSuccessResult(MetaData.STUDENT_COURSES_ARE_UPDATED);
                         }
+                    }else{
+                        LoggerProcessStack.add(MetaData.PROCESS_UPDATE);
                     }
                     break;
                 case 4:
