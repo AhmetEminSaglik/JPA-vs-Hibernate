@@ -257,11 +257,33 @@ public class Main {
     }
 
     static void examResultScenario() {
-        boolean result = studentFacade.isAnyStudentSaved();
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)) {
-            result = false;
+//        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+
+//        FacadeUtility.destroyProcessWithoutPrint();
+
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
+        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+        boolean resultStudent = studentFacade.isAnyStudentSaved();
+        if (resultStudent) {
+//            FacadeUtility.destroyProcessWithoutPrint(2);
+            FacadeUtility.destroyProcessSuccessfully(2);
+            FacadeUtility.printColorfulSuccessResult("Found saved students.");
         }
-        if (!result) {
+
+
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+        boolean resultCourse = courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT);
+        if (resultCourse) {
+//            FacadeUtility.destroyProcessWithoutPrint(2);
+            FacadeUtility.destroyProcessSuccessfully(2);
+            FacadeUtility.printColorfulSuccessResult("Found saved courses.");
+        }
+
+//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+//        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+//        FacadeUtility.destroyProcessWithoutPrint();
+        if (!resultStudent || !resultCourse) {
             ColorfulTextDesign.getErrorColorText("Without creating any Student or Course, you may not run the functions of the Exam Result processes.\nStrongly recommend to create " +
                     ColorfulTextDesign.getInfoColorText("Student") +
                     ColorfulTextDesign.getErrorColorText(" and ") +

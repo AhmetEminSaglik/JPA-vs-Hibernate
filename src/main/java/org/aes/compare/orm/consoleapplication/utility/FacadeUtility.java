@@ -92,6 +92,12 @@ public class FacadeUtility {
         System.out.println(sb);
     }*/
 
+    public static void initProcessWithOnlySituation(String processSituation) {
+        LoggerProcessStack.addWithInnerPrefix(processSituation);
+        System.out.println(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()));
+        LoggerProcessStack.pop();
+    }
+
     public static void initProcess(String processName, String processSituation) {
         LoggerProcessStack.add(processName);
         LoggerProcessStack.addWithInnerPrefix(processSituation);

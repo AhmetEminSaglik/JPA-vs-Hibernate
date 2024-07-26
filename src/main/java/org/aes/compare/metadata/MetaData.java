@@ -55,7 +55,7 @@ public class MetaData {
     public static final String COURSE_NAME_MUST_BE_UNIQUE = "Course name must be unique. ";
     public static final String IS_SAVED_ALREADY = " is saved already.";
 
-    public static final String NOT_FOUND_ANY_SAVED_EXAM_RESULT = "Has not found any saved Exam Result. Please save Exam Result first.\n" + PROCESS_IS_CANCELLED;
+    public static final String NOT_FOUND_ANY_SAVED_EXAM_RESULT = "Has not found any saved Exam Result. Please save Exam Result first.";
     public static final String EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED = "Exam Result Save process is cancelled. ";
     public static final String CHANGES_ARE_UPDATED = "Changes are updated.";
 

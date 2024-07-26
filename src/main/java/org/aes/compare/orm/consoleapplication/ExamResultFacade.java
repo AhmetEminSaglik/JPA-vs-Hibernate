@@ -10,6 +10,7 @@ import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
@@ -39,22 +40,53 @@ public class ExamResultFacade {
     }
 
     public ExamResult save() {
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
-                || !studentFacade.isAnyStudentSaved()) {
+        FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)) {
+            FacadeUtility.destroyProcessWithoutPrint();
             return null;
         }
+        FacadeUtility.destroyProcessWithoutPrint();
+
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
+        if (!studentFacade.isAnyStudentSaved()) {
+            return null;
+        }
+        FacadeUtility.destroyProcessWithoutPrint();
+//        FacadeUtility.destroyProcessWithoutPrint(2);
+
+
         ExamResult examResult = new ExamResult();
-        final String cancelMsg = ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED);
+//        final String cancelMsg = ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXAM_RESULT_SAVE_PROCESS_IS_CANCELLED);
 
-        Student student = studentFacade.pickStudentFromList(studentService.findAll());
+//        Student student = studentFacade.pickStudentFromList(studentService.findAll());
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
+        Student student = studentFacade.findByMultipleWay();
         if (student == null) {
-            System.out.println(cancelMsg);
+//            System.out.println(cancelMsg);
+            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printColorfulWarningResult("Student must be selected to save Exam Result.");
             return null;
         }
 
-        Course course = pickCourseThatMatchesWithStudentFromList(student.getId());
+//        Course course = pickCourseThatMatchesWithStudentFromList(student.getId());
+
+        List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
+        if (courses.isEmpty()) {
+            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printColorfulWarningResult("Student has not been enrolled to any course yet.");
+            return null;
+        }
+        System.out.println("All courses that Student's enrolled: ");
+        Course course = pickCourseFromList(courses);
+
         if (course == null) {
-            System.out.println(cancelMsg);
+            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printColorfulWarningResult("Course must be selected to save Exam Result.");
+//            System.out.println(cancelMsg);
             return null;
         }
 
@@ -71,8 +103,10 @@ public class ExamResultFacade {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error occurred: " + e.getMessage()));
             return null;
         }
-        System.out.println("Exam Result is saving...");
-        System.out.println("Exam Result is saved: " + examResult);
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printSuccessResult("Exam Result : "+examResult);
+//        System.out.println("Exam Result is saving...");
+//        System.out.println("Exam Result is saved: " + examResult);
 
         return examResult;
     }
@@ -81,7 +115,9 @@ public class ExamResultFacade {
     public boolean isAnyExamResultSaved() {
         int totalExamResult = examResultService.findAll().size();
         if (totalExamResult == 0) {
-            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_EXAM_RESULT);
+//            System.out.println(MetaData.NOT_FOUND_ANY_SAVED_EXAM_RESULT);
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printColorfulWarningResult(MetaData.NOT_FOUND_ANY_SAVED_EXAM_RESULT);
             return false;
         }
         return true;
@@ -90,6 +126,10 @@ public class ExamResultFacade {
     private Course pickCourseThatMatchesWithStudentFromList(int studentId) {
         System.out.println("All courses that Student's enrolled: ");
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
+        if (courses.isEmpty()) {
+
+            return null;
+        }
         return pickCourseFromList(courses);
     }
 
@@ -374,7 +414,7 @@ public class ExamResultFacade {
         int index = SafeScannerInput.getCertainIntSafe(0, courses.size());
         index--;
         if (index == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
             return null;
         }
         return courses.get(index);
