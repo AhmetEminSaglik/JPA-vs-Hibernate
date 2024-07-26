@@ -117,3 +117,8 @@ ExamResultFacade:
 - findAllByStudentIdAndCourseName()
 - update()
 - delete()
+
+
+//todo
+FacadeUtility.printSuccessResult("Saved Exam Result : "+examResult);
+FacadeUtility.printSuccessResultSavedData(examResult); --> // fonksion icin de "Saved Data : "+ msg

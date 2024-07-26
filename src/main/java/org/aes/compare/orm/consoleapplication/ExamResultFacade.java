@@ -62,6 +62,7 @@ public class ExamResultFacade {
 //        Student student = studentFacade.pickStudentFromList(studentService.findAll());
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         Student student = studentFacade.findByMultipleWay();
+        FacadeUtility.destroyProcessWithoutPrint();
         if (student == null) {
 //            System.out.println(cancelMsg);
             FacadeUtility.destroyProcessWithoutPrint();
@@ -71,7 +72,7 @@ public class ExamResultFacade {
         }
 
 //        Course course = pickCourseThatMatchesWithStudentFromList(student.getId());
-
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
             FacadeUtility.destroyProcessWithoutPrint();
@@ -79,7 +80,10 @@ public class ExamResultFacade {
             FacadeUtility.printColorfulWarningResult("Student has not been enrolled to any course yet.");
             return null;
         }
-        System.out.println("All courses that Student's enrolled: ");
+//        System.out.println("All courses that Student's enrolled: ");
+        System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
+//        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + ColorfulTextDesign.getWarningColorText("All courses that Student's enrolled are listed below :"));
+        FacadeUtility.printColorfulSuccessResult("All courses that Student's enrolled are listed below :");
         Course course = pickCourseFromList(courses);
 
         if (course == null) {
@@ -89,6 +93,8 @@ public class ExamResultFacade {
 //            System.out.println(cancelMsg);
             return null;
         }
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printSuccessResult("Selected Course : "+course);
 
         System.out.print("Type Score (double): ");
         double score = SafeScannerInput.getCertainDoubleSafe(1, 100);
@@ -104,7 +110,7 @@ public class ExamResultFacade {
             return null;
         }
         FacadeUtility.destroyProcessSuccessfully();
-        FacadeUtility.printSuccessResult("Exam Result : "+examResult);
+        FacadeUtility.printSuccessResult("Saved Exam Result : "+examResult);
 //        System.out.println("Exam Result is saving...");
 //        System.out.println("Exam Result is saved: " + examResult);
 
@@ -124,7 +130,8 @@ public class ExamResultFacade {
     }
 
     private Course pickCourseThatMatchesWithStudentFromList(int studentId) {
-        System.out.println("All courses that Student's enrolled: ");
+        System.out.println();
+        System.out.println(LoggerProcessStack.getAllInOrder() + MetaData.PROCESS_RESULT_PREFIX + "All courses that Student's enrolled: ");
         List<Course> courses = courseService.findAllCourseOfStudentId(studentId);
         if (courses.isEmpty()) {
 
