@@ -111,8 +111,8 @@ CourseFacade:
 
 ExamResultFacade:
 + save()
-- findAll()
-- findAllByStudentId()
++ findAll()
++ findAllByStudentId()
 - findAllByCourseName()
 - findAllByStudentIdAndCourseName()
 - update()

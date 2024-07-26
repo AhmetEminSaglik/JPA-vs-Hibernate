@@ -12,6 +12,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
+import org.hibernate.jpa.internal.util.PersistenceUtilHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,18 +158,26 @@ public class ExamResultFacade {
 
 
     public List<ExamResult> findAllByStudentId() {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
         }
-        Student student = studentFacade.pickStudentFromList(studentService.findAll());
+//        Student student = studentFacade.pickStudentFromList(studentService.findAll());
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
+        Student student = studentFacade.findByMultipleWay();
         if (student == null) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Find Exam results by Student process is cancelled"));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Find Exam results by Student process is cancelled"));
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessWithoutPrint();
+//            FacadeUtility.printColorfulWarningResult("Student is not selected");
             return null;
         }
+        FacadeUtility.destroyProcessWithoutPrint();
         List<ExamResult> examResults = examResultService.findAllByStudentId(student.getId());
-        printArrWithNo(examResults);
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printArrResult(examResults);
         return examResults;
     }
 
