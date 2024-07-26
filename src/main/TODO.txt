@@ -113,7 +113,7 @@ ExamResultFacade:
 + save()
 + findAll()
 + findAllByStudentId()
-- findAllByCourseName()
++ findAllByCourseName()
 - findAllByStudentIdAndCourseName()
 - update()
 - delete()

@@ -17,7 +17,7 @@ public class SafeScannerInput {
 
     public static Integer getCertainIntSafe() {
         try {
-            int num = Integer.parseInt(scanner.nextLine());
+            int num = Integer.parseInt(scanner.nextLine().trim());
             return num;
         } catch (NumberFormatException ex) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Integer Input. Please try again."));
@@ -43,7 +43,7 @@ public class SafeScannerInput {
 
     public static Double getCertainDoubleSafe() {
         try {
-            double num = Double.parseDouble(scanner.nextLine());
+            double num = Double.parseDouble(scanner.nextLine().trim());
             DecimalFormat df = new DecimalFormat("#.00");
             return Double.parseDouble(df.format(num));
 //            return num;
@@ -69,7 +69,7 @@ public class SafeScannerInput {
     }
 
     public static String getStringNotBlank() {
-        String text = scanner.nextLine();
+        String text = scanner.nextLine().trim();
         if (text.isBlank()) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Empty String is not allowed. Please type something."));
             return getStringNotBlank();
@@ -89,7 +89,7 @@ public class SafeScannerInput {
 
     public static String getStringInput(String inputMsg, TerminalCommandLayout tmc) {
         System.out.println(inputMsg);
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
         if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
             TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
@@ -110,7 +110,7 @@ public class SafeScannerInput {
 
     public static int getIntInput(int minRange, int maxRange, String inputMsg, TerminalCommandLayout tmc) {
         System.out.println(inputMsg);
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
 
 
@@ -138,7 +138,7 @@ public class SafeScannerInput {
 
     public static int getIntInput(String inputMsg, TerminalCommandLayout tmc) {
         System.out.println(inputMsg);
-        String input = scanner.nextLine();
+        String input = scanner.nextLine().trim();
         EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
 
 
@@ -166,7 +166,7 @@ public class SafeScannerInput {
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
         String errMsg = (ColorfulTextDesign.getErrorColorText("Please Type number between [" + minRange + "," + maxRange + "]"));
         try {
-            String inputText = scanner.nextLine();
+            String inputText = scanner.nextLine().trim();
             int val = Integer.parseInt(inputText);
 //            scanner.nextLine();
             if (val >= minRange && val <= maxRange) {
@@ -183,7 +183,7 @@ public class SafeScannerInput {
     public static int getCertainIntForSwitch(int minRange, int maxRange) {
         String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
         try {
-            String inputText = scanner.nextLine();
+            String inputText = scanner.nextLine().trim();
             int val = Integer.parseInt(inputText);
 //            scanner.nextLine();
             if (val >= minRange && val <= maxRange) {

@@ -12,7 +12,6 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
-import org.hibernate.jpa.internal.util.PersistenceUtilHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +76,7 @@ public class ExamResultFacade {
         FacadeUtility.initProcess(MetaData.PROCESS_READ,MetaData.PROCESS_STARTS);
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
+            FacadeUtility.destroyProcessCancelled();
             FacadeUtility.destroyProcessWithoutPrint();
             FacadeUtility.destroyProcessCancelled();
             FacadeUtility.printColorfulWarningResult("Student has not been enrolled to any course yet.");
@@ -114,6 +114,7 @@ public class ExamResultFacade {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error occurred: " + e.getMessage()));
             return null;
         }
+        FacadeUtility.destroyProcessWithoutPrint();
         FacadeUtility.destroyProcessSuccessfully();
         FacadeUtility.printSuccessResult("Saved Exam Result : "+examResult);
 //        System.out.println("Exam Result is saving...");
@@ -221,11 +222,32 @@ public class ExamResultFacade {
     }
 
     public List<ExamResult> findAllByCourseName() {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+
         if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
         }
+        List<ExamResult> examResults = findAllExamResultByCourseName();
+        if (examResults == null) {
+            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessCancelled();
+            return null;
+        }
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.destroyProcessWithoutPrint();
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printArrResult(examResults);
+        FacadeUtility.printSlash();
+        return examResults;
+    }
+
+    private List<ExamResult> findAllExamResultByCourseName() {
         List<String> indexes = new ArrayList<>();
         indexes.add("Search  with registered Courses");
         indexes.add("Search with Typing course name Manuel");
@@ -234,31 +256,45 @@ public class ExamResultFacade {
         List<ExamResult> examResults = null;
         switch (option) {
             case 0:
-                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
-                break;
+//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//                FacadeUtility.destroyProcessCancelled();
+                return null;
             case 1:
                 Course course = pickCourseFromList(courseService.findAll());
                 if (course != null) {
-                    printCourseDataOfExamResult(course.getName());
+//                    return printCourseDataOfExamResult(course.getName());
+                    examResults = examResultService.findAllByCourseName(course.getName());
+                    if (examResults == null || examResults.isEmpty()) {
+                        FacadeUtility.printErrorResult(MetaData.getNotFoundExamResultWithCourseName(course.getName()));
+                        return findAllExamResultByCourseName();
+                    }
+                    return examResults;
                 }
-                return findAllByCourseName();
+//                FacadeUtility.destroyProcessCancelled();
+                return null;
             case 2:
                 System.out.print("Type Course Name:  ");
                 String courseName = SafeScannerInput.getStringNotBlank();
-                printCourseDataOfExamResult(courseName);
-                break;
-
+//                printCourseDataOfExamResult(courseName);
+                examResults = examResultService.findAllByCourseName(courseName);
+                if (examResults == null || examResults.isEmpty()) {
+                    FacadeUtility.printErrorResult(MetaData.getNotFoundExamResultWithCourseName(courseName));
+                    return findAllExamResultByCourseName();
+                }
+                return examResults;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
         }
         return examResults;
+
 
     }
 
     private void printCourseDataOfExamResult(String courseName) {
         List<ExamResult> examResults = examResultService.findAllByCourseName(courseName);
         if (examResults == null || examResults.isEmpty()) {
-            System.out.println(MetaData.getNotFoundExamResultWithCourseName(courseName));
+//            System.out.println(MetaData.getNotFoundExamResultWithCourseName(courseName));
+            FacadeUtility.printColorfulErrorResult(MetaData.getNotFoundExamResultWithCourseName(courseName));
             findAllByCourseName();
         } else {
             printArrWithNo(examResults);

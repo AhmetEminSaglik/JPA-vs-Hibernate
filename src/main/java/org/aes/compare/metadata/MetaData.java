@@ -60,7 +60,7 @@ public class MetaData {
     public static final String CHANGES_ARE_UPDATED = "Changes are updated.";
 
     public static String getCourseNameIsNotFound(String courseName) {
-        return ColorfulTextDesign.getErrorColorText("Course with course name (" + courseName + ") is not found.");
+        return ColorfulTextDesign.getErrorColorText(PROCESS_RESULT_PREFIX+"Course(name=" + courseName +") is not found.");
     }
 
     public static String getNotFoundExamResultWithCourseName(String courseName) {
