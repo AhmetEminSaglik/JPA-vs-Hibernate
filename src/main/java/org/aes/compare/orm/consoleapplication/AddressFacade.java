@@ -10,12 +10,9 @@ import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class AddressFacade {
-    private final static String selectOptionText = MetaData.SELECT_ONE_OPTION;
     private final AddressService addressService;
-    Scanner scanner = new Scanner(System.in);
 
     public AddressFacade(AddressService addressService) {
         this.addressService = addressService;
@@ -42,7 +39,6 @@ public class AddressFacade {
 
 
         addressService.save(address);
-        // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
 
         FacadeUtility.destroyProcessSuccessfully();
         System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
@@ -54,8 +50,7 @@ public class AddressFacade {
     public boolean isAnyAddressSaved() {
         int totalAddress = addressService.findAll().size();
         if (totalAddress == 0) {
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_READ + MetaData.PROCESS_IS_CANCELLED));
-//            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
+
             FacadeUtility.destroyProcessCancelled();
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.NOT_FOUND_ANY_SAVED_ADDRESS));
 
@@ -70,17 +65,15 @@ public class AddressFacade {
 
     public Address findByMultipleWay() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
-//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_READ + MetaData.PROCESS_STARTS));
+
         if (!isAnyAddressSaved()) {
             return null;
         }
         Address address = pickAddressFromSwitchCase();
 
         if (address == null) {
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
             FacadeUtility.destroyProcessCancelled();
         } else {
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
         }
@@ -104,8 +97,8 @@ public class AddressFacade {
                 int id = SafeScannerInput.getCertainIntSafe();
                 address = addressService.findById(id);
                 if (address == null) {
-                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_FAILED);
-                    FacadeUtility.destroyProcess(ColorfulTextDesign::getErrorColorText, 1);
+//                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_FAILED);
+                    FacadeUtility.destroyProcessFailed(1);
                     System.out.println(ColorfulTextDesign.getWarningColorText("-> Address is not found with given id(" + id + "). Please try again."));
                     return pickAddressFromSwitchCase();
                 }
@@ -121,7 +114,6 @@ public class AddressFacade {
     public Address pickAddressForStudentSaveProcess() {
         List<Address> unmatchedAddress = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
 
-//        String processPrefixName = parentProcessName  + MetaData.INNER_PROCESS_PREFIX + MetaData.PROCESS_PREFIX_ADDRESS;
         List<String> indexes = new ArrayList<>();
         indexes.add("Save new Address");
         indexes.add("Select from unmatched address (" + unmatchedAddress.size() + ")");
@@ -132,92 +124,60 @@ public class AddressFacade {
 
         switch (selected) {
             case 0:
-                // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
                 FacadeUtility.destroyProcessCancelled(1);
-//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(processPrefixName + MetaData.PROCESS_SELECT + MetaData.PROCESS_IS_CANCELLED));
                 return null;
             case 1:
-//                LoggerProcessStack.add(MetaData.PROCESS_SAVE+MetaData.PROCESS_STARTS);
-//                FacadeUtility.destroyProcessCancelled();
                 address = save();
-//                System.out.println(ColorfulTextDesign.getSuccessColorText(processPrefixName + MetaData.PROCESS_SELECT + MetaData.PROCESS_COMPLETED));
-//                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
                 break;
             case 2:
                 if (unmatchedAddress.isEmpty()) {
-                    // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
                     FacadeUtility.destroyProcessCancelled(1);
-
-//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(processPrefixName + MetaData.PROCESS_SELECT + MetaData.PROCESS_IS_CANCELLED));
                     System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX)
                             + ColorfulTextDesign.getWarningColorText("Not found any saved unmatched address. Please save address first."));
-
                 } else {
                     address = pickAddressFromList(unmatchedAddress);
-//                    System.out.println(ColorfulTextDesign.getSuccessColorText(processPrefixName + MetaData.PROCESS_SELECT + MetaData.PROCESS_COMPLETED));
-//                    System.out.println(ColorfulTextDesign.getSuccessColorText(processPrefixName + MetaData.PROCESS_SELECT + MetaData.PROCESS_COMPLETED));
-                    if (address != null) {
-//                        // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
-//                    FacadeUtility.destroyProcessSuccessfully(1);
-                    } else {
-//                        // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-//                        FacadeUtility.destroyProcessCancelled(1);
-                    }
-//                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
                 }
                 break;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
         }
-//        return address;
         if (address == null) {
             return pickAddressForStudentSaveProcess();
         }
         return address;
     }
-    public Address pickAddressFromList(List<Address> addresses) {
-        LoggerProcessStack.add(MetaData.PROCESS_SELECT);
-
-//        StringBuilder sb = createMsgFromList(addresses);
-
-//        System.out.print(sb);
-//        int index = SafeScannerInput.getCertainIntSafe(0, addresses.size());
+    private Address pickAddressFromList(List<Address> addresses) {
+//        LoggerProcessStack.add(MetaData.PROCESS_SELECT);
         int index = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         index--;
         if (index == -1) {
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
-            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess,2);
+//            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess,2);
+//            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess,1);
+//            FacadeUtility.destroyProcessSuccessfully(1);
             return null;
         }
-        // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
-        FacadeUtility.destroyProcessSuccessfully();
+//        FacadeUtility.destroyProcessSuccessfully();
         return addresses.get(index);
     }
     public void findAll() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyAddressSaved()) {
-//            LoggerProcessStack.pop();
             return;
         }
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS] Find All : "));
         List<Address> addresses = addressService.findAll();
-//            System.out.println("Addresses Found: " + addresses);
 
         if (addresses != null) {
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
             FacadeUtility.destroyProcessSuccessfully(1);
-            printArrResult(addresses);
+            FacadeUtility.printArrResult(addresses);
         } else {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Has not found any address data."));
         }
         LoggerProcessStack.pop();
-        System.out.println("----------------------------------");
+        FacadeUtility.printSlash();
 
     }
 
-    //    public void update() {
     public Address updateAddressProcess() {
-//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_UPDATE+ MetaData.PROCESS_STARTS));
         FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
         Address address = null;
         if (!isAnyAddressSaved()) {
@@ -225,20 +185,16 @@ public class AddressFacade {
         }
         address = selectAddressToUpdate();
         if (address == null) {
-//            LoggerProcessStack.add(MetaData.PROCESS_IS_CANCELLED);
-//            FacadeUtility.destroyProcessCancelled();
             return address;
         }
+//        FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
         return updateSelectedAddress(address);
-
-//        return  address;
-
     }
 
     public Address updateSelectedAddress(Address address) {
         while (true) {
-            System.out.print("Current address data : ");
-            System.out.println(address);
+//            System.out.print("Current address data : ");
+            FacadeUtility.printInfoResult("Current Address:"+address);
 
             List<String> indexes = new ArrayList<>();
             indexes.add("Street");
@@ -249,15 +205,10 @@ public class AddressFacade {
 
             switch (selected) {
                 case -1:
-//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_UPDATE + MetaData.PROCESS_IS_CANCELLED));
-                    // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
                     FacadeUtility.destroyProcessCancelled();
                     return null;
                 case 0:
                     addressService.update(address);
-//                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.ADDRESS_IS_UPDATED) + address);
-//                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_ADDRESS+MetaData.PROCESS_UPDATE+MetaData.PROCESS_COMPLETED));
-                    // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
                     FacadeUtility.destroyProcessSuccessfully();
                     System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX)+ address);
                     return address;
@@ -281,66 +232,38 @@ public class AddressFacade {
 
     private Address selectAddressToUpdate() {
         List<Address> addresses = addressService.findAll();
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("-) [ADDRESS] Update : "));
-
         int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         id--;
         if (id == -1) {
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_UPDATE+ MetaData.PROCESS_IS_CANCELLED));
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
             FacadeUtility.destroyProcessCancelled();
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Update Process is Canceled"));
             return null;
         }
-        Address address = addresses.get(id);
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("[ADDRESS]: Update process is starting : "));
-        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_STARTS);
-        FacadeUtility.destroyProcess(ColorfulTextDesign::getInfoColorTextWithPrefix, 1);
-        return address;
+//        Address address = addresses.get(id);
+//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_STARTS);
+//        FacadeUtility.destroyProcess(ColorfulTextDesign::getInfoColorTextWithPrefix, 1);
+//        return address;
+        return addresses.get(id);
     }
 
     public void delete() {
-//        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_DELETE + MetaData.PROCESS_STARTS));
         FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
         if (!isAnyAddressSaved()) {
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_DELETE+ MetaData.PROCESS_IS_CANCELLED));
             return;
         }
         List<Address> addresses = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
-        if (addresses.size() == 0) {
-            System.out.println("Not found any data to process in Delete Process.\nExiting Delete Process...");
-            return;
-        }
+
         System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
-        /*StringBuilder sbMsg = new StringBuilder("Select Address no to delete.\n");
-//        sbMsg.append(createMsgFromList(addresses));
-        sbMsg.append(FacadeUtility.createMsgFromListExit(addresses));
-        int result = SafeScannerInput.getCertainIntForSwitch(sbMsg.toString(), 0, addresses.size() );*/
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         result--;
         if (result == -1) {
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Delete process is Cancelled."));
-//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS+MetaData.PROCESS_DELETE+MetaData.PROCESS_IS_CANCELLED));
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_IS_CANCELLED);
             FacadeUtility.destroyProcessCancelled(1);
         } else {
             Address addressToDelete = addresses.get(result);
             addressService.deleteById(addressToDelete.getId());
-//            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_PREFIX_ADDRESS+MetaData.PROCESS_DELETE+MetaData.PROCESS_COMPLETED));
-            // LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
             FacadeUtility.destroyProcessSuccessfully(1);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Address(id=" + addressToDelete.getId() + ") is deleted.");
         }
         LoggerProcessStack.pop();
-        System.out.println("----------------------------------");
-
-    }
-    public void resetTable() {
-    }
-
-    private  void printArrResult(List<?>list){
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) +(i + 1) + "-) " + list.get(i));
-        }
+        FacadeUtility.printSlash();
     }
 }

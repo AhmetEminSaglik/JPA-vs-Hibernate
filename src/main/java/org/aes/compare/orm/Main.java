@@ -23,12 +23,19 @@ public class Main {
     private static ExamResultFacade examResultFacade;
     private static MusicPlayer musicPlayer = new MusicPlayer();
     public static void main(String[] args) {
+/*
 //        musicPlayer.start();
         LoggerConfigORM.disable();
-        /*ColorfulTextDesign.enableCMDPrinting();
-        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
-        updatePrintingSetting();*/
+//        ColorfulTextDesign.enableCMDPrinting();
         ColorfulTextDesign.enableIDEPrinting();
+        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
+        updatePrintingSetting();
+//        ColorfulTextDesign.enableIDEPrinting();
+*/
+
+        LoggerConfigORM.disable();
+
+
         ORMConfigSingleton.enableJPA();
         resetORMServices();
         LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
@@ -41,66 +48,45 @@ public class Main {
             indexes.add("Student");
             indexes.add("Course");
             indexes.add("Exam Result");
-//            indexes.add("ORM Setting (Switch between JPA - Hibernate)");
             indexes.add("Setting");
             indexes.add("Printing Setting (CMD - IDE)");
 
-            /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_GLOBAL + MetaData.AVAILABLE_OPTIONS);
-            System.out.println(msg);
-
-            globalOption = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
-            System.out.println();*/
             globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, indexes);
-            /*if (globalOption > 0 *//*&& globalOption < 7*//*) {
-                LoggerProcessStack.add(MetaData.INNER_PROCESS_PREFIX);
-            }*/
             switch (globalOption) {
                 case 0:
-//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess("[MAIN]: "+MetaData.EXITING_FROM_PROCESS));
                     FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
                     addressScenario();
-//                    LoggerProcessStack.pop();
                     break;
                 case 2:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
                     studentScenario();
-//                    LoggerProcessStack.pop();
                     break;
                 case 3:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
                     courseScenario();
-//                    LoggerProcessStack.pop();
                     break;
                 case 4:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_EXAM_RESULT);
                     examResultScenario();
-//                    LoggerProcessStack.pop();
                     break;
                 case 5:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
                     updateSetting();
-//                    LoggerProcessStack.pop();
                     break;
                 case 6:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
                     updatePrintingSetting();
-//                    LoggerProcessStack.pop();
                     break;
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
 
-//            System.out.println("[main] pop olucak geldi");
-            if (globalOption > 0 /*&& globalOption < 7*/) {
-//                LoggerProcessStack.add(MetaData.INNER_PROCESS_PREFIX);
+            if (globalOption > 0) {
                 LoggerProcessStack.pop();
             }
-//            LoggerProcessStack.pop();
-//            System.out.println();
         }
     }
 
@@ -115,16 +101,10 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-           /* StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_ADDRESS + MetaData.AVAILABLE_OPTIONS);
-            System.out.println(msg);
 
-                        option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
             switch (option) {
                 case 0:
-//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_ADDRESS + " " + MetaData.EXITING_FROM_PROCESS));
-//                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
                     FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
@@ -163,19 +143,11 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_STUDENT + MetaData.AVAILABLE_OPTIONS);
-            System.out.println(msg);
-
-            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_STUDENT, indexes);
 
             switch (option) {
                 case 0:
-/*                    LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcessCancelled(1);*/
                     FacadeUtility.destroyProcessExiting(1);
-//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_STUDENT + " " + MetaData.EXITING_FROM_PROCESS));
                     break;
                 case 1:
                     studentFacade.save();
@@ -217,19 +189,10 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            /*
-            StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_COURSE + MetaData.AVAILABLE_OPTIONS);
-            System.out.println(msg);
-            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());
-            */
-
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, indexes);
 
             switch (option) {
                 case 0:
-                    /*LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcessCancelled(1);*/
                     FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
@@ -257,32 +220,22 @@ public class Main {
     }
 
     static void examResultScenario() {
-//        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-
-//        FacadeUtility.destroyProcessWithoutPrint();
-
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         boolean resultStudent = studentFacade.isAnyStudentSaved();
         if (resultStudent) {
-//            FacadeUtility.destroyProcessWithoutPrint(2);
             FacadeUtility.destroyProcessSuccessfully(2);
             FacadeUtility.printColorfulSuccessResult("Found saved students.");
         }
-
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         boolean resultCourse = courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT);
         if (resultCourse) {
-//            FacadeUtility.destroyProcessWithoutPrint(2);
             FacadeUtility.destroyProcessSuccessfully(2);
             FacadeUtility.printColorfulSuccessResult("Found saved courses.");
         }
 
-//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
-//        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-//        FacadeUtility.destroyProcessWithoutPrint();
         if (!resultStudent || !resultCourse) {
             ColorfulTextDesign.getErrorColorText("Without creating any Student or Course, you may not run the functions of the Exam Result processes.\nStrongly recommend to create " +
                     ColorfulTextDesign.getInfoColorText("Student") +
@@ -303,17 +256,10 @@ public class Main {
             indexes.add("Update");
             indexes.add("Delete");
 
-            /*StringBuilder msg = FacadeUtility.createMsgFromListExit(indexes);
-            msg.insert(0, MetaData.PROCESS_PREFIX_EXAM_RESULT + MetaData.AVAILABLE_OPTIONS);
-            System.out.println(msg);
-
-            option = SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, 0, indexes.size());*/
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
 
             switch (option) {
                 case 0:
-                    /*LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                    FacadeUtility.destroyProcessCancelled(1);*/
                     FacadeUtility.destroyProcessExiting(1);
                     break;
                 case 1:
@@ -354,25 +300,19 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
-                /*LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                FacadeUtility.destroyProcessCancelled(1);*/
                 FacadeUtility.destroyProcessExiting(1);
                 break;
             case 1:
                 updateORMSetting();
                 updateSetting();
-//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             case 2:
                 updateORMLogSettings();
                 updateSetting();
-//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             case 3:
                 updateMusicSetting();
                 updateSetting();
-//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
@@ -389,7 +329,6 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                 FacadeUtility.destroyProcessCancelled();
                 break;
             case 1:
@@ -397,14 +336,12 @@ public class Main {
                 resetORMServices();
                 FacadeUtility.destroyProcessSuccessfully();
                 System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "JPA is activated "));
-//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             case 2:
                 ORMConfigSingleton.enableHibernate();
                 resetORMServices();
                 FacadeUtility.destroyProcessSuccessfully();
                 System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "Hibernate is activated "));
-//                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
@@ -421,7 +358,7 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 FacadeUtility.destroyProcessExiting();
                 break;
             case 1:
@@ -450,7 +387,6 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                 FacadeUtility.destroyProcessCancelled();
                 break;
             case 1:
@@ -478,10 +414,6 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-//                System.out.println(ColorfulTextDesign.getInfoColorText("Activated Printing Tool : " + ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
-//                System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_PREFIX_SETTINGS+" "+MetaData.EXITING_FROM_PROCESS));
-/*                LoggerProcessStack.addWithInnerPrefix(MetaData.EXITING_FROM_PROCESS);
-                FacadeUtility.destroyProcessCancelled(1);*/
                 FacadeUtility.destroyProcessExiting(1);
                 break;
             case 1:

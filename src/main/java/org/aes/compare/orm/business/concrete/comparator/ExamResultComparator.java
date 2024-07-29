@@ -15,11 +15,6 @@ public class ExamResultComparator implements Comparator<ExamResult> {
             return courseResult;
         }
         return studentComparator.compare(er1.getStudent(), er2.getStudent());
-        /*int studentCompareResult = studentComparator.compare(er1.getStudent(), er2.getStudent());
-        if (studentCompareResult != 0) {
-            return studentCompareResult;
-        }
-        return courseComparator.compare(er1.getCourse(), er2.getCourse());*/
     }
 
 }

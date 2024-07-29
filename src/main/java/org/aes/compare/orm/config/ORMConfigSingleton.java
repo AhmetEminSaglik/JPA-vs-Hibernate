@@ -38,7 +38,6 @@ public class ORMConfigSingleton {
         studentService = new StudentServiceImpJPA();
         courseService = new CourseServiceImplJPA();
         examResultService = new ExamResultServiceImplJPA();
-//        System.out.println("examResult : "+examResultService);
     }
 
     public static void enableHibernate() {
