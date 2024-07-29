@@ -200,4 +200,7 @@ public class FacadeUtility {
         }
     }
 
+public  static  void getAllInOrderWithAvailableOptions(){
+    System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
+}
 }

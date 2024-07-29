@@ -10,11 +10,16 @@ public class ExamResultComparator implements Comparator<ExamResult> {
 
     @Override
     public int compare(ExamResult er1, ExamResult er2) {
-        int studentCompareResult = studentComparator.compare(er1.getStudent(), er2.getStudent());
+        int courseResult=courseComparator.compare(er1.getCourse(), er2.getCourse());
+        if(courseResult!=0){
+            return courseResult;
+        }
+        return studentComparator.compare(er1.getStudent(), er2.getStudent());
+        /*int studentCompareResult = studentComparator.compare(er1.getStudent(), er2.getStudent());
         if (studentCompareResult != 0) {
             return studentCompareResult;
         }
-        return courseComparator.compare(er1.getCourse(), er2.getCourse());
+        return courseComparator.compare(er1.getCourse(), er2.getCourse());*/
     }
 
 }

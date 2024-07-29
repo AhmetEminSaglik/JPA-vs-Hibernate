@@ -73,6 +73,7 @@ public class MetaData {
     public static final String PROCESS_UPDATE = "::[UPDATE]";
     public static final String PROCESS_DELETE = "::[DELETE]";
     public static final String PROCESS_READ = "::[READ]";
+    public static final String PROCESS_ITEM = "::[ITEM]";
 /*
 * public static final String PROCESS_SAVE = "::[SAVE]"+INNER_PROCESS_PREFIX;
 public static final String PROCESS_SELECT = "::[SELECT]"+INNER_PROCESS_PREFIX;

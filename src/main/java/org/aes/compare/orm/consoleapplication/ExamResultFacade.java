@@ -83,9 +83,10 @@ public class ExamResultFacade {
             return null;
         }
 //        System.out.println("All courses that Student's enrolled: ");
-        System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
+//        System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
+        FacadeUtility.getAllInOrderWithAvailableOptions();
 //        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + ColorfulTextDesign.getWarningColorText("All courses that Student's enrolled are listed below :"));
-        FacadeUtility.printColorfulSuccessResult("All courses that Student's enrolled are listed below :");
+        FacadeUtility.printSuccessResult("All courses that Student's enrolled are listed below :");
         Course course = pickCourseFromList(courses);
 
         if (course == null) {
@@ -316,24 +317,57 @@ public class ExamResultFacade {
 
 
     public void update() {
+        FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
+
         if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return;
         }
         while (true) {
+//            FacadeUtility.printColorfulInfoResult();
             List<ExamResult> examResults = examResultService.findAll();
             ExamResult examResult = pickExamResultFromList(examResults);
             if (examResult == null) {
+//                FacadeUtility.destroyProcessCancelled();
                 break;
             } else {
-                updateProcess(examResult);
+//                LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_ITEM);
+                FacadeUtility.initProcess(MetaData.PROCESS_ITEM, MetaData.PROCESS_STARTS);
+                FacadeUtility.printSuccessResult("Selected Exam Result : " + examResult);
+//                updateProcess(examResult);
+                double newScore = updateExamResultScore(examResult.getScore());
+
+                if (newScore == examResult.getScore()) {
+                    FacadeUtility.destroyProcessCancelled();
+                } else {
+                    examResult.setScore(newScore);
+                    examResultService.update(examResult);
+                    FacadeUtility.printSuccessResult("Current Exam Result : " + examResult);
+                    FacadeUtility.destroyProcessSuccessfully();
+                }
+
             }
         }
     }
 
+    private double updateExamResultScore(double score) {
+        System.out.print("Type new Score (double) (-1 to cancel): ");
+        double result = SafeScannerInput.getCertainDoubleSafe(-1, 100);
+        if (result == -1) {
+//            FacadeUtility.printColorfulCancelResult("Typing score process is cancelled.");
+            return score;
+        } else if (result >= -1 && result < 1) {
+            FacadeUtility.printColorfulWarningResult("Minimum score is allowed to 1.");
+            result = 1;
+        }
+
+        return result;
+    }
+
     private ExamResult updateProcess(ExamResult examResult) {
         while (true) {
+            FacadeUtility.printSuccessResult("Current Exam Result : " + examResult);
             String sb = "(-1) Cancel & Exit\n" +
                     "(0) Save & Exit\n" +
                     "(1) Update Student  [Current : " + examResult.getStudent() + "]\n" +
@@ -347,13 +381,15 @@ public class ExamResultFacade {
             Student student = examResult.getStudent();
             switch (choose) {
                 case -1:
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_IS_CANCELLED));
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+                    FacadeUtility.destroyProcessCancelled(1);
                     return examResult;
                 case 0:
-                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.CHANGES_ARE_UPDATED));
-                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.CHANGES_ARE_UPDATED));
+//                    System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
                     examResultService.update(examResult);
+                    FacadeUtility.destroyProcessSuccessfully(1);
                     return examResult;
                 case 1:
                     student = studentFacade.pickStudentFromList(studentService.findAll());
@@ -365,7 +401,7 @@ public class ExamResultFacade {
                         break;
                     }
                     if (student.equals(examResult.getStudent())) {
-                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("You choose the same student."));
+                        System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.PROCESS_RESULT_PREFIX + "You choose the same student."));
                         break;
                     }
 
@@ -407,8 +443,17 @@ public class ExamResultFacade {
 
                     break;
                 case 3:
-                    System.out.println("Type new Score (double)");
-                    examResult.setScore(SafeScannerInput.getCertainDoubleSafe(1, 100));
+                    System.out.print("Type new Score (double) (-1 to cancel): ");
+                    double result = SafeScannerInput.getCertainDoubleSafe(-1, 100);
+                    if (result == -1) {
+                        FacadeUtility.printColorfulCancelResult("Typing score process is cancelled.");
+                        break;
+                    }
+                    if (result >= -1 && result < 1) {
+                        FacadeUtility.printColorfulWarningResult("Minimum score is allowed to 1.");
+                        result = 1;
+                    }
+                    examResult.setScore(result);
                     break;
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
@@ -436,17 +481,26 @@ public class ExamResultFacade {
     }
 
     private ExamResult pickExamResultFromList(List<ExamResult> examResults) {
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         ExamResult examResult = null;
-
+//        System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
+        FacadeUtility.getAllInOrderWithAvailableOptions();
         int inputIndex = 0;
         StringBuilder sb = createMsgFromList(examResults);
         System.out.print(sb);
         inputIndex = SafeScannerInput.getCertainIntForSwitch(0, examResults.size());
         inputIndex--;
         if (inputIndex == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+//            System.out.println(ColorfulTextDesign.getTextForCanceledProcess(MetaData.EXITING_FROM_PROCESS));
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessExiting();
         } else {
+//            FacadeUtility.destroyProcessWithoutPrint();
+//            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_READ);
+//            LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+//            FacadeUtility.destroyProcessSuccessfully();
             examResult = examResults.get(inputIndex);
+            FacadeUtility.destroyProcessSuccessfully();
         }
         return examResult;
 

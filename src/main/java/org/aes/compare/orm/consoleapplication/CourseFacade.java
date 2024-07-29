@@ -107,9 +107,8 @@ public class CourseFacade {
         }
         List<Course> courses = courseService.findAll();
         System.out.println("All Courses are retrieved :");
-        printArrWithNo(courses);
-
         FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printArrResult(courses);
         FacadeUtility.printSlash();
         return courses;
     }
@@ -415,7 +414,7 @@ public class CourseFacade {
         return courses;
     }
 
-
+/*
     private void printArrWithNo(List<?> list) {
         for (int i = 0; i < list.size(); i++) {
 //            System.out.println((i + 1) + "-) " + list.get(i));
@@ -439,6 +438,6 @@ public class CourseFacade {
         }
         sb.append((list.size() + 1) + "-) Exit/Cancel");
         return sb;
-    }
+    }*/
 
 }
