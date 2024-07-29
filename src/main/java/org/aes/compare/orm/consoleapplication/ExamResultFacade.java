@@ -463,6 +463,7 @@ public class ExamResultFacade {
     }
 
     public void delete() {
+        FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
         if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
@@ -470,12 +471,19 @@ public class ExamResultFacade {
         }
         while (true) {
             List<ExamResult> examResults = examResultService.findAll();
+            if(examResults.isEmpty()){
+                FacadeUtility.destroyProcessExiting();
+                FacadeUtility.printColorfulWarningResult("Not found any more saved Exam Result data.");
+                break;
+            }
             ExamResult examResult = pickExamResultFromList(examResults);
             if (examResult == null) {
                 break;
             } else {
                 examResultService.deleteById(examResult.getId());
-                System.out.println("Exam Result is deleted : " + examResult);
+//                System.out.println("Exam Result is deleted : " + examResult);
+                FacadeUtility.destroyProcessSuccessfully(1);
+                FacadeUtility.printSuccessResult("Exam Result(id=" + examResult.getId() + ") is deleted : ");
             }
         }
     }
