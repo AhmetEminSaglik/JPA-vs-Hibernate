@@ -2,7 +2,6 @@
 - update Course will update also student,
 - delete course will not effect student;
 
-
     SERVICES :
 ---------------------
  +C +R +U +D Course     | Completed
@@ -13,8 +12,6 @@
 
  +C +R +U +D ExamResult | Completed
 
-
-
     JUNIT TEST :
 ---------------------
  +C +R +U +D Course     | Completed
@@ -24,8 +21,6 @@
  +C +R +U +D Student    | Completed
 
  +C +R +U +D ExamResult | Completed
-
-
 
 
 Scenerio :
@@ -118,13 +113,8 @@ ExamResultFacade:
 + update()
 + delete()
 
-
-//todo
-FacadeUtility.printSuccessResult("Saved Exam Result : "+examResult);
-FacadeUtility.printSuccessResultSavedData(examResult); --> // fonksion icin de "Saved Data : "+ msg
-
 Test
 + AddressFacade
 + StudentFacade
 + CourseFacade
-- ExamResultFacade
++ ExamResultFacade

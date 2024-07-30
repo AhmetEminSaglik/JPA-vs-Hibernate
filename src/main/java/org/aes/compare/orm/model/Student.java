@@ -22,17 +22,15 @@ public class Student {
     @Column(name = "grade", nullable = false)
     private int grade;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE,/*CascadeType.PERSIST,*/CascadeType.DETACH, CascadeType.REFRESH/*CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH*/})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(name = "student_courses",
             joinColumns = @JoinColumn(name = "student_id"),
             inverseJoinColumns = @JoinColumn(name = "course_id")
-            /*,foreignKey = @ForeignKey(name = "FK_students_courses_course_id")*/
     )
     private List<Course> courses;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.REMOVE})
-//    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", nullable = false/*, referencedColumnName = "id"*/)
+    @JoinColumn(name = "address_id", nullable = false)
     private Address address;
 
     public Student() {

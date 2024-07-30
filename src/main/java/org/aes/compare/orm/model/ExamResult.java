@@ -21,7 +21,7 @@ public class ExamResult {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "student_id"/*, nullable = false*/, nullable = false)
+    @JoinColumn(name = "student_id", nullable = false)
     private Student student;
 
     public ExamResult() {
@@ -64,15 +64,6 @@ public class ExamResult {
     public void setStudent(Student student) {
         this.student = student;
     }
-
-/*    @Override
-    public String toString() {
-        return "ExamResult{" +
-                "id=" + id +
-                ", score=" + score +
-                ", course='" + course + '\'' +
-                '}';
-    }*/
 
     @Override
     public String toString() {

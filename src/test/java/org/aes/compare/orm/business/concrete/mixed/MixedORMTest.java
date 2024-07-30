@@ -1,4 +1,3 @@
-/*
 package org.aes.compare.orm.business.concrete.mixed;
 
 import org.aes.compare.orm.business.abstracts.AddressService;
@@ -8,6 +7,7 @@ import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.ExamResult;
@@ -135,7 +135,7 @@ public class MixedORMTest {
     @Test
     @Order(105)
     @DisplayName("[JPA] - Update Course By (Course)")
-    public void testUpdateCourse() {
+    public void testUpdateCourse() throws InvalidCourseNameSaveRequestException {
         enableJPA();
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
         course.setCredit(6.5);
@@ -465,4 +465,3 @@ public class MixedORMTest {
 
 
 }
-*/

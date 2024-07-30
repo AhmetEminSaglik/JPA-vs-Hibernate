@@ -12,7 +12,6 @@ public abstract class ORMImplementation {
     protected static int closeEntityCounter = 0;
 
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
-//        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Preferred CONFIG FILE : " + configFile.getFileName()));git
 
         if (LoggerConfigORM.isAllowedPrint()) {
             System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(getCurrentORMToolName()+" ORM tool is activated."));

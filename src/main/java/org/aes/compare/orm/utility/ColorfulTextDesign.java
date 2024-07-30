@@ -34,15 +34,10 @@ public class ColorfulTextDesign {
         currentSelectedPrintObject=EnumPrintOption.STANDARD.getName();
         System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_RESULT_PREFIX) + "Activated Printing Tool : " + ColorfulTextDesign.getSuccessColorText(ColorfulTextDesign.getCurrentSelectedPrintObjectName()));
     }
-/*    public static String getText(String msg) {
-        PrintConsoleServiceConfig.setIdeColor(ConsoleColors.BLUE_BRIGHT);
-        return ps.getColorfulText(msg);
-    }*/
 
     public static String getText(String color, String msg) {
         return ps.getColorfulText(color + msg);
     }
-
 
     public static String getInfoColorTextWithPrefix(String msg) {
         return ps.getInfoColor("[INFO]: " + msg);
@@ -87,6 +82,5 @@ public class ColorfulTextDesign {
     public static String getWarningColorText(String msg) {
         return ps.getWarningColor(msg);
     }
-
 
 }

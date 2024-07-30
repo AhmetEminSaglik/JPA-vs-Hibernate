@@ -17,44 +17,39 @@ import java.util.List;
 
 public class Main {
     private static final ORMConfigSingleton orm = new ORMConfigSingleton();
-    private static AddressFacade addressFacade;// = new addressFacadeFacade(orm.getAddressService());
-    private static StudentFacade studentFacade;// = new studentFacadeFacade(orm.getStudentService(), orm.getAddressService());
+    private static AddressFacade addressFacade;
+    private static StudentFacade studentFacade;
     private static CourseFacade courseFacade;
     private static ExamResultFacade examResultFacade;
     private static MusicPlayer musicPlayer = new MusicPlayer();
-    public static void main(String[] args) {
-/*
-//        musicPlayer.start();
+
+    private static void runInitConf() {
+        musicPlayer.start();
         LoggerConfigORM.disable();
-//        ColorfulTextDesign.enableCMDPrinting();
-        ColorfulTextDesign.enableIDEPrinting();
+        ColorfulTextDesign.enableCMDPrinting();
         System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
         updatePrintingSetting();
-//        ColorfulTextDesign.enableIDEPrinting();
-*/
-
-        LoggerConfigORM.disable();
-
-
         ORMConfigSingleton.enableJPA();
         resetORMServices();
+    }
+    public static void main(String[] args) {
+        runInitConf();
         LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
 
         int globalOption = -1;
-        while (globalOption != 0) {
-
+        while (true) {
             List<String> indexes = new ArrayList<>();
             indexes.add("Address");
             indexes.add("Student");
             indexes.add("Course");
             indexes.add("Exam Result");
             indexes.add("Setting");
-            indexes.add("Printing Setting (CMD - IDE)");
 
             globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_GLOBAL, indexes);
             switch (globalOption) {
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
+                    System.exit(0);
                     break;
                 case 1:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
@@ -75,10 +70,6 @@ public class Main {
                 case 5:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
                     updateSetting();
-                    break;
-                case 6:
-                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
-                    updatePrintingSetting();
                     break;
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
@@ -294,7 +285,7 @@ public class Main {
         indexes.add("Select ORM Tool (JPA-Hibernate)");
         indexes.add("ORM Logs (Enable-Disable)");
         indexes.add("Music (On-Off)");
-
+        indexes.add("Printing Setting (CMD - IDE)");
 
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
@@ -313,6 +304,12 @@ public class Main {
                 updateMusicSetting();
                 updateSetting();
                 break;
+            case 4:
+                LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_PRINTING);
+                FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+                updatePrintingSetting();
+                updateSetting();
+                break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
@@ -321,6 +318,7 @@ public class Main {
     }
     private static void updateORMSetting() {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_SELECT);
+        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         List<String> indexes = new ArrayList<>();
         indexes.add("JPA");
         indexes.add("Hibernate");
@@ -349,7 +347,7 @@ public class Main {
 
     private static void updateORMLogSettings() {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_LOGS);
-
+        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         List<String> indexes = new ArrayList<>();
         indexes.add("Enable ORM Logs");
         indexes.add("Disable ORM Logs");
@@ -358,7 +356,7 @@ public class Main {
         switch (option) {
             case 0:
                 System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
-                FacadeUtility.destroyProcessExiting();
+                FacadeUtility.destroyProcessCancelled();
                 break;
             case 1:
                 LoggerConfigORM.enable();
@@ -378,7 +376,7 @@ public class Main {
 
     private static void updateMusicSetting() {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_MUSIC);
-
+        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         List<String> indexes = new ArrayList<>();
         indexes.add("Enable Music");
         indexes.add("Disable Music");
@@ -413,34 +411,25 @@ public class Main {
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
             case 0:
-                FacadeUtility.destroyProcessExiting(1);
+                FacadeUtility.destroyProcessCancelled();
                 break;
             case 1:
                 ColorfulTextDesign.enableCMDPrinting();
+                FacadeUtility.destroyProcessSuccessfully();
                 break;
             case 2:
                 ColorfulTextDesign.enableIDEPrinting();
+                FacadeUtility.destroyProcessSuccessfully();
                 break;
             case 3:
                 ColorfulTextDesign.enableStandardPrinting();
+                FacadeUtility.destroyProcessSuccessfully();
                 break;
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
 
     }
-
-    /*static private void colorTest() {
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Selected CMD printing Option"));
-        System.out.println(ColorfulTextDesign.getSuccessColorText("Success"));
-        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Success"));
-        System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error"));
-        System.out.println(ColorfulTextDesign.getErrorColorText("Error"));
-        System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Cancel"));
-        System.out.println(ColorfulTextDesign.getInfoColorText("Info"));
-        System.out.println(ColorfulTextDesign.getWarningColorText("Warning"));
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("Warning"));
-    }*/
 
     static void resetORMServices() {
         addressFacade = new AddressFacade(orm.getAddressService());

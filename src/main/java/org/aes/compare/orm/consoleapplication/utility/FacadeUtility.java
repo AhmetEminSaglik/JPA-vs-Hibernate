@@ -163,6 +163,10 @@ public class FacadeUtility {
     }
 
     public static void printArrResult(List<?> list) {
+        if(list.isEmpty()){
+            printWarningResult("Not found any data.");
+            return;
+        }
         for (int i = 0; i < list.size(); i++) {
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + (i + 1) + "-) " + list.get(i));
         }

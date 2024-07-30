@@ -24,7 +24,6 @@ public class StudentFacade {
     private final CourseFacade courseFacade;
     private final AddressService addressService;
     private final CourseService courseService;
-    private final Scanner scanner = new Scanner(System.in);
 
     public StudentFacade(StudentService studentService, AddressFacade addressFacade, CourseFacade courseFacade) {
         ORMConfigSingleton orm = new ORMConfigSingleton();
@@ -74,22 +73,6 @@ public class StudentFacade {
         return address;
     }
 
-    private Address pickAddressFromList(List<Address> unmatchedAddress) {
-
-        if (unmatchedAddress.isEmpty()) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("There is not any unmatched address. You must save Address first"));
-            return null;
-        }
-        int result = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_STUDENT, unmatchedAddress);
-        result--;
-        if (result == -1) {
-            System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Address Selection is Canceled"));
-        } else {
-            return unmatchedAddress.get(result);
-        }
-        return null;
-    }
-
     public Student findByMultipleWay() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyStudentSaved()) {
@@ -130,8 +113,6 @@ public class StudentFacade {
             FacadeUtility.destroyProcessCancelled();
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX+MetaData.STUDENT_NOT_SELECTED));
         } else {
-//            LoggerProcessStack.add(MetaData.PROCESS_SELECT);
-//            FacadeUtility.destroyProcessSuccessfully(3);
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX)+student);
         }
@@ -379,7 +360,6 @@ public class StudentFacade {
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student(id=" + studentToDelete.getId() + ") is deleted.");
         }
     }
-
 
     private void printArrWithNo(List<?> list) {
         for (int i = 0; i < list.size(); i++) {

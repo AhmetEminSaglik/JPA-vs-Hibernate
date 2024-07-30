@@ -97,7 +97,6 @@ public class AddressFacade {
                 int id = SafeScannerInput.getCertainIntSafe();
                 address = addressService.findById(id);
                 if (address == null) {
-//                    LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_FAILED);
                     FacadeUtility.destroyProcessFailed(1);
                     System.out.println(ColorfulTextDesign.getWarningColorText("-> Address is not found with given id(" + id + "). Please try again."));
                     return pickAddressFromSwitchCase();
@@ -147,16 +146,11 @@ public class AddressFacade {
         return address;
     }
     private Address pickAddressFromList(List<Address> addresses) {
-//        LoggerProcessStack.add(MetaData.PROCESS_SELECT);
         int index = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         index--;
         if (index == -1) {
-//            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess,2);
-//            FacadeUtility.destroyProcess(ColorfulTextDesign::getTextForCanceledProcess,1);
-//            FacadeUtility.destroyProcessSuccessfully(1);
             return null;
         }
-//        FacadeUtility.destroyProcessSuccessfully();
         return addresses.get(index);
     }
     public void findAll() {
@@ -187,13 +181,11 @@ public class AddressFacade {
         if (address == null) {
             return address;
         }
-//        FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
         return updateSelectedAddress(address);
     }
 
     public Address updateSelectedAddress(Address address) {
         while (true) {
-//            System.out.print("Current address data : ");
             FacadeUtility.printInfoResult("Current Address:"+address);
 
             List<String> indexes = new ArrayList<>();
@@ -238,10 +230,6 @@ public class AddressFacade {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
-//        Address address = addresses.get(id);
-//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_STARTS);
-//        FacadeUtility.destroyProcess(ColorfulTextDesign::getInfoColorTextWithPrefix, 1);
-//        return address;
         return addresses.get(id);
     }
 

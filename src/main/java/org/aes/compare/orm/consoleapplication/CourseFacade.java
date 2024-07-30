@@ -52,11 +52,9 @@ public class CourseFacade {
             double credit = SafeScannerInput.getCertainDoubleSafe(1, 20);
 
                 course.setCredit(credit);
-//            System.out.println("Course is saving...");
             courseService.save(course);
         } else {
             course = properCourses.get(result);
-//            System.out.println("Course is saving...");
             courseService.save(course);
         }
             FacadeUtility.destroyProcessSuccessfully();
@@ -220,19 +218,16 @@ public class CourseFacade {
     }
 
     private Course updateSelectedCourse(List<Course> courses, Course course) {
-        int option = Integer.MAX_VALUE;
+//        int option = Integer.MAX_VALUE;
         Course tmpCourse = new OtherCourse(course);
-//        tmpCourse.setName(course.getName());
-//        tmpCourse.setCredit(course.getCredit());
-//        tmpCourse.setCredit(course.getCredit());
 
         List<String> indexed = new ArrayList<>();
         indexed.add("Update Course Name");
         indexed.add("Update Course Credit");
 
-        while (option != -1 && option != -2) {
+        while (true) {
             System.out.println("Current Course : " + tmpCourse);
-            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_COURSE, indexed);
+            int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_COURSE, indexed);
             switch (option) {
                 case -1:
                     FacadeUtility.destroyProcessCancelled();
@@ -269,7 +264,6 @@ public class CourseFacade {
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }
         }
-        return course;
     }
 
     public void delete() {
