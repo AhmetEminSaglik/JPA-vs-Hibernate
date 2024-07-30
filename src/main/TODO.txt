@@ -115,10 +115,16 @@ ExamResultFacade:
 + findAllByStudentId()
 + findAllByCourseName()
 + findAllByStudentIdAndCourseName()
-- update()
-- delete()
++ update()
++ delete()
 
 
 //todo
 FacadeUtility.printSuccessResult("Saved Exam Result : "+examResult);
 FacadeUtility.printSuccessResultSavedData(examResult); --> // fonksion icin de "Saved Data : "+ msg
+
+Test
++ AddressFacade
++ StudentFacade
++ CourseFacade
+- ExamResultFacade

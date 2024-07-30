@@ -51,7 +51,7 @@ public class CourseFacade {
             System.out.print("Type for Course Credit (double): ");
             double credit = SafeScannerInput.getCertainDoubleSafe(1, 20);
 
-            course.setcredit(credit);
+                course.setCredit(credit);
 //            System.out.println("Course is saving...");
             courseService.save(course);
         } else {
@@ -221,13 +221,17 @@ public class CourseFacade {
 
     private Course updateSelectedCourse(List<Course> courses, Course course) {
         int option = Integer.MAX_VALUE;
+        Course tmpCourse = new OtherCourse(course);
+//        tmpCourse.setName(course.getName());
+//        tmpCourse.setCredit(course.getCredit());
+//        tmpCourse.setCredit(course.getCredit());
 
         List<String> indexed = new ArrayList<>();
         indexed.add("Update Course Name");
         indexed.add("Update Course Credit");
 
         while (option != -1 && option != -2) {
-            System.out.println("Current Course : " + course);
+            System.out.println("Current Course : " + tmpCourse);
             option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_COURSE, indexed);
             switch (option) {
                 case -1:
@@ -236,10 +240,13 @@ public class CourseFacade {
                 case 0:
                     try {
                         for (Course tmp : courses) {
-                            if (tmp.getName().equalsIgnoreCase(course.getName())) {
-                                throw new InvalidCourseNameSaveRequestException(course.getName());
+                            if (tmp.getName().equalsIgnoreCase(tmpCourse.getName())) {
+                                throw new InvalidCourseNameSaveRequestException(tmpCourse.getName());
                             }
                         }
+                        course.setName(tmpCourse.getName());
+                        course.setCredit(tmpCourse.getCredit());
+
                         courseService.updateCourseByName(course);
                         FacadeUtility.destroyProcessSuccessfully();
                         FacadeUtility.printSuccessResult("Course : " + course);
@@ -251,12 +258,12 @@ public class CourseFacade {
                 case 1:
                     System.out.print("Type Course new Name: ");
                     String name = SafeScannerInput.getStringNotBlank();
-                    course.setName(name);
+                    tmpCourse.setName(name);
                     break;
                 case 2:
                     System.out.print("Type Course new Credit (double): ");
                     double credit = SafeScannerInput.getCertainDoubleSafe(1, 20);
-                    course.setcredit(credit);
+                    tmpCourse.setCredit(credit);
                     break;
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");

@@ -12,6 +12,10 @@ public class OtherCourse extends Course {
         super(name, credit);
     }
 
+    public OtherCourse(Course course) {
+        super(course);
+    }
+
     public OtherCourse(String name) {
         super(name, 1);
     }

@@ -27,7 +27,12 @@ public abstract class Course {
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     private List<Student> students;
 
-
+    public Course(Course course) {
+        this.name = course.getName();
+        this.credit = course.getCredit();
+        this.students = course.getStudents();
+        this.id = course.getId();
+    }
     public Course(String name, double credit) {
         this.name = name;
         this.credit = credit;
@@ -55,11 +60,11 @@ public abstract class Course {
         this.name = name;
     }
 
-    public double getcredit() {
+    public double getCredit() {
         return credit;
     }
 
-    public void setcredit(double credit) {
+    public void setCredit(double credit) {
         this.credit = credit;
     }
 

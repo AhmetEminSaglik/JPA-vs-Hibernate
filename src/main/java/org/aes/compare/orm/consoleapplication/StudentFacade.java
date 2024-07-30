@@ -52,6 +52,7 @@ public class StudentFacade {
             FacadeUtility.destroyProcessCancelled();
             System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
         } else {
+            FacadeUtility.printSuccessResult("Selected Address "+address);
             student.setAddress(address);
             studentService.save(student);
             FacadeUtility.destroyProcessSuccessfully();
