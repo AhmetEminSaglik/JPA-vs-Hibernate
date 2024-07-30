@@ -34,7 +34,7 @@ public class ExamResultFacade {
     public ExamResult save() {
         FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)) {
+        if (!courseFacade.isAnyCourseSaved()) {
             FacadeUtility.destroyProcessWithoutPrint();
             return null;
         }
@@ -137,7 +137,7 @@ public class ExamResultFacade {
 
     public List<ExamResult> findAllByStudentId() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
+        if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
@@ -159,7 +159,7 @@ public class ExamResultFacade {
     public List<ExamResult> findAllByStudentIdAndCourseName() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
+        if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
@@ -204,7 +204,7 @@ public class ExamResultFacade {
 
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
 
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
+        if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return null;
@@ -266,7 +266,7 @@ public class ExamResultFacade {
     public void update() {
         FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
 
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
+        if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return;
@@ -405,7 +405,7 @@ public class ExamResultFacade {
 
     public void delete() {
         FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT)
+        if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return;

@@ -122,7 +122,6 @@ public class Main {
                 case 5:
                     addressFacade.delete();
                     break;
-
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
@@ -230,7 +229,7 @@ public class Main {
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-        boolean resultCourse = courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_EXAM_RESULT);
+        boolean resultCourse = courseFacade.isAnyCourseSaved();
         if (resultCourse) {
             FacadeUtility.destroyProcessSuccessfully(2);
             FacadeUtility.printColorfulSuccessResult("Found saved courses.");

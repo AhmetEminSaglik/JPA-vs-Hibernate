@@ -186,7 +186,8 @@ public class StudentFacade {
 
 
     public Student findByStudentIdWithCourseName() {
-        if (!courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_STUDENT)) {
+        FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
+        if (!courseFacade.isAnyCourseSaved()) {
             return null;
         }
         if (!isAnyStudentSaved()) {
@@ -200,11 +201,14 @@ public class StudentFacade {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         Course course = courseFacade.findByMultipleWay();
         if (course == null) {
+            FacadeUtility.destroyProcessCancelled(3);
             return null;
         }
         try {
+            FacadeUtility.destroyProcessWithoutPrint(2);
             student = studentService.findByStudentIdWithCourseName(student.getId(), course.getName());
-            FacadeUtility.printSuccessResult("Found Student : " + student);
+            FacadeUtility.printSuccessResult("Requested Student : " + student);
+            FacadeUtility.printSuccessResult("Requested Student's Course : " + course);
         } catch (InvalidStudentCourseMatchForExamResult e) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(e.getMessage()));
         }
@@ -268,7 +272,7 @@ public class StudentFacade {
                     student.setGrade(grade);
                     break;
                 case 3:
-                    if (courseFacade.isAnyCourseSaved(MetaData.PROCESS_PREFIX_STUDENT)) {
+                    if (courseFacade.isAnyCourseSaved()) {
                         List<Course> courses = updateStudentCourseProgress(student.getId());
                         if (courses != null) {
                             student.setCourses(courses);
@@ -281,11 +285,7 @@ public class StudentFacade {
                     break;
                 case 4:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
-                    Address dummyAddress = new Address(student.getAddress());
-                    Address address = updateStudentAddressProgress(dummyAddress);
-                    if (address != null) {
-                        student.setAddress(address);
-                    }
+                    updateStudentAddressProgress(student.getAddress());
                     break;
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");

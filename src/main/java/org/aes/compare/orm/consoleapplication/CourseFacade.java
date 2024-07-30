@@ -84,7 +84,7 @@ public class CourseFacade {
 
     public List<Course> findAll() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
-        if (!isAnyCourseSaved("")) {
+        if (!isAnyCourseSaved()) {
             return null;
         }
         List<Course> courses = courseService.findAll();
@@ -102,7 +102,7 @@ public class CourseFacade {
     public Course findByMultipleWay() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
 
-        if (!isAnyCourseSaved("")) {
+        if (!isAnyCourseSaved()) {
             return null;
         }
         List<Course> courses = courseService.findAll();
@@ -142,7 +142,7 @@ public class CourseFacade {
         return courses;
     }
 
-    public boolean isAnyCourseSaved(String parentProcessName) {
+    public boolean isAnyCourseSaved() {
         int totalCourse = courseService.findAll().size();
         if (totalCourse == 0) {
             FacadeUtility.destroyProcessCancelled();
@@ -203,7 +203,7 @@ public class CourseFacade {
     public Course update() {
         FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
 
-        if (!isAnyCourseSaved("")) {
+        if (!isAnyCourseSaved()) {
             return null;
         }
         List<Course> courses = courseService.findAll();
@@ -267,7 +267,7 @@ public class CourseFacade {
 
     public void delete() {
         FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
-        if (!isAnyCourseSaved("")) {
+        if (!isAnyCourseSaved()) {
             return;
         }
         List<Course> courses = courseService.findAll();
