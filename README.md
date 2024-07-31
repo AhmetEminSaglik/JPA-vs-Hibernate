@@ -13,7 +13,7 @@ docker run -d --name mysql-root -p 3307:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=1 mys
     * META-INF\persistence.xml
     * EntityManagerFactory
  -->
-# <i>Hibernate-vs-Jpa-Implementation </i> 
+# <i>Hibernate-vs-Jpa-Implementation </i>
 
 ## Content
 <ol>
@@ -36,7 +36,7 @@ docker run -d --name mysql-root -p 3307:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=1 mys
         <a href="#installation"><li>Installation (Run In IntelliJ IDEA)</li></a>
 
 <!--         <a href="#version-difference"><li>Version Difference</li></a> -->
-        
+
 </ol>
 
 ## <span id="about-project">1-) About The Project</span>
@@ -64,20 +64,20 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 ## <span id="image">4-) Images </span>
 
 
-### <span id="windows-cmd-output"><li> Windows CMD Output </li> </span> 
+### <span id="windows-cmd-output"><li> Windows CMD Output </li> </span>
 
- 
+
 * Activating CMD Printing Tool.
 
 !["images/cmd/1.png"](images/cmd/1.png)
 <br><br><br>
 
- * Activating ORM Logs 
+* Activating ORM Logs
 
 !["images/cmd/2.png"](images/cmd/2.png)
 <br><br>
 
- * Activating JPA 
+* Activating JPA
 
 !["images/cmd/3.png"](images/cmd/3.png)
 <br><br>
@@ -90,7 +90,7 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 !["images/cmd/5.png"](images/cmd/5.png)
 <br> <br>
 
-* Activating Hibernate 
+* Activating Hibernate
 
 !["images/cmd/6.png"](images/cmd/6.png)
 <br> <br>
@@ -100,7 +100,7 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 !["images/cmd/7.png"](images/cmd/7.png)
 <br> <br>
 
-* Deactivating ORM Logs 
+* Deactivating ORM Logs
 
 !["images/cmd/8.png"](images/cmd/8.png)
 <br> <br>
@@ -133,61 +133,61 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 * Find All Course Data
 
 !["images/cmd/14.png"](images/cmd/14.png)
-<br> <br> 
+<br> <br>
 
 * Student Save process invalid input and try to save without address data.
 
 !["images/cmd/15.png"](images/cmd/15.png)
-<br> <br> 
+<br> <br>
 
 * Update Student with enrolling to courses.
 
 !["images/cmd/16.png"](images/cmd/16.png)
-<br> <br> 
+<br> <br>
 
 * Update Student successfull result.
 
 !["images/cmd/17.png"](images/cmd/17.png)
-<br> <br> 
+<br> <br>
 
 * Entering Exam Result process.(Checking is there any saved student and courses before do process.)
 
 !["images/cmd/18.png"](images/cmd/18.png)
-<br> <br> 
+<br> <br>
 
 * Save Exam Result for Student step.
 
 !["images/cmd/19.png"](images/cmd/19.png)
-<br> <br> 
+<br> <br>
 
 * Save Exam Result for Course step and score.
 
 !["images/cmd/20.png"](images/cmd/20.png)
-<br> <br> 
+<br> <br>
 
 
-### <span id="intelij-idea-output"><li> IntelliJ IDEA Output </li> </span> 
+### <span id="intelij-idea-output"><li> IntelliJ IDEA Output </li> </span>
 <br>
 
 * Activating IDEA Printing Tool.
 
-!["images/idea/1.png"](images/idea/1.png) <br><br> 
+!["images/idea/1.png"](images/idea/1.png) <br><br>
 
 * Retrieve all Exam Result data.
 
-!["images/idea/2.png"](images/idea/2.png) <br><br> 
+!["images/idea/2.png"](images/idea/2.png) <br><br>
 
-!["images/idea/3.png"](images/idea/3.png) <br><br> 
+!["images/idea/3.png"](images/idea/3.png) <br><br>
 
-!["images/idea/4.png"](images/idea/4.png) <br><br> 
+!["images/idea/4.png"](images/idea/4.png) <br><br>
 
-!["images/idea/5.png"](images/idea/5.png) <br><br> 
+!["images/idea/5.png"](images/idea/5.png) <br><br>
 
-!["images/idea/6.png"](images/idea/6.png) <br><br> 
+!["images/idea/6.png"](images/idea/6.png) <br><br>
 
-!["images/idea/7.png"](images/idea/7.png) <br><br> 
+!["images/idea/7.png"](images/idea/7.png) <br><br>
 
-!["images/idea/8.png"](images/idea/8.png) <br><br> 
+!["images/idea/8.png"](images/idea/8.png) <br><br>
 
 
 
@@ -197,29 +197,44 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 * <a href="https://www.oracle.com/tr/java/technologies/javase/jdk11-archive-downloads.html">JDK 11</a>
 * <a href="https://www.jetbrains.com/idea/download/?section=windows"> IntelliJ IDEA (Community Edition) </a>
 * MySQL
-    * username: testuser
-    * password: 
+    * Username: root
+    * Password: 12345
     * port:: 3306
 
-<br>
 
 ## <span id="quick-start">6-) Quick Start </span>
 
-**IMPORTANT :** To start quick, your mysql login credential must be same as given in  <a href="#requirements">requirements</a> part.
-
 ### <span id="run-in-cmd"> Run In Windows CMD </span>
 
-**1.** Copy and paste the following command in your cmd.
+**1.** First of all, the project requires a running MySQL server. If you have not yet installed a MySQL server and docker desktop, then you can copy and paste the following command to your CMD to create a proper MySQL container to run the project.  
+Default login credentials must be the same as given in  <a href="#requirements">requirements</a> part.
+
+```dockerfile
+docker run --name jpa-hibernate-mysql -p 3306:3306  -e MYSQL_ROOT_PASSWORD=12345 -d mysql
+```
+To test whether the MySQL container is running properly, you can copy and paste the following command.
+
+```
+mysql -u root -h 127.0.0.1 -P 3308 -p
+12345
+```
+
+If you see the following output it means you successfully connected. So you can follow the next steps.
+> Welcome to the MySQL monitor.  Commands end with; or \g.
+<br> Your MySQL connection id is 11
+<br> Server version: 9.0.0 MySQL Community Server - GPL
+
+**2.** Copy and paste the following command in your cmd.
 <br>
 
 ```
 git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 ```
-**2.** Then copy and paste the following command in your cmd.
+**3.** Copy and paste the following command into your cmd.
 ```
 java -jar  Hibernate-vs-Jpa/Jpa-vs-Hibernate-Implementation.jar
 ```
-<br>
+
 
 <!-- 
 ### <span id="run-in-docker"> Run In Docker </span>
@@ -252,24 +267,24 @@ git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 
 [//]: # (* <a href="https://github.com/AhmetEminSaglik/MusicPlayerForConsoleApp?tab=readme-ov-file#installation"> Music Player Console Module </a>)
 
-**3.** If you want to change mysql connect data then please update both JPA and Hibernate configuration files.
-  * JPA configuration file : 
+**3.** If you want to change mysql connect data then update both JPA and Hibernate configuration files.
+* JPA configuration file :
     * src/main/resources/META-INF/`persistence.xml` (update both `persistenceUnitRealProject` and `persistenceUnitTest`)
 ```xml
-  <property name="jakarta.persistence.jdbc.url"
+<property name="jakarta.persistence.jdbc.url"
             value="jdbc:mysql://localhost:YOUR_PORT/school_db_test?createDatabaseIfNotExist=true"/>
-  <property name="jakarta.persistence.jdbc.user" value="YOUR_USERNAME"/>
-  <property name="jakarta.persistence.jdbc.password" value="YOUR_PASSWORD"/>
+<property name="jakarta.persistence.jdbc.user" value="YOUR_USERNAME"/>
+<property name="jakarta.persistence.jdbc.password" value="YOUR_PASSWORD"/>
 ```
-  * Hibernate configuration file :
+* Hibernate configuration file :
     * src/main/resources/hibernate.cfg.xml/`hibernate.cfg.xml`
     * src/main/resources/hibernate.cfg.xml/`hibernate_test.cfg.xml`
 ```xml
-  <property name="connection.url">jdbc:mysql://localhost:YOUR_PORT/school_db?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
-  <property name="connection.username">YOUR_USERNAME</property>
-  <property name="connection.password">YOUR_PASSWORD</property>
+<property name="connection.url">jdbc:mysql://localhost:YOUR_PORT/school_db?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
+<property name="connection.username">YOUR_USERNAME</property>
+<property name="connection.password">YOUR_PASSWORD</property>
 ```
- 
+
 <!--
 ## <a id="version-difference">9-) Version Differences</a>
 
