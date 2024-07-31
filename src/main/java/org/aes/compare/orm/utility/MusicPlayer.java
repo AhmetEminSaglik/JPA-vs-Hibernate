@@ -1,22 +1,35 @@
 package org.aes.compare.orm.utility;
 
-import com.ahmeteminsaglik.MusicPlayerForConsoleApp;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+
+import java.io.InputStream;
 
 public class MusicPlayer {
-    private static MusicPlayerForConsoleApp musicPlayerForConsoleApp = new MusicPlayerForConsoleApp("D:\\projects\\intelijidea\\Hibernate-vs-Jpa\\src\\main\\resources\\music.wav");
-
+    private static final String path = "/music.mp3";
+    private static Player player;
     public void start() {
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                musicPlayerForConsoleApp.start();
+                try {
+                    InputStream in = getClass().getResourceAsStream(path);
+                    player = new Player(in);
+                    player.play();
+
+                } catch (JavaLayerException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         thread.start();
     }
 
     public void pause() {
-        musicPlayerForConsoleApp.stop();
+        if (player != null) {
+            player.close();
+        }
     }
 
     public void resume() {

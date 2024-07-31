@@ -58,8 +58,8 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
     * log4j.log4j:1.2.17
     * mysql.mysql-connector-java:8.0.31
     * org.junit.jupiter.junit-jupiter:RELEASE
+    * javazoom.jlayer:1.0.1
     * com.ahmeteminsaglik:console-colorful-text:1.1
-    * com.ahmeteminsaglik:MusicPlayerForConsoleApp:1.0
 
 ## <span id="image">4-) Images </span>
 
@@ -246,10 +246,11 @@ docker run -it ahmeteminsaglik/colorful-text-console:1.1
 git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 ```
 
-**2.** To run this project two dependencies must be added to project. You can go to following links to figure out how to install them directly to the project.
+**2.** To run this project one dependency must be added to the project. You can go to following link to figure out how to install it directly to the project.
 
 * <a href="https://github.com/AhmetEminSaglik/Console-Colorful-text?tab=readme-ov-file#installation"> Colorful Print Tool Module </a>
-* <a href="https://github.com/AhmetEminSaglik/MusicPlayerForConsoleApp?tab=readme-ov-file#installation"> Music Player Console Module </a>
+
+[//]: # (* <a href="https://github.com/AhmetEminSaglik/MusicPlayerForConsoleApp?tab=readme-ov-file#installation"> Music Player Console Module </a>)
 
 **3.** If you want to change mysql connect data then please update both JPA and Hibernate configuration files.
   * JPA configuration file : 

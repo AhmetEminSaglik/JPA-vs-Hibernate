@@ -16,8 +16,6 @@ public class LoggerProcessStack {
 
     public static String pop() {
         if (!stack.isEmpty()) {
-//            System.out.println("SILINENLER :  " +stack.pop());;
-//            return "stack.pop()";
             return stack.pop();
         }
         return ColorfulTextDesign.getErrorColorTextWithPrefix("Logger stack is empty");
