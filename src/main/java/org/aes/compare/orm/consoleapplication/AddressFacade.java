@@ -27,17 +27,27 @@ public class AddressFacade extends TerminalCommandLayout {
         String tmp;
 
         System.out.print("Type for Country: ");
-        tmp = SafeScannerInput.getStringNotBlank();
+        tmp = SafeScannerInput.getStringNotBlank(this);
         address.setCountry(tmp);
 
+        if (FacadeUtility.isAllowedToContinue(this)) {
+            return null;
+        }
         System.out.print("Type for City: ");
-        tmp = SafeScannerInput.getStringNotBlank();
+        tmp = SafeScannerInput.getStringNotBlank(this);
         address.setCity(tmp);
 
+        if (FacadeUtility.isAllowedToContinue(this)) {
+            return null;
+        }
+
         System.out.print("Type for Street: ");
-        tmp = SafeScannerInput.getStringNotBlank();
+        tmp = SafeScannerInput.getStringNotBlank(this);
         address.setStreet(tmp);
 
+        if (FacadeUtility.isAllowedToContinue(this)) {
+            return null;
+        }
 
         addressService.save(address);
 
@@ -88,6 +98,9 @@ public class AddressFacade extends TerminalCommandLayout {
         indexes.add("Pick Address by typing Address id");
         int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_ADDRESS, indexes);
         switch (option) {
+            case 200:
+                System.out.println("200 OK dondu");
+                break;
             case 0:
                 break;
             case 1:
@@ -123,6 +136,9 @@ public class AddressFacade extends TerminalCommandLayout {
         Address address = null;
 
         switch (selected) {
+            case 200:
+                System.out.println("200 OK dondu");
+                break;
             case 0:
                 FacadeUtility.destroyProcessCancelled(1);
                 return null;
@@ -148,8 +164,8 @@ public class AddressFacade extends TerminalCommandLayout {
     }
     private Address pickAddressFromList(List<Address> addresses) {
         int index = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_ADDRESS, addresses);
-        index--;
-        if (index == -1) {
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(index)
+                || --index == 1) {
             return null;
         }
         return addresses.get(index);
@@ -197,6 +213,9 @@ public class AddressFacade extends TerminalCommandLayout {
             int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(this,MetaData.PROCESS_PREFIX_ADDRESS, indexes);
 
             switch (selected) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case -1:
                     FacadeUtility.destroyProcessCancelled();
                     return null;
@@ -207,15 +226,24 @@ public class AddressFacade extends TerminalCommandLayout {
                     return address;
                 case 1:
                     System.out.print("Type Street to update: ");
-                    address.setStreet(SafeScannerInput.getStringNotBlank());
+                    address.setStreet(SafeScannerInput.getStringNotBlank(this));
+                    if (FacadeUtility.isAllowedToContinue(this)) {
+                        return null;
+                    }
                     break;
                 case 2:
                     System.out.print("Type City to update: ");
-                    address.setCity(SafeScannerInput.getStringNotBlank());
+                    address.setCity(SafeScannerInput.getStringNotBlank(this));
+                    if (FacadeUtility.isAllowedToContinue(this)) {
+                        return null;
+                    }
                     break;
                 case 3:
                     System.out.print("Type Country to update: ");
-                    address.setCountry(SafeScannerInput.getStringNotBlank());
+                    address.setCountry(SafeScannerInput.getStringNotBlank(this));
+                    if (FacadeUtility.isAllowedToContinue(this)) {
+                        return null;
+                    }
                     break;
                 default:
                     System.out.println("Invalid choice try again");
@@ -226,8 +254,9 @@ public class AddressFacade extends TerminalCommandLayout {
     private Address selectAddressToUpdate() {
         List<Address> addresses = addressService.findAll();
         int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_ADDRESS, addresses);
-        id--;
-        if (id == -1) {
+
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(id)
+                || --id == 1) {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
@@ -242,8 +271,14 @@ public class AddressFacade extends TerminalCommandLayout {
         List<Address> addresses = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
 
         System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
+
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_ADDRESS, addresses);
-        result--;
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)
+                || --result == 1) {
+            FacadeUtility.destroyProcessCancelled();
+            return;
+        }
+
         if (result == -1) {
             FacadeUtility.destroyProcessCancelled(1);
         } else {

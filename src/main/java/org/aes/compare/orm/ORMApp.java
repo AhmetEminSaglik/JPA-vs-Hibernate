@@ -5,13 +5,9 @@ import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.orm.consoleapplication.AddressFacade;
-import org.aes.compare.orm.consoleapplication.CourseFacade;
-import org.aes.compare.orm.consoleapplication.ExamResultFacade;
-import org.aes.compare.orm.consoleapplication.StudentFacade;
+import org.aes.compare.orm.consoleapplication.*;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.orm.utility.MusicPlayer;
 import org.aes.compare.uiconsole.business.LoggerConfigORM;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
@@ -27,19 +23,20 @@ public class ORMApp extends TerminalCommandLayout {
     private /*static*/ StudentFacade studentFacade;
     private /*static*/ CourseFacade courseFacade;
     private /*static*/ ExamResultFacade examResultFacade;
-    private /*static*/ MusicPlayer musicPlayer = new MusicPlayer();
+    private SettingFacade settingFacade;//= new SettingFacade(this);
 
     private final Scanner scanner = new Scanner(System.in);
     private final InputParserTree inputParserTree = new InputParserTree();
 
     private /*static*/ void runInitConf() {
 //        musicPlayer.start();
-        LoggerConfigORM.disable();
-        ColorfulTextDesign.enableCMDPrinting();
-        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
-        updatePrintingSetting();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
+        LoggerConfigORM.disable();
+//        ColorfulTextDesign.enableCMDPrinting();
+        ColorfulTextDesign.enableIDEPrinting();
+        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
+//        settingFacade.updatePrintingSetting();
     }
 
     public void selectGlobalProcess() {
@@ -69,6 +66,9 @@ public class ORMApp extends TerminalCommandLayout {
 
             globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_GLOBAL, indexes);
             switch (globalOption) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     System.exit(0);
@@ -91,10 +91,8 @@ public class ORMApp extends TerminalCommandLayout {
                     break;
                 case 5:
                     LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_SETTINGS);
-                    updateSetting();
+                    updateSettingScenario();
                     break;
-                case 200:
-                    System.out.println("200 OK dondu");
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
@@ -103,6 +101,7 @@ public class ORMApp extends TerminalCommandLayout {
                 LoggerProcessStack.pop();
             }
         }
+
     }
 
     /*static*/ void addressScenario() {
@@ -120,6 +119,9 @@ public class ORMApp extends TerminalCommandLayout {
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(addressFacade, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
             switch (option) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -138,13 +140,11 @@ public class ORMApp extends TerminalCommandLayout {
                 case 5:
                     addressFacade.delete();
                     break;
-                case 200:
-                    System.out.println("200 OK dondu");
-                    break;
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
+        addressFacade.enableNextProcess();
     }
 
     /*static*/ void studentScenario() {
@@ -164,6 +164,9 @@ public class ORMApp extends TerminalCommandLayout {
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(studentFacade, MetaData.PROCESS_PREFIX_STUDENT, indexes);
 
             switch (option) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -188,12 +191,11 @@ public class ORMApp extends TerminalCommandLayout {
                 case 7:
                     studentFacade.delete();
                     break;
-                case 200:
-                    System.out.println("200 OK dondu");
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
+        studentFacade.enableNextProcess();
     }
 
     /*static*/ void courseScenario() {
@@ -212,6 +214,9 @@ public class ORMApp extends TerminalCommandLayout {
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(courseFacade, MetaData.PROCESS_PREFIX_COURSE, indexes);
 
             switch (option) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -233,12 +238,11 @@ public class ORMApp extends TerminalCommandLayout {
                 case 6:
                     courseFacade.delete();
                     break;
-                case 200:
-                    System.out.println("200 OK dondu");
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
+        courseFacade.enableNextProcess();
     }
 
     /*static*/ void examResultScenario() {
@@ -282,6 +286,9 @@ public class ORMApp extends TerminalCommandLayout {
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(examResultFacade, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
 
             switch (option) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -306,175 +313,56 @@ public class ORMApp extends TerminalCommandLayout {
                 case 7:
                     examResultFacade.delete();
                     break;
-                case 200:
-                    System.out.println("200 OK dondu");
                 default:
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
+        examResultFacade.enableNextProcess();
     }
 
-    private /*static*/ void updateSetting() {
+    private /*static*/ void updateSettingScenario() {
+        int option = -1;
+        while (option != 0 && !settingFacade.isAllowedCurrentProcess()) {
+
         List<String> indexes = new ArrayList<>();
         indexes.add("Select ORM Tool (JPA-Hibernate)");
         indexes.add("ORM Logs (Enable-Disable)");
         indexes.add("Music (On-Off)");
         indexes.add("Printing Setting (CMD - IDE)");
 
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(settingFacade, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
+            case 200:
+                System.out.println("200 OK dondu");
+                break;
             case 0:
                 FacadeUtility.destroyProcessExiting(1);
                 break;
             case 1:
-                updateORMSetting();
-                updateSetting();
+                settingFacade.updateORMSetting();
                 break;
             case 2:
-                updateORMLogSettings();
-                updateSetting();
+                settingFacade.updateORMLogSettings();
                 break;
             case 3:
-                updateMusicSetting();
-                updateSetting();
+                settingFacade.updateMusicSetting();
                 break;
             case 4:
                 LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_PRINTING);
                 FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-                updatePrintingSetting();
-                updateSetting();
+                settingFacade.updatePrintingSetting();
                 break;
-            case 200:
-                System.out.println("200 OK dondu");
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
-    }
-
-    private /*static*/ void updateORMSetting() {
-        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_SELECT);
-        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-        List<String> indexes = new ArrayList<>();
-        indexes.add("JPA");
-        indexes.add("Hibernate");
-
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
-        switch (option) {
-            case 0:
-                FacadeUtility.destroyProcessCancelled();
-                break;
-            case 1:
-                ORMConfigSingleton.enableJPA();
-                resetORMServices();
-                FacadeUtility.destroyProcessSuccessfully();
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "JPA is activated "));
-                break;
-            case 2:
-                ORMConfigSingleton.enableHibernate();
-                resetORMServices();
-                FacadeUtility.destroyProcessSuccessfully();
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "Hibernate is activated "));
-                break;
-            case 200:
-                System.out.println("200 OK dondu");
-            default:
-                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
+        settingFacade.enableNextProcess();
     }
 
-    private /*static*/ void updateORMLogSettings() {
-        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_LOGS);
-        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-        List<String> indexes = new ArrayList<>();
-        indexes.add("Enable ORM Logs");
-        indexes.add("Disable ORM Logs");
 
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
-        switch (option) {
-            case 0:
-                System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
-                FacadeUtility.destroyProcessCancelled();
-                break;
-            case 1:
-                LoggerConfigORM.enable();
-                FacadeUtility.destroyProcessSuccessfully();
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "ORM Logs are " + ColorfulTextDesign.getSuccessColorText("enabled") + ".");
-                break;
-            case 2:
-                LoggerConfigORM.disable();
-                FacadeUtility.destroyProcessSuccessfully();
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "ORM Logs are " + ColorfulTextDesign.getSuccessColorText("disabled") + ".");
-                break;
-            case 200:
-                System.out.println("200 OK dondu");
-            default:
-                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
-        }
-
-    }
-
-    private /*static*/ void updateMusicSetting() {
-        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_MUSIC);
-        FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-        List<String> indexes = new ArrayList<>();
-        indexes.add("Enable Music");
-        indexes.add("Disable Music");
-
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
-        switch (option) {
-            case 0:
-                FacadeUtility.destroyProcessCancelled();
-                break;
-            case 1:
-                musicPlayer.resume();
-                FacadeUtility.destroyProcessSuccessfully();
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "Music is activated."));
-                break;
-            case 2:
-                musicPlayer.pause();
-                FacadeUtility.destroyProcessSuccessfully();
-                System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX+ "Music is paused."));
-                break;
-            case 200:
-                System.out.println("200 OK dondu");
-            default:
-                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
-        }
-
-    }
-
-    private /*static*/ void updatePrintingSetting() {
-        List<String> indexes = new ArrayList<>();
-        indexes.add("CMD (Windows Command Line)");
-        indexes.add("IDE (Java Ide)");
-        indexes.add("Standard (Default)");
-
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
-        switch (option) {
-            case 0:
-                FacadeUtility.destroyProcessCancelled();
-                break;
-            case 1:
-                ColorfulTextDesign.enableCMDPrinting();
-                FacadeUtility.destroyProcessSuccessfully();
-                break;
-            case 2:
-                ColorfulTextDesign.enableIDEPrinting();
-                FacadeUtility.destroyProcessSuccessfully();
-                break;
-            case 3:
-                ColorfulTextDesign.enableStandardPrinting();
-                FacadeUtility.destroyProcessSuccessfully();
-                break;
-            case 200:
-                System.out.println("200 OK dondu");
-            default:
-                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
-        }
-
-    }
-
-    /*static*/ void resetORMServices() {
+    /*static*/
+    public void resetORMServices() {
+        settingFacade = new SettingFacade(this);
         addressFacade = new AddressFacade(orm.getAddressService());
         courseFacade = new CourseFacade(orm.getCourseService());
         studentFacade = new StudentFacade(orm.getStudentService(), addressFacade, courseFacade);

@@ -80,7 +80,10 @@ public class ExamResultFacade extends TerminalCommandLayout {
         FacadeUtility.printSuccessResult("Selected Course : "+course);
 
         System.out.print("Type Score (double): ");
-        double score = SafeScannerInput.getCertainDoubleSafe(1, 100);
+        double score = SafeScannerInput.getCertainDoubleSafe(this, 1, 100);
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(score)) {
+            return null;
+        }
 
         examResult.setStudent(student);
         examResult.setCourse(course);
@@ -223,6 +226,9 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
         List<ExamResult> examResults = null;
         switch (option) {
+            case 200:
+                System.out.println("200 OK dondu");
+                break;
             case 0:
                 FacadeUtility.destroyProcessCancelled();
                 return null;
@@ -239,7 +245,10 @@ public class ExamResultFacade extends TerminalCommandLayout {
                 return null;
             case 2:
                 System.out.print("Type Course Name:  ");
-                String courseName = SafeScannerInput.getStringNotBlank();
+                String courseName = SafeScannerInput.getStringNotBlank(this);
+                if (FacadeUtility.isAllowedToContinue(this)) {
+                    return null;
+                }
                 examResults = examResultService.findAllByCourseName(courseName);
                 if (examResults == null || examResults.isEmpty()) {
                     FacadeUtility.printErrorResult(MetaData.getNotFoundExamResultWithCourseName(courseName));
@@ -285,8 +294,8 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
     private double updateExamResultScore(double score) {
         System.out.print("Type new Score (double) (-1 to cancel): ");
-        double result = SafeScannerInput.getCertainDoubleSafe(-1, 100);
-        if (result == -1) {
+        double result = SafeScannerInput.getCertainDoubleSafe(this, -1, 100);
+        if (result == -1 || FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
             return score;
         } else if (result >= -1 && result < 1) {
             FacadeUtility.printColorfulWarningResult("Minimum score is allowed to 1.");
@@ -295,6 +304,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
         return result;
     }
+
 
     public void delete() {
         FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
@@ -326,6 +336,9 @@ public class ExamResultFacade extends TerminalCommandLayout {
         ExamResult examResult = null;
 
         int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(inputIndex)) {
+            return null;
+        }
         inputIndex--;
 
         if (inputIndex == -1) {

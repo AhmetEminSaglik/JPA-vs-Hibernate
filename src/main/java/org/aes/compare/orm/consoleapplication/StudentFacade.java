@@ -2,7 +2,6 @@ package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.config.ORMConfigSingleton;
@@ -22,7 +21,7 @@ public class StudentFacade extends TerminalCommandLayout {
     private final StudentService studentService;
     private final AddressFacade addressFacade;
     private final CourseFacade courseFacade;
-    private final AddressService addressService;
+    //    private final AddressService addressService;
     private final CourseService courseService;
 
     public StudentFacade(StudentService studentService, AddressFacade addressFacade, CourseFacade courseFacade) {
@@ -30,7 +29,7 @@ public class StudentFacade extends TerminalCommandLayout {
         this.studentService = studentService;
         this.addressFacade = addressFacade;
         this.courseFacade = courseFacade;
-        this.addressService = orm.getAddressService();
+//        this.addressService = orm.getAddressService();
         this.courseService = orm.getCourseService();
     }
 
@@ -39,9 +38,13 @@ public class StudentFacade extends TerminalCommandLayout {
 
         Student student = new Student();
         System.out.print("Type Student name: ");
-        String name = SafeScannerInput.getStringNotBlank();
-        student.setName(name);
+        String name = SafeScannerInput.getStringNotBlank(this);
 
+        if (FacadeUtility.isAllowedToContinue(this)) {
+            return null;
+        }
+
+        student.setName(name);
         System.out.print("Type Student grade: ");
         int grade = SafeScannerInput.getCertainIntSafe(1, 6);
         student.setGrade(grade);
@@ -90,6 +93,9 @@ public class StudentFacade extends TerminalCommandLayout {
         indexes.add("Pick Student by typing Student id");
         int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this, MetaData.PROCESS_PREFIX_STUDENT, indexes);
         switch (option) {
+            case 200:
+                System.out.println("200 OK dondu");
+                return null;
             case 0:
                 student=null;
                 break;
@@ -132,6 +138,9 @@ public class StudentFacade extends TerminalCommandLayout {
 
     public Student pickStudentFromList(List<Student> students) {
         int index = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this, MetaData.PROCESS_PREFIX_STUDENT, students);
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(index)) {
+            return null;
+        }
         index--;
         if (index == -1) {
             return null;
@@ -206,6 +215,9 @@ public class StudentFacade extends TerminalCommandLayout {
         List<Student> students = studentService.findAll();
 
         int selectedStudent = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_GLOBAL, students);
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(selectedStudent)) {
+            return null;
+        }
         selectedStudent--;
         if (selectedStudent == -1) {
             FacadeUtility.destroyProcessCancelled();
@@ -234,6 +246,9 @@ public class StudentFacade extends TerminalCommandLayout {
                     " option.");
             option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(this, MetaData.PROCESS_PREFIX_STUDENT, indexes);
             switch (option) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case -1:
                     FacadeUtility.destroyProcessCancelled();
                     return null;
@@ -245,7 +260,10 @@ public class StudentFacade extends TerminalCommandLayout {
 
                 case 1:
                     System.out.print("Type Student new Name: ");
-                    String name = SafeScannerInput.getStringNotBlank();
+                    String name = SafeScannerInput.getStringNotBlank(this);
+                    if (FacadeUtility.isAllowedToContinue(this)) {
+                        return null;
+                    }
                     student.setName(name);
                     break;
                 case 2:
@@ -295,6 +313,9 @@ public class StudentFacade extends TerminalCommandLayout {
             option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(this, processPrefix, indexes);
             int result;
             switch (option) {
+                case 200:
+                    System.out.println("200 OK dondu");
+                    break;
                 case -1:
                     FacadeUtility.destroyProcessCancelled(3);
                     return null;
@@ -306,6 +327,9 @@ public class StudentFacade extends TerminalCommandLayout {
                         FacadeUtility.printColorfulWarningResult(MetaData.NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT);
                     } else {
                         result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, processPrefix, courseStudentDidNotEnroll);
+                        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+                            return null;
+                        }
                         result--;
                         if (result == -1) {
                             System.out.println("Adding course to Student is Cancelled");
@@ -320,6 +344,9 @@ public class StudentFacade extends TerminalCommandLayout {
                         System.out.println("Student has not any course to remove it.");
                     } else {
                         result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, processPrefix, studentCourses);
+                        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+                            return null;
+                        }
                         result--;
                         if (result == -1) {
                             System.out.println("Remove course From Student is Cancelled");
@@ -350,6 +377,9 @@ public class StudentFacade extends TerminalCommandLayout {
         }
         List<Student> students = studentService.findAll();
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_STUDENT, students);
+        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+            return;
+        }
         result--;
         if (result == -1) {
             FacadeUtility.destroyProcessCancelled();

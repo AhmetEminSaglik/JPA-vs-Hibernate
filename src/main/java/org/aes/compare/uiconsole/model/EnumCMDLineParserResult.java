@@ -3,7 +3,8 @@ package org.aes.compare.uiconsole.model;
 public enum EnumCMDLineParserResult {
     RUN_FOR_CMDLINE(0),
     RUN_FOR_INDEX_VALUE(1),
-    RUN_FOR_INVALID_COMMAND(2);
+    RUN_FOR_INVALID_COMMAND(2),
+    PROCESS_COMPLETED(200);
 
     int id;
 

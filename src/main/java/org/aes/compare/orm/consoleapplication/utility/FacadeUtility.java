@@ -4,6 +4,7 @@ import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
+import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.List;
@@ -17,6 +18,9 @@ public class FacadeUtility {
         return sb;
     }
 
+    public  static  boolean isAllowedToContinue(TerminalCommandLayout terminalLayout){
+        return  terminalLayout.isAllowedCurrentProcess();
+    }
     public static StringBuilder createMsgFromListWithSaveAndCancelExit(List<?> list) {
         StringBuilder sb = new StringBuilder();
         sb.append('(').append(-1).append(") Cancel & Exit\n");
@@ -173,7 +177,16 @@ public class FacadeUtility {
         }
     }
 
-public  static  void getAllInOrderWithAvailableOptions(){
-    System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
-}
+    public static void getAllInOrderWithAvailableOptions() {
+        System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
+    }
+
+    public static boolean isEqualsToTerminalCompletedProcessValue(int result) {
+        if (result == EnumCMDLineParserResult.PROCESS_COMPLETED.getId()) return true;
+        return false;
+    }
+
+    public static boolean isEqualsToTerminalCompletedProcessValue(double result) {
+        return isEqualsToTerminalCompletedProcessValue((int) result);
+    }
 }
