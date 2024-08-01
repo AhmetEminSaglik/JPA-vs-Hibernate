@@ -45,6 +45,8 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
     }
 
     public void save() {
+        System.out.println("UI CONSOLE SAVE COURSE");
+        /*
 
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Course Save process is initialized"));
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Each course's name must be unique"));
@@ -62,7 +64,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
         }
 
 
-       /* if (isCanceled()) return;
+       *//* if (isCanceled()) return;
         address.setCity(stringInput);
 
         inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Street (String):");
@@ -79,34 +81,39 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
 
         ormConfig.getAddressService().save(address);
 
-        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Address is saved: " + address));*/
+        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Address is saved: " + address));*//*
 
         //        ormConfig.getAddressService().save(address);
 
 //        ormConfig.getCourseService().save(c);
-    }
+    */}
 
     public void findByName() {
+        System.out.println("UI CONSOLE findByName  COURSE");
 //        return ormConfig.getCourseService().findByName(name);
     }
 
 
     public void findAll() {
+        System.out.println("UI CONSOLE findAll  COURSE");
         // return ormConfig.getCourseService().findAll();
     }
 
 
     public void updateCourseByName() {
+        System.out.println("UI CONSOLE updateCourseByName  COURSE");
         //   ormConfig.getCourseService().updateCourseByName(course);
     }
 
 
     public void deleteCourseByName() {
+        System.out.println("UI CONSOLE deleteCourseByName  COURSE");
         //  ormConfig.getCourseService().deleteCourseByName(name);
     }
 
 
     public void deleteCourseById() {
+        System.out.println("UI CONSOLE deleteCourseById  COURSE");
         //  ormConfig.getCourseService().deleteCourseById(id);
     }
 
@@ -117,6 +124,6 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
 
     @Override
     public boolean isCanceled() {
-        return tcm.isCurrentProcessCanceled();
+        return tcm.isAllowedCurrentProcess();
     }
 }

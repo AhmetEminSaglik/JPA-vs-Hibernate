@@ -1,5 +1,6 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
@@ -20,7 +21,7 @@ import org.aes.compare.uiconsole.utility.SafeScannerInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CourseFacade {
+public class CourseFacade extends TerminalCommandLayout {
     private final CourseService courseService;
     private StudentFacade studentFacade;
 
@@ -35,7 +36,7 @@ public class CourseFacade {
     public Course save() {
         FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
         List<Course> properCourses = getProperCoursesToSave();
-        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, properCourses);
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_COURSE, properCourses);
         result--;
         Course course = properCourses.get(0);
         if (result == -1) {
@@ -156,7 +157,7 @@ public class CourseFacade {
         List<String> indexes = new ArrayList<>();
         indexes.add("Pick Course from List");
         indexes.add("Pick Course by typing course name");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_COURSE, indexes);
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_COURSE, indexes);
 
         switch (option) {
             case 0:
@@ -189,7 +190,7 @@ public class CourseFacade {
     }
 
     public Course pickCourseFromList(List<Course> courses) {
-        int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_COURSE, courses);
+        int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_COURSE, courses);
         selected--;
         if (selected == -1) {
             return null;
@@ -205,7 +206,7 @@ public class CourseFacade {
             return null;
         }
         List<Course> courses = courseService.findAll();
-        int selectedCourse = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, courses);
+        int selectedCourse = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_COURSE, courses);
 
         selectedCourse--;
 
@@ -227,7 +228,7 @@ public class CourseFacade {
 
         while (true) {
             System.out.println("Current Course : " + tmpCourse);
-            int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_COURSE, indexed);
+            int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(this,MetaData.PROCESS_PREFIX_COURSE, indexed);
             switch (option) {
                 case -1:
                     FacadeUtility.destroyProcessCancelled();
@@ -272,7 +273,7 @@ public class CourseFacade {
             return;
         }
         List<Course> courses = courseService.findAll();
-        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_COURSE, courses);
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_COURSE, courses);
         result--;
         if (result == -1) {
             FacadeUtility.destroyProcessCancelled();

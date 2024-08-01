@@ -24,7 +24,7 @@ public class GlobalProcess extends TerminalCommandLayout {
         ORMConfigSingleton.enableJPA();
         while (isAllowedCurrentProcess) {
             System.out.println("UIConsoleApp > 1.While");
-            printListHowToProcess();
+//            printListHowToProcess();
             selectGlobalProcess();
         }
 
@@ -39,11 +39,11 @@ public class GlobalProcess extends TerminalCommandLayout {
     }
 */
 
-    private void printListHowToProcess() {
+    /*private void printListHowToProcess() {
         for (int i = 0; i < list.size(); i++) {
             System.out.println((i + 1) + "-) " + list.get(i));
         }
-    }
+    }*/
 
     public void selectGlobalProcess() {
         String input = scanner.nextLine();
@@ -53,11 +53,11 @@ public class GlobalProcess extends TerminalCommandLayout {
             new TerminalCommandManager().runCustomCommand(this, terminalCMD);
         }
         if (result.getId() == EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
-            runProcessIndexValue(input);
+//            runProcessIndexValue(input);
         }
     }
 
-    public void runProcessIndexValue(String index) {
+    /*public void runProcessIndexValue(String index) {
         int val = safeScannerInput.convertInputToListIndexValue(index, list);
         String text;
         if (val != -1) {
@@ -70,5 +70,5 @@ public class GlobalProcess extends TerminalCommandLayout {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(text));
 //            JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.REAL_PRODUCT);
         }
-    }
+    }*/
 }

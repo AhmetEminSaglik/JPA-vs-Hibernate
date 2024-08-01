@@ -1,5 +1,6 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.AddressService;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
@@ -11,7 +12,7 @@ import org.aes.compare.uiconsole.utility.SafeScannerInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddressFacade {
+public class AddressFacade extends TerminalCommandLayout {
     private final AddressService addressService;
 
     public AddressFacade(AddressService addressService) {
@@ -85,7 +86,7 @@ public class AddressFacade {
         List<String> indexes = new ArrayList<>();
         indexes.add("Pick Address from List");
         indexes.add("Pick Address by typing Address id");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_ADDRESS, indexes);
         switch (option) {
             case 0:
                 break;
@@ -118,7 +119,7 @@ public class AddressFacade {
         indexes.add("Select from unmatched address (" + unmatchedAddress.size() + ")");
 
 
-        int selected = FacadeUtility.getIndexValueOfMsgListIncludesExit("", indexes);
+        int selected = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,"", indexes);
         Address address = null;
 
         switch (selected) {
@@ -146,7 +147,7 @@ public class AddressFacade {
         return address;
     }
     private Address pickAddressFromList(List<Address> addresses) {
-        int index = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int index = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         index--;
         if (index == -1) {
             return null;
@@ -193,7 +194,7 @@ public class AddressFacade {
             indexes.add("City");
             indexes.add("Country");
 
-            int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(this,MetaData.PROCESS_PREFIX_ADDRESS, indexes);
 
             switch (selected) {
                 case -1:
@@ -224,7 +225,7 @@ public class AddressFacade {
 
     private Address selectAddressToUpdate() {
         List<Address> addresses = addressService.findAll();
-        int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         id--;
         if (id == -1) {
             FacadeUtility.destroyProcessCancelled();
@@ -241,7 +242,7 @@ public class AddressFacade {
         List<Address> addresses = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
 
         System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
-        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(this,MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         result--;
         if (result == -1) {
             FacadeUtility.destroyProcessCancelled(1);

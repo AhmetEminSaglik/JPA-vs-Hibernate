@@ -12,7 +12,7 @@ public class InputParserTree {
     private final ProcessCommandServiceImpl processCommand = new ProcessCommandServiceImpl();
 
     public EnumCMDLineParserResult decideProcess(String input) {
-        if (cmdLine.isActivated() || input.startsWith(cmdLine.getPrefix())) {
+        if (input.startsWith(cmdLine.getPrefix())) {
             return runCMDLine(input);
         }
         return EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE;

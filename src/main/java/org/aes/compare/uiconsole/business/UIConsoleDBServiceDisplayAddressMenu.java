@@ -5,8 +5,6 @@ import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessC
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProcessCheck {
     private final TerminalCommandManager tcm;
@@ -19,6 +17,9 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
     }
 
     public Address save() {
+        System.out.println("UI CONSOLE save  Address");
+        return null;
+        /*
         Address address = new Address();
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Address Save process is initialized"));
         String inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type city (String):");
@@ -45,21 +46,26 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
         return address;
 
 //        ormConfig.getAddressService().save(address);
+    */
     }
 
     public void findById() {
+        System.out.println("UI CONSOLE findById  Address");
 //        return ormConfig.getAddressService().findById(id);
     }
 
     public void findAll() {
+        System.out.println("UI CONSOLE findAll  Address");
 //        return ormConfig.getAddressService().findAll();
     }
 
     public void update() {
+        System.out.println("UI CONSOLE update  Address");
 //        ormConfig.getAddressService().update(address);
     }
 
     public void delete() {
+        System.out.println("UI CONSOLE delete  Address");
 //        ormConfig.getAddressService().deleteById(id);
     }
 
@@ -69,6 +75,6 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
 
     @Override
     public boolean isCanceled() {
-        return tcm.isCurrentProcessCanceled();
+        return tcm.isAllowedCurrentProcess();
     }
 }

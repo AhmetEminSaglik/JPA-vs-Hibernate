@@ -26,10 +26,10 @@ public class CmdLineConfigFunctionsImpl implements CmdLineConfigFunctions {
         this.prefix = prefix;
     }
 
-    @Override
-    public boolean isActivated() {
-        return isActivated;
-    }
+//    @Override
+//    public boolean isActivated() {
+//        return isActivated;
+//    }
 
     @Override
     public String getPrefix() {

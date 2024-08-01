@@ -1,5 +1,6 @@
 package org.aes.compare.orm.consoleapplication;
 
+import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
@@ -16,7 +17,7 @@ import org.aes.compare.uiconsole.utility.SafeScannerInput;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExamResultFacade {
+public class ExamResultFacade extends TerminalCommandLayout {
     private final ExamResultService examResultService;
     private final CourseService courseService;
     private final CourseFacade courseFacade;
@@ -218,7 +219,7 @@ public class ExamResultFacade {
         List<String> indexes = new ArrayList<>();
         indexes.add("Search with registered Courses");
         indexes.add("Search with Typing course name Manuel");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
 
         List<ExamResult> examResults = null;
         switch (option) {
@@ -324,7 +325,7 @@ public class ExamResultFacade {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         ExamResult examResult = null;
 
-        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
+        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
         inputIndex--;
 
         if (inputIndex == -1) {

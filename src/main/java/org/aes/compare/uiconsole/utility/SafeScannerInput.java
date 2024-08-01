@@ -95,7 +95,7 @@ public class SafeScannerInput {
             TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
             new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
         }
-        if (tmc.isCurrentProcessCanceled()) {
+        if (tmc.isAllowedCurrentProcess()) {
             return "";
         }
         if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
@@ -120,7 +120,7 @@ public class SafeScannerInput {
         }
 
         Integer num = getInt(input);
-        if (tmc.isCurrentProcessCanceled()) {
+        if (tmc.isAllowedCurrentProcess()) {
             return -1;
         }
         if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
@@ -148,7 +148,7 @@ public class SafeScannerInput {
         }
 
         Integer num = getInt(input);
-        if (tmc.isCurrentProcessCanceled()) {
+        if (tmc.isAllowedCurrentProcess()) {
             return -1;
         }
         if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
@@ -160,13 +160,34 @@ public class SafeScannerInput {
         return num;
     }
 
-    public static int getCertainIntForSwitch(String text, int minRange, int maxRange) {
+    private static EnumCMDLineParserResult selectTerminalProcess(TerminalCommandLayout terminalLayout, String input) {
+        EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
+        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
+            new TerminalCommandManager().runCustomCommand(terminalLayout, terminalCMD);
+            return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
+        }
+//        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
+//            runProcessIndexValue(input);
+        return EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE;
+//        }
+
+    }
+
+    public static int getCertainIntForSwitch(TerminalCommandLayout terminalLayout, String text, int minRange, int maxRange) {
         System.out.print(text);
+
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
 //        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
         String errMsg = (ColorfulTextDesign.getErrorColorText("Please Type number between [" + minRange + "," + maxRange + "]"));
         try {
+            System.out.println(" Burda deger alinmali. terminal ");
             String inputText = scanner.nextLine().trim();
+            EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
+            if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+                System.out.println("----------> Terminal islemi yapildi. bitiyor.");
+                return 200;
+            }
             int val = Integer.parseInt(inputText);
 //            scanner.nextLine();
             if (val >= minRange && val <= maxRange) {
@@ -177,7 +198,7 @@ public class SafeScannerInput {
         } catch (NumberFormatException e) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between [" + minRange + "," + maxRange + "]"));
         }
-        return getCertainIntForSwitch(text, minRange, maxRange);
+        return getCertainIntForSwitch(terminalLayout, text, minRange, maxRange);
     }
 
     public static int getCertainIntForSwitch(int minRange, int maxRange) {

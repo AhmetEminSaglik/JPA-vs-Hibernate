@@ -7,7 +7,7 @@ public interface CmdLineConfigFunctions {
 
     void updateOneLineCommandPrefix(String prefix);
 
-    boolean isActivated();
+//    boolean isActivated();
 
     String getPrefix();
 

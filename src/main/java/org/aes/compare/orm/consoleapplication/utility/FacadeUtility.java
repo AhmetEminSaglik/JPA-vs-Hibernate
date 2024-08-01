@@ -1,5 +1,6 @@
 package org.aes.compare.orm.consoleapplication.utility;
 
+import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
@@ -27,33 +28,33 @@ public class FacadeUtility {
         return sb;
     }
 
-    public static int getIndexValueOfMsgListIncludesExit(String objectPrefix, List<?> list) {
+    public static int getIndexValueOfMsgListIncludesExit(TerminalCommandLayout terminalCommandLayout,String objectPrefix, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Exit\n");
-        return getUserIndexInputOfOptionList(msg, list, 0);
+        return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, 0);
 
     }
 
-    public static int getIndexValueOfMsgListIncludesCancelAndExit(String objectPrefix, List<?> list) {
+    public static int getIndexValueOfMsgListIncludesCancelAndExit(TerminalCommandLayout terminalCommandLayout,String objectPrefix, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Cancel & Exit\n");
-        return getUserIndexInputOfOptionList(msg, list, 0);
+        return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, 0);
     }
 
-    public static int getIndexValueOfMsgListIncludesCancelAndSaveExits(String objectPrefix, List<?> list) {
+    public static int getIndexValueOfMsgListIncludesCancelAndSaveExits(TerminalCommandLayout terminalCommandLayout,String objectPrefix, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(-1).append(") Cancel & Exit\n");
         msg.append('(').append(0).append(") Save & Exit\n");
-        return getUserIndexInputOfOptionList(msg, list, -1);
+        return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, -1);
     }
 
-    private static int getUserIndexInputOfOptionList(StringBuilder msg, List<?> list, int minRange) {
+    private static int getUserIndexInputOfOptionList(TerminalCommandLayout terminalCommandLayout, StringBuilder msg, List<?> list, int minRange) {
         msg.insert(0,"\n");
         for (int i = 0; i < list.size(); i++) {
             msg.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");
         }
         System.out.println(msg);
-        return SafeScannerInput.getCertainIntForSwitch(MetaData.SELECT_ONE_OPTION, minRange, list.size());
+        return SafeScannerInput.getCertainIntForSwitch(terminalCommandLayout, MetaData.SELECT_ONE_OPTION, minRange, list.size());
     }
 
     public static void initProcessWithOnlySituation(String processSituation) {
