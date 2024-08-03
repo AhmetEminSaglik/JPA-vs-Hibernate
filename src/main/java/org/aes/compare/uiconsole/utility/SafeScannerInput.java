@@ -13,25 +13,44 @@ public class SafeScannerInput {
     private static final Scanner scanner = new Scanner(System.in);
     private static final InputParserTree inputParserTree = new InputParserTree();
 
-    public static Integer getCertainIntSafe() {
+    public static Integer getCertainIntSafe(TerminalCommandLayout terminalLayout) {
         try {
-            int num = Integer.parseInt(scanner.nextLine().trim());
+
+//            int num = Integer.parseInt(scanner.nextLine().trim());
+            System.out.println(" Burda deger alinmali. terminal ");
+            String inputText = scanner.nextLine().trim();
+            EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
+
+            if (enumResult.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
+                System.out.println("----------> Terminal islemi yapildi. bitiyor.");
+                return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
+            }
+
+            int num = Integer.parseInt(inputText);
+
             return num;
         } catch (NumberFormatException ex) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Integer Input. Please try again."));
-            return getCertainIntSafe();
+            return getCertainIntSafe(terminalLayout);
         }
     }
 
-    public static Integer getCertainIntSafe(int min, int max) {
+    public static Integer getCertainIntSafe(TerminalCommandLayout terminalLayout, int min, int max) {
 //        try {
 
-        int num = getCertainIntSafe();
+        int num = getCertainIntSafe(terminalLayout);
+        if (num == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
+            System.out.println("CMD_CANCEL_PROCESS ----------> Terminal islemi yapildi. bitiyor.");
+            return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
+        }if (num == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            System.out.println("RUN_FOR_CMDLINE----------> Terminal islemi yapildi. bitiyor .");
+            return EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
+        }
         if (num >= min && num <= max) {
             return num;
         } else {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
-            return getCertainIntSafe(min, max);
+            return getCertainIntSafe(terminalLayout, min, max);
         }
         /*} catch (NumberFormatException ex) {
             System.out.println("Invalid Index Input. Please try again.");
@@ -52,16 +71,19 @@ public class SafeScannerInput {
     }*/
     private static EnumCMDLineParserResult selectTerminalProcess(TerminalCommandLayout terminalLayout, String input) {
         EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
-        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+        if (result.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
+            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
+            new TerminalCommandManager().runCustomCommand(terminalLayout, terminalCMD);
+            System.out.println("selectTerminalProcess > CMD_CANCEL_PROCESS "+terminalLayout.isAllowedCurrentProcess());
+            return EnumCMDLineParserResult.CMD_CANCEL_PROCESS;
+        } else if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            System.out.println("selectTerminalProcess > RUN_FOR_CMDLINE "+terminalLayout.isAllowedCurrentProcess());
             TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
             new TerminalCommandManager().runCustomCommand(terminalLayout, terminalCMD);
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
-        }
-//        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
-//            runProcessIndexValue(input);
-        return EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE;
 //        }
-
+        }
+        return EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE;
     }
 
     public static int getCertainIntForSwitch(TerminalCommandLayout terminalLayout, String text, int minRange, int maxRange) {
@@ -74,9 +96,14 @@ public class SafeScannerInput {
             System.out.println(" Burda deger alinmali. terminal ");
             String inputText = scanner.nextLine().trim();
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
-            if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            /*if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
                 System.out.println("----------> Terminal islemi yapildi. bitiyor.");
-                return EnumCMDLineParserResult.PROCESS_COMPLETED.getId();
+                return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
+            }*/
+            System.out.println("RUN_FOR_INDEX_VALUE checkine geldi");
+            if (enumResult.getId() != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
+                System.out.println("Burdan donucek");
+                return enumResult.getId();
             }
             int val = Integer.parseInt(inputText);
 //            scanner.nextLine();
@@ -100,7 +127,7 @@ public class SafeScannerInput {
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
             if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
                 System.out.println("----------> Terminal islemi yapildi. bitiyor.");
-                return (double) EnumCMDLineParserResult.PROCESS_COMPLETED.getId();
+                return (double) EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
             }
 
             num = Double.parseDouble(inputText);
@@ -130,10 +157,16 @@ public class SafeScannerInput {
     public static String getStringNotBlank(TerminalCommandLayout terminalLayout) {
         String text = scanner.nextLine().trim();
         EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, text);
-        if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("----------> Terminal islemi yapildi. bitiyor.");
-            return Double.toString(EnumCMDLineParserResult.PROCESS_COMPLETED.getId());
+//        System.out.println();
+        if (enumResult.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
+            System.out.println("----------> Terminal islemi yapildi. CMD_CANCEL_PROCESS.");
+            return Double.toString(EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId());
         }
+        if (enumResult.getId() == EnumCMDLineParserResult.CMD_PROCESS_COMPLETED.getId()) {
+            System.out.println("----------> Terminal islemi yapildi. CMD_PROCESS_COMPLETED.");
+            return Double.toString(EnumCMDLineParserResult.CMD_PROCESS_COMPLETED.getId());
+        }
+        
         if (text.isBlank()) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Empty String is not allowed. Please type something."));
             return getStringNotBlank(terminalLayout);

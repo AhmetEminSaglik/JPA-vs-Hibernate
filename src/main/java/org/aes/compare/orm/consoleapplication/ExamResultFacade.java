@@ -226,9 +226,8 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
         List<ExamResult> examResults = null;
         switch (option) {
-            case 200:
-                System.out.println("200 OK dondu");
-                break;
+            
+
             case 0:
                 FacadeUtility.destroyProcessCancelled();
                 return null;
@@ -246,7 +245,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
             case 2:
                 System.out.print("Type Course Name:  ");
                 String courseName = SafeScannerInput.getStringNotBlank(this);
-                if (FacadeUtility.isAllowedToContinue(this)) {
+                if (FacadeUtility.isCancelledProcess(this)) {
                     return null;
                 }
                 examResults = examResultService.findAllByCourseName(courseName);

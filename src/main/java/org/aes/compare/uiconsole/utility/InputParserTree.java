@@ -20,9 +20,10 @@ public class InputParserTree {
 
     private EnumCMDLineParserResult runCMDLine(String input) {
         EnumCMDLineParserResult result = processCommand.processCommand(input);
-        if (result == EnumCMDLineParserResult.RUN_FOR_CMDLINE) {
+        if (result != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE) {
             this.terminalCMD = processCommand.getDecidedTerminalCMD();
         }
+        // todo cancel kisminda kaldim.
         return result;
     }
 

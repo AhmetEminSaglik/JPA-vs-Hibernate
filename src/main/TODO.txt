@@ -118,3 +118,51 @@ Test
 + StudentFacade
 + CourseFacade
 + ExamResultFacade
+
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+CMD Terminal Commands
+Type for Country: >> -r -C    --> after read Course data, again "Type for Country" must be work.
+
+AddressFacade:
++ save()
++ findById()
+- updateAddressProcess()
+- delete()
+
+
+StudentFacade:
+- save()
+- findAll()
+- findByMultipleWay()
+- findStudentAllCourses()
+- findByStudentIdWithCourseName()
+- update()
+- delete()
+
+
+CourseFacade:
+- save()
+- findAll()
+- findByName()
+- findAllCoursesBelongsToStudent()
+- update()
+- delete()
+
+ExamResultFacade:
+- save()
+- findAll()
+- findAllByStudentId()
+- findAllByCourseName()
+- findAllByStudentIdAndCourseName()
+- update()
+- delete()
+
+Test
++ AddressFacade
++ StudentFacade
++ CourseFacade
++ ExamResultFacade

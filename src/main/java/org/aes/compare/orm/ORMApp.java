@@ -55,8 +55,9 @@ public class ORMApp extends TerminalCommandLayout {
         runInitConf();
         LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
 
-        int globalOption = -1;
-        while (!isAllowedCurrentProcess()) {
+        int option = -1;
+        while (isAllowedCurrentProcess()) {
+            System.out.println(getClass().getSimpleName()+" -> isAllowedCurrentProcess() : "+isAllowedCurrentProcess());
             List<String> indexes = new ArrayList<>();
             indexes.add("Address");
             indexes.add("Student");
@@ -64,11 +65,12 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Exam Result");
             indexes.add("Setting");
 
-            globalOption = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_GLOBAL, indexes);
-            switch (globalOption) {
-                case 200:
-                    System.out.println("200 OK dondu");
-                    break;
+            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_GLOBAL, indexes);
+            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+                continue;
+            }
+            switch (option) {
+                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     System.exit(0);
@@ -97,7 +99,7 @@ public class ORMApp extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
 
-            if (globalOption > 0) {
+            if (option > 0) {
                 LoggerProcessStack.pop();
             }
         }
@@ -106,8 +108,8 @@ public class ORMApp extends TerminalCommandLayout {
 
     /*static*/ void addressScenario() {
         int option = -1;
-//        while (option != 0 && !isAllowedCurrentProcess()) {
-        while (option != 0 && !addressFacade.isAllowedCurrentProcess()) {
+//        while (option != 0 && isAllowedCurrentProcess()) {
+        while (option != 0 && addressFacade.isAllowedCurrentProcess()) {
 
             List<String> indexes = new ArrayList<>();
             indexes.add("Save");
@@ -118,10 +120,10 @@ public class ORMApp extends TerminalCommandLayout {
 
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(addressFacade, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+                continue;
+            }
             switch (option) {
-                case 200:
-                    System.out.println("200 OK dondu");
-                    break;
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -132,7 +134,7 @@ public class ORMApp extends TerminalCommandLayout {
                     addressFacade.findAll();
                     break;
                 case 3:
-                    addressFacade.findById();
+                    addressFacade.findByMultipleWay();
                     break;
                 case 4:
                     addressFacade.updateAddressProcess();
@@ -149,7 +151,7 @@ public class ORMApp extends TerminalCommandLayout {
 
     /*static*/ void studentScenario() {
         int option = -1;
-        while (option != 0 && !studentFacade.isAllowedCurrentProcess()) {
+        while (option != 0 && studentFacade.isAllowedCurrentProcess()) {
 
             List<String> indexes = new ArrayList<>();
 
@@ -162,11 +164,11 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(studentFacade, MetaData.PROCESS_PREFIX_STUDENT, indexes);
-
+            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+                continue;
+            }
             switch (option) {
-                case 200:
-                    System.out.println("200 OK dondu");
-                    break;
+                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -200,7 +202,7 @@ public class ORMApp extends TerminalCommandLayout {
 
     /*static*/ void courseScenario() {
         int option = -1;
-        while (option != 0 && !courseFacade.isAllowedCurrentProcess()) {
+        while (option != 0 && courseFacade.isAllowedCurrentProcess()) {
 
             List<String> indexes = new ArrayList<>();
 
@@ -212,11 +214,11 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(courseFacade, MetaData.PROCESS_PREFIX_COURSE, indexes);
-
+            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+                continue;
+            }
             switch (option) {
-                case 200:
-                    System.out.println("200 OK dondu");
-                    break;
+                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -271,7 +273,7 @@ public class ORMApp extends TerminalCommandLayout {
         }
         int option = -1;
 //        while (option != 0) {
-        while (option != 0 && !examResultFacade.isAllowedCurrentProcess()) {
+        while (option != 0 && examResultFacade.isAllowedCurrentProcess()) {
 
             List<String> indexes = new ArrayList<>();
 
@@ -284,11 +286,11 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(examResultFacade, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
-
+            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+                continue;
+            }
             switch (option) {
-                case 200:
-                    System.out.println("200 OK dondu");
-                    break;
+                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     break;
@@ -322,7 +324,7 @@ public class ORMApp extends TerminalCommandLayout {
 
     private /*static*/ void updateSettingScenario() {
         int option = -1;
-        while (option != 0 && !settingFacade.isAllowedCurrentProcess()) {
+        while (option != 0 && settingFacade.isAllowedCurrentProcess()) {
 
         List<String> indexes = new ArrayList<>();
         indexes.add("Select ORM Tool (JPA-Hibernate)");
@@ -331,10 +333,10 @@ public class ORMApp extends TerminalCommandLayout {
         indexes.add("Printing Setting (CMD - IDE)");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(settingFacade, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+                continue;
+            }
         switch (option) {
-            case 200:
-                System.out.println("200 OK dondu");
-                break;
             case 0:
                 FacadeUtility.destroyProcessExiting(1);
                 break;

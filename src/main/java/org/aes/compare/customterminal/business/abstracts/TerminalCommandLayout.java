@@ -12,6 +12,6 @@ public abstract class TerminalCommandLayout {
     }
 
     public boolean isAllowedCurrentProcess() {
-        return !isAllowedCurrentProcess;
+        return isAllowedCurrentProcess;
     }
 }

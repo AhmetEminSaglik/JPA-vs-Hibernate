@@ -46,8 +46,9 @@ public class SettingFacade extends TerminalCommandLayout {
                 FacadeUtility.destroyProcessSuccessfully();
                 System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX + "Hibernate is activated "));
                 break;
-            case 200:
-                System.out.println("200 OK dondu");
+            
+            case 400:
+                System.out.println("400 Error dondu");
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
@@ -62,9 +63,8 @@ public class SettingFacade extends TerminalCommandLayout {
 
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
-            case 200:
-                System.out.println("200 OK dondu");
-                break;
+            
+
             case 0:
                 System.out.println(ORMConfigSingleton.getCurrentORMName() + " is activated : ");
                 FacadeUtility.destroyProcessCancelled();
@@ -95,9 +95,8 @@ public class SettingFacade extends TerminalCommandLayout {
 
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
-            case 200:
-                System.out.println("200 OK dondu");
-                break;
+            
+
             case 0:
                 FacadeUtility.destroyProcessCancelled();
                 break;
@@ -125,9 +124,8 @@ public class SettingFacade extends TerminalCommandLayout {
 
         int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
         switch (option) {
-            case 200:
-                System.out.println("200 OK dondu");
-                break;
+            
+
             case 0:
                 FacadeUtility.destroyProcessCancelled();
                 break;

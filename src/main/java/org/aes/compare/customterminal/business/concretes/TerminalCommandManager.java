@@ -92,7 +92,7 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
 
 
         }
-        if (!isAllowedCurrentProcess) {
+        if (isAllowedCurrentProcess) {
             System.out.println(ColorfulTextDesign.getTextForCanceledProcess("Process is canceled."));
         }
 //        cmd.getModelCommand();

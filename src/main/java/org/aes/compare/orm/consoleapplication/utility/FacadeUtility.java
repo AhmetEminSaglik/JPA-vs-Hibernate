@@ -18,8 +18,8 @@ public class FacadeUtility {
         return sb;
     }
 
-    public  static  boolean isAllowedToContinue(TerminalCommandLayout terminalLayout){
-        return  terminalLayout.isAllowedCurrentProcess();
+    public  static  boolean isCancelledProcess(TerminalCommandLayout terminalLayout){
+        return  !terminalLayout.isAllowedCurrentProcess();
     }
     public static StringBuilder createMsgFromListWithSaveAndCancelExit(List<?> list) {
         StringBuilder sb = new StringBuilder();
@@ -182,11 +182,29 @@ public class FacadeUtility {
     }
 
     public static boolean isEqualsToTerminalCompletedProcessValue(int result) {
-        if (result == EnumCMDLineParserResult.PROCESS_COMPLETED.getId()) return true;
+        if (result == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) return true;
         return false;
     }
 
     public static boolean isEqualsToTerminalCompletedProcessValue(double result) {
         return isEqualsToTerminalCompletedProcessValue((int) result);
     }
+
+    public static boolean isOptionEqualsToCMDLineParserValue(int val) {
+        if (val == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId() ||
+                val == EnumCMDLineParserResult.CMD_PROCESS_COMPLETED.getId() ||
+                val == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isOptionEqualsToCMDCancelProcessValue(int val) {
+        if (val == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
+            return true;
+        }
+        return false;
+    }
+
 }
