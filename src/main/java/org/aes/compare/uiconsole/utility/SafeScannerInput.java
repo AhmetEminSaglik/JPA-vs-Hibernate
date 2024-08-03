@@ -42,7 +42,8 @@ public class SafeScannerInput {
         if (num == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
             System.out.println("CMD_CANCEL_PROCESS ----------> Terminal islemi yapildi. bitiyor.");
             return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
-        }if (num == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+        }
+        if (num == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
             System.out.println("RUN_FOR_CMDLINE----------> Terminal islemi yapildi. bitiyor .");
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
         }
@@ -125,12 +126,21 @@ public class SafeScannerInput {
             System.out.println(" Burda deger alinmali. terminal ");
             String inputText = scanner.nextLine().trim();
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
-            if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            /*if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
                 System.out.println("----------> Terminal islemi yapildi. bitiyor.");
                 return (double) EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
-            }
+            }*/
 
+            if (enumResult.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
+                System.out.println("CMD_CANCEL_PROCESS ----------> Terminal islemi yapildi. bitiyor.");
+                return (double) EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
+            }
+            if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+                System.out.println("RUN_FOR_CMDLINE----------> Terminal islemi yapildi. bitiyor .");
+                return (double) EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
+            }
             num = Double.parseDouble(inputText);
+
             DecimalFormat df = new DecimalFormat("#.00");
 //            return Double.parseDouble(df.format(num));
             num = Double.parseDouble(df.format(num));

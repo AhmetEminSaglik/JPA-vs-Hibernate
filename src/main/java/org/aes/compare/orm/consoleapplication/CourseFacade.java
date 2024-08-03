@@ -253,12 +253,12 @@ public class CourseFacade extends TerminalCommandLayout {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
 //        int option = Integer.MAX_VALUE;
         Course tmpCourse = new OtherCourse(course);
-
+        List<Course> tmpCourses = new ArrayList<>(List.copyOf(courses));
+        tmpCourses.remove(course);
         List<String> indexed = new ArrayList<>();
         indexed.add("Update Course Name");
         indexed.add("Update Course Credit");
-
-        while (true) {
+        while (interlayout.isAllowedCurrentProcess()) {
             System.out.println("Current Course : " + tmpCourse);
             int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, MetaData.PROCESS_PREFIX_COURSE, indexed);
             switch (option) {
@@ -268,7 +268,7 @@ public class CourseFacade extends TerminalCommandLayout {
                     return null;
                 case 0:
                     try {
-                        for (Course tmp : courses) {
+                        for (Course tmp : tmpCourses) {
                             if (tmp.getName().equalsIgnoreCase(tmpCourse.getName())) {
                                 throw new InvalidCourseNameSaveRequestException(tmpCourse.getName());
                             }
@@ -305,6 +305,7 @@ public class CourseFacade extends TerminalCommandLayout {
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }
         }
+        return null;
     }
 
     public void delete() {
