@@ -83,7 +83,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
         System.out.print("Type Score (double): ");
         double score = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 100);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(score)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
 
@@ -305,9 +305,10 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     private double updateExamResultScore(double score) {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         System.out.print("Type new Score (double) (-1 to cancel): ");
-        double result = SafeScannerInput.getCertainDoubleSafe(this, -1, 100);
-        if (result == -1 || FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+        double result = SafeScannerInput.getCertainDoubleSafe(interlayout, -1, 100);
+        if (result == -1 || FacadeUtility.isCancelledProcess(interlayout)) {
             return score;
         } else if (result >= -1 && result < 1) {
             FacadeUtility.printColorfulWarningResult("Minimum score is allowed to 1.");
@@ -344,11 +345,12 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     private ExamResult pickExamResultFromList(List<ExamResult> examResults) {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         ExamResult examResult = null;
 
-        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(inputIndex)) {
+        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
         inputIndex--;

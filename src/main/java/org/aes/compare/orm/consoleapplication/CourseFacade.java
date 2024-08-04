@@ -40,7 +40,8 @@ public class CourseFacade extends TerminalCommandLayout {
         List<Course> properCourses = getProperCoursesToSave();
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, properCourses);
 
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+//        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
 
@@ -62,7 +63,7 @@ public class CourseFacade extends TerminalCommandLayout {
 
             System.out.print("Type for Course Credit (double): ");
                 double credit = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 20);
-                if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(credit)) {
+                if (FacadeUtility.isCancelledProcess(interlayout)) {
                     return null;
                 }
                 course.setCredit(credit);
@@ -216,7 +217,7 @@ public class CourseFacade extends TerminalCommandLayout {
     public Course pickCourseFromList(List<Course> courses) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(selected)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
         selected--;
@@ -236,7 +237,7 @@ public class CourseFacade extends TerminalCommandLayout {
         }
         List<Course> courses = courseService.findAll();
         int selectedCourse = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(selectedCourse)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
         selectedCourse--;
@@ -296,7 +297,7 @@ public class CourseFacade extends TerminalCommandLayout {
                 case 2:
                     System.out.print("Type Course new Credit (double): ");
                     double credit = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 20);
-                    if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(credit)) {
+                    if (FacadeUtility.isCancelledProcess(interlayout)) {
                         return null;
                     }
                     tmpCourse.setCredit(credit);
@@ -317,7 +318,7 @@ public class CourseFacade extends TerminalCommandLayout {
         }
         List<Course> courses = courseService.findAll();
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return;
         }
         result--;

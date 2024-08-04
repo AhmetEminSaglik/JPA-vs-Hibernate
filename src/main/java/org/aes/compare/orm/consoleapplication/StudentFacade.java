@@ -149,7 +149,7 @@ public class StudentFacade extends TerminalCommandLayout {
     public Student pickStudentFromList(List<Student> students) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         int index = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(index)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
         index--;
@@ -227,7 +227,7 @@ public class StudentFacade extends TerminalCommandLayout {
         List<Student> students = studentService.findAll();
 
         int selectedStudent = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_GLOBAL, students);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(selectedStudent)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
         selectedStudent--;
@@ -346,7 +346,7 @@ public class StudentFacade extends TerminalCommandLayout {
                         FacadeUtility.printColorfulWarningResult(MetaData.NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT);
                     } else {
                         result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, processPrefix, courseStudentDidNotEnroll);
-                        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+                        if (FacadeUtility.isCancelledProcess(interlayout)) {
                             return null;
                         }
                         result--;
@@ -363,7 +363,7 @@ public class StudentFacade extends TerminalCommandLayout {
                         System.out.println("Student has not any course to remove it.");
                     } else {
                         result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, processPrefix, studentCourses);
-                        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+                        if (FacadeUtility.isCancelledProcess(interlayout)) {
                             return null;
                         }
                         result--;
@@ -397,7 +397,7 @@ public class StudentFacade extends TerminalCommandLayout {
         }
         List<Student> students = studentService.findAll();
         int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
-        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)) {
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return;
         }
         result--;
