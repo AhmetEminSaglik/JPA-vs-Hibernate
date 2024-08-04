@@ -1,6 +1,7 @@
 package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
+import org.aes.compare.customterminal.business.concretes.InnerTerminalProcessLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.business.abstracts.CourseService;
 import org.aes.compare.orm.business.abstracts.ExamResultService;
@@ -31,6 +32,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     public ExamResult save() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         if (!courseFacade.isAnyCourseSaved()) {
@@ -80,7 +82,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
         FacadeUtility.printSuccessResult("Selected Course : "+course);
 
         System.out.print("Type Score (double): ");
-        double score = SafeScannerInput.getCertainDoubleSafe(this, 1, 100);
+        double score = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 100);
         if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(score)) {
             return null;
         }
@@ -186,6 +188,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     public List<ExamResult> findAllByCourseName() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
@@ -219,14 +222,21 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     private List<ExamResult> findAllExamResultByCourseName() {
+// examreuslt 4'de -q 'de main'e geciyor
+
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         List<String> indexes = new ArrayList<>();
         indexes.add("Search with registered Courses");
         indexes.add("Search with Typing course name Manuel");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(this,MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
-
+        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout,MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+        if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
+            return null;
+        }
+        if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            return findAllExamResultByCourseName();
+        }
         List<ExamResult> examResults = null;
         switch (option) {
-            
 
             case 0:
                 FacadeUtility.destroyProcessCancelled();
@@ -244,9 +254,12 @@ public class ExamResultFacade extends TerminalCommandLayout {
                 return null;
             case 2:
                 System.out.print("Type Course Name:  ");
-                String courseName = SafeScannerInput.getStringNotBlank(this);
-                if (FacadeUtility.isCancelledProcess(this)) {
+                String courseName = SafeScannerInput.getStringNotBlank(interlayout);
+                if (FacadeUtility.isCancelledProcess(interlayout)) {
                     return null;
+                }
+                if (FacadeUtility.isOptionEqualsToCMDLineParserValue(courseName)) {
+                    return findAllExamResultByCourseName();
                 }
                 examResults = examResultService.findAllByCourseName(courseName);
                 if (examResults == null || examResults.isEmpty()) {

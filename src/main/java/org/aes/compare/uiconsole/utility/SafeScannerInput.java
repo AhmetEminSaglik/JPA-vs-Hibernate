@@ -167,7 +167,7 @@ public class SafeScannerInput {
     public static String getStringNotBlank(TerminalCommandLayout terminalLayout) {
         String text = scanner.nextLine().trim();
         EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, text);
-//        System.out.println();
+        System.out.println("selectTerminalProcess sonrasi ==>> enumResult : "+enumResult.getId());
         if (enumResult.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
             System.out.println("----------> Terminal islemi yapildi. CMD_CANCEL_PROCESS.");
             return Double.toString(EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId());

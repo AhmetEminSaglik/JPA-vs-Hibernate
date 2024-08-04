@@ -200,6 +200,16 @@ public class FacadeUtility {
         return false;
     }
 
+    public static boolean isOptionEqualsToCMDLineParserValue(String text) {
+        try {
+            int val = Integer.parseInt(text);
+            return isOptionEqualsToCMDCancelProcessValue(val);
+        } catch (NumberFormatException e) {
+            System.out.println("Number format exception : " + e.getMessage());
+        }
+        return false;
+    }
+
     public static boolean isOptionEqualsToCMDCancelProcessValue(int val) {
         if (val == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
             return true;
