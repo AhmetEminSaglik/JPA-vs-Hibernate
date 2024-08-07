@@ -135,31 +135,31 @@ AddressFacade:
 
 
 StudentFacade:
-- save()
-- findAll()
-- findByMultipleWay()
-- findStudentAllCourses()
-- findByStudentIdWithCourseName()
-- update()
-- delete()
++ save()
++ findAll()
++ findByMultipleWay()
++ findStudentAllCourses()
++ findByStudentIdWithCourseName()
++ update()
++ delete()
 
 
 CourseFacade:
-- save()
-- findAll()
-- findByName()
-- findAllCoursesBelongsToStudent()
-- update()
-- delete()
++ save()
++ findAll()
++ findByName()
++ findAllCoursesBelongsToStudent()
++ update()
++ delete()
 
 ExamResultFacade:
-- save()
-- findAll()
-- findAllByStudentId()
-- findAllByCourseName()
-- findAllByStudentIdAndCourseName()
-- update()
-- delete()
++ save()
++ findAll()
++ findAllByStudentId()
++ findAllByCourseName()
++ findAllByStudentIdAndCourseName()
++ update()
++ delete()
 
 Test
 + AddressFacade
