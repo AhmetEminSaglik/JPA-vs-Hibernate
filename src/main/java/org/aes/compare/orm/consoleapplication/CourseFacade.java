@@ -172,15 +172,16 @@ public class CourseFacade extends TerminalCommandLayout {
         List<String> indexes = new ArrayList<>();
         indexes.add("Pick Course from List");
         indexes.add("Pick Course by typing course name");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, indexes);
-        if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
+//        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, indexes);
+//        if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
+//            return null;
+//        }
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessCancelled(3);
             return null;
         }
         switch (option) {
-            
-            case 400:
-                System.out.println("400 Error dondu");
-                return null;
             case 0:
                 course = null;
                 break;
@@ -191,9 +192,9 @@ public class CourseFacade extends TerminalCommandLayout {
                 System.out.print("Type Course Name : ");
                 String courseName = SafeScannerInput.getStringNotBlank(interlayout);
                 if (FacadeUtility.isCancelledProcess(interlayout)) {
+                    FacadeUtility.destroyProcessCancelled(3);
                     return null;
                 }
-
                 course = courseService.findByName(courseName);
                 if (course == null) {
                     System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX + "Course is not found with given name(" + courseName + "). Please try again"));
@@ -205,10 +206,10 @@ public class CourseFacade extends TerminalCommandLayout {
                 return selectCourse(courses);
         }
         if (course == null) {
-            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessCancelled(3);
             FacadeUtility.printColorfulWarningResult(MetaData.COURSE_NOT_SELECTED);
         } else {
-            FacadeUtility.destroyProcessSuccessfully();
+            FacadeUtility.destroyProcessSuccessfully(3);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + course);
         }
         return course;
@@ -216,7 +217,8 @@ public class CourseFacade extends TerminalCommandLayout {
 
     public Course pickCourseFromList(List<Course> courses) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-        int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
+//        int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
+        int selected = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }

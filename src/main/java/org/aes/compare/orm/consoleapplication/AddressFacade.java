@@ -239,28 +239,32 @@ public class AddressFacade extends TerminalCommandLayout {
                 case 1:
                     title = "Type Street to update: ";
                     input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
-                    address.setStreet(input);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
+                        FacadeUtility.destroyProcessCancelled();
                         return null;
                     }
+                    address.setStreet(input);
+
                     break;
                 case 2:
 //                    System.out.print("Type City to update: ");
                     title = "Type City to update: ";
-                    FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
-                    address.setCity(input);
+                    input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
+                        FacadeUtility.destroyProcessCancelled();
                         return null;
                     }
+                    address.setCity(input);
                     break;
                 case 3:
 //                    System.out.print("Type Country to update: ");
                     title = "Type Country to update: ";
-                    FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
-                    address.setCountry(input);
+                    input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
+                        FacadeUtility.destroyProcessCancelled();
                         return null;
                     }
+                    address.setCountry(input);
                     break;
                 default:
                     System.out.println("Invalid choice try again");

@@ -13,7 +13,6 @@ import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +100,7 @@ public class StudentFacade extends TerminalCommandLayout {
 //        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
         int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessCancelled(3);
             return null;
         }
         switch (option) {
@@ -131,7 +130,7 @@ public class StudentFacade extends TerminalCommandLayout {
                 return selectStudent();
         }
         if (student == null) {
-            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessCancelled(3);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX+MetaData.STUDENT_NOT_SELECTED));
         } else {
             FacadeUtility.destroyProcessSuccessfully();
@@ -229,15 +228,14 @@ public class StudentFacade extends TerminalCommandLayout {
         }
         List<Student> students = studentService.findAll();
 
-        int selectedStudent = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_GLOBAL, students);
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
-            return null;
-        }
-        selectedStudent--;
-        if (selectedStudent == -1) {
+//        int selectedStudent = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_GLOBAL, students);
+        int selectedStudent = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_GLOBAL, students);
+        if (FacadeUtility.isCancelledProcess(interlayout) || selectedStudent == 0) {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
+        selectedStudent--;
+
         Student student = students.get(selectedStudent);
         student = updateSelectedStudent(student);
         return student;
@@ -253,6 +251,7 @@ public class StudentFacade extends TerminalCommandLayout {
         indexes.add("Update Student Address");
 
         int option = -1;
+        String title;
         while (option != 5 && interlayout.isAllowedCurrentProcess()) {
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student : " + student);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX) +
@@ -261,7 +260,12 @@ public class StudentFacade extends TerminalCommandLayout {
                     ColorfulTextDesign.getWarningColorText("[Save & Exit]")
                     +
                     " option.");
-            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+//            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+            if (FacadeUtility.isCancelledProcess(interlayout)) {
+                FacadeUtility.destroyProcessCancelled();
+                return null;
+            }
             switch (option) {
                 
                 case -1:
@@ -274,17 +278,20 @@ public class StudentFacade extends TerminalCommandLayout {
                     return student;
 
                 case 1:
-                    System.out.print("Type Student new Name: ");
-                    String name = SafeScannerInput.getStringNotBlank(interlayout);
+                    title = "Type Student new Name: ";
+                    String name = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
+                        FacadeUtility.destroyProcessCancelled();
                         return null;
                     }
+
                     student.setName(name);
                     break;
                 case 2:
-                    System.out.print("Type Student Grade (int): ");
-                    int grade = SafeScannerInput.getCertainIntSafe(interlayout,1, 6);
+                    title = "Type Student Grade(int): ";
+                    int grade = FacadeUtility.getSafeIntInputFromTerminalProcess(interlayout, title, 1, 6);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
+                        FacadeUtility.destroyProcessCancelled();
                         return null;
                     }
                     student.setGrade(grade);
@@ -329,15 +336,13 @@ public class StudentFacade extends TerminalCommandLayout {
             indexes.add("Create new Course");
 
             printArrWithNo(studentCourses);
-            option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, processPrefix, indexes);
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, processPrefix, indexes);
             int result;
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                System.out.println("contineu GELDI ");
-                continue;
+            if (FacadeUtility.isCancelledProcess(interlayout)) {
+                FacadeUtility.destroyProcessCancelled();
+                return null;
             }
-            System.out.println("contineu DISI ");
             switch (option) {
-                
                 case -1:
                     FacadeUtility.destroyProcessCancelled(3);
                     return null;
@@ -399,19 +404,17 @@ public class StudentFacade extends TerminalCommandLayout {
             return;
         }
         List<Student> students = studentService.findAll();
-        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
+//        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
+        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
+        if (FacadeUtility.isCancelledProcess(interlayout) || result == 0) {
+            FacadeUtility.destroyProcessCancelled();
             return;
         }
         result--;
-        if (result == -1) {
-            FacadeUtility.destroyProcessCancelled();
-        } else {
             Student studentToDelete = students.get(result);
             studentService.deleteById(studentToDelete.getId());
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student(id=" + studentToDelete.getId() + ") is deleted.");
-        }
     }
 
     private void printArrWithNo(List<?> list) {
