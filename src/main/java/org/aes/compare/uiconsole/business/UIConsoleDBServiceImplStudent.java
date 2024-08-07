@@ -1,63 +1,51 @@
 package org.aes.compare.uiconsole.business;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
-import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
-import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.aes.compare.metadata.MetaData;
+import org.aes.compare.orm.ORMApp;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
+import org.aes.compare.orm.model.Student;
 
-public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessCheck {
-    private final TerminalCommandManager tcm;
-    private final TerminalCommandLayout layout;
-    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
+import java.util.List;
 
-    public UIConsoleDBServiceImplStudent(TerminalCommandManager tcm, TerminalCommandLayout layout) {
-        this.tcm = tcm;
-        this.layout = layout;
+public class UIConsoleDBServiceImplStudent {
+    private final ORMApp ormApp = new ORMApp();
+
+    private void addLoggerData() {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_INNER_TERMINAL_PROCESS);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
     }
 
-    public void save() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE save  Student"));
+    private void destroyTerminalProcessSuccessfully() {
+        FacadeUtility.destroyProcessSuccessfully(3);
     }
 
-
-    public void findById() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findById  Student"));
-        //   return ormConfig.getStudentService().findById(id);
-    }
-
-
-    public void findAll() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findAll  Student"));
-        //  return ormConfig.getStudentService().findAll();
+    public Student create() {
+        addLoggerData();
+        Student student = ormApp.getStudentFacade().save();
+        destroyTerminalProcessSuccessfully();
+        return student;
     }
 
 
-    public void findByStudentIdWithCourseName() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findByStudentIdWithCourseName  Student"));
-        //  return ormConfig.getStudentService().findByStudentIdWithCourseName(studentId, courseName);
+    public List<Student> read() {
+        addLoggerData();
+        List<Student> students = ormApp.getStudentFacade().findAll();
+        destroyTerminalProcessSuccessfully();
+        return students;
     }
 
 
-    public void update() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE update  Student"));
-        //  ormConfig.getStudentService().update(s);
+    public Student update() {
+        addLoggerData();
+        Student student = ormApp.getStudentFacade().update();
+        destroyTerminalProcessSuccessfully();
+        return student;
     }
 
 
     public void delete() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE delete  Student"));
-        //   ormConfig.getStudentService().deleteById(id);
-    }
-
-
-    public void resetTable() {
-        //ormConfig.getStudentService().resetTable();
-    }
-
-    @Override
-    public boolean isCanceled() {
-        System.out.println("isAllowed : " + tcm.isAllowedCurrentProcess());
-        return tcm.isAllowedCurrentProcess();
+        addLoggerData();
+        ormApp.getStudentFacade().delete();
+        destroyTerminalProcessSuccessfully();
     }
 }

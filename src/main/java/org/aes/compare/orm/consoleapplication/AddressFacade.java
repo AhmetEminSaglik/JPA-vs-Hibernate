@@ -181,10 +181,10 @@ public class AddressFacade extends TerminalCommandLayout {
         return addresses.get(index);
     }
 
-    public void findAll() {
+    public List<Address> findAll() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyAddressSaved()) {
-            return;
+            return null;
         }
         List<Address> addresses = addressService.findAll();
 
@@ -196,7 +196,7 @@ public class AddressFacade extends TerminalCommandLayout {
         }
         LoggerProcessStack.pop();
         FacadeUtility.printSlash();
-
+        return addresses;
     }
 
     public Address updateAddressProcess() {

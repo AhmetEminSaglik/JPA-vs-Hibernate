@@ -20,19 +20,28 @@ public class ORMApp extends TerminalCommandLayout {
     private ExamResultFacade examResultFacade;
     private SettingFacade settingFacade;//= new SettingFacade(this);
 
+    public ORMApp() {
+        runInitConf();
+    }
+
+    private void greetUser() {
+        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
+    }
+
     private void runInitConf() {
 //        musicPlayer.start();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
         LoggerConfigORM.disable();
 //        ColorfulTextDesign.enableCMDPrinting();
-        ColorfulTextDesign.enableIDEPrinting();
-        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
 //        settingFacade.updatePrintingSetting();
     }
 
     public void start() {
-        runInitConf();
+//        runInitConf();
+        ColorfulTextDesign.enableIDEPrinting();
+        greetUser();
+
         LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
 
         int option = -1;
@@ -352,5 +361,29 @@ public class ORMApp extends TerminalCommandLayout {
         studentFacade = new StudentFacade(orm.getStudentService(), addressFacade, courseFacade);
         courseFacade.setStudentFacade(studentFacade);
         examResultFacade = new ExamResultFacade(orm.getExamResultService(), orm.getCourseService(), courseFacade, orm.getStudentService(), studentFacade);
+    }
+
+    public AddressFacade getAddressFacade() {
+        return addressFacade;
+    }
+
+    public ORMConfigSingleton getOrm() {
+        return orm;
+    }
+
+    public StudentFacade getStudentFacade() {
+        return studentFacade;
+    }
+
+    public CourseFacade getCourseFacade() {
+        return courseFacade;
+    }
+
+    public ExamResultFacade getExamResultFacade() {
+        return examResultFacade;
+    }
+
+    public SettingFacade getSettingFacade() {
+        return settingFacade;
     }
 }

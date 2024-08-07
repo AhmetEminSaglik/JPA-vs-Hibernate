@@ -3,7 +3,10 @@ package org.aes.compare.uiconsole.business;
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
+import org.aes.compare.metadata.MetaData;
+import org.aes.compare.orm.ORMApp;
 import org.aes.compare.orm.config.ORMConfigSingleton;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
 import org.aes.compare.orm.model.courses.concretes.MathCourse;
@@ -12,21 +15,15 @@ import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.ReactCourse;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck {
-    private final TerminalCommandManager tcm;
-    private final TerminalCommandLayout layout;
-    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
+public class UIConsoleDBServiceImplCourse  {
     private final List<Course> courses = new ArrayList<>();
-    private String allCourseInString = "";
+    private final ORMApp ormApp = new ORMApp();
 
-    public UIConsoleDBServiceImplCourse(TerminalCommandManager tcm, TerminalCommandLayout layout) {
-        this.tcm = tcm;
-        this.layout = layout;
+    public UIConsoleDBServiceImplCourse() {
         courses.add(new ScienceCourse());
         courses.add(new MathCourse());
         courses.add(new LiteratureCourse());
@@ -36,54 +33,46 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
         courses.add(new OtherCourse());
     }
 
-    //todo check here
+    private void addLoggerData() {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_INNER_TERMINAL_PROCESS);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
+    }
+    private  void destroyTerminalProcessSuccessfully(){
+        FacadeUtility.destroyProcessSuccessfully(3);
+    }
+    /*//todo check here
     private void printCourseList() {
         for (int i = 0; i < courses.size(); i++) {
             System.out.println((i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getCredit() + ")");
             allCourseInString += (i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getCredit() + "\n";
         }
+    }*/
+
+    public Course create() {
+        addLoggerData();
+        Course course = ormApp.getCourseFacade().save();
+        destroyTerminalProcessSuccessfully();
+        return course;
     }
 
-    public void save() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE SAVE COURSE"));
-    }
-
-    public void findByName() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findByName  COURSE"));
-//        return ormConfig.getCourseService().findByName(name);
-    }
-
-
-    public void findAll() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findAll  COURSE"));
-        // return ormConfig.getCourseService().findAll();
-    }
-
-
-    public void updateCourseByName() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE updateCourseByName  COURSE"));
-        //   ormConfig.getCourseService().updateCourseByName(course);
+    public List<Course> read() {
+        addLoggerData();
+        List<Course> courses = ormApp.getCourseFacade().findAll();
+        destroyTerminalProcessSuccessfully();
+        return courses;
     }
 
 
-    public void deleteCourseByName() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE deleteCourseByName  COURSE"));
-        //  ormConfig.getCourseService().deleteCourseByName(name);
+    public Course update() {
+        addLoggerData();
+        Course course = ormApp.getCourseFacade().update();
+        destroyTerminalProcessSuccessfully();
+        return course;
     }
 
-
-    public void deleteCourseById() {
-        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE deleteCourseById  COURSE"));
-        //  ormConfig.getCourseService().deleteCourseById(id);
-    }
-
-
-    public void resetTable() {
-        //  ormConfig.getCourseService().resetTable();
-    }
-
-    @Override
-    public boolean isCanceled() {
-        return tcm.isAllowedCurrentProcess();
+    public void delete() {
+        addLoggerData();
+        ormApp.getCourseFacade().delete();
+        destroyTerminalProcessSuccessfully();
     }
 }

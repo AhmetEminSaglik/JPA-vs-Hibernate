@@ -21,6 +21,8 @@ public class MetaData {
     public static final String PREFIX_MUSIC = "[MUSIC]".toUpperCase();
     public static final String PREFIX_PRINTING = "[PRINTING]".toUpperCase();
     public static final String PREFIX_TERMINAL_SETTING= "[TERMINAL-PREFIX]".toUpperCase();
+    public static final String PREFIX_INNER_TERMINAL_PROCESS= "[TERMINAL-PROCESS]".toUpperCase();
+
     public static final String NOTE_PREFIX = "[NOTE] : ";
     public static final String PROCESS_PREFIX_MAIN = "[Main]".toUpperCase();
     public static final String PROCESS_PREFIX_STUDENT = "[Student]".toUpperCase();

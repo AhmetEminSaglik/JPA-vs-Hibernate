@@ -3,51 +3,48 @@ package org.aes.compare.uiconsole.business;
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
-import org.aes.compare.orm.config.ORMConfigSingleton;
+import org.aes.compare.metadata.MetaData;
+import org.aes.compare.orm.ORMApp;
+import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
 
-public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProcessCheck {
-    private final TerminalCommandManager tcm;
-    private final TerminalCommandLayout layout;
-    private final ORMConfigSingleton ormConfig = new ORMConfigSingleton();
+import java.util.List;
 
-    public UIConsoleDBServiceDisplayAddressMenu(TerminalCommandManager tcm, TerminalCommandLayout layout) {
-        this.tcm = tcm;
-        this.layout = layout;
+public class UIConsoleDBServiceDisplayAddressMenu  {
+    private final ORMApp ormApp = new ORMApp();
+
+    private void addLoggerData() {
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_INNER_TERMINAL_PROCESS);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_ADDRESS);
+    }
+    private  void destroyTerminalProcessSuccessfully(){
+        FacadeUtility.destroyProcessSuccessfully(3);
+    }
+    public Address create() {
+        addLoggerData();
+        Address address = ormApp.getAddressFacade().save();
+        destroyTerminalProcessSuccessfully();
+        return address;
     }
 
-    public Address save() {
-        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE save  Address"));
-        return null;
+    public List<Address> read() {
+        addLoggerData();
+        List<Address> addresses = ormApp.getAddressFacade().findAll();
+        destroyTerminalProcessSuccessfully();
+        return addresses;
     }
 
-    public void findById() {
-        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE findById  Address"));
-//        return ormConfig.getAddressService().findById(id);
-    }
-
-    public void findAll() {
-        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE findAll  Address"));
-//        return ormConfig.getAddressService().findAll();
-    }
-
-    public void update() {
-        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE update  Address"));
-//        ormConfig.getAddressService().update(address);
+    public Address update() {
+        addLoggerData();
+        Address address = ormApp.getAddressFacade().updateAddressProcess();
+        destroyTerminalProcessSuccessfully();
+        return address;
     }
 
     public void delete() {
-        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE delete  Address"));
-//        ormConfig.getAddressService().deleteById(id);
+        addLoggerData();
+        ormApp.getAddressFacade().delete();
+        destroyTerminalProcessSuccessfully();
     }
 
-    public void resetTable() {
-//        ormConfig.getAddressService().resetTable();
-    }
-
-    @Override
-    public boolean isCanceled() {
-        return tcm.isAllowedCurrentProcess();
-    }
 }

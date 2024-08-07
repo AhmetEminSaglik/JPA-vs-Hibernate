@@ -14,9 +14,9 @@ import org.aes.compare.uiconsole.model.EnumUIConsoleOperation;
 
 public class TerminalCommandManager extends TerminalCommandLayout implements RunnableTerminalCommand {
     private static final char underscore = '_';
-    public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu(this, this);
-    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent(this, this);
-    public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse(this, this);
+    public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu();
+    public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent();
+    public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse();
     public UIConsoleDBServiceImplExamResult displayExamResultMenu = new UIConsoleDBServiceImplExamResult();
 
     public TerminalCommandManager() {
@@ -32,33 +32,33 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
     }
 
     private void runModelCommand(TerminalCMD cmd) {
-        String operationName = convertCommandstoOperationName(cmd.getCrudCommand(), cmd.getModelCommand());
+        String operationName = convertCommandsToOperationName(cmd.getCrudCommand(), cmd.getModelCommand());
         switch (EnumUIConsoleOperation.valueOf(operationName)) {
             case CREATE_ADDRESS:
-                displayAddressMenu.save();
+                displayAddressMenu.create();
                 break;
             case CREATE_STUDENT:
-                displayStudentMenu.save();
+                displayStudentMenu.create();
                 break;
             case CREATE_COURSE:
-                displayCourseMenu.save();
+                displayCourseMenu.create();
                 break;
             case CREATE_EXAM_RESULT:
-                displayExamResultMenu.save();
+                displayExamResultMenu.create();
                 break;
 
 
             case READ_ADDRESS:
-                displayAddressMenu.findAll();
+                displayAddressMenu.read();
                 break;
             case READ_STUDENT:
-                displayStudentMenu.findAll();
+                displayStudentMenu.read();
                 break;
             case READ_COURSE:
-                displayCourseMenu.findAll();
+                displayCourseMenu.read();
                 break;
             case READ_EXAM_RESULT:
-                displayExamResultMenu.findAll();
+                displayExamResultMenu.read();
                 break;
 
 
@@ -69,7 +69,7 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
                 displayStudentMenu.update();
                 break;
             case UPDATE_COURSE:
-                displayCourseMenu.updateCourseByName();
+                displayCourseMenu.update();
                 break;
             case UPDATE_EXAM_RESULT:
                 displayExamResultMenu.update();
@@ -83,19 +83,15 @@ public class TerminalCommandManager extends TerminalCommandLayout implements Run
                 displayStudentMenu.delete();
                 break;
             case DELETE_COURSE:
-                displayCourseMenu.deleteCourseById();
+                displayCourseMenu.delete();
                 break;
             case DELETE_EXAM_RESULT:
                 displayExamResultMenu.delete();
                 break;
-
-
         }
-//        cmd.getModelCommand();
-
     }
 
-    private String convertCommandstoOperationName(EnumCRUDCommand crudCommand, EnumModelCommand modelCommand) {
+    private String convertCommandsToOperationName(EnumCRUDCommand crudCommand, EnumModelCommand modelCommand) {
         return crudCommand.getLongName().toUpperCase() + underscore + modelCommand.getName().toUpperCase();
     }
 
