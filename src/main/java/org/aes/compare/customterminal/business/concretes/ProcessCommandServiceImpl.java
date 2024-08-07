@@ -28,28 +28,17 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
     public EnumCMDLineParserResult parseCommand(String text) {
         text = clearCommand(text);
         String[] cmdArr = text.split(" ");
-//        System.out.println("array length : " + cmdArr.length);
-
         try {
             for (int i = 0; i < cmdArr.length; i++) {
-//                System.out.println("cmdArr[" + i + "] : " + cmdArr[i]);
             }
             figureOutRequestedTerminalOperation(cmdArr);
             figureOutRequestedCRUDOperation(cmdArr);
             figureOutRequestedObjectToProcess(cmdArr);
             return decideProcess(cmdArr);
-
-
-//            return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
         } catch (Exception e) {
             System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, "Error : " + e.getMessage()));
             return EnumCMDLineParserResult.RUN_FOR_INVALID_COMMAND;
-        } /*finally {
-            reqCrudOperation = null;
-            reqModel = null;
-            reqTerminalCmd = null;
-        }*/
-
+        }
     }
 
     @Override
@@ -117,67 +106,23 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
     }
 
     private EnumCMDLineParserResult decideProcess(String[] cmdArr) {
-//        String msg = "Decided Process : ";
         String errMsg = "Invalid command.";
-        System.out.println("AAAAAAAA");
         if (terminalCMD.getStandardCommand() != null) {
             if (cmdArr.length == 1) {
-//                msg += terminalCMD.getStandardCommand().getLongName();
-//                System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
-                System.out.println("BBBBBBB");
-                if(terminalCMD.getStandardCommand().getLongName().equalsIgnoreCase(EnumStandardCommand.QUIT_CURRENT_PROCESS.getLongName())){
-                    return  EnumCMDLineParserResult.CMD_CANCEL_PROCESS;
+                if (terminalCMD.getStandardCommand().getLongName().equalsIgnoreCase(EnumStandardCommand.QUIT_CURRENT_PROCESS.getLongName())) {
+                    return EnumCMDLineParserResult.CMD_CANCEL_PROCESS;
                 }
                 return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
             } else {
-                System.out.println("CCCCCCCCCC");
                 System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
+                terminalCMD.setStandardCommand(null);
             }
-            System.out.println("DDDDDDDDDD");
         } else if (terminalCMD.getCrudCommand() != null && terminalCMD.getModelCommand() != null) {
-            System.out.println("EEEEEEEEEEE");
-//            msg += terminalCMD.getCrudCommand().getLongName() + " -> " + terminalCMD.getModelCommand().getFileName();
-//            System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
         } else {
-            System.out.println("FFFFFFFFFF");
             System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
             return EnumCMDLineParserResult.RUN_FOR_INVALID_COMMAND;
         }
-        System.out.println("GGGGGGGGGG");
         return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
-
-    }/*
-    private EnumCMDLineParserResult decideProcess(String[] cmdArr) {
-//        String msg = "Decided Process : ";
-        String errMsg = "Invalid command.";
-        System.out.println("AAAAAAAA");
-        if (terminalCMD.getStandardCommand() != null) {
-            if (cmdArr.length == 1) {
-//                msg += terminalCMD.getStandardCommand().getLongName();
-//                System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
-                System.out.println("BBBBBBB");
-//                return EnumCMDLineParserResult.CMD_CANCEL_PROCESS;
-                return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
-            } else {
-//                System.out.println("CCCCCCCCCC");
-                System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
-            }
-//            System.out.println("DDDDDDDDDD");
-        } else if (terminalCMD.getCrudCommand() != null && terminalCMD.getModelCommand() != null) {
-//            System.out.println("EEEEEEEEEEE");
-//            msg += terminalCMD.getCrudCommand().getLongName() + " -> " + terminalCMD.getModelCommand().getFileName();
-//            System.out.println(ColorfulTextDesign.getText(ConsoleColors.GREEN_BRIGHT, msg));
-            return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
-        } else {
-            System.out.println("FFFFFFFFFF");
-            System.out.println(ColorfulTextDesign.getText(ConsoleColors.RED_BRIGHT, errMsg + helpMsg));
-            return EnumCMDLineParserResult.RUN_FOR_INVALID_COMMAND;
-        }
-        System.out.println("GGGGGGGGGG");
-        return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
-
-    }*/
-
-
+    }
 }

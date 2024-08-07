@@ -20,34 +20,6 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
     public Address save() {
         System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE save  Address"));
         return null;
-        /*
-        Address address = new Address();
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Address Save process is initialized"));
-        String inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type city (String):");
-        String stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
-        if (isCanceled()) return null;
-        address.setCity(stringInput);
-
-        inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Street (String):");
-        stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
-        if (isCanceled()) return null;
-        address.setStreet(stringInput);
-
-
-        inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Country (String):");
-
-        stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
-        if (isCanceled()) return null;
-        address.setCountry(stringInput);
-
-        ormConfig.getAddressService().save(address);
-
-        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Address is saved: " + address));
-
-        return address;
-
-//        ormConfig.getAddressService().save(address);
-    */
     }
 
     public void findById() {

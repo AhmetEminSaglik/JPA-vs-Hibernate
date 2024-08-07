@@ -59,7 +59,6 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         Course course = courseService.findByName(courseName);
 
         if (course == null) {
-//            System.out.println("Course name is not found : "+courseName);
             System.out.println(MetaData.getCourseNameIsNotFound(courseName));
             return null;
         }

@@ -14,7 +14,7 @@ public abstract class ORMImplementation {
     protected static void setConfigFile(EnumORMConfigFile configFile)/* throws InvalidORMConfigFileMatch */ {
 
         if (LoggerConfigORM.isAllowedPrint()) {
-            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(getCurrentORMToolName()+" ORM tool is activated."));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(getCurrentORMToolName() + " ORM tool is activated."));
         }
         enumORMConfigFile = configFile;
     }
@@ -43,10 +43,10 @@ public abstract class ORMImplementation {
 
     protected final void printInitializedSuccessfully() {
         if (LoggerConfigORM.isAllowedPrint()) {
-        String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
-                ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY") +
-                ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
-        System.out.println(sb);
+            String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
+                    ColorfulTextDesign.getSuccessColorText("INITIALIZED SUCCESSFULLY") +
+                    ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
+            System.out.println(sb);
         }
     }
 
@@ -54,16 +54,16 @@ public abstract class ORMImplementation {
         closeEntityCounter++;
         if (LoggerConfigORM.isAllowedPrint()) {
             String explanation = closeEntityCounter + "-) Entity is closing: " + getClass().getSimpleName();
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
+            System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix(explanation));
         }
     }
 
     protected final void printClosedSuccessfully() {
         if (LoggerConfigORM.isAllowedPrint()) {
             String sb = ColorfulTextDesign.getInfoColorTextWithPrefix(initEntityCounter + "-) Entity is ") +
-                ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY") +
-                ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
-        System.out.println(sb);
+                    ColorfulTextDesign.getSuccessColorText("CLOSED SUCCESSFULLY") +
+                    ColorfulTextDesign.getInfoColorText(": " + getClass().getSimpleName());
+            System.out.println(sb);
         }
     }
 }

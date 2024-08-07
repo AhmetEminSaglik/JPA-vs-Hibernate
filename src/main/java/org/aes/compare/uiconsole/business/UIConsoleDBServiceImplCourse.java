@@ -13,7 +13,6 @@ import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.ReactCourse;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +36,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
         courses.add(new OtherCourse());
     }
 
+    //todo check here
     private void printCourseList() {
         for (int i = 0; i < courses.size(); i++) {
             System.out.println((i + 1) + "-) " + courses.get(i).getName() + " (Credit:" + courses.get(i).getCredit() + ")");
@@ -46,47 +46,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
 
     public void save() {
         System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE SAVE COURSE"));
-        /*
-
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Course Save process is initialized"));
-        System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("Each course's name must be unique"));
-        String msg = "Choose one of following course number :";
-        printCourseList();
-        int selected = SafeScannerInput.getIntInput(0, courses.size() - 1, msg + allCourseInString, tcm);
-        if (selected < courses.size() - 1) {
-            ormConfig.getCourseService().save(courses.get(selected));
-        } else {
-
-            String inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Course Name: ");
-            String stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
-            Course course = new OtherCourse();
-//            course.setName();
-        }
-
-
-       *//* if (isCanceled()) return;
-        address.setCity(stringInput);
-
-        inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Street (String):");
-        stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
-        if (isCanceled()) return;
-        address.setStreet(stringInput);
-
-
-        inputMsg = ColorfulTextDesign.getTextForUserFeedback("Type Country (String):");
-
-        stringInput = SafeScannerInput.getStringInput(inputMsg, tcm);
-        if (isCanceled()) return;
-        address.setCountry(stringInput);
-
-        ormConfig.getAddressService().save(address);
-
-        System.out.println(ColorfulTextDesign.getSuccessColorTextWithPrefix("Address is saved: " + address));*//*
-
-        //        ormConfig.getAddressService().save(address);
-
-//        ormConfig.getCourseService().save(c);
-    */}
+    }
 
     public void findByName() {
         System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findByName  COURSE"));

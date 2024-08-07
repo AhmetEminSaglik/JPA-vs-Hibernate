@@ -4,7 +4,7 @@ public enum EnumStandardCommand {
     QUIT_CURRENT_PROCESS("-q", "quit"),
     EXIT_PROGRAM("-e", "exit"),
     HELP("-h", "help");
-//    YES("-y", "yes"),
+    //    YES("-y", "yes"),
 //    NO("-n", "no");
     String shortName;
     String longName;

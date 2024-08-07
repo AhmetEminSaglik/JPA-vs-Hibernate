@@ -33,6 +33,7 @@ public abstract class Course {
         this.students = course.getStudents();
         this.id = course.getId();
     }
+
     public Course(String name, double credit) {
         this.name = name;
         this.credit = credit;

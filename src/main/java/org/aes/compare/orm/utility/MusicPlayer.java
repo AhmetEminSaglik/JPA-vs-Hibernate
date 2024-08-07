@@ -8,6 +8,7 @@ import java.io.InputStream;
 public class MusicPlayer {
     private static final String path = "/music.mp3";
     private static Player player;
+
     public void start() {
 
         Thread thread = new Thread(new Runnable() {

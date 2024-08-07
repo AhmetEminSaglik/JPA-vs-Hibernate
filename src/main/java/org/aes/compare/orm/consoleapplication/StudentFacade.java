@@ -60,7 +60,7 @@ public class StudentFacade extends TerminalCommandLayout {
             FacadeUtility.destroyProcessCancelled();
             System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.STUDENT_PROCESS_CANCELLED_BECAUSE_ADDRESS_NOT_ATTACHED));
         } else {
-            FacadeUtility.printSuccessResult("Selected Address "+address);
+            FacadeUtility.printSuccessResult("Selected Address " + address);
             student.setAddress(address);
             studentService.save(student);
             FacadeUtility.destroyProcessSuccessfully();
@@ -105,14 +105,12 @@ public class StudentFacade extends TerminalCommandLayout {
         }
         switch (option) {
             case 0:
-                student=null;
+                student = null;
                 break;
             case 1:
                 student = pickStudentFromList(studentService.findAll());
                 break;
             case 2:
-//                System.out.print("Type Student id (int): ");
-//                int id = SafeScannerInput.getCertainIntSafe(interlayout);
                 String title = "Type Student id (int): ";
                 int id = FacadeUtility.getSafeIntInputFromTerminalProcess(interlayout, title);
                 if (FacadeUtility.isCancelledProcess(interlayout)) {
@@ -131,10 +129,10 @@ public class StudentFacade extends TerminalCommandLayout {
         }
         if (student == null) {
             FacadeUtility.destroyProcessCancelled(2);
-            System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX+MetaData.STUDENT_NOT_SELECTED));
+            System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + MetaData.STUDENT_NOT_SELECTED));
         } else {
             FacadeUtility.destroyProcessSuccessfully();
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX)+student);
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + student);
         }
         return student;
     }
@@ -153,7 +151,7 @@ public class StudentFacade extends TerminalCommandLayout {
     public Student pickStudentFromList(List<Student> students) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         int index = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, students);
-        if (FacadeUtility.isCancelledProcess(interlayout) || index==0) {
+        if (FacadeUtility.isCancelledProcess(interlayout) || index == 0) {
             return null;
         }
         index--;
@@ -203,7 +201,7 @@ public class StudentFacade extends TerminalCommandLayout {
         LoggerProcessStack.add(MetaData.PROCESS_READ);
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         Course course = courseFacade.findByMultipleWay();
-        System.out.println("gelen course ; "+course);
+        System.out.println("gelen course ; " + course);
         if (course == null) {
             FacadeUtility.destroyProcessCancelled(4);
             return null;
@@ -301,7 +299,7 @@ public class StudentFacade extends TerminalCommandLayout {
                             studentService.update(student);
                             FacadeUtility.printSuccessResult(MetaData.STUDENT_COURSES_ARE_UPDATED);
                         }
-                    }else{
+                    } else {
                         LoggerProcessStack.add(MetaData.PROCESS_UPDATE);
                     }
                     break;
@@ -316,6 +314,7 @@ public class StudentFacade extends TerminalCommandLayout {
 
         return student;
     }
+
     private List<Course> updateStudentCourseProgress(int studentId) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
@@ -349,7 +348,7 @@ public class StudentFacade extends TerminalCommandLayout {
                     if (courseStudentDidNotEnroll.isEmpty()) {
                         FacadeUtility.printColorfulWarningResult(MetaData.NOT_FOUND_SUITABLE_COURSES_FOR_STUDENT);
                     } else {
-                        result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout,  courseStudentDidNotEnroll);
+                        result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, courseStudentDidNotEnroll);
                         if (FacadeUtility.isCancelledProcess(interlayout)) {
                             return null;
                         }
@@ -398,16 +397,16 @@ public class StudentFacade extends TerminalCommandLayout {
         }
         List<Student> students = studentService.findAll();
 //        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
-        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout,  students);
+        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, students);
         if (FacadeUtility.isCancelledProcess(interlayout) || result == 0) {
             FacadeUtility.destroyProcessCancelled();
             return;
         }
         result--;
-            Student studentToDelete = students.get(result);
-            studentService.deleteById(studentToDelete.getId());
-            FacadeUtility.destroyProcessSuccessfully();
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student(id=" + studentToDelete.getId() + ") is deleted.");
+        Student studentToDelete = students.get(result);
+        studentService.deleteById(studentToDelete.getId());
+        FacadeUtility.destroyProcessSuccessfully();
+        System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student(id=" + studentToDelete.getId() + ") is deleted.");
     }
 
     private void printArrWithNo(List<?> list) {

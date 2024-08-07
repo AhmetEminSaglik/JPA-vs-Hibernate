@@ -47,30 +47,30 @@ public class CourseFacade extends TerminalCommandLayout {
 
         result--;
         Course course;
-            if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
+        if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
             course = properCourses.get(result);
 
             System.out.print("Type for Course name : ");
-                String name = SafeScannerInput.getStringNotBlank(interlayout);
-                if (FacadeUtility.isCancelledProcess(interlayout)) {
-                    return null;
-                }
+            String name = SafeScannerInput.getStringNotBlank(interlayout);
+            if (FacadeUtility.isCancelledProcess(interlayout)) {
+                return null;
+            }
 
             course.setName(name);
 
             System.out.print("Type for Course Credit (double): ");
-                double credit = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 20);
-                if (FacadeUtility.isCancelledProcess(interlayout)) {
-                    return null;
-                }
-                course.setCredit(credit);
+            double credit = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 20);
+            if (FacadeUtility.isCancelledProcess(interlayout)) {
+                return null;
+            }
+            course.setCredit(credit);
             courseService.save(course);
         } else {
             course = properCourses.get(result);
             courseService.save(course);
         }
-            FacadeUtility.destroyProcessSuccessfully();
-            FacadeUtility.printSuccessResult(course.toString());
+        FacadeUtility.destroyProcessSuccessfully();
+        FacadeUtility.printSuccessResult(course.toString());
 
         FacadeUtility.printSlash();
 
@@ -139,7 +139,7 @@ public class CourseFacade extends TerminalCommandLayout {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
-            FacadeUtility.destroyProcessCancelled( 2);
+            FacadeUtility.destroyProcessCancelled(2);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX + "Student has not been enrolled to any course yet."));
         } else {
             FacadeUtility.destroyProcessSuccessfully();
@@ -215,7 +215,7 @@ public class CourseFacade extends TerminalCommandLayout {
         if (FacadeUtility.isCancelledProcess(interlayout) || selected == 0) {
             return null;
         }
-            return courses.get(--selected);
+        return courses.get(--selected);
     }
 
     public Course update() {
@@ -317,15 +317,15 @@ public class CourseFacade extends TerminalCommandLayout {
             return;
         }
         result--;
-            Course course = courses.get(result);
-            try {
-                courseService.deleteCourseById(course.getId());
-                FacadeUtility.destroyProcessSuccessfully();
-                FacadeUtility.printSuccessResult("Course (name=" + course.getName() + ") is deleted.");
-            } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
-                System.out.println(e.getMessage());
-                FacadeUtility.destroyProcessCancelled();
-                FacadeUtility.printColorfulWarningResult("To delete this course first remove all students who take this course.");
+        Course course = courses.get(result);
+        try {
+            courseService.deleteCourseById(course.getId());
+            FacadeUtility.destroyProcessSuccessfully();
+            FacadeUtility.printSuccessResult("Course (name=" + course.getName() + ") is deleted.");
+        } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
+            System.out.println(e.getMessage());
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printColorfulWarningResult("To delete this course first remove all students who take this course.");
         }
     }
 

@@ -31,7 +31,6 @@ public class SafeScannerInput {
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
 
             if (enumResult.getId() != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
-                System.out.println("Burdan donucek");
                 return EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
             }
             int val = Integer.parseInt(inputText);
@@ -49,7 +48,6 @@ public class SafeScannerInput {
     public static Double getCertainDoubleSafe(TerminalCommandLayout terminalLayout, int min, int max) {
         double num;
         try {
-            System.out.println(" Burda deger alinmali. terminal ");
             String inputText = scanner.nextLine().trim();
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
 
@@ -116,5 +114,24 @@ public class SafeScannerInput {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
             return getCertainIntSafe(terminalLayout, min, max);
         }
+    }
+
+    public static Integer getCertainIntSafe(int min, int max) {
+
+        try {
+            String text = scanner.nextLine();
+            int num = Integer.parseInt(text);
+            if (num >= min && num <= max) {
+                return num;
+            } else {
+                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
+                return getCertainIntSafe(min, max);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Integer Input. Please try again."));
+            return getCertainIntSafe(min, max);
+        }
+
     }
 }

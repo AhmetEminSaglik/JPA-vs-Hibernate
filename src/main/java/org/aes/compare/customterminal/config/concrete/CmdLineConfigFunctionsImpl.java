@@ -6,30 +6,12 @@ import org.aes.compare.uiconsole.model.StaticData;
 import java.util.List;
 
 public class CmdLineConfigFunctionsImpl implements CmdLineConfigFunctions {
-    //TODO burasi duzeltilecek
-//    private boolean isActivated = false;
-    private boolean isActivated = false;
     private String prefix = ">>";
-
-    @Override
-    public void enableCustomTerminalWithoutPrefix() {
-        isActivated = true;
-    }
-
-    @Override
-    public void disableCustomTerminalWithoutPrefix() {
-        isActivated = false;
-    }
 
     @Override
     public void updateOneLineCommandPrefix(String prefix) {
         this.prefix = prefix;
     }
-
-//    @Override
-//    public boolean isActivated() {
-//        return isActivated;
-//    }
 
     @Override
     public String getPrefix() {

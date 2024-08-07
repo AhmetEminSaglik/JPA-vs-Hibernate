@@ -180,6 +180,7 @@ public class AddressFacade extends TerminalCommandLayout {
         index--;
         return addresses.get(index);
     }
+
     public void findAll() {
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
         if (!isAnyAddressSaved()) {
@@ -215,7 +216,7 @@ public class AddressFacade extends TerminalCommandLayout {
     public Address updateSelectedAddress(Address address) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         while (interlayout.isAllowedCurrentProcess()) {
-            FacadeUtility.printInfoResult("Current Address:"+address);
+            FacadeUtility.printInfoResult("Current Address:" + address);
             List<String> indexes = new ArrayList<>();
             indexes.add("Street");
             indexes.add("City");
@@ -234,7 +235,7 @@ public class AddressFacade extends TerminalCommandLayout {
                 case 0:
                     addressService.update(address);
                     FacadeUtility.destroyProcessSuccessfully();
-                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX)+ address);
+                    System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
                     return address;
                 case 1:
                     title = "Type Street to update: ";

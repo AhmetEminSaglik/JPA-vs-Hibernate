@@ -11,25 +11,25 @@ import java.util.List;
 
 public class FacadeUtility {
 
-    public  static  boolean isCancelledProcess(TerminalCommandLayout terminalLayout){
-        return  !terminalLayout.isAllowedCurrentProcess();
+    public static boolean isCancelledProcess(TerminalCommandLayout terminalLayout) {
+        return !terminalLayout.isAllowedCurrentProcess();
     }
 
-    public static int getIndexValueOfMsgListIncludesExit(TerminalCommandLayout terminalCommandLayout,List<?> list) {
+    public static int getIndexValueOfMsgListIncludesExit(TerminalCommandLayout terminalCommandLayout, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Exit\n");
-        return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, 0);
+        return getUserIndexInputOfOptionList(terminalCommandLayout, msg, list, 0);
     }
 
     private static int getIndexValueOfMsgListIncludesCancelAndSaveExits(TerminalCommandLayout terminalCommandLayout, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(-1).append(") Cancel & Exit\n");
         msg.append('(').append(0).append(") Save & Exit\n");
-        return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, -1);
+        return getUserIndexInputOfOptionList(terminalCommandLayout, msg, list, -1);
     }
 
     private static int getUserIndexInputOfOptionList(TerminalCommandLayout terminalCommandLayout, StringBuilder msg, List<?> list, int minRange) {
-        msg.insert(0,"\n");
+        msg.insert(0, "\n");
         for (int i = 0; i < list.size(); i++) {
             msg.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");
         }
@@ -91,6 +91,7 @@ public class FacadeUtility {
     public static void destroyProcessExiting() {
         destroyProcessExiting(2);
     }
+
     public static void destroyProcessWithoutPrint(int popVal) {
         LoggerProcessStack.popLoop(popVal);
     }
@@ -98,6 +99,7 @@ public class FacadeUtility {
     public static void destroyProcessWithoutPrint() {
         LoggerProcessStack.popLoop(1);
     }
+
     public static void printSlash() {
         System.out.println("-------------------------");
     }
@@ -143,7 +145,7 @@ public class FacadeUtility {
     }
 
     public static void printArrResult(List<?> list) {
-        if(list.isEmpty()){
+        if (list.isEmpty()) {
             printWarningResult("Not found any data.");
             return;
         }
@@ -157,10 +159,7 @@ public class FacadeUtility {
     }
 
     public static boolean isOptionEqualsToRunForCMD(int val) {
-        if (val == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            return true;
-        }
-        return false;
+        return val == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
     }
 
     public static String getSafeStringInputFromTerminalProcess(TerminalCommandLayout interlayout, String title) {
@@ -186,26 +185,27 @@ public class FacadeUtility {
         }
         return input;
     }
+
     public static int getSafeIntInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
         System.out.print(title);
-        int input = SafeScannerInput.getCertainIntSafe(interlayout,min,max);
+        int input = SafeScannerInput.getCertainIntSafe(interlayout, min, max);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return Integer.MIN_VALUE;
         }
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            return getSafeIntInputFromTerminalProcess(interlayout, title,min,max);
+            return getSafeIntInputFromTerminalProcess(interlayout, title, min, max);
         }
         return input;
     }
 
     public static double getSafeDoubleInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
         System.out.print(title);
-        double input = SafeScannerInput.getCertainDoubleSafe(interlayout,min,max);
+        double input = SafeScannerInput.getCertainDoubleSafe(interlayout, min, max);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return Integer.MIN_VALUE;
         }
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            return getSafeDoubleInputFromTerminalProcess(interlayout, title,min,max);
+            return getSafeDoubleInputFromTerminalProcess(interlayout, title, min, max);
         }
         return input;
     }
@@ -213,7 +213,7 @@ public class FacadeUtility {
     public static int getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(TerminalCommandLayout interlayout, List<?> list) {
         int input = getIndexValueOfMsgListIncludesExit(interlayout, list);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-             return Integer.MIN_VALUE;
+            return Integer.MIN_VALUE;
         }
 
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
@@ -221,6 +221,7 @@ public class FacadeUtility {
         }
         return input;
     }
+
     public static int getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(TerminalCommandLayout interlayout, List<?> list) {
         int input = getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, list);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
@@ -232,7 +233,6 @@ public class FacadeUtility {
         }
         return input;
     }
-
 
 
 }

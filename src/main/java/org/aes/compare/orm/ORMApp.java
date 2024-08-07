@@ -8,11 +8,9 @@ import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerConfigORM;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.utility.InputParserTree;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ORMApp extends TerminalCommandLayout {
     private final ORMConfigSingleton orm = new ORMConfigSingleton();
@@ -21,9 +19,6 @@ public class ORMApp extends TerminalCommandLayout {
     private CourseFacade courseFacade;
     private ExamResultFacade examResultFacade;
     private SettingFacade settingFacade;//= new SettingFacade(this);
-
-    private final Scanner scanner = new Scanner(System.in);
-    private final InputParserTree inputParserTree = new InputParserTree();
 
     private void runInitConf() {
 //        musicPlayer.start();
@@ -42,7 +37,6 @@ public class ORMApp extends TerminalCommandLayout {
 
         int option = -1;
         while (isAllowedCurrentProcess()) {
-            System.out.println(getClass().getSimpleName()+" -> isAllowedCurrentProcess() : "+isAllowedCurrentProcess());
             List<String> indexes = new ArrayList<>();
             indexes.add("Address");
             indexes.add("Student");
@@ -55,7 +49,7 @@ public class ORMApp extends TerminalCommandLayout {
                 continue;
             }
             switch (option) {
-                
+
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
                     System.exit(0);
@@ -308,38 +302,44 @@ public class ORMApp extends TerminalCommandLayout {
 
         settingFacade.enableNextProcess();
         while (settingFacade.isAllowedCurrentProcess()) {
-        List<String> indexes = new ArrayList<>();
-        indexes.add("Select ORM Tool (JPA-Hibernate)");
-        indexes.add("ORM Logs (Enable-Disable)");
-        indexes.add("Music (On-Off)");
-        indexes.add("Printing Setting (CMD - IDE)");
+            List<String> indexes = new ArrayList<>();
+            indexes.add("Select ORM Tool (JPA-Hibernate)");
+            indexes.add("ORM Logs (Enable-Disable)");
+            indexes.add("Music (On-Off)");
+            indexes.add("Printing Setting (CMD - IDE)");
+            indexes.add("Update Terminal Prefix");
 
             int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(settingFacade, indexes);
             if (FacadeUtility.isCancelledProcess(settingFacade)) {
                 FacadeUtility.destroyProcessExiting(1);
                 return;
             }
-        switch (option) {
-            case 0:
-                FacadeUtility.destroyProcessExiting(1);
-                return;
-            case 1:
-                settingFacade.updateORMSetting();
-                break;
-            case 2:
-                settingFacade.updateORMLogSettings();
-                break;
-            case 3:
-                settingFacade.updateMusicSetting();
-                break;
-            case 4:
-                LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_PRINTING);
-                FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
-                settingFacade.updatePrintingSetting();
-                break;
-            default:
-                System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
-        }
+            switch (option) {
+                case 0:
+                    FacadeUtility.destroyProcessExiting(1);
+                    return;
+                case 1:
+                    settingFacade.updateORMSetting();
+                    break;
+                case 2:
+                    settingFacade.updateORMLogSettings();
+                    break;
+                case 3:
+                    settingFacade.updateMusicSetting();
+                    break;
+                case 4:
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_PRINTING);
+                    FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+                    settingFacade.updatePrintingSetting();
+                    break;
+                case 5:
+                    LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_TERMINAL_SETTING);
+                    FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
+                    settingFacade.updateTerminalPrefixSetting();
+                    break;
+                default:
+                    System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
+            }
         }
     }
 

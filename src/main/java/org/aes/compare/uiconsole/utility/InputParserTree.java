@@ -7,9 +7,9 @@ import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 
 public class InputParserTree {
-    private TerminalCMD terminalCMD;// = new TerminalCMD();
     private final CmdLineConfigFunctions cmdLine = CMDLineSingletonBuilder.getCmdLine();
     private final ProcessCommandServiceImpl processCommand = new ProcessCommandServiceImpl();
+    private TerminalCMD terminalCMD;// = new TerminalCMD();
 
     public EnumCMDLineParserResult decideProcess(String input) {
         if (input.startsWith(cmdLine.getPrefix())) {

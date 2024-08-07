@@ -6,7 +6,6 @@ import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
 import org.aes.compare.customterminal.model.EnumCRUDCommand;
 import org.aes.compare.customterminal.model.EnumModelCommand;
 import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceDisplayAddressMenu;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplCourse;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplExamResult;

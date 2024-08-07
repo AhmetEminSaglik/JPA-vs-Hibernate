@@ -23,7 +23,7 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 //        String errMsg = "Course name must be unique. Probably " + c.getFileName() + " is saved before";
 //        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix("Course name must be unique. (Probably " + c.getName() + " is saved before)");
         StringBuilder errMsg = new StringBuilder();
-        errMsg.append( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE))
+        errMsg.append(ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE))
                 .append(ColorfulTextDesign.getInfoColorText(c.getName()))
                 .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_ALREADY));
         try {
@@ -93,20 +93,12 @@ public class CourseServiceImplJPA extends JpaImplementation<Course> implements C
 
     @Override
     public void updateCourseByName(Course c) throws InvalidCourseNameSaveRequestException {
-//        String errMsg = ColorfulTextDesign.getErrorColorTextWithPrefix( ColorfulTextDesign.getErrorColorText(MetaData.COURSE_NAME_MUST_BE_UNIQUE) + c.getName() + MetaData.IS_SAVED_ALREADY);
-//        StringBuilder errMsg = new StringBuilder();
-//        errMsg.append(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.COURSE_NAME_MUST_BE_UNIQUE))
-//                .append(ColorfulTextDesign.getInfoColorText(c.getName()))
-//                .append(ColorfulTextDesign.getErrorColorText(MetaData.IS_SAVED_ALREADY));
         try {
             initializeTransaction();
             entityManager.merge(c);
             commit();
         } catch (Exception e) {
             throw new InvalidCourseNameSaveRequestException(c.getName());
-//            System.out.println(errMsg);
-        /*} catch (Exception e) {
-            System.out.println(errMsg);*/
         }
     }
 
