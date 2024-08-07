@@ -100,7 +100,7 @@ public class StudentFacade extends TerminalCommandLayout {
 //        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
         int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-            FacadeUtility.destroyProcessCancelled(3);
+            FacadeUtility.destroyProcessCancelled(2);
             return null;
         }
         switch (option) {
@@ -130,7 +130,7 @@ public class StudentFacade extends TerminalCommandLayout {
                 return selectStudent();
         }
         if (student == null) {
-            FacadeUtility.destroyProcessCancelled(3);
+            FacadeUtility.destroyProcessCancelled(2);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX+MetaData.STUDENT_NOT_SELECTED));
         } else {
             FacadeUtility.destroyProcessSuccessfully();
@@ -204,8 +204,9 @@ public class StudentFacade extends TerminalCommandLayout {
         LoggerProcessStack.add(MetaData.PROCESS_READ);
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         Course course = courseFacade.findByMultipleWay();
+        System.out.println("gelen course ; "+course);
         if (course == null) {
-            FacadeUtility.destroyProcessCancelled(3);
+            FacadeUtility.destroyProcessCancelled(4);
             return null;
         }
         try {
