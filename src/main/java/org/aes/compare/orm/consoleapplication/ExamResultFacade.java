@@ -13,7 +13,6 @@ import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -309,8 +308,9 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
     private double updateExamResultScore(double score) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-        System.out.print("Type new Score (double) (-1 to cancel): ");
-        double result = SafeScannerInput.getCertainDoubleSafe(interlayout, -1, 100);
+        String title = "Type new Score (double) (-1 to cancel): ";
+//        double result = SafeScannerInput.getCertainDoubleSafe(interlayout, -1, 100);
+        double result = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, -1, 100);
         if (result == -1 || FacadeUtility.isCancelledProcess(interlayout)) {
             return score;
         } else if (result >= -1 && result < 1) {
@@ -350,21 +350,20 @@ public class ExamResultFacade extends TerminalCommandLayout {
     private ExamResult pickExamResultFromList(List<ExamResult> examResults) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
-        ExamResult examResult = null;
+        ExamResult examResult;
 
-        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
+//        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
+        int inputIndex = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
+        if (FacadeUtility.isCancelledProcess(interlayout) || inputIndex == 0) {
+//            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessExiting();
+            FacadeUtility.destroyProcessExiting();
             return null;
         }
         inputIndex--;
 
-        if (inputIndex == -1) {
-            FacadeUtility.destroyProcessCancelled();
-            FacadeUtility.destroyProcessExiting();
-        } else {
             examResult = examResults.get(inputIndex);
             FacadeUtility.destroyProcessSuccessfully();
-        }
         return examResult;
     }
 
