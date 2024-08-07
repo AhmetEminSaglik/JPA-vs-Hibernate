@@ -5,6 +5,7 @@ import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessC
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.model.Address;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProcessCheck {
     private final TerminalCommandManager tcm;
@@ -17,7 +18,7 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
     }
 
     public Address save() {
-        System.out.println("UI CONSOLE save  Address");
+        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE save  Address"));
         return null;
         /*
         Address address = new Address();
@@ -50,22 +51,22 @@ public class UIConsoleDBServiceDisplayAddressMenu implements TerminalCommandProc
     }
 
     public void findById() {
-        System.out.println("UI CONSOLE findById  Address");
+        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE findById  Address"));
 //        return ormConfig.getAddressService().findById(id);
     }
 
     public void findAll() {
-        System.out.println("UI CONSOLE findAll  Address");
+        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE findAll  Address"));
 //        return ormConfig.getAddressService().findAll();
     }
 
     public void update() {
-        System.out.println("UI CONSOLE update  Address");
+        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE update  Address"));
 //        ormConfig.getAddressService().update(address);
     }
 
     public void delete() {
-        System.out.println("UI CONSOLE delete  Address");
+        System.out.println(ColorfulTextDesign.getInfoColorText("UI CONSOLE delete  Address"));
 //        ormConfig.getAddressService().deleteById(id);
     }
 

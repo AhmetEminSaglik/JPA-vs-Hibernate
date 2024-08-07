@@ -45,7 +45,7 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
     }
 
     public void save() {
-        System.out.println("UI CONSOLE SAVE COURSE");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE SAVE COURSE"));
         /*
 
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Course Save process is initialized"));
@@ -89,31 +89,31 @@ public class UIConsoleDBServiceImplCourse implements TerminalCommandProcessCheck
     */}
 
     public void findByName() {
-        System.out.println("UI CONSOLE findByName  COURSE");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findByName  COURSE"));
 //        return ormConfig.getCourseService().findByName(name);
     }
 
 
     public void findAll() {
-        System.out.println("UI CONSOLE findAll  COURSE");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findAll  COURSE"));
         // return ormConfig.getCourseService().findAll();
     }
 
 
     public void updateCourseByName() {
-        System.out.println("UI CONSOLE updateCourseByName  COURSE");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE updateCourseByName  COURSE"));
         //   ormConfig.getCourseService().updateCourseByName(course);
     }
 
 
     public void deleteCourseByName() {
-        System.out.println("UI CONSOLE deleteCourseByName  COURSE");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE deleteCourseByName  COURSE"));
         //  ormConfig.getCourseService().deleteCourseByName(name);
     }
 
 
     public void deleteCourseById() {
-        System.out.println("UI CONSOLE deleteCourseById  COURSE");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE deleteCourseById  COURSE"));
         //  ormConfig.getCourseService().deleteCourseById(id);
     }
 

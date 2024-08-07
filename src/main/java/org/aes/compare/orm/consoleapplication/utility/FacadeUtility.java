@@ -245,6 +245,21 @@ public class FacadeUtility {
         System.out.println("333 int");
         return input;
     }
+    public static int getSafeIntInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
+        System.out.print(title);
+        int input = SafeScannerInput.getCertainIntSafe(interlayout,min,max);
+        System.out.println("111 int");
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+//            FacadeUtility.destroyProcessCancelled();
+            return Integer.MIN_VALUE;
+        }
+        if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
+            System.out.println("222 int");
+            return getSafeIntInputFromTerminalProcess(interlayout, title,min,max);
+        }
+        System.out.println("333 int");
+        return input;
+    }
 
     public static int getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(TerminalCommandLayout interlayout, String processPrefix, List<?> list) {
         int input = getIndexValueOfMsgListIncludesExit(interlayout, processPrefix, list);

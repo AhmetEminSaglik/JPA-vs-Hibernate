@@ -22,7 +22,6 @@ public class StudentFacade extends TerminalCommandLayout {
     private final StudentService studentService;
     private final AddressFacade addressFacade;
     private final CourseFacade courseFacade;
-    //    private final AddressService addressService;
     private final CourseService courseService;
 
     public StudentFacade(StudentService studentService, AddressFacade addressFacade, CourseFacade courseFacade) {
@@ -30,7 +29,6 @@ public class StudentFacade extends TerminalCommandLayout {
         this.studentService = studentService;
         this.addressFacade = addressFacade;
         this.courseFacade = courseFacade;
-//        this.addressService = orm.getAddressService();
         this.courseService = orm.getCourseService();
     }
 
@@ -39,17 +37,24 @@ public class StudentFacade extends TerminalCommandLayout {
         FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
 
         Student student = new Student();
-        System.out.print("Type Student name: ");
-        String name = SafeScannerInput.getStringNotBlank(interlayout);
-
+        String title = "Type Student name: ";
+        String name = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessCancelled();
             return null;
         }
-
         student.setName(name);
-        System.out.print("Type Student grade: ");
-        int grade = SafeScannerInput.getCertainIntSafe(interlayout, 1, 6);
+
+        title = "Type Student grade: ";
+        int grade = FacadeUtility.getSafeIntInputFromTerminalProcess(interlayout, title, 1, 6);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessCancelled();
+            return null;
+        }
         student.setGrade(grade);
+
+//        int grade = SafeScannerInput.getCertainIntSafe(interlayout, 1, 6);
+//        student.setGrade(grade);
 
         Address address = studentSaveProcessDecideAddressProgress();
         if (address == null) {
@@ -93,15 +98,13 @@ public class StudentFacade extends TerminalCommandLayout {
         List<String> indexes = new ArrayList<>();
         indexes.add("Pick Student from List");
         indexes.add("Pick Student by typing Student id");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
-        if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
+//        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessCancelled();
             return null;
         }
         switch (option) {
-            
-            case 400:
-                System.out.println("400 Error dondu");
-                return null;
             case 0:
                 student=null;
                 break;
@@ -109,10 +112,12 @@ public class StudentFacade extends TerminalCommandLayout {
                 student = pickStudentFromList(studentService.findAll());
                 break;
             case 2:
-                System.out.print("Type Student id (int): ");
-                int id = SafeScannerInput.getCertainIntSafe(interlayout);
-
+//                System.out.print("Type Student id (int): ");
+//                int id = SafeScannerInput.getCertainIntSafe(interlayout);
+                String title = "Type Student id (int): ";
+                int id = FacadeUtility.getSafeIntInputFromTerminalProcess(interlayout, title);
                 if (FacadeUtility.isCancelledProcess(interlayout)) {
+                    FacadeUtility.destroyProcessCancelled();
                     return null;
                 }
                 student = studentService.findById(id);
@@ -148,14 +153,12 @@ public class StudentFacade extends TerminalCommandLayout {
 
     public Student pickStudentFromList(List<Student> students) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-        int index = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
+//        int index = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
+        int index = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_STUDENT, students);
+        if (FacadeUtility.isCancelledProcess(interlayout) || index==0) {
             return null;
         }
         index--;
-        if (index == -1) {
-            return null;
-        }
         return students.get(index);
     }
 

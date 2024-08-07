@@ -4,6 +4,7 @@ import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
 import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.orm.config.ORMConfigSingleton;
+import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessCheck {
     private final TerminalCommandManager tcm;
@@ -16,7 +17,7 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
     }
 
     public void save() {
-        System.out.println("UI CONSOLE save  Student");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE save  Student"));
         /*
         Student student = new Student();
         System.out.println(ColorfulTextDesign.getInfoColorTextWithPrefix("--> Student Save process is initialized"));
@@ -43,31 +44,31 @@ public class UIConsoleDBServiceImplStudent implements TerminalCommandProcessChec
 
 
     public void findById() {
-        System.out.println("UI CONSOLE findById  Student");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findById  Student"));
         //   return ormConfig.getStudentService().findById(id);
     }
 
 
     public void findAll() {
-        System.out.println("UI CONSOLE findAll  Student");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findAll  Student"));
         //  return ormConfig.getStudentService().findAll();
     }
 
 
     public void findByStudentIdWithCourseName() {
-        System.out.println("UI CONSOLE findByStudentIdWithCourseName  Student");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE findByStudentIdWithCourseName  Student"));
         //  return ormConfig.getStudentService().findByStudentIdWithCourseName(studentId, courseName);
     }
 
 
     public void update() {
-        System.out.println("UI CONSOLE update  Student");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE update  Student"));
         //  ormConfig.getStudentService().update(s);
     }
 
 
     public void delete() {
-        System.out.println("UI CONSOLE delete  Student");
+        System.out.println(ColorfulTextDesign.getWarningColorTextWithPrefix("UI CONSOLE delete  Student"));
         //   ormConfig.getStudentService().deleteById(id);
     }
 

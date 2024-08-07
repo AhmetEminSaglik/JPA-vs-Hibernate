@@ -27,28 +27,28 @@ public class AddressFacade extends TerminalCommandLayout {
 
         String title = "Type for Country: ";
         input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
-        address.setCountry(input);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
+        address.setCountry(input);
 
         title = "Type for City: ";
         input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
-        address.setCity(input);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
+        address.setCity(input);
 
 
         title = "Type for Street: ";
         input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
-        address.setStreet(input);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
+        address.setStreet(input);
 
         addressService.save(address);
         FacadeUtility.destroyProcessSuccessfully();
@@ -138,13 +138,12 @@ public class AddressFacade extends TerminalCommandLayout {
         indexes.add("Save new Address");
         indexes.add("Select from unmatched address (" + unmatchedAddress.size() + ")");
 
-
-        int selected = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, "", indexes);
+        int selected = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, "???", indexes);
         Address address = null;
-
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            return null;
+        }
         switch (selected) {
-
-
             case 0:
                 FacadeUtility.destroyProcessCancelled(1);
                 return null;
