@@ -328,7 +328,7 @@ public class StudentFacade extends TerminalCommandLayout {
             printArrWithNo(studentCourses);
             option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, processPrefix, indexes);
             int result;
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 System.out.println("contineu GELDI ");
                 continue;
             }

@@ -232,7 +232,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
         if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
             return null;
         }
-        if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+        if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
             return findAllExamResultByCourseName();
         }
         List<ExamResult> examResults = null;
@@ -258,7 +258,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
                 if (FacadeUtility.isCancelledProcess(interlayout)) {
                     return null;
                 }
-                if (FacadeUtility.isOptionEqualsToCMDLineParserValue(courseName)) {
+                if (FacadeUtility.isOptionEqualsToRunForCMD(courseName)) {
                     return findAllExamResultByCourseName();
                 }
                 examResults = examResultService.findAllByCourseName(courseName);

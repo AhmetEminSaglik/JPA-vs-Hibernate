@@ -66,7 +66,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Setting");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_GLOBAL, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
             switch (option) {
@@ -120,7 +120,7 @@ public class ORMApp extends TerminalCommandLayout {
 
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(addressFacade, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
             switch (option) {
@@ -164,7 +164,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(studentFacade, MetaData.PROCESS_PREFIX_STUDENT, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
             switch (option) {
@@ -214,7 +214,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(courseFacade, MetaData.PROCESS_PREFIX_COURSE, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
             switch (option) {
@@ -286,7 +286,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(examResultFacade, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
             switch (option) {
@@ -333,7 +333,7 @@ public class ORMApp extends TerminalCommandLayout {
         indexes.add("Printing Setting (CMD - IDE)");
 
             option = FacadeUtility.getIndexValueOfMsgListIncludesExit(settingFacade, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
+            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
         switch (option) {

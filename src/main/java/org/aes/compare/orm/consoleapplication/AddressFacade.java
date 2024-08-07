@@ -8,7 +8,6 @@ import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,14 +18,6 @@ public class AddressFacade extends TerminalCommandLayout {
     public AddressFacade(AddressService addressService) {
         this.addressService = addressService;
     }
-
-    /*private boolean isProcessCanceled(TerminalCommandLayout interlayout) {
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
-            FacadeUtility.destroyProcessCancelled();
-            return true;
-        }
-        return false;
-    }*/
 
     public Address save() {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
@@ -93,6 +84,7 @@ public class AddressFacade extends TerminalCommandLayout {
 
         if (address == null) {
             FacadeUtility.destroyProcessCancelled();
+            return null;
         } else {
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
@@ -106,8 +98,9 @@ public class AddressFacade extends TerminalCommandLayout {
         List<String> indexes = new ArrayList<>();
         indexes.add("Pick Address from List");
         indexes.add("Pick Address by typing Address id");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
-        if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
+
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
         switch (option) {
@@ -117,8 +110,6 @@ public class AddressFacade extends TerminalCommandLayout {
                 address = pickAddressFromList(interlayout, addressService.findAll());
                 break;
             case 2:
-//                System.out.print("Type Address id (int): ");
-//                int id = SafeScannerInput.getCertainIntSafe(interlayout);
                 String title = "Type Address id (int): ";
                 int id = FacadeUtility.getSafeIntInputFromTerminalProcess(interlayout, title);
                 if (FacadeUtility.isCancelledProcess(interlayout)) {
@@ -180,7 +171,8 @@ public class AddressFacade extends TerminalCommandLayout {
 
     private Address pickAddressFromList(TerminalCommandLayout interlayout, List<Address> addresses) {
 
-        int index = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int index = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+
         System.out.println("index : " + index);
         if (FacadeUtility.isCancelledProcess(interlayout)
                 || index == 0) {
@@ -224,20 +216,18 @@ public class AddressFacade extends TerminalCommandLayout {
     public Address updateSelectedAddress(Address address) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         while (interlayout.isAllowedCurrentProcess()) {
-            System.out.println("isAllowedCurrentProcess() : " + isAllowedCurrentProcess());
             FacadeUtility.printInfoResult("Current Address:"+address);
             List<String> indexes = new ArrayList<>();
             indexes.add("Street");
             indexes.add("City");
             indexes.add("Country");
 
-            int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
-            if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            if (FacadeUtility.isCancelledProcess(interlayout)) {
+                FacadeUtility.destroyProcessCancelled();
                 return null;
             }
-            if (FacadeUtility.isOptionEqualsToCMDLineParserValue(option)) {
-                continue;
-            }
+            String title, input = "";
             switch (option) {
                 case -1:
                     FacadeUtility.destroyProcessCancelled();
@@ -248,22 +238,27 @@ public class AddressFacade extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX)+ address);
                     return address;
                 case 1:
-                    System.out.print("Type Street to update: ");
-                    address.setStreet(SafeScannerInput.getStringNotBlank(interlayout));
+                    title = "Type Street to update: ";
+                    input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
+                    address.setStreet(input);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
                         return null;
                     }
                     break;
                 case 2:
-                    System.out.print("Type City to update: ");
-                    address.setCity(SafeScannerInput.getStringNotBlank(interlayout));
+//                    System.out.print("Type City to update: ");
+                    title = "Type City to update: ";
+                    FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
+                    address.setCity(input);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
                         return null;
                     }
                     break;
                 case 3:
-                    System.out.print("Type Country to update: ");
-                    address.setCountry(SafeScannerInput.getStringNotBlank(interlayout));
+//                    System.out.print("Type Country to update: ");
+                    title = "Type Country to update: ";
+                    FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
+                    address.setCountry(input);
                     if (FacadeUtility.isCancelledProcess(interlayout)) {
                         return null;
                     }
@@ -277,12 +272,9 @@ public class AddressFacade extends TerminalCommandLayout {
 
     private Address selectAddressToUpdate(TerminalCommandLayout interlayout) {
         List<Address> addresses = addressService.findAll();
-        System.out.println("chjeck kontorlu");
-//        int id = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         int id = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
 
-        if (FacadeUtility.isCancelledProcess(interlayout)
-                || id == 0) {
+        if (FacadeUtility.isCancelledProcess(interlayout) || id == 0) {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
@@ -300,8 +292,7 @@ public class AddressFacade extends TerminalCommandLayout {
 
         System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
 
-        int result = FacadeUtility.getIndexValueOfMsgListIncludesExit(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
-//        if (FacadeUtility.isEqualsToTerminalCompletedProcessValue(result)
+        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
         if (FacadeUtility.isCancelledProcess(interlayout)
                 || --result == 1) {
             FacadeUtility.destroyProcessCancelled();
