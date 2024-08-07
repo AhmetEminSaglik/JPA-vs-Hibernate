@@ -253,7 +253,7 @@ public class StudentFacade extends TerminalCommandLayout {
 
         int option = -1;
         String title;
-        while (option != 5 && interlayout.isAllowedCurrentProcess()) {
+        while (interlayout.isAllowedCurrentProcess()) {
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX) + "Student : " + student);
             System.out.println(ColorfulTextDesign.getWarningColorText(MetaData.PROCESS_RESULT_PREFIX) +
                     ColorfulTextDesign.getWarningColorText(MetaData.NOTE_PREFIX) +
@@ -268,7 +268,6 @@ public class StudentFacade extends TerminalCommandLayout {
                 return null;
             }
             switch (option) {
-                
                 case -1:
                     FacadeUtility.destroyProcessCancelled();
                     return null;
@@ -330,7 +329,8 @@ public class StudentFacade extends TerminalCommandLayout {
 
         int option = -1;
         final String processPrefix = MetaData.PROCESS_PREFIX_STUDENT;
-        while (option != 4 && interlayout.isAllowedCurrentProcess()) {
+        System.out.println("Option 4'de cikcak");
+        while (interlayout.isAllowedCurrentProcess()) {
             List<String> indexes = new ArrayList<>();
             indexes.add("Match course from registered Courses (" + courseStudentDidNotEnroll.size() + ")");
             indexes.add("Remove course from student Courses (" + studentCourses.size() + ")");
@@ -387,9 +387,6 @@ public class StudentFacade extends TerminalCommandLayout {
                 case 3:
                     Course course = courseFacade.save();
                     studentCourses.add(course);
-                    break;
-                case 4:
-                    System.out.println("Exiting the course process");
                     break;
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");

@@ -108,9 +108,8 @@ public class ORMApp extends TerminalCommandLayout {
 
     /*static*/ void addressScenario() {
         int option = -1;
-//        while (option != 0 && isAllowedCurrentProcess()) {
-        while (option != 0 && addressFacade.isAllowedCurrentProcess()) {
-
+        addressFacade.enableNextProcess();
+        while (addressFacade.isAllowedCurrentProcess()) {
             List<String> indexes = new ArrayList<>();
             indexes.add("Save");
             indexes.add("Find All");
@@ -119,14 +118,15 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
 
-            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(addressFacade, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                continue;
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(addressFacade, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            if (FacadeUtility.isCancelledProcess(addressFacade)) {
+                FacadeUtility.destroyProcessExiting(1);
+                return;
             }
             switch (option) {
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
-                    break;
+                    return;
                 case 1:
                     addressFacade.save();
                     break;
@@ -146,13 +146,12 @@ public class ORMApp extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
-        addressFacade.enableNextProcess();
     }
 
     /*static*/ void studentScenario() {
         int option = -1;
-        while (option != 0 && studentFacade.isAllowedCurrentProcess()) {
-
+        studentFacade.enableNextProcess();
+        while (studentFacade.isAllowedCurrentProcess()) {
             List<String> indexes = new ArrayList<>();
 
             indexes.add("Save");
@@ -163,15 +162,16 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Update");
             indexes.add("Delete");
 
-            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(studentFacade, MetaData.PROCESS_PREFIX_STUDENT, indexes);
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                continue;
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(studentFacade, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+
+            if (FacadeUtility.isCancelledProcess(studentFacade)) {
+                FacadeUtility.destroyProcessExiting(1);
+                return;
             }
             switch (option) {
-                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
-                    break;
+                    return;
                 case 1:
                     studentFacade.save();
                     break;
@@ -197,13 +197,12 @@ public class ORMApp extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
-        studentFacade.enableNextProcess();
     }
 
     /*static*/ void courseScenario() {
         int option = -1;
-        while (option != 0 && courseFacade.isAllowedCurrentProcess()) {
-
+        courseFacade.enableNextProcess();
+        while (courseFacade.isAllowedCurrentProcess()) {
             List<String> indexes = new ArrayList<>();
 
             indexes.add("Save");
@@ -213,15 +212,16 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Update");
             indexes.add("Delete");
 
-            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(courseFacade, MetaData.PROCESS_PREFIX_COURSE, indexes);
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                continue;
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(courseFacade, MetaData.PROCESS_PREFIX_COURSE, indexes);
+            if (FacadeUtility.isCancelledProcess(courseFacade)) {
+                FacadeUtility.destroyProcessExiting(1);
+                return;
             }
+
             switch (option) {
-                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
-                    break;
+                    return;
                 case 1:
                     courseFacade.save();
                     break;
@@ -244,7 +244,6 @@ public class ORMApp extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
-        courseFacade.enableNextProcess();
     }
 
     /*static*/ void examResultScenario() {
@@ -271,10 +270,9 @@ public class ORMApp extends TerminalCommandLayout {
                     ColorfulTextDesign.getInfoColorText("Course") +
                     ColorfulTextDesign.getErrorColorText(" data before visit this option. "));
         }
-        int option = -1;
-//        while (option != 0) {
-        while (option != 0 && examResultFacade.isAllowedCurrentProcess()) {
 
+        examResultFacade.enableNextProcess();
+        while (examResultFacade.isAllowedCurrentProcess()) {
             List<String> indexes = new ArrayList<>();
 
             indexes.add("Save");
@@ -285,15 +283,15 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Update");
             indexes.add("Delete");
 
-            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(examResultFacade, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                continue;
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(examResultFacade, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+            if (FacadeUtility.isCancelledProcess(examResultFacade)) {
+                FacadeUtility.destroyProcessExiting(1);
+                return;
             }
             switch (option) {
-                
                 case 0:
                     FacadeUtility.destroyProcessExiting(1);
-                    break;
+                    return;
                 case 1:
                     examResultFacade.save();
                     break;
@@ -319,27 +317,27 @@ public class ORMApp extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
             }
         }
-        examResultFacade.enableNextProcess();
     }
 
     private /*static*/ void updateSettingScenario() {
-        int option = -1;
-        while (option != 0 && settingFacade.isAllowedCurrentProcess()) {
 
+        settingFacade.enableNextProcess();
+        while (settingFacade.isAllowedCurrentProcess()) {
         List<String> indexes = new ArrayList<>();
         indexes.add("Select ORM Tool (JPA-Hibernate)");
         indexes.add("ORM Logs (Enable-Disable)");
         indexes.add("Music (On-Off)");
         indexes.add("Printing Setting (CMD - IDE)");
 
-            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(settingFacade, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                continue;
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(settingFacade, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+            if (FacadeUtility.isCancelledProcess(settingFacade)) {
+                FacadeUtility.destroyProcessExiting(1);
+                return;
             }
         switch (option) {
             case 0:
                 FacadeUtility.destroyProcessExiting(1);
-                break;
+                return;
             case 1:
                 settingFacade.updateORMSetting();
                 break;
@@ -358,7 +356,6 @@ public class ORMApp extends TerminalCommandLayout {
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }
         }
-        settingFacade.enableNextProcess();
     }
 
 

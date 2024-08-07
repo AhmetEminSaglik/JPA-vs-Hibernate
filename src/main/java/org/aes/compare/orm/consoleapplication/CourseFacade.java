@@ -216,17 +216,11 @@ public class CourseFacade extends TerminalCommandLayout {
 
     public Course pickCourseFromList(List<Course> courses) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-//        int selected = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
         int selected = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_COURSE, courses);
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
+        if (FacadeUtility.isCancelledProcess(interlayout) || selected == 0) {
             return null;
         }
-        selected--;
-        if (selected == -1) {
-            return null;
-        } else {
-            return courses.get(selected);
-        }
+            return courses.get(--selected);
     }
 
     public Course update() {

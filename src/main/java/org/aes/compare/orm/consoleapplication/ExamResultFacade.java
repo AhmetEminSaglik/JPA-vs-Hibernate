@@ -81,9 +81,11 @@ public class ExamResultFacade extends TerminalCommandLayout {
         FacadeUtility.destroyProcessSuccessfully();
         FacadeUtility.printSuccessResult("Selected Course : "+course);
 
-        System.out.print("Type Score (double): ");
-        double score = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 100);
+        String title = "Type Score (double): ";
+//        double score = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 100);
+        double score = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, 1, 100);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessCancelled(3);
             return null;
         }
 
@@ -97,8 +99,8 @@ public class ExamResultFacade extends TerminalCommandLayout {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error occurred: " + e.getMessage()));
             return null;
         }
-        FacadeUtility.destroyProcessWithoutPrint();
-        FacadeUtility.destroyProcessSuccessfully();
+//        FacadeUtility.destroyProcessWithoutPrint();
+        FacadeUtility.destroyProcessSuccessfully(3);
         FacadeUtility.printSuccessResult("Saved Exam Result : "+examResult);
         return examResult;
     }
@@ -188,7 +190,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     public List<ExamResult> findAllByCourseName() {
-        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
+//        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
@@ -205,14 +207,15 @@ public class ExamResultFacade extends TerminalCommandLayout {
             FacadeUtility.destroyProcessWithoutPrint(2);
             return null;
         }
-        FacadeUtility.destroyProcessSuccessfully(3);
-
+        FacadeUtility.destroyProcessSuccessfully(4);
+//        System.out.println("----->> "+LoggerProcessStack.getAllInOrder());
         if (!isAnyExamResultSaved()) {
             return null;
         }
 
         List<ExamResult> examResults = findAllExamResultByCourseName();
         if (examResults == null) {
+            FacadeUtility.destroyProcessCancelled();
             return null;
         }
         FacadeUtility.destroyProcessSuccessfully();
@@ -222,24 +225,23 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     private List<ExamResult> findAllExamResultByCourseName() {
-// examreuslt 4'de -q 'de main'e geciyor
+        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
 
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         List<String> indexes = new ArrayList<>();
         indexes.add("Search with registered Courses");
         indexes.add("Search with Typing course name Manuel");
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout,MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
-        if (FacadeUtility.isOptionEqualsToCMDCancelProcessValue(option)) {
-            return null;
-        }
-        if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-            return findAllExamResultByCourseName();
-        }
         List<ExamResult> examResults = null;
-        switch (option) {
+        while (interlayout.isAllowedCurrentProcess()) {
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+            if (FacadeUtility.isCancelledProcess(interlayout)) {
+//                FacadeUtility.destroyProcessCancelled();
+                return null;
+        }
 
+        switch (option) {
             case 0:
-                FacadeUtility.destroyProcessCancelled();
+//                FacadeUtility.destroyProcessCancelled();
                 return null;
             case 1:
                 Course course = pickCourseFromList(courseService.findAll());
@@ -247,31 +249,32 @@ public class ExamResultFacade extends TerminalCommandLayout {
                     examResults = examResultService.findAllByCourseName(course.getName());
                     if (examResults == null || examResults.isEmpty()) {
                         FacadeUtility.printErrorResult(MetaData.getNotFoundExamResultWithCourseName(course.getName()));
-                        return findAllExamResultByCourseName();
                     }
-                    return examResults;
-                }
-                return null;
-            case 2:
-                System.out.print("Type Course Name:  ");
-                String courseName = SafeScannerInput.getStringNotBlank(interlayout);
-                if (FacadeUtility.isCancelledProcess(interlayout)) {
+                } else {
+//                    FacadeUtility.destroyProcessCancelled();
                     return null;
                 }
-                if (FacadeUtility.isOptionEqualsToRunForCMD(courseName)) {
-                    return findAllExamResultByCourseName();
+                break;
+            case 2:
+                String title = "Type Course Name: ";
+                String courseName = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
+                if (FacadeUtility.isCancelledProcess(interlayout)) {
+//                    FacadeUtility.destroyProcessCancelled();
+                    return null;
                 }
                 examResults = examResultService.findAllByCourseName(courseName);
                 if (examResults == null || examResults.isEmpty()) {
                     FacadeUtility.printErrorResult(MetaData.getNotFoundExamResultWithCourseName(courseName));
-                    return findAllExamResultByCourseName();
                 }
-                return examResults;
+                break;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
         }
-        return examResults;
-
+            if (examResults != null) {
+                return examResults;
+            }
+        }
+        return null;
     }
 
     public void update() {
