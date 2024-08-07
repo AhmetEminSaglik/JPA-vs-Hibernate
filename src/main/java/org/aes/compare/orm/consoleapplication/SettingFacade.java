@@ -1,6 +1,7 @@
 package org.aes.compare.orm.consoleapplication;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
+import org.aes.compare.customterminal.business.concretes.InnerTerminalProcessLayout;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.ORMApp;
 import org.aes.compare.orm.config.ORMConfigSingleton;
@@ -20,16 +21,21 @@ public class SettingFacade extends TerminalCommandLayout {
         this.ormApp = ormApp;
     }
 
-    private /*static*/ MusicPlayer musicPlayer = new MusicPlayer();
+    private MusicPlayer musicPlayer = new MusicPlayer();
 
-    public  /*static*/ void updateORMSetting() {
+    public void updateORMSetting() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_SELECT);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         List<String> indexes = new ArrayList<>();
         indexes.add("JPA");
         indexes.add("Hibernate");
 
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessExiting(2);
+            return;
+        }
         switch (option) {
             case 0:
                 FacadeUtility.destroyProcessCancelled();
@@ -54,14 +60,19 @@ public class SettingFacade extends TerminalCommandLayout {
         }
     }
 
-    public  /*static*/ void updateORMLogSettings() {
+    public void updateORMLogSettings() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_ORM_LOGS);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         List<String> indexes = new ArrayList<>();
         indexes.add("Enable ORM Logs");
         indexes.add("Disable ORM Logs");
 
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessExiting(2);
+            return;
+        }
         switch (option) {
             
 
@@ -86,17 +97,20 @@ public class SettingFacade extends TerminalCommandLayout {
 
     }
 
-    public  /*static*/ void updateMusicSetting() {
+    public void updateMusicSetting() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_MUSIC);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         List<String> indexes = new ArrayList<>();
         indexes.add("Enable Music");
         indexes.add("Disable Music");
 
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout,  indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessExiting(2);
+            return;
+        }
         switch (option) {
-            
-
             case 0:
                 FacadeUtility.destroyProcessCancelled();
                 break;
@@ -116,16 +130,19 @@ public class SettingFacade extends TerminalCommandLayout {
 
     }
 
-    public  /*static*/ void updatePrintingSetting() {
+    public void updatePrintingSetting() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         List<String> indexes = new ArrayList<>();
         indexes.add("CMD (Windows Command Line)");
         indexes.add("IDE (Java Ide)");
         indexes.add("Standard (Default)");
 
-        int option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout,  indexes);
+        if (FacadeUtility.isCancelledProcess(interlayout)) {
+            FacadeUtility.destroyProcessExiting(2);
+            return;
+        }
         switch (option) {
-            
-
             case 0:
                 FacadeUtility.destroyProcessCancelled();
                 break;
@@ -141,7 +158,6 @@ public class SettingFacade extends TerminalCommandLayout {
                 ColorfulTextDesign.enableStandardPrinting();
                 FacadeUtility.destroyProcessSuccessfully();
                 break;
-
             default:
                 System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(MetaData.SWITCH_DEFAULT_INVALID_CHOICE));
         }

@@ -10,42 +10,18 @@ import org.aes.compare.uiconsole.utility.SafeScannerInput;
 import java.util.List;
 
 public class FacadeUtility {
-    public static StringBuilder createMsgFromListExit(List<?> list) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            sb.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");
-        }
-        return sb;
-    }
 
     public  static  boolean isCancelledProcess(TerminalCommandLayout terminalLayout){
         return  !terminalLayout.isAllowedCurrentProcess();
     }
-    public static StringBuilder createMsgFromListWithSaveAndCancelExit(List<?> list) {
-        StringBuilder sb = new StringBuilder();
-        sb.append('(').append(-1).append(") Cancel & Exit\n");
-        sb.append('(').append(0).append(") Save & Exit\n");
 
-        for (int i = 0; i < list.size(); i++) {
-            sb.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");
-        }
-        return sb;
-    }
-
-    public static int getIndexValueOfMsgListIncludesExit(TerminalCommandLayout terminalCommandLayout,String objectPrefix, List<?> list) {
+    public static int getIndexValueOfMsgListIncludesExit(TerminalCommandLayout terminalCommandLayout,List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(0).append(") Exit\n");
         return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, 0);
-
     }
 
-    public static int getIndexValueOfMsgListIncludesCancelAndExit(TerminalCommandLayout terminalCommandLayout,String objectPrefix, List<?> list) {
-        StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
-        msg.append('(').append(0).append(") Cancel & Exit\n");
-        return getUserIndexInputOfOptionList(terminalCommandLayout,msg, list, 0);
-    }
-
-    public static int getIndexValueOfMsgListIncludesCancelAndSaveExits(TerminalCommandLayout terminalCommandLayout,String objectPrefix, List<?> list) {
+    private static int getIndexValueOfMsgListIncludesCancelAndSaveExits(TerminalCommandLayout terminalCommandLayout, List<?> list) {
         StringBuilder msg = new StringBuilder(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
         msg.append('(').append(-1).append(") Cancel & Exit\n");
         msg.append('(').append(0).append(") Save & Exit\n");
@@ -58,7 +34,7 @@ public class FacadeUtility {
             msg.append('(').append((i + 1)).append(") ").append(list.get(i)).append("\n");
         }
         System.out.println(msg);
-        return SafeScannerInput.getCertainIntForSwitch(terminalCommandLayout, MetaData.SELECT_ONE_OPTION, minRange, list.size());
+        return SafeScannerInput.getCertainIntForSwitch(terminalCommandLayout, minRange, list.size());
     }
 
     public static void initProcessWithOnlySituation(String processSituation) {
@@ -70,7 +46,6 @@ public class FacadeUtility {
     public static void initProcess(String processName, String processSituation) {
         LoggerProcessStack.add(processName);
         LoggerProcessStack.addWithInnerPrefix(processSituation);
-        //        System.out.println(ColorfulTextDesign.getInfoColorText(MetaData.PROCESS_PREFIX_ADDRESS + MetaData.PROCESS_SAVE + MetaData.PROCESS_STARTS));
         System.out.println(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()));
         LoggerProcessStack.pop();
     }
@@ -181,34 +156,8 @@ public class FacadeUtility {
         System.out.print(ColorfulTextDesign.getInfoColorText(LoggerProcessStack.getAllInOrder()) + MetaData.AVAILABLE_OPTIONS);
     }
 
-   /* public static boolean isEqualsToTerminalCompletedProcessValue(int result) {
-        if (result == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) return true;
-        return false;
-    }
-
-    public static boolean isEqualsToTerminalCompletedProcessValue(double result) {
-        return isEqualsToTerminalCompletedProcessValue((int) result);
-    }*/
-
     public static boolean isOptionEqualsToRunForCMD(int val) {
         if (val == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean isOptionEqualsToRunForCMD(String text) {
-        try {
-            int val = Integer.parseInt(text);
-            return isOptionEqualsToCMDCancelProcessValue(val);
-        } catch (NumberFormatException e) {
-            System.out.println("Number format exception : " + e.getMessage());
-        }
-        return false;
-    }
-
-    public static boolean isOptionEqualsToCMDCancelProcessValue(int val) {
-        if (val == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
             return true;
         }
         return false;
@@ -218,102 +167,72 @@ public class FacadeUtility {
         System.out.print(title);
         String input = SafeScannerInput.getStringNotBlank(interlayout);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-//            FacadeUtility.destroyProcessCancelled();
             return null;
         }
-        System.out.println("111 String");
         if (input.equalsIgnoreCase(Integer.toString(EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()))) {
-            System.out.println("222 String");
             return getSafeStringInputFromTerminalProcess(interlayout, title);
         }
-        System.out.println("333 String");
         return input;
     }
 
     public static int getSafeIntInputFromTerminalProcess(TerminalCommandLayout interlayout, String title) {
         System.out.print(title);
         int input = SafeScannerInput.getCertainIntSafe(interlayout);
-        System.out.println("111 int");
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-//            FacadeUtility.destroyProcessCancelled();
             return Integer.MIN_VALUE;
         }
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("222 int");
             return getSafeIntInputFromTerminalProcess(interlayout, title);
         }
-        System.out.println("333 int");
         return input;
     }
     public static int getSafeIntInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
         System.out.print(title);
         int input = SafeScannerInput.getCertainIntSafe(interlayout,min,max);
-        System.out.println("111 int");
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-//            FacadeUtility.destroyProcessCancelled();
             return Integer.MIN_VALUE;
         }
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("222 int");
             return getSafeIntInputFromTerminalProcess(interlayout, title,min,max);
         }
-        System.out.println("333 int");
         return input;
     }
 
     public static double getSafeDoubleInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
         System.out.print(title);
         double input = SafeScannerInput.getCertainDoubleSafe(interlayout,min,max);
-        System.out.println("111 int");
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-//            FacadeUtility.destroyProcessCancelled();
             return Integer.MIN_VALUE;
         }
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("222 int");
             return getSafeDoubleInputFromTerminalProcess(interlayout, title,min,max);
         }
-        System.out.println("333 int");
         return input;
     }
 
-    public static int getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(TerminalCommandLayout interlayout, String processPrefix, List<?> list) {
-        int input = getIndexValueOfMsgListIncludesExit(interlayout, processPrefix, list);
-        System.out.println("111 index");
+    public static int getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(TerminalCommandLayout interlayout, List<?> list) {
+        int input = getIndexValueOfMsgListIncludesExit(interlayout, list);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-//            FacadeUtility.destroyProcessCancelled();
              return Integer.MIN_VALUE;
         }
 
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("222 index");
-            return getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, processPrefix, list);
+            return getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, list);
         }
-        System.out.println("333 index");
         return input;
     }
-    public static int getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(TerminalCommandLayout interlayout, String processPrefix, List<?> list) {
-        int input = getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, processPrefix, list);
-        System.out.println("111 index");
+    public static int getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(TerminalCommandLayout interlayout, List<?> list) {
+        int input = getIndexValueOfMsgListIncludesCancelAndSaveExits(interlayout, list);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-//            FacadeUtility.destroyProcessCancelled();
             return Integer.MIN_VALUE;
         }
 
         if (input == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("222 index");
-            return getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, processPrefix, list);
+            return getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, list);
         }
-        System.out.println("333 index");
         return input;
     }
 
-    /*private boolean isProcessCanceled(TerminalCommandLayout interlayout) {
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
-            FacadeUtility.destroyProcessCancelled();
-            return true;
-        }
-        return false;
-    }*/
+
 
 }

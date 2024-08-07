@@ -19,36 +19,22 @@ public class SafeScannerInput {
         if (result.getId() != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
             TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
             new TerminalCommandManager().runCustomCommand(terminalLayout, terminalCMD);
-            System.out.println("selectTerminalProcess > result " + result);
-//            return EnumCMDLineParserResult.RUN_FOR_CMDLINE;
             return result;
         }
         return EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE;
     }
 
-    public static int getCertainIntForSwitch(TerminalCommandLayout terminalLayout, String text, int minRange, int maxRange) {
-        System.out.print("text --> : " + text);
-
-//        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
-//        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
+    public static int getCertainIntForSwitch(TerminalCommandLayout terminalLayout, int minRange, int maxRange) {
         String errMsg = (ColorfulTextDesign.getErrorColorText("Please Type number between [" + minRange + "," + maxRange + "]"));
         try {
-//            System.out.println(" Burda deger alinmali. terminal ");
             String inputText = scanner.nextLine().trim();
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
-            /*if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-                System.out.println("----------> Terminal islemi yapildi. bitiyor.");
-                return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
-            }*/
-//            System.out.println("RUN_FOR_INDEX_VALUE checkine geldi");
+
             if (enumResult.getId() != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
                 System.out.println("Burdan donucek");
-//                getCertainIntForSwitch(terminalLayout,text,minRange,maxRange);
-//                return enumResult.getId();
                 return EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
             }
             int val = Integer.parseInt(inputText);
-//            scanner.nextLine();
             if (val >= minRange && val <= maxRange) {
                 return val;
             }
@@ -57,7 +43,7 @@ public class SafeScannerInput {
         } catch (NumberFormatException e) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please Type number between [" + minRange + "," + maxRange + "]"));
         }
-        return getCertainIntForSwitch(terminalLayout, text, minRange, maxRange);
+        return getCertainIntForSwitch(terminalLayout, minRange, maxRange);
     }
 
     public static Double getCertainDoubleSafe(TerminalCommandLayout terminalLayout, int min, int max) {
@@ -70,13 +56,6 @@ public class SafeScannerInput {
             if (enumResult.getId() != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
                 return (double) EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
             }
-
-            /*if (enumResult.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
-                return (double) EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
-            }
-            if (enumResult.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-                return (double) EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
-            }*/
             num = Double.parseDouble(inputText);
 
             DecimalFormat df = new DecimalFormat("#.00");
@@ -109,22 +88,12 @@ public class SafeScannerInput {
 
     public static Integer getCertainIntSafe(TerminalCommandLayout terminalLayout) {
         try {
-
-//            int num = Integer.parseInt(scanner.nextLine().trim());
-//            System.out.println(" Burda deger alinmali. terminal ");
             String inputText = scanner.nextLine().trim();
             EnumCMDLineParserResult enumResult = selectTerminalProcess(terminalLayout, inputText);
-
             if (enumResult.getId() != EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
                 return EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
             }
-            /*   if (enumResult.getId() == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
-                System.out.println("----------> Terminal islemi yapildi. bitiyor.");
-                return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
-            }*/
-
             int num = Integer.parseInt(inputText);
-
             return num;
         } catch (NumberFormatException ex) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Integer Input. Please try again."));
@@ -133,15 +102,12 @@ public class SafeScannerInput {
     }
 
     public static Integer getCertainIntSafe(TerminalCommandLayout terminalLayout, int min, int max) {
-//        try {
 
         int num = getCertainIntSafe(terminalLayout);
         if (num == EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId()) {
-            System.out.println("CMD_CANCEL_PROCESS ----------> Terminal islemi yapildi. bitiyor.");
             return EnumCMDLineParserResult.CMD_CANCEL_PROCESS.getId();
         }
         if (num == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            System.out.println("RUN_FOR_CMDLINE----------> Terminal islemi yapildi. bitiyor .");
             return EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId();
         }
         if (num >= min && num <= max) {
@@ -150,148 +116,5 @@ public class SafeScannerInput {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Number Range Value. Please type number between [" + min + "-" + max + "]"));
             return getCertainIntSafe(terminalLayout, min, max);
         }
-        /*} catch (NumberFormatException ex) {
-            System.out.println("Invalid Index Input. Please try again.");
-//            return getCertainIntSafe(min,max);
-        }*/
     }
-
-    /*public static Double getCertainDoubleSafe() {
-        try {
-            double num = Double.parseDouble(scanner.nextLine().trim());
-            DecimalFormat df = new DecimalFormat("#.00");
-            return Double.parseDouble(df.format(num));
-//            return num;
-        } catch (NumberFormatException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Double value Input. Please try again. (Example : 12.34)"));
-            return getCertainDoubleSafe();
-        }
-    }*/
-
-
-
-    /*public static Integer getInt(String input) {
-        try {
-            int num = Integer.parseInt(input);
-            return num;
-        } catch (NumberFormatException ex) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Invalid Index Input. Please try again."));
-            return null;
-        }
-    }*/
-
-    /*public static String getStringInput(String inputMsg, TerminalCommandLayout tmc) {
-        System.out.println(inputMsg);
-        String input = scanner.nextLine().trim();
-        EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
-        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
-            new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
-        }
-        if (!tmc.isAllowedCurrentProcess()) {
-            return "";
-        }
-        if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
-            return getStringInput(inputMsg, tmc);
-        }
-        if (input.trim().isEmpty()) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Blank is not allowed. Please type something"));
-            return getStringInput(inputMsg, tmc);
-        }
-        return input;
-    }*/
-
-    /*public static int getIntInput(int minRange, int maxRange, String inputMsg, TerminalCommandLayout tmc) {
-        System.out.println(inputMsg);
-        String input = scanner.nextLine().trim();
-        EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
-
-
-        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
-            new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
-        }
-
-        Integer num = getInt(input);
-        if (!tmc.isAllowedCurrentProcess()) {
-            return -1;
-        }
-        if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
-            return getIntInput(inputMsg, tmc);
-        }
-        if (num == null) {
-            return getIntInput(inputMsg, tmc);
-        }
-        if (num < minRange || num > maxRange) {
-            System.out.println("Number must be between " + minRange + "-" + maxRange + ".");
-            return getIntInput(minRange, maxRange, inputMsg, tmc);
-        }
-        return num;
-    }*/
-
-    /*public static int getIntInput(String inputMsg, TerminalCommandLayout tmc) {
-        System.out.println(inputMsg);
-        String input = scanner.nextLine().trim();
-        EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
-
-
-        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
-            new TerminalCommandManager().runCustomCommand(tmc, terminalCMD);
-        }
-
-        Integer num = getInt(input);
-        if (!tmc.isAllowedCurrentProcess()) {
-            return -1;
-        }
-        if (input.contains(CMDLineSingletonBuilder.getCmdLine().getPrefix())) {
-            return getIntInput(inputMsg, tmc);
-        }
-        if (num == null) {
-            return getIntInput(inputMsg, tmc);
-        }
-        return num;
-    }*/
-
-
-
-    /*public static int getCertainIntForSwitch(int minRange, int maxRange) {
-        String errMsg = "Type number between :[" + minRange + "-" + maxRange + "]";
-        try {
-            String inputText = scanner.nextLine().trim();
-            int val = Integer.parseInt(inputText);
-//            scanner.nextLine();
-            if (val >= minRange && val <= maxRange) {
-                return val;
-            }
-            errMsg = "Invalid number : " + val + "." + errMsg;
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix(errMsg));
-        } catch (NumberFormatException e) {
-            System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Please type only number between (" + minRange + "-" + maxRange + ")"));
-        }
-        return getCertainIntForSwitch(minRange, maxRange);
-    }*/
-
-    /*public int convertInputToListIndexValue(String input, List<?> list) {
-        Integer integer = getInt(input);
-        if (integer != null) {
-            int num = --integer;
-            boolean result = isNumberSuitableListRange(num, list);
-            if (result) {
-                return num;
-            }
-        }
-        return -1;
-
-    }*/
-
-    /*private boolean isNumberSuitableListRange(int num, List<?> list) {
-        if (num >= 0 && num < list.size()) {
-            return true;
-        }
-        System.out.println("Invalid Index range. Please choose number between 0-" + (list.size() - 1));
-        return false;
-    }*/
-
-
 }

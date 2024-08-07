@@ -1,8 +1,6 @@
 package org.aes.compare.orm;
 
 import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
-import org.aes.compare.customterminal.model.TerminalCMD;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.consoleapplication.*;
@@ -10,7 +8,6 @@ import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 import org.aes.compare.uiconsole.business.LoggerConfigORM;
 import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
 import org.aes.compare.uiconsole.utility.InputParserTree;
 
 import java.util.ArrayList;
@@ -18,17 +15,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ORMApp extends TerminalCommandLayout {
-    private /*static*/ final ORMConfigSingleton orm = new ORMConfigSingleton();
-    private /*static*/ AddressFacade addressFacade;
-    private /*static*/ StudentFacade studentFacade;
-    private /*static*/ CourseFacade courseFacade;
-    private /*static*/ ExamResultFacade examResultFacade;
+    private final ORMConfigSingleton orm = new ORMConfigSingleton();
+    private AddressFacade addressFacade;
+    private StudentFacade studentFacade;
+    private CourseFacade courseFacade;
+    private ExamResultFacade examResultFacade;
     private SettingFacade settingFacade;//= new SettingFacade(this);
 
     private final Scanner scanner = new Scanner(System.in);
     private final InputParserTree inputParserTree = new InputParserTree();
 
-    private /*static*/ void runInitConf() {
+    private void runInitConf() {
 //        musicPlayer.start();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
@@ -39,19 +36,7 @@ public class ORMApp extends TerminalCommandLayout {
 //        settingFacade.updatePrintingSetting();
     }
 
-    public void selectGlobalProcess() {
-        String input = scanner.nextLine();
-        EnumCMDLineParserResult result = inputParserTree.decideProcess(input);
-        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_CMDLINE.getId()) {
-            TerminalCMD terminalCMD = inputParserTree.getTerminalCMD();
-            new TerminalCommandManager().runCustomCommand(this, terminalCMD);
-        }
-        if (result.getId() == EnumCMDLineParserResult.RUN_FOR_INDEX_VALUE.getId()) {
-//            runProcessIndexValue(input);
-        }
-    }
-
-    public /*static*/ void start() {
+    public void start() {
         runInitConf();
         LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
 
@@ -65,7 +50,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Exam Result");
             indexes.add("Setting");
 
-            option = FacadeUtility.getIndexValueOfMsgListIncludesExit(this, MetaData.PROCESS_PREFIX_GLOBAL, indexes);
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(this, indexes);
             if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
                 continue;
             }
@@ -106,8 +91,8 @@ public class ORMApp extends TerminalCommandLayout {
 
     }
 
-    /*static*/ void addressScenario() {
-        int option = -1;
+    void addressScenario() {
+        int option;
         addressFacade.enableNextProcess();
         while (addressFacade.isAllowedCurrentProcess()) {
             List<String> indexes = new ArrayList<>();
@@ -118,7 +103,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Delete");
 
 
-            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(addressFacade, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(addressFacade, indexes);
             if (FacadeUtility.isCancelledProcess(addressFacade)) {
                 FacadeUtility.destroyProcessExiting(1);
                 return;
@@ -148,7 +133,7 @@ public class ORMApp extends TerminalCommandLayout {
         }
     }
 
-    /*static*/ void studentScenario() {
+    void studentScenario() {
         int option = -1;
         studentFacade.enableNextProcess();
         while (studentFacade.isAllowedCurrentProcess()) {
@@ -162,7 +147,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Update");
             indexes.add("Delete");
 
-            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(studentFacade, MetaData.PROCESS_PREFIX_STUDENT, indexes);
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(studentFacade, indexes);
 
             if (FacadeUtility.isCancelledProcess(studentFacade)) {
                 FacadeUtility.destroyProcessExiting(1);
@@ -199,7 +184,7 @@ public class ORMApp extends TerminalCommandLayout {
         }
     }
 
-    /*static*/ void courseScenario() {
+    void courseScenario() {
         int option = -1;
         courseFacade.enableNextProcess();
         while (courseFacade.isAllowedCurrentProcess()) {
@@ -212,7 +197,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Update");
             indexes.add("Delete");
 
-            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(courseFacade, MetaData.PROCESS_PREFIX_COURSE, indexes);
+            option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(courseFacade, indexes);
             if (FacadeUtility.isCancelledProcess(courseFacade)) {
                 FacadeUtility.destroyProcessExiting(1);
                 return;
@@ -246,7 +231,7 @@ public class ORMApp extends TerminalCommandLayout {
         }
     }
 
-    /*static*/ void examResultScenario() {
+    void examResultScenario() {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         FacadeUtility.initProcessWithOnlySituation(MetaData.PROCESS_STARTS);
         boolean resultStudent = studentFacade.isAnyStudentSaved();
@@ -283,7 +268,7 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Update");
             indexes.add("Delete");
 
-            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(examResultFacade, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(examResultFacade, indexes);
             if (FacadeUtility.isCancelledProcess(examResultFacade)) {
                 FacadeUtility.destroyProcessExiting(1);
                 return;
@@ -319,7 +304,7 @@ public class ORMApp extends TerminalCommandLayout {
         }
     }
 
-    private /*static*/ void updateSettingScenario() {
+    private void updateSettingScenario() {
 
         settingFacade.enableNextProcess();
         while (settingFacade.isAllowedCurrentProcess()) {
@@ -329,7 +314,7 @@ public class ORMApp extends TerminalCommandLayout {
         indexes.add("Music (On-Off)");
         indexes.add("Printing Setting (CMD - IDE)");
 
-            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(settingFacade, MetaData.PROCESS_PREFIX_SETTINGS, indexes);
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(settingFacade, indexes);
             if (FacadeUtility.isCancelledProcess(settingFacade)) {
                 FacadeUtility.destroyProcessExiting(1);
                 return;

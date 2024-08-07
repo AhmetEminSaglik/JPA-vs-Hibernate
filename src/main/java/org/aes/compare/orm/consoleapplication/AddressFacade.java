@@ -99,7 +99,7 @@ public class AddressFacade extends TerminalCommandLayout {
         indexes.add("Pick Address from List");
         indexes.add("Pick Address by typing Address id");
 
-        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
@@ -138,7 +138,7 @@ public class AddressFacade extends TerminalCommandLayout {
         indexes.add("Save new Address");
         indexes.add("Select from unmatched address (" + unmatchedAddress.size() + ")");
 
-        int selected = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, "???", indexes);
+        int selected = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
         Address address = null;
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
@@ -170,7 +170,7 @@ public class AddressFacade extends TerminalCommandLayout {
 
     private Address pickAddressFromList(TerminalCommandLayout interlayout, List<Address> addresses) {
 
-        int index = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int index = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, addresses);
 
         System.out.println("index : " + index);
         if (FacadeUtility.isCancelledProcess(interlayout)
@@ -221,7 +221,7 @@ public class AddressFacade extends TerminalCommandLayout {
             indexes.add("City");
             indexes.add("Country");
 
-            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, indexes);
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, indexes);
             if (FacadeUtility.isCancelledProcess(interlayout)) {
                 FacadeUtility.destroyProcessCancelled();
                 return null;
@@ -275,7 +275,7 @@ public class AddressFacade extends TerminalCommandLayout {
 
     private Address selectAddressToUpdate(TerminalCommandLayout interlayout) {
         List<Address> addresses = addressService.findAll();
-        int id = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int id = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, addresses);
 
         if (FacadeUtility.isCancelledProcess(interlayout) || id == 0) {
             FacadeUtility.destroyProcessCancelled();
@@ -295,7 +295,7 @@ public class AddressFacade extends TerminalCommandLayout {
 
         System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
 
-        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_ADDRESS, addresses);
+        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, addresses);
         if (FacadeUtility.isCancelledProcess(interlayout)
                 || --result == 1) {
             FacadeUtility.destroyProcessCancelled();

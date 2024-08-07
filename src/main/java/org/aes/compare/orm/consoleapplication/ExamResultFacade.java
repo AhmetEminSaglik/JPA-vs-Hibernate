@@ -232,7 +232,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
         indexes.add("Search with Typing course name Manuel");
         List<ExamResult> examResults = null;
         while (interlayout.isAllowedCurrentProcess()) {
-            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, indexes);
+            int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
             if (FacadeUtility.isCancelledProcess(interlayout)) {
 //                FacadeUtility.destroyProcessCancelled();
                 return null;
@@ -353,7 +353,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
         ExamResult examResult;
 
 //        int inputIndex = FacadeUtility.getIndexValueOfMsgListIncludesCancelAndExit(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
-        int inputIndex = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, MetaData.PROCESS_PREFIX_EXAM_RESULT, examResults);
+        int inputIndex = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, examResults);
         if (FacadeUtility.isCancelledProcess(interlayout) || inputIndex == 0) {
 //            FacadeUtility.destroyProcessCancelled();
             FacadeUtility.destroyProcessExiting();
