@@ -23,7 +23,8 @@ public class UIConsoleDBServiceImplExamResult {
 
     public void create() {
         addLoggerData();
-        ExamResult examResult = ormApp.getExamResultFacade().save();
+//        ExamResult examResult =
+                ormApp.getExamResultFacade().save();
        destroyTerminalProcessSuccessfully();
 //        return examResult;
     }

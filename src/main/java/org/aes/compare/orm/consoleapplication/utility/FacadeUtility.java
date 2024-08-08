@@ -60,6 +60,17 @@ public class FacadeUtility {
         destroyProcess(ColorfulTextDesign::getSuccessColorText, popVal);
     }
 
+    public static void printSuccessfullyCoreProcessLogData() {
+//        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_COMPLETED);
+        String result = getCoreLoggerDataWithRequestedPrefix(MetaData.PROCESS_COMPLETED);
+        System.out.println(ColorfulTextDesign.getSuccessColorText(result));
+    }
+
+    private static String getCoreLoggerDataWithRequestedPrefix(String processResult) {
+        return LoggerProcessStack.getCoreProcess(3) + MetaData.INNER_PROCESS_PREFIX + processResult;
+    }
+
+
     public static void destroyProcessSuccessfully() {
         destroyProcessSuccessfully(2);
     }

@@ -3,6 +3,7 @@ package org.aes.compare.uiconsole.business;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 
+import java.util.List;
 import java.util.Stack;
 
 public class LoggerProcessStack {
@@ -41,6 +42,15 @@ public class LoggerProcessStack {
         stack.forEach(e -> {
             sb.append(e);
         });
+        return sb.toString();
+    }
+
+    public static String getCoreProcess(int val) {
+        StringBuilder sb = new StringBuilder();
+        List<String> subList = stack.subList(0, val);
+        for (int i = 0; i < val; i++) {
+            sb.append(subList.get(i));
+        }
         return sb.toString();
     }
 

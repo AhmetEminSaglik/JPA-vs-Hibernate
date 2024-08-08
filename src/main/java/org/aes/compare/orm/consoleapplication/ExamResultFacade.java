@@ -30,23 +30,25 @@ public class ExamResultFacade extends TerminalCommandLayout {
         this.studentFacade = studentFacade;
     }
 
-    public ExamResult save() {
-        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-        FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
+    private boolean isAllowedToSaveProcess() {
+
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
         if (!courseFacade.isAnyCourseSaved()) {
             FacadeUtility.destroyProcessWithoutPrint();
-            return null;
+            return false;
         }
         FacadeUtility.destroyProcessWithoutPrint();
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         if (!studentFacade.isAnyStudentSaved()) {
-            return null;
+            return false;
         }
         FacadeUtility.destroyProcessWithoutPrint();
-        ExamResult examResult = new ExamResult();
+        return true;
 
+    }
+
+    private Student selectStudentToSave() {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         Student student = studentFacade.findByMultipleWay();
         FacadeUtility.destroyProcessWithoutPrint();
@@ -55,9 +57,13 @@ public class ExamResultFacade extends TerminalCommandLayout {
             FacadeUtility.printColorfulWarningResult("Student must be selected to save Exam Result.");
             return null;
         }
+        return student;
 
+    }
+
+    private List<Course> getSelectedStudentEnrolledCourses(Student student) {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         List<Course> courses = courseService.findAllCourseOfStudentId(student.getId());
         if (courses.isEmpty()) {
             FacadeUtility.destroyProcessCancelled();
@@ -66,26 +72,56 @@ public class ExamResultFacade extends TerminalCommandLayout {
             FacadeUtility.printColorfulWarningResult("Student has not been enrolled to any course yet.");
             return null;
         }
-        Course course = pickCourseFromList(courses);
+        return courses;
+    }
 
-        if (course == null) {
-            FacadeUtility.destroyProcessCancelled();
-            FacadeUtility.destroyProcessWithoutPrint();
-            FacadeUtility.printColorfulWarningResult("Course is not selected.");
+    public void save() {
+        TerminalCommandLayout interLayout1 = new InnerTerminalProcessLayout();
+        FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
 
-            FacadeUtility.destroyProcessCancelled();
-            FacadeUtility.printColorfulWarningResult("Course must be selected to save Exam Result.");
-            return null;
+        if (!isAllowedToSaveProcess()) {
+            return;
         }
-        FacadeUtility.destroyProcessSuccessfully();
+        while (interLayout1.isAllowedCurrentProcess()) {
+
+            Student student = selectStudentToSave();
+            if (student == null) {
+                return;
+            }
+            List<Course> courses = getSelectedStudentEnrolledCourses(student);
+            if (courses == null) {
+                return;
+            }
+            TerminalCommandLayout interLayout2 = new InnerTerminalProcessLayout();
+
+            while (interLayout2.isAllowedCurrentProcess()) {
+                ExamResult examResult = new ExamResult();
+                examResult.setStudent(student);
+
+                Course course = pickCourseFromList(courses);
+
+                examResult.setCourse(course);
+
+                if (course == null) {
+                    FacadeUtility.destroyProcessCancelled();
+                    FacadeUtility.destroyProcessWithoutPrint();
+                    FacadeUtility.printColorfulWarningResult("Course is not selected.");
+                    break;
+//            FacadeUtility.destroyProcessCancelled();
+//            FacadeUtility.printColorfulWarningResult("Course must be selected to save Exam Result.");
+//            return;
+                }
+//                FacadeUtility.destroyProcessSuccessfully(1);
+                FacadeUtility.destroyProcessSuccessfully(1);
         FacadeUtility.printSuccessResult("Selected Course : " + course);
 
         String title = "Type Score (double): ";
 //        double score = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 100);
-        double score = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, 1, 100);
-        if (FacadeUtility.isCancelledProcess(interlayout)) {
+                double score = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interLayout2, title, 1, 100);
+                if (FacadeUtility.isCancelledProcess(interLayout2)) {
             FacadeUtility.destroyProcessCancelled(3);
-            return null;
+                    break;
+//                    return;
         }
 
         examResult.setStudent(student);
@@ -94,13 +130,17 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
         try {
             examResultService.save(examResult);
+//            FacadeUtility.destroyProcessSuccessfully(1);
+//            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.printSuccessfullyCoreProcessLogData();
+            FacadeUtility.printSuccessResult("Saved Exam Result : " + examResult);
+//            FacadeUtility.destroyProcessWithoutPrint();
         } catch (InvalidStudentCourseMatchForExamResult e) {
             System.out.println(ColorfulTextDesign.getErrorColorTextWithPrefix("Error occurred: " + e.getMessage()));
-            return null;
+            return;
         }
-        FacadeUtility.destroyProcessSuccessfully(3);
-        FacadeUtility.printSuccessResult("Saved Exam Result : " + examResult);
-        return examResult;
+            }
+        }
     }
 
     public boolean isAnyExamResultSaved() {
@@ -147,7 +187,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     public List<ExamResult> findAllByStudentIdAndCourseName() {
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
         if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
@@ -160,16 +200,23 @@ public class ExamResultFacade extends TerminalCommandLayout {
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
+
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         List<ExamResult> examResults = decidePickCourseBySelectOrTypeCourseNameOfStudent(student);
         if (examResults == null) {
-            FacadeUtility.destroyProcessWithoutPrint();
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessWithoutPrint(2);
             FacadeUtility.destroyProcessCancelled();
             return null;
         }
-        FacadeUtility.destroyProcessWithoutPrint();
+//        FacadeUtility.destroyProcessWithoutPrint();
         FacadeUtility.destroyProcessSuccessfully();
         FacadeUtility.printSuccessResult("Exam Results are retrieved : ");
         FacadeUtility.printArrResult(examResults);
+        FacadeUtility.destroyProcessWithoutPrint(2);
+        FacadeUtility.destroyProcessSuccessfully();
+
         return examResults;
     }
 
@@ -188,10 +235,10 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     public List<ExamResult> findAllByCourseName() {
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         if (!courseFacade.isAnyCourseSaved()) {
             FacadeUtility.destroyProcessWithoutPrint(2);
             return null;
@@ -199,7 +246,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
         FacadeUtility.destroyProcessSuccessfully(3);
 
         LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         if (!studentFacade.isAnyStudentSaved()) {
             FacadeUtility.destroyProcessWithoutPrint(2);
             return null;
@@ -221,7 +268,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     private List<ExamResult> findAllExamResultByCourseName() {
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
 
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         List<String> indexes = new ArrayList<>();
@@ -274,20 +321,21 @@ public class ExamResultFacade extends TerminalCommandLayout {
     }
 
     public void update() {
+        TerminalCommandLayout interLayout= new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
-
         if (!courseFacade.isAnyCourseSaved()
                 || !studentFacade.isAnyStudentSaved()
                 || !isAnyExamResultSaved()) {
             return;
         }
-        while (true) {
+        while (interLayout.isAllowedCurrentProcess()) {
             List<ExamResult> examResults = examResultService.findAll();
+            FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
             ExamResult examResult = pickExamResultFromList(examResults);
             if (examResult == null) {
                 break;
             } else {
-                FacadeUtility.initProcess(MetaData.PROCESS_ITEM, MetaData.PROCESS_STARTS);
+                FacadeUtility.destroyProcessSuccessfully();
                 FacadeUtility.printSuccessResult("Selected Exam Result : " + examResult);
                 double newScore = updateExamResultScore(examResult.getScore());
                 if (newScore == examResult.getScore()) {
@@ -295,8 +343,8 @@ public class ExamResultFacade extends TerminalCommandLayout {
                 } else {
                     examResult.setScore(newScore);
                     examResultService.update(examResult);
-                    FacadeUtility.printSuccessResult("Current Exam Result : " + examResult);
-                    FacadeUtility.destroyProcessSuccessfully();
+                    FacadeUtility.printSuccessfullyCoreProcessLogData();
+                    FacadeUtility.printSuccessResult("Updated Data : " + examResult);
                 }
 
             }
@@ -305,7 +353,7 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
     private double updateExamResultScore(double score) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-        String title = "Type new Score (double) (-1 to cancel): ";
+        String title = "Type new Score (double) ((-1) cancel): ";
 //        double result = SafeScannerInput.getCertainDoubleSafe(interlayout, -1, 100);
         double result = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, -1, 100);
         if (result == -1 || FacadeUtility.isCancelledProcess(interlayout)) {
@@ -346,19 +394,19 @@ public class ExamResultFacade extends TerminalCommandLayout {
 
     private ExamResult pickExamResultFromList(List<ExamResult> examResults) {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+//        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         ExamResult examResult;
 
         int inputIndex = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, examResults);
         if (FacadeUtility.isCancelledProcess(interlayout) || inputIndex == 0) {
-            FacadeUtility.destroyProcessExiting();
-            FacadeUtility.destroyProcessExiting();
+//            FacadeUtility.destroyProcessExiting();
+//            FacadeUtility.destroyProcessExiting();
             return null;
         }
         inputIndex--;
 
         examResult = examResults.get(inputIndex);
-        FacadeUtility.destroyProcessSuccessfully();
+//        FacadeUtility.destroyProcessSuccessfully();
         return examResult;
     }
 
