@@ -163,8 +163,8 @@ public class FacadeUtility {
     }
 
     public static String getSafeStringInputFromTerminalProcess(TerminalCommandLayout interlayout, String title) {
-        System.out.print(title);
-        String input = SafeScannerInput.getStringNotBlank(interlayout);
+//        System.out.print(title);
+        String input = SafeScannerInput.getStringNotBlank(interlayout, title);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return null;
         }
@@ -175,8 +175,7 @@ public class FacadeUtility {
     }
 
     public static int getSafeIntInputFromTerminalProcess(TerminalCommandLayout interlayout, String title) {
-        System.out.print(title);
-        int input = SafeScannerInput.getCertainIntSafe(interlayout);
+        int input = SafeScannerInput.getCertainIntSafe(interlayout,title);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return Integer.MIN_VALUE;
         }
@@ -187,8 +186,7 @@ public class FacadeUtility {
     }
 
     public static int getSafeIntInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
-        System.out.print(title);
-        int input = SafeScannerInput.getCertainIntSafe(interlayout, min, max);
+        int input = SafeScannerInput.getCertainIntSafe(interlayout,title, min, max);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return Integer.MIN_VALUE;
         }
@@ -199,8 +197,7 @@ public class FacadeUtility {
     }
 
     public static double getSafeDoubleInputFromTerminalProcess(TerminalCommandLayout interlayout, String title, int min, int max) {
-        System.out.print(title);
-        double input = SafeScannerInput.getCertainDoubleSafe(interlayout, min, max);
+        double input = SafeScannerInput.getCertainDoubleSafe(interlayout, title, min, max);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             return Integer.MIN_VALUE;
         }

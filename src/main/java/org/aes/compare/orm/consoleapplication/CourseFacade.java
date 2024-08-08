@@ -50,16 +50,16 @@ public class CourseFacade extends TerminalCommandLayout {
         if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
             course = properCourses.get(result);
 
-            System.out.print("Type for Course name : ");
-            String name = SafeScannerInput.getStringNotBlank(interlayout);
+            String title = "Type for Course name : ";
+            String name = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
             if (FacadeUtility.isCancelledProcess(interlayout)) {
                 return null;
             }
 
             course.setName(name);
 
-            System.out.print("Type for Course Credit (double): ");
-            double credit = SafeScannerInput.getCertainDoubleSafe(interlayout, 1, 20);
+            title = "Type for Course Credit (double): ";
+            double credit = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, 1, 20);
             if (FacadeUtility.isCancelledProcess(interlayout)) {
                 return null;
             }

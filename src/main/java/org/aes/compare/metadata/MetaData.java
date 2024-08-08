@@ -3,12 +3,11 @@ package org.aes.compare.metadata;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 
 public class MetaData {
-    public static final String SELECT_ONE_OPTION = "Please type number : ";
+    public static final String SELECT_ONE_OPTION = "Please select one option : ";
     public static final String PROCESS_COMPLETED = "Process is completed.";
     public static final String PROCESS_STARTS = "Process is started.";
     public static final String PROCESS_FAILED = "Process is failed.";
     public static final String PROCESS_IS_CANCELLED = "Process is cancelled. ";
-    public static final String PROCESS_IS_CANCELLED_FATAL = "Process is cancelled. ";
     public static final String SWITCH_DEFAULT_INVALID_CHOICE = "Invalid Choose try again!";
     public static final String EXITING_FROM_PROCESS = "Exiting from process...";
     public static final String PROCESS_RESULT_PREFIX = " --> ";

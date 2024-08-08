@@ -33,7 +33,7 @@ public class StaticData {
         helpInfos.add("-q : Quit current process");
         helpInfos.add("-e : Exit program");
         helpInfos.add("-h : Help");
-        helpInfos.add("-l : list");
+//        helpInfos.add("-l : list");
         helpInfos.add("---------------------------");
 
         helpInfos.add("[*] CRUD Functions: ");

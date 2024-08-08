@@ -334,7 +334,7 @@ public class StudentFacade extends TerminalCommandLayout {
             option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, indexes);
             int result;
             if (FacadeUtility.isCancelledProcess(interlayout)) {
-                FacadeUtility.destroyProcessCancelled();
+                FacadeUtility.destroyProcessCancelled(3);
                 return null;
             }
             switch (option) {
