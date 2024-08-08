@@ -310,7 +310,7 @@ public class AddressFacade extends TerminalCommandLayout {
         while (interlayout.isAllowedCurrentProcess()) {
             List<Address> addresses = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
             if (addresses.isEmpty()) {
-                FacadeUtility.destroyProcessExiting(2);
+                FacadeUtility.destroyProcessExiting();
                 FacadeUtility.printColorfulWarningResult("Not remained any deletable address.");
                 FacadeUtility.printSlash();
                 return;
@@ -318,7 +318,7 @@ public class AddressFacade extends TerminalCommandLayout {
 
             int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, addresses);
             if (FacadeUtility.isCancelledProcess(interlayout)|| result == 0) {
-                FacadeUtility.destroyProcessExiting(2);
+                FacadeUtility.destroyProcessExiting();
                 FacadeUtility.printSlash();
                 return;
             }

@@ -19,27 +19,27 @@ public class UIConsoleDBServiceImplStudent {
         FacadeUtility.destroyProcessSuccessfully(3);
     }
 
-    public Student create() {
+    public void create() {
         addLoggerData();
         Student student = ormApp.getStudentFacade().save();
         destroyTerminalProcessSuccessfully();
-        return student;
+//        return student;
     }
 
 
-    public List<Student> read() {
+    public void read() {
         addLoggerData();
         List<Student> students = ormApp.getStudentFacade().findAll();
         destroyTerminalProcessSuccessfully();
-        return students;
+//        return students;
     }
 
 
-    public Student update() {
+    public void update() {
         addLoggerData();
         Student student = ormApp.getStudentFacade().update();
         destroyTerminalProcessSuccessfully();
-        return student;
+//        return student;
     }
 
 

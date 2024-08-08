@@ -341,7 +341,7 @@ public class StudentFacade extends TerminalCommandLayout {
             List<String> indexes = new ArrayList<>();
             indexes.add("Match course from registered Courses (" + courseStudentDidNotEnroll.size() + ")");
             indexes.add("Remove course from student Courses (" + studentCourses.size() + ")");
-            indexes.add("Create new Course");
+//            indexes.add("Create new Course");
 
             printArrWithNo(studentCourses);
             option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, indexes);
@@ -391,10 +391,10 @@ public class StudentFacade extends TerminalCommandLayout {
                         }
                     }
                     break;
-                case 3:
-                    Course course = courseFacade.save();
-                    studentCourses.add(course);
-                    break;
+//                case 3:
+//                    Course course = courseFacade.save();
+//                    studentCourses.add(course);
+//                    break;
                 default:
                     System.out.println("Unknown process. Developer must work to fix this bug.");
             }

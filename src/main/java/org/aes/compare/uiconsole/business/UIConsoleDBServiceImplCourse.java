@@ -1,11 +1,7 @@
 package org.aes.compare.uiconsole.business;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
-import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.ORMApp;
-import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
 import org.aes.compare.orm.model.courses.abstracts.Course;
 import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
@@ -48,26 +44,27 @@ public class UIConsoleDBServiceImplCourse  {
         }
     }*/
 
-    public Course create() {
+    public void create() {
         addLoggerData();
-        Course course = ormApp.getCourseFacade().save();
+//        Course course =
+        ormApp.getCourseFacade().save();
         destroyTerminalProcessSuccessfully();
-        return course;
+//        return course;
     }
 
-    public List<Course> read() {
+    public void read() {
         addLoggerData();
         List<Course> courses = ormApp.getCourseFacade().findAll();
         destroyTerminalProcessSuccessfully();
-        return courses;
+//        return courses;
     }
 
 
-    public Course update() {
+    public void update() {
         addLoggerData();
         Course course = ormApp.getCourseFacade().update();
         destroyTerminalProcessSuccessfully();
-        return course;
+//        return course;
     }
 
     public void delete() {

@@ -21,19 +21,19 @@ public class UIConsoleDBServiceImplExamResult {
         FacadeUtility.destroyProcessSuccessfully(3);
     }
 
-    public ExamResult create() {
+    public void create() {
         addLoggerData();
         ExamResult examResult = ormApp.getExamResultFacade().save();
        destroyTerminalProcessSuccessfully();
-        return examResult;
+//        return examResult;
     }
 
 
-    public List<ExamResult> read() {
+    public void read() {
         addLoggerData();
         List<ExamResult> examResult = ormApp.getExamResultFacade().findAll();
        destroyTerminalProcessSuccessfully();
-        return examResult;
+//        return examResult;
     }
 
     public void update() {

@@ -17,7 +17,6 @@ import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
 import org.aes.compare.orm.model.courses.concretes.programming.ReactCourse;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,47 +33,59 @@ public class CourseFacade extends TerminalCommandLayout {
         this.studentFacade = studentFacade;
     }
 
-    public Course save() {
-        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
+    public void save() {
         FacadeUtility.initProcess(MetaData.PROCESS_SAVE, MetaData.PROCESS_STARTS);
-        List<Course> properCourses = getProperCoursesToSave();
-        int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, properCourses);
+        saveCourseProcess();
+    }
 
-        if (FacadeUtility.isCancelledProcess(interlayout) || result == 0) {
-            FacadeUtility.destroyProcessCancelled();
-            return null;
-        }
-
-        result--;
+    private void saveCourseProcess() {
+        TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         Course course;
-        if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
-            course = properCourses.get(result);
+        while (interlayout.isAllowedCurrentProcess()) {
+            List<Course> properCourses = getProperCoursesToSave();
 
-            String title = "Type for Course name : ";
-            String name = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
+            int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, properCourses);
+
             if (FacadeUtility.isCancelledProcess(interlayout)) {
-                return null;
+                FacadeUtility.destroyProcessCancelled();
+                return;
+            }
+            if (result == 0) {
+                FacadeUtility.destroyProcessExiting();
+                return;
             }
 
-            course.setName(name);
+            result--;
+            if (properCourses.get(result).getClass().getSimpleName().equals(OtherCourse.class.getSimpleName())) {
+                course = properCourses.get(result);
 
-            title = "Type for Course Credit (double): ";
-            double credit = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, 1, 20);
-            if (FacadeUtility.isCancelledProcess(interlayout)) {
-                return null;
+                String title = "Type for Course name : ";
+                String name = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
+                if (FacadeUtility.isCancelledProcess(interlayout)) {
+                    FacadeUtility.destroyProcessCancelled();
+                    return;
+                }
+
+                course.setName(name);
+
+                title = "Type for Course Credit (double): ";
+                double credit = FacadeUtility.getSafeDoubleInputFromTerminalProcess(interlayout, title, 1, 20);
+                if (FacadeUtility.isCancelledProcess(interlayout)) {
+                    FacadeUtility.destroyProcessCancelled(1);
+                    return;
+                }
+                course.setCredit(credit);
+                courseService.save(course);
+            } else {
+                course = properCourses.get(result);
+                courseService.save(course);
             }
-            course.setCredit(credit);
-            courseService.save(course);
-        } else {
-            course = properCourses.get(result);
-            courseService.save(course);
+            FacadeUtility.destroyProcessSuccessfully(1);
+            FacadeUtility.printSuccessResult(course.toString());
+
+            FacadeUtility.printSlash();
         }
-        FacadeUtility.destroyProcessSuccessfully();
-        FacadeUtility.printSuccessResult(course.toString());
 
-        FacadeUtility.printSlash();
-
-        return course;
     }
 
     private List<Course> getProperCoursesToSave() {
@@ -122,6 +133,14 @@ public class CourseFacade extends TerminalCommandLayout {
             return null;
         }
         Course course = selectCourse(courses);
+
+        if (course == null) {
+            FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printColorfulWarningResult(MetaData.COURSE_NOT_SELECTED);
+        } else {
+            FacadeUtility.destroyProcessSuccessfully();
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + course);
+        }
 
         FacadeUtility.printSlash();
         return course;
@@ -172,21 +191,19 @@ public class CourseFacade extends TerminalCommandLayout {
 
         int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
-            FacadeUtility.destroyProcessCancelled();
+//            FacadeUtility.destroyProcessCancelled();
             return null;
         }
         switch (option) {
             case 0:
-                course = null;
-                break;
+                return null;
             case 1:
-                course = pickCourseFromList(courses);
-                break;
+                return pickCourseFromList(courses);
             case 2:
                 String title = "Type Course Name : ";
                 String courseName = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
                 if (FacadeUtility.isCancelledProcess(interlayout)) {
-                    FacadeUtility.destroyProcessCancelled(2);
+//                    FacadeUtility.destroyProcessCancelled(2);
                     return null;
                 }
                 course = courseService.findByName(courseName);
@@ -194,19 +211,13 @@ public class CourseFacade extends TerminalCommandLayout {
                     System.out.println(ColorfulTextDesign.getErrorColorText(MetaData.PROCESS_RESULT_PREFIX + "Course is not found with given name(" + courseName + "). Please try again"));
                     return selectCourse(courses);
                 }
-                break;
+                return course;
             default:
                 System.out.println("Unknown process. Developer must work to fix this bug.");
                 return selectCourse(courses);
         }
-        if (course == null) {
-            FacadeUtility.destroyProcessCancelled();
-            FacadeUtility.printColorfulWarningResult(MetaData.COURSE_NOT_SELECTED);
-        } else {
-            FacadeUtility.destroyProcessSuccessfully();
-            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + course);
-        }
-        return course;
+
+
     }
 
     public Course pickCourseFromList(List<Course> courses) {
@@ -226,11 +237,16 @@ public class CourseFacade extends TerminalCommandLayout {
             return null;
         }
         List<Course> courses = courseService.findAll();
+
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
+
         int selectedCourse = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, courses);
         if (FacadeUtility.isCancelledProcess(interlayout) || selectedCourse == 0) {
             FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.destroyProcessCancelled();
             return null;
         }
+        FacadeUtility.destroyProcessSuccessfully();
         selectedCourse--;
 
         Course course = courses.get(selectedCourse);
@@ -248,7 +264,7 @@ public class CourseFacade extends TerminalCommandLayout {
         indexed.add("Update Course Credit");
         while (interlayout.isAllowedCurrentProcess()) {
             String title;
-            System.out.println("Current Course : " + tmpCourse);
+            FacadeUtility.printSuccessResult("Current Course : " + tmpCourse);
             int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistAndCancelFromTerminalProcess(interlayout, indexed);
             if (FacadeUtility.isCancelledProcess(interlayout)) {
                 FacadeUtility.destroyProcessCancelled();
@@ -310,7 +326,15 @@ public class CourseFacade extends TerminalCommandLayout {
         if (!isAnyCourseSaved()) {
             return;
         }
+        while (interlayout.isAllowedCurrentProcess()) {
         List<Course> courses = courseService.findAll();
+            if (courses.isEmpty()) {
+                FacadeUtility.destroyProcessExiting(2);
+                FacadeUtility.printColorfulWarningResult("Not remained any deletable course.");
+                FacadeUtility.printSlash();
+                return;
+            }
+
         int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, courses);
         if (FacadeUtility.isCancelledProcess(interlayout) || result == 0) {
             FacadeUtility.destroyProcessCancelled();
@@ -320,12 +344,12 @@ public class CourseFacade extends TerminalCommandLayout {
         Course course = courses.get(result);
         try {
             courseService.deleteCourseById(course.getId());
-            FacadeUtility.destroyProcessSuccessfully();
+            FacadeUtility.destroyProcessSuccessfully(1);
             FacadeUtility.printSuccessResult("Course (name=" + course.getName() + ") is deleted.");
         } catch (InvalidCourseDeleteRequestStudentEnrolled e) {
             System.out.println(e.getMessage());
-            FacadeUtility.destroyProcessCancelled();
             FacadeUtility.printColorfulWarningResult("To delete this course first remove all students who take this course.");
+        }
         }
     }
 

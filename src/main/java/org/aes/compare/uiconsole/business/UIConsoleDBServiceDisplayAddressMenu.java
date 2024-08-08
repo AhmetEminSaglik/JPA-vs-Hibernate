@@ -20,25 +20,25 @@ public class UIConsoleDBServiceDisplayAddressMenu  {
     private  void destroyTerminalProcessSuccessfully(){
         FacadeUtility.destroyProcessSuccessfully(3);
     }
-    public Address create() {
+    public void create() {
         addLoggerData();
         Address address = ormApp.getAddressFacade().save();
         destroyTerminalProcessSuccessfully();
-        return address;
+//        return address;
     }
 
-    public List<Address> read() {
+    public void read() {
         addLoggerData();
         List<Address> addresses = ormApp.getAddressFacade().findAll();
         destroyTerminalProcessSuccessfully();
-        return addresses;
+//        return addresses;
     }
 
-    public Address update() {
+    public void update() {
         addLoggerData();
         Address address = ormApp.getAddressFacade().updateAddressProcess();
         destroyTerminalProcessSuccessfully();
-        return address;
+//        return address;
     }
 
     public void delete() {
