@@ -51,6 +51,7 @@ public class MetaData {
     public static final String PROCESS_DELETE = "::[DELETE]";
     public static final String PROCESS_READ = "::[READ]";
     public static final String PROCESS_ITEM = "::[ITEM]";
+    public static final String PROCESS_SELECT = "::[SELECT]";
 
     public static String getCourseNameIsNotFound(String courseName) {
         return ColorfulTextDesign.getErrorColorText(PROCESS_RESULT_PREFIX + "Course(name=" + courseName + ") is not found.");

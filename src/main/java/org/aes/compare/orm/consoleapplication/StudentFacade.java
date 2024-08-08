@@ -71,7 +71,15 @@ public class StudentFacade extends TerminalCommandLayout {
     }
 
     private Address updateStudentAddressProgress(Address address) {
-        return addressFacade.updateSelectedAddress(address);
+//        return addressFacade.updateSelectedAddress(address);
+        address = addressFacade.updateSelectedAddress(address);
+        if (address == null) {
+            FacadeUtility.destroyProcessCancelled();
+        } else {
+            FacadeUtility.destroyProcessSuccessfully();
+            System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
+        }
+        return address;
     }
 
     private Address studentSaveProcessDecideAddressProgress() {
