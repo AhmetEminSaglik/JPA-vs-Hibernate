@@ -1,6 +1,7 @@
 package org.aes.compare.orm.business.abstracts;
 
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
 import org.aes.compare.orm.model.Student;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public interface StudentService {
 
     void update(Student s);
 
-    void deleteById(int id);
+    void deleteById(int id) throws InvalidStudentDeleteRequestHavingExamResult;
 
     void resetTable();
 

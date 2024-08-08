@@ -6,6 +6,7 @@ import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.comparator.StudentComparator;
 import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 
@@ -73,11 +74,15 @@ public class StudentServiceImplHibernate extends HibernateImplementation<Student
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(int id) throws InvalidStudentDeleteRequestHavingExamResult {
         initializeTransaction();
         Student student = session.find(Student.class, id);
-        session.remove(student);
-        commit();
+        try {
+            session.remove(student);
+            commit();
+        } catch (Exception e) {
+            throw new InvalidStudentDeleteRequestHavingExamResult(student);
+        }
     }
 
     @Override

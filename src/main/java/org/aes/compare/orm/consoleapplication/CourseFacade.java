@@ -110,7 +110,7 @@ public class CourseFacade extends TerminalCommandLayout {
     }
 
     public Course findByMultipleWay() {
-        FacadeUtility.initProcess(MetaData.PROCESS_READ, MetaData.PROCESS_STARTS);
+        FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
 
         if (!isAnyCourseSaved()) {
             return null;

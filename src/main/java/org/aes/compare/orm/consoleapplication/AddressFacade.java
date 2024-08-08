@@ -308,8 +308,6 @@ public class AddressFacade extends TerminalCommandLayout {
         System.out.println(ColorfulTextDesign.getWarningColorText("NOTE : Each Student must have one address.\nOnly deletable addresses (that are unmatched by any student) are listed below."));
 
         while (interlayout.isAllowedCurrentProcess()) {
-
-
             List<Address> addresses = addressService.findAllSavedAndNotMatchedAnyStudentAddress();
             if (addresses.isEmpty()) {
                 FacadeUtility.destroyProcessExiting(2);
@@ -317,13 +315,9 @@ public class AddressFacade extends TerminalCommandLayout {
                 FacadeUtility.printSlash();
                 return;
             }
-            System.out.println("Address.isempty : " + addresses.isEmpty() + " data size : " + addresses.size());
+
             int result = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, addresses);
-            if (FacadeUtility.isCancelledProcess(interlayout)
-//                    || addresses.isEmpty()
-//                    ||
-                    || result == 0
-            ) {
+            if (FacadeUtility.isCancelledProcess(interlayout)|| result == 0) {
                 FacadeUtility.destroyProcessExiting(2);
                 FacadeUtility.printSlash();
                 return;
@@ -334,6 +328,5 @@ public class AddressFacade extends TerminalCommandLayout {
             FacadeUtility.destroyProcessSuccessfully(1);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Address(id=" + addressToDelete.getId() + ") is deleted.");
         }
-//        LoggerProcessStack.pop();
     }
 }

@@ -6,6 +6,7 @@ import org.aes.compare.orm.business.abstracts.StudentService;
 import org.aes.compare.orm.business.concrete.comparator.StudentComparator;
 import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
 import org.aes.compare.orm.model.Student;
 import org.aes.compare.orm.utility.ColorfulTextDesign;
 
@@ -72,11 +73,15 @@ public class StudentServiceImpJPA extends JpaImplementation<Student> implements 
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(int id) throws InvalidStudentDeleteRequestHavingExamResult {
         initializeTransaction();
         Student student = entityManager.find(Student.class, id);
-        entityManager.remove(student);
-        commit();
+        try {
+            entityManager.remove(student);
+            commit();
+        } catch (Exception e) {
+            throw new InvalidStudentDeleteRequestHavingExamResult(student);
+        }
     }
 
     @Override
