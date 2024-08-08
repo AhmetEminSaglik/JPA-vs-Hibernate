@@ -29,6 +29,7 @@ public class AddressFacade extends TerminalCommandLayout {
         input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printSlash();
             return null;
         }
         address.setCountry(input);
@@ -37,6 +38,7 @@ public class AddressFacade extends TerminalCommandLayout {
         input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printSlash();
             return null;
         }
         address.setCity(input);
@@ -46,6 +48,7 @@ public class AddressFacade extends TerminalCommandLayout {
         input = FacadeUtility.getSafeStringInputFromTerminalProcess(interlayout, title);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printSlash();
             return null;
         }
         address.setStreet(input);
@@ -78,16 +81,19 @@ public class AddressFacade extends TerminalCommandLayout {
     public Address findByMultipleWay() {
         FacadeUtility.initProcess(MetaData.PROCESS_SELECT, MetaData.PROCESS_STARTS);
         if (!isAnyAddressSaved()) {
+            FacadeUtility.printSlash();
             return null;
         }
         Address address = pickAddressFromSwitchCase();
 
         if (address == null) {
             FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printSlash();
             return null;
         } else {
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
+            FacadeUtility.printSlash();
         }
         return address;
     }
@@ -204,11 +210,13 @@ public class AddressFacade extends TerminalCommandLayout {
         FacadeUtility.initProcess(MetaData.PROCESS_UPDATE, MetaData.PROCESS_STARTS);
         Address address = null;
         if (!isAnyAddressSaved()) {
+            FacadeUtility.printSlash();
             return address;
         }
         address = selectAddressToUpdate(interlayout);
         if (address == null) {
             FacadeUtility.destroyProcessCancelled();
+            FacadeUtility.printSlash();
             return address;
         }
         address = updateSelectedAddress(address);
@@ -218,6 +226,7 @@ public class AddressFacade extends TerminalCommandLayout {
             FacadeUtility.destroyProcessSuccessfully();
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + address);
         }
+        FacadeUtility.printSlash();
         return address;
     }
 
@@ -302,6 +311,7 @@ public class AddressFacade extends TerminalCommandLayout {
         TerminalCommandLayout interlayout = new InnerTerminalProcessLayout();
         FacadeUtility.initProcess(MetaData.PROCESS_DELETE, MetaData.PROCESS_STARTS);
         if (!isAnyAddressSaved(addressService.findAllSavedAndNotMatchedAnyStudentAddress())) {
+            FacadeUtility.printSlash();
             return;
         }
 
@@ -327,6 +337,8 @@ public class AddressFacade extends TerminalCommandLayout {
             addressService.deleteById(addressToDelete.getId());
             FacadeUtility.destroyProcessSuccessfully(1);
             System.out.println(ColorfulTextDesign.getSuccessColorText(MetaData.PROCESS_RESULT_PREFIX) + "Address(id=" + addressToDelete.getId() + ") is deleted.");
+            FacadeUtility.printSlash();
+
         }
     }
 }

@@ -62,7 +62,7 @@ public class UIConsoleDBServiceImplCourse  {
 
     public void update() {
         addLoggerData();
-        Course course = ormApp.getCourseFacade().update();
+        ormApp.getCourseFacade().update();
         destroyTerminalProcessSuccessfully();
 //        return course;
     }

@@ -32,7 +32,7 @@ public class UIConsoleDBServiceImplExamResult {
 
     public void read() {
         addLoggerData();
-        List<ExamResult> examResult = ormApp.getExamResultFacade().findAll();
+        ormApp.getExamResultFacade().findAll();
        destroyTerminalProcessSuccessfully();
 //        return examResult;
     }
