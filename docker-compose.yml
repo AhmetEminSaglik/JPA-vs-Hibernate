@@ -1,32 +1,25 @@
-version: '3.8'
+version: '3'
 
 services:
-  app:
-    container_name: orm-demo
-    build: .
-    stdin_open: true  # Etkileşimli girdi için
-    tty: true         # Terminali açmak için
-    image: orm-image
-    networks:
-      - external-api   # Özel ağa bağlanma
-    environment:
-      - JDBC_DATABASE_URL=jdbc:mysql://mysql:3306/school_db  # MySQL servisi adıyla bağlanma
-      - JDBC_DATABASE_USERNAME=root
-      - JDBC_DATABASE_PASSWORD=12345
-    depends_on:
-      - mysql
 
-  mysql:
-    image: mysql:latest
-    container_name: mysql-orm-demo
-    restart: always
-    networks:
-      - external-api   # Özel ağa bağlanma
+  docker-mysql:
+    image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: school_db
+      MYSQL_DATABASE: 'school_db'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     ports:
-      - "3308:3306"    # Dışarıya 3308 portunu açma
+      - '3306:3306'
+    networks:
+      - orm-network
+
+  app:
+    image:  ahmeteminsaglik/jpa-hibernate-console
+    depends_on:
+      - docker-mysql
+    networks:
+        - orm-network
+
 
 networks:
-  external-api:       # Özel ağ tanımı
+  orm-network:
+    driver: bridge
