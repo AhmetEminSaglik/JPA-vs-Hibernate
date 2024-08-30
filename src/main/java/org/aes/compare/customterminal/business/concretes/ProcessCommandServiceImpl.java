@@ -91,14 +91,13 @@ public class ProcessCommandServiceImpl implements ProcessCommandService {
         for (int i = 0; i < cmdArr.length; i++) {
             if (!cmdArr[i].isEmpty() || cmdArr[i] != CMDLineSingletonBuilder.getCmdLine().getPrefix()) {
                 for (EnumModelCommand tmp : EnumModelCommand.values()) {
-                    if (cmdArr[i].equals(tmp.getShortName())) {
+                    if (cmdArr[i].equals(tmp.getShortName())||cmdArr[i].equals(tmp.getName())) {
                         if (terminalCMD.getModelCommand() == null) {
                             terminalCMD.setModelCommand(tmp);
                         } else {
                             throw new Exception("Invalid Requested CRUD Operation." + helpMsg);
                         }
                         cmdArr[i] = "";
-                    } else if (cmdArr[i].equals(tmp.getName())) {
                     }
                 }
             }
