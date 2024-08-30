@@ -22,6 +22,7 @@ public class MusicPlayer {
                 } catch (JavaLayerException e) {
                     throw new RuntimeException(e);
                 }
+
             }
         });
         thread.start();

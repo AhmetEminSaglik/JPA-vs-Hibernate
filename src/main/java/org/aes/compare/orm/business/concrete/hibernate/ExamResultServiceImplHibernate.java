@@ -118,11 +118,11 @@ public class ExamResultServiceImplHibernate extends HibernateImplementation<Exam
     @Override
     public void resetTable() {
         initializeTransaction();
-        session.createNativeMutationQuery("DELETE FROM exam_result")
+        session.createNativeMutationQuery("DELETE FROM exam_results")
                 .executeUpdate();
 
         session.createNativeMutationQuery(
-                        "ALTER TABLE exam_result AUTO_INCREMENT = 1")
+                        "ALTER TABLE exam_results AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
     }

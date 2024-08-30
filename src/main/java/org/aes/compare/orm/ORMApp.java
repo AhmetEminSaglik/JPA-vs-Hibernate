@@ -11,6 +11,8 @@ import org.aes.compare.uiconsole.business.LoggerProcessStack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
 
 public class ORMApp extends TerminalCommandLayout {
     private final ORMConfigSingleton orm = new ORMConfigSingleton();
@@ -25,7 +27,7 @@ public class ORMApp extends TerminalCommandLayout {
     }
 
     private void greetUser() {
-        System.out.println("Hello. Welcome to program.\nPlease select where do you run the project.");
+        System.out.println("Hello. Welcome to program.\nPlease type enter to go on.");
     }
 
     private void runInitConf() {

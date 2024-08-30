@@ -123,7 +123,7 @@ public class ExamResultServiceImplJPA extends JpaImplementation<ExamResult> impl
         entityManager.createQuery("DELETE FROM ExamResult")
                 .executeUpdate();
         entityManager.createNativeQuery(
-                        "ALTER TABLE exam_result AUTO_INCREMENT = 1")
+                        "ALTER TABLE exam_results AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
     }

@@ -65,13 +65,13 @@ public class AddressServiceImplHibernate extends HibernateImplementation<Address
     @Override
     public void resetTable() {
         initializeTransaction();
-        session.createNativeMutationQuery("DELETE FROM address")
+        session.createNativeMutationQuery("DELETE FROM addresses")
                 .executeUpdate();
         commit();
 
         initializeTransaction();
 
-        session.createNativeMutationQuery("ALTER TABLE address AUTO_INCREMENT = 1")
+        session.createNativeMutationQuery("ALTER TABLE addresses AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
 

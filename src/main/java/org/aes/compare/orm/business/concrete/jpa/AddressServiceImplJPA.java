@@ -66,14 +66,13 @@ public class AddressServiceImplJPA extends JpaImplementation<Address> implements
     @Override
     public void resetTable() {
         initializeTransaction();
-
-        entityManager.createNativeQuery("DELETE FROM Address")
+        entityManager.createNativeQuery("DELETE FROM addresses")
                 .executeUpdate();
-        commit();
-
-        initializeTransaction();
-
-        entityManager.createNativeQuery("ALTER TABLE address AUTO_INCREMENT = 1")
+//        commit();
+//
+//        initializeTransaction();
+//
+        entityManager.createNativeQuery("ALTER TABLE addresses AUTO_INCREMENT = 1")
                 .executeUpdate();
         commit();
     }

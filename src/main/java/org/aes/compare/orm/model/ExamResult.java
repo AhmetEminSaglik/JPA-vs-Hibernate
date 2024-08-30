@@ -6,7 +6,7 @@ import org.aes.compare.orm.model.courses.abstracts.Course;
 import java.util.Objects;
 
 @Entity
-@Table(name = "exam_result")
+@Table(name = "exam_results")
 public class ExamResult {
 
     @Id
