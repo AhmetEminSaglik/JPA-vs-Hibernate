@@ -5,9 +5,9 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost:3308/school_db?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
+        <property name="connection.url">jdbc:mysql://127.0.0.1:3306/school_db?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
         <property name="connection.username">root</property>
-        <property name="connection.password">12345</property>
+        <property name="connection.password"></property>
 
         <!--        <property name="connection.url">jdbc:mysql://localhost:3306/school_db?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>-->
         <!--        <property name="connection.username">root</property>-->

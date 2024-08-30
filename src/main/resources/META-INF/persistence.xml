@@ -5,9 +5,9 @@
     <persistence-unit name="persistenceUnitRealProject" transaction-type="RESOURCE_LOCAL">
         <properties>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3308/school_db?createDatabaseIfNotExist=true"/>
+                      value="jdbc:mysql://127.0.0.1:3306/school_db?createDatabaseIfNotExist=true"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value="12345"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
 
             <!--            <property name="jakarta.persistence.jdbc.url"-->
             <!--                      value="jdbc:mysql://localhost:3306/school_db?createDatabaseIfNotExist=true"/>-->
@@ -28,9 +28,9 @@
     <persistence-unit name="persistenceUnitTest" transaction-type="RESOURCE_LOCAL">
         <properties>
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost:3308/school_db_test?createDatabaseIfNotExist=true"/>
+                      value="jdbc:mysql://127.0.0.1:3306/school_db_test?createDatabaseIfNotExist=true"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
-            <property name="jakarta.persistence.jdbc.password" value="12345"/>
+            <property name="jakarta.persistence.jdbc.password" value=""/>
 
             <!--            <property name="jakarta.persistence.jdbc.url"-->
             <!--                      value="jdbc:mysql://localhost:3306/school_db?createDatabaseIfNotExist=true"/>-->

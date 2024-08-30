@@ -9,6 +9,7 @@ import org.aes.compare.orm.config.ORMConfigSingleton;
 import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
 import org.aes.compare.orm.model.Address;
 import org.aes.compare.orm.model.ExamResult;
 import org.aes.compare.orm.model.Student;
@@ -39,17 +40,12 @@ public class MixedORMTest {
     @BeforeAll
     public static void resetTablesBeforeAll() throws InterruptedException {
         enableJPA();
-        JpaImplementation.setPersistanceUnit(EnumJPAConfigFile.JUNIT_TEST);
         examResultService.resetTable();
         courseService.resetTable();
         studentService.resetTable();
         addressService.resetTable();
-        Thread.sleep(1500);
     }
-    @BeforeEach
-    public  void sleep() throws InterruptedException {
-//        Thread.sleep(500);
-    }
+
     private static void enableJPA() {
         ormConfig.enableJPA(EnumJPAConfigFile.JUNIT_TEST);
         resetORMServices();
@@ -301,7 +297,11 @@ public class MixedORMTest {
         Student student = studentService.findById(1);
         Assertions.assertTrue(student != null);
 
-        studentService.deleteById(1);
+        try {
+            studentService.deleteById(1);
+        } catch (InvalidStudentDeleteRequestHavingExamResult e) {
+            System.out.println(e.getMessage());
+        }
         student = studentService.findById(1);
         Assertions.assertTrue(student == null);
 

@@ -10,19 +10,20 @@ public class MusicPlayer {
     private static Player player;
 
     public void start() {
-
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     InputStream in = getClass().getResourceAsStream(path);
                     player = new Player(in);
-                    player.play();
-
+                    while (!player.isComplete()) {
+                        player.play();
+                    }
+                    // Müzik bittiğinde tekrar başla
+                    start();
                 } catch (JavaLayerException e) {
                     throw new RuntimeException(e);
                 }
-
             }
         });
         thread.start();

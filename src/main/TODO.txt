@@ -166,3 +166,7 @@ Test
 + StudentFacade
 + CourseFacade
 + ExamResultFacade
+
+-----------------------------------------
+Printing only necessary data will be added.
+For example :  while print student, only student data must be added, not address data
