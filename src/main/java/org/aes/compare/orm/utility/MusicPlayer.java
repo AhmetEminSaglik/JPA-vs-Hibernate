@@ -7,35 +7,42 @@ import java.io.InputStream;
 
 public class MusicPlayer {
     private static final String path = "/music.mp3";
-    private static Player player;
+    private Player player;
+    private Thread playerThread;
+    private volatile boolean isPlaying = false;
 
     public void start() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    InputStream in = getClass().getResourceAsStream(path);
+        if (isPlaying) {
+            return;
+        }
+
+        isPlaying = true;
+        playerThread = new Thread(() -> {
+            while (isPlaying) { // Loop to keep playing the audio
+                try (InputStream in = getClass().getResourceAsStream(path)) {
                     player = new Player(in);
-                    while (!player.isComplete()) {
-                        player.play();
-                    }
-                    // Müzik bittiğinde tekrar başla
-                    start();
+                    player.play();
                 } catch (JavaLayerException e) {
-                    throw new RuntimeException(e);
+                    System.err.println("Error playing audio: " + e.getMessage());
+                } catch (Exception e) {
+                    System.err.println("An unexpected error occurred: " + e.getMessage());
                 }
             }
+            isPlaying = false;
         });
-        thread.start();
+        playerThread.start();
     }
 
     public void pause() {
         if (player != null) {
             player.close();
+            isPlaying = false;
         }
     }
 
     public void resume() {
-        start();
+        if (!isPlaying) {
+            start();
+        }
     }
 }

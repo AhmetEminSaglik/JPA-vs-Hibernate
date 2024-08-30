@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 public class SettingFacade extends TerminalCommandLayout {
     private final ORMApp ormApp;
-    private final MusicPlayer musicPlayer = new MusicPlayer();
+    private final static MusicPlayer musicPlayer = new MusicPlayer();
 
     public SettingFacade(ORMApp ormApp) {
         this.ormApp = ormApp;
@@ -201,5 +201,9 @@ public class SettingFacade extends TerminalCommandLayout {
             return true;
         }
         return false;
+    }
+
+    public void startMusic() {
+        musicPlayer.start();
     }
 }

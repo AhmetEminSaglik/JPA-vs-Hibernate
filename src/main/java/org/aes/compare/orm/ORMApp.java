@@ -34,7 +34,9 @@ public class ORMApp extends TerminalCommandLayout {
 //        musicPlayer.start();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
-        LoggerConfigORM.disable();
+//        LoggerConfigORM.disable();
+        settingFacade.startMusic();
+
 //        ColorfulTextDesign.enableCMDPrinting();
 //        settingFacade.updatePrintingSetting();
     }
