@@ -18,31 +18,35 @@ public class MusicPlayer {
 
         isPlaying = true;
         playerThread = new Thread(() -> {
-            while (isPlaying) { // Loop to keep playing the audio
-                try (InputStream in = getClass().getResourceAsStream(path)) {
-                    player = new Player(in);
-                    player.play();
-                } catch (JavaLayerException e) {
-                    System.err.println("Error playing audio: " + e.getMessage());
-                } catch (Exception e) {
-                    System.err.println("An unexpected error occurred: " + e.getMessage());
-                }
+            try (InputStream in = getClass().getResourceAsStream(path)) {
+                player = new Player(in);
+                player.play();
+            } catch (JavaLayerException e) {
+                System.err.println("Error playing audio: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("An unexpected error occurred: " + e.getMessage());
+            } finally {
+                isPlaying = false; // Müzik bittiğinde isPlaying'i false yap
             }
-            isPlaying = false;
         });
         playerThread.start();
     }
 
     public void pause() {
         if (player != null) {
-            player.close();
-            isPlaying = false;
+            player.close(); // Player'ı kapat
+            isPlaying = false; // Oynatmayı durdur
+            try {
+                playerThread.join(); // Thread'in bitmesini bekle
+            } catch (InterruptedException e) {
+                System.err.println("Thread interrupted: " + e.getMessage());
+            }
         }
     }
 
     public void resume() {
         if (!isPlaying) {
-            start();
+            start(); // Oynatmayı başlat
         }
     }
 }

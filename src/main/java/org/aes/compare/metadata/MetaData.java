@@ -30,6 +30,7 @@ public class MetaData {
     public static final String PROCESS_PREFIX_GLOBAL = "[Global]".toUpperCase();
     public static final String PROCESS_PREFIX_SETTINGS = "[Settings]".toUpperCase();
     public static final String AVAILABLE_OPTIONS = " Available Options:\n";
+    public static final String PRINTING_SETTING_SELECT_OPTION_WHERE_DO_YOU_RUN_YOUR_PROGRAM= " Please select the option where do you run your program.\n";
 
     public static final String NOT_FOUND_ANY_SAVED_ADDRESS = PROCESS_RESULT_PREFIX + "Has not found any saved address. Please save address first.";
 

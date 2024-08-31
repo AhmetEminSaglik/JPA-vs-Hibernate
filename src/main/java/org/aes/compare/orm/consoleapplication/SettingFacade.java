@@ -135,8 +135,8 @@ public class SettingFacade extends TerminalCommandLayout {
         indexes.add("CMD (Windows Command Line)");
         indexes.add("IDE (Java Ide)");
         indexes.add("Standard (Default)");
-
-        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(interlayout, indexes);
+        String msg = MetaData.PRINTING_SETTING_SELECT_OPTION_WHERE_DO_YOU_RUN_YOUR_PROGRAM;
+        int option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcessWithOptionMsg(interlayout, msg, indexes);
         if (FacadeUtility.isCancelledProcess(interlayout)) {
             FacadeUtility.destroyProcessCancelled();
             return;

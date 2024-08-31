@@ -23,7 +23,8 @@ public class ORMApp extends TerminalCommandLayout {
     private SettingFacade settingFacade;//= new SettingFacade(this);
 
     public ORMApp() {
-        runInitConf();
+//        runInitConf();
+        resetORMServices();
     }
 
     private void greetUser() {
@@ -31,19 +32,15 @@ public class ORMApp extends TerminalCommandLayout {
     }
 
     private void runInitConf() {
-//        musicPlayer.start();
+        ColorfulTextDesign.enableStandardPrinting();
         ORMConfigSingleton.enableJPA();
         resetORMServices();
-//        LoggerConfigORM.disable();
+        settingFacade.updatePrintingSetting();
         settingFacade.startMusic();
-
-//        ColorfulTextDesign.enableCMDPrinting();
-//        settingFacade.updatePrintingSetting();
     }
 
     public void start() {
-//        runInitConf();
-        ColorfulTextDesign.enableIDEPrinting();
+        runInitConf();
         greetUser();
 
         LoggerProcessStack.add(MetaData.PROCESS_PREFIX_MAIN);
@@ -58,8 +55,10 @@ public class ORMApp extends TerminalCommandLayout {
             indexes.add("Setting");
 
             option = FacadeUtility.getSafeIndexValueOfMsgListIncludeExistFromTerminalProcess(this, indexes);
-            if (FacadeUtility.isOptionEqualsToRunForCMD(option)) {
-                continue;
+            //todo burda hata var gibi
+            if (FacadeUtility.isCancelledProcess(this)) {
+                FacadeUtility.destroyProcessExiting(1);
+                return;
             }
             switch (option) {
 
