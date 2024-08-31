@@ -1,5 +1,7 @@
 # <i>Hibernate-vs-Jpa-Implementation </i>
 
+!["images/jpa-hibernate.gif"](images/jpa-hibernate.gif) <br> <br>
+
 ## Content
 <ol>
         <a href="#about-project"><li>About The Project</li></a>
@@ -228,7 +230,8 @@ git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 
 **3.** If you want to change mysql connect data then update both JPA and Hibernate configuration files.
 * JPA configuration file :
-  * src/main/resources/META-INF/`persistence.xml` (update both `persistenceUnitRealProject` and `persistenceUnitTest`)
+  * src/main/resources/META-INF/`persistence.xml`   
+   (update both `persistenceUnitRealProject` and `persistenceUnitTest`)
 ```xml
 <property name="jakarta.persistence.jdbc.url"
           value="jdbc:mysql://localhost:YOUR_PORT/school_db_test?createDatabaseIfNotExist=true"/>
