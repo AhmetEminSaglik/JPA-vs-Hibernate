@@ -31,7 +31,7 @@ public class UIConsoleDBServiceImplCourse  {
 
     private void addLoggerData() {
         LoggerProcessStack.addWithInnerPrefix(MetaData.PREFIX_INNER_TERMINAL_PROCESS);
-        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_STUDENT);
+        LoggerProcessStack.addWithInnerPrefix(MetaData.PROCESS_PREFIX_COURSE);
     }
     private  void destroyTerminalProcessSuccessfully(){
         FacadeUtility.destroyProcessSuccessfully(3);

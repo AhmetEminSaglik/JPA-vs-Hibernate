@@ -1,8 +1,5 @@
 package org.aes.compare.uiconsole.business;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandProcessCheck;
-import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
 import org.aes.compare.metadata.MetaData;
 import org.aes.compare.orm.ORMApp;
 import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
@@ -10,7 +7,7 @@ import org.aes.compare.orm.model.Address;
 
 import java.util.List;
 
-public class UIConsoleDBServiceDisplayAddressMenu  {
+public class UIConsoleDBServiceImplAddress {
     private final ORMApp ormApp = new ORMApp();
 
     private void addLoggerData() {

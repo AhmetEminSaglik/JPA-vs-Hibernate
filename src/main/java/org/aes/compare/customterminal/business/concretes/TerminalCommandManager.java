@@ -6,7 +6,7 @@ import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
 import org.aes.compare.customterminal.model.EnumCRUDCommand;
 import org.aes.compare.customterminal.model.EnumModelCommand;
 import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.uiconsole.business.UIConsoleDBServiceDisplayAddressMenu;
+import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplAddress;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplCourse;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplExamResult;
 import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplStudent;
@@ -14,7 +14,7 @@ import org.aes.compare.uiconsole.model.EnumUIConsoleOperation;
 
 public class TerminalCommandManager extends TerminalCommandLayout implements RunnableTerminalCommand {
     private static final char underscore = '_';
-    public UIConsoleDBServiceDisplayAddressMenu displayAddressMenu = new UIConsoleDBServiceDisplayAddressMenu();
+    public UIConsoleDBServiceImplAddress displayAddressMenu = new UIConsoleDBServiceImplAddress();
     public UIConsoleDBServiceImplStudent displayStudentMenu = new UIConsoleDBServiceImplStudent();
     public UIConsoleDBServiceImplCourse displayCourseMenu = new UIConsoleDBServiceImplCourse();
     public UIConsoleDBServiceImplExamResult displayExamResultMenu = new UIConsoleDBServiceImplExamResult();
