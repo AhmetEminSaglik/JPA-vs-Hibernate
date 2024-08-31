@@ -38,3 +38,8 @@ out/
 
 ### Mac OS ###
 .DS_Store
+
+
+*.class
+*.tmp
+*.log

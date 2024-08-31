@@ -69,16 +69,16 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 ## <span id="used-technologies">3-) Used Technologies</span>
 
 * Core Technologies:
-    * JAVA SE
-    * Log4j
-    * MySQL
+  * JAVA SE
+  * Log4j
+  * MySQL
 * Dependencies:
-    * org.hibernate.hibernate-core:6.2.8.Final
-    * log4j.log4j:1.2.17
-    * mysql.mysql-connector-java:8.0.31
-    * org.junit.jupiter.junit-jupiter:RELEASE
-    * javazoom.jlayer:1.0.1
-    * com.ahmeteminsaglik:console-colorful-text:1.1
+  * org.hibernate.hibernate-core:6.2.8.Final
+  * log4j.log4j:1.2.17
+  * mysql.mysql-connector-java:8.0.31
+  * org.junit.jupiter.junit-jupiter:RELEASE
+  * javazoom.jlayer:1.0.1
+  * com.ahmeteminsaglik:console-colorful-text:1.1
 
 ## <span id="image">4-) Images </span>
 
@@ -103,44 +103,30 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 ### 5. Find All Address Data (ORM Logs from for Hibernate Implementation)
 !["images/cmd/7.png"](images/cmd/7.png)<br> <br>
 
-### 6. Deactivating ORM Logs
-!["images/cmd/8.png"](images/cmd/8.png)<br> <br>
+### 1. Custom Terminal Commands - Help .
+!["images/cmd/21.png"](images/cmd/21.png) <br><br>
 
-### 7. Saving Student Data
-!["images/cmd/9.png"](images/cmd/9.png)<br> <br>
+### 2. Custom Terminal Commands -  Inner process .
+This may looks hard to understand but it is easy. Get relax.
+1. Main process is about saving a new Student.
+2. Instead of typing Student's grade, a new terminal commands is typed as `>> -r -A` which means `read Address`.
+3. After completed 2. process, come back to 1. process. But again, terminal commans is typed. This time `>> -c -A` which means `create Addres`
+4. After compoeted 3. process,  come back to 1. process again. And this time just goes on  1. process.
+
+
+!["images/cmd/21.png"](images/cmd/22.png) <br><br>
 
 ### 8. Find All Student Data
 !["images/cmd/11.png"](images/cmd/11.png)<br> <br>
 
-### 9. Saving New Course - Math Course
-!["images/cmd/12.png"](images/cmd/12.png)<br> <br>
-
 ### 10. Saving New Course - Other Course
 !["images/cmd/13.png"](images/cmd/13.png)<br> <br>
-
-### 11. Find All Course Data
-!["images/cmd/14.png"](images/cmd/14.png)<br> <br>
 
 ### 12. Student Save process invalid input and try to save without address data.
 !["images/cmd/15.png"](images/cmd/15.png)<br> <br>
 
-### 13. Update Student with enrolling to courses.
-!["images/cmd/16.png"](images/cmd/16.png)<br> <br>
-
-### 14. Update Student successfull result.
-!["images/cmd/17.png"](images/cmd/17.png)<br> <br>
-
-### 15.  Entering Exam Result process. (Checking is there any saved student and courses before do process.)
-!["images/cmd/18.png"](images/cmd/18.png)<br> <br>
-
-### 16. Save Exam Result - Student step.
-!["images/cmd/19.png"](images/cmd/19.png)<br> <br>
-
 ### 17. Save Exam Result - Course step and score.
 !["images/cmd/20.png"](images/cmd/20.png)<br> <br>
-
-
-[//]: # (### <span id="intelij-idea-output"><li> IntelliJ IDEA Output </li> </span>)
 
 </details>
 
@@ -170,9 +156,9 @@ During interviews, I was asked a few times about my experience with JPA and Hibe
 * <a href="https://www.oracle.com/tr/java/technologies/javase/jdk11-archive-downloads.html">JDK 11</a>
 * <a href="https://www.jetbrains.com/idea/download/?section=windows"> IntelliJ IDEA (Community Edition) </a>
 * MySQL
-    * Username: `root`
-    * Password: ` `
-    * port:: `3306`
+  * Username: `root`
+  * Password: ` `
+  * port:: `3306`
 
 
 ## <span id="quick-start">6-) Quick Start </span>
@@ -242,7 +228,7 @@ git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 
 **3.** If you want to change mysql connect data then update both JPA and Hibernate configuration files.
 * JPA configuration file :
-    * src/main/resources/META-INF/`persistence.xml` (update both `persistenceUnitRealProject` and `persistenceUnitTest`)
+  * src/main/resources/META-INF/`persistence.xml` (update both `persistenceUnitRealProject` and `persistenceUnitTest`)
 ```xml
 <property name="jakarta.persistence.jdbc.url"
           value="jdbc:mysql://localhost:YOUR_PORT/school_db_test?createDatabaseIfNotExist=true"/>
@@ -250,8 +236,8 @@ git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 <property name="jakarta.persistence.jdbc.password" value="YOUR_PASSWORD"/>
 ```
 * Hibernate configuration file :
-    * src/main/resources/hibernate.cfg.xml/`hibernate.cfg.xml`
-    * src/main/resources/hibernate.cfg.xml/`hibernate_test.cfg.xml`
+  * src/main/resources/hibernate.cfg.xml/`hibernate.cfg.xml`
+  * src/main/resources/hibernate.cfg.xml/`hibernate_test.cfg.xml`
 ```xml
 <property name="connection.url">jdbc:mysql://localhost:YOUR_PORT/school_db?allowPublicKeyRetrieval=true&amp;useSSL=false&amp;createDatabaseIfNotExist=true</property>
 <property name="connection.username">YOUR_USERNAME</property>
