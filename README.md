@@ -188,7 +188,7 @@ git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
 **3.** Copy and paste the following command into your cmd.
 
 ```
-java -jar  Hibernate-vs-Jpa/Jpa-vs-Hibernate-Implementation.jar
+java -jar  JPA-vs-Hibernate/Jpa-vs-Hibernate-Implementation.jar
 ```
 
 ## <span id="installation">7-) Installation (Run In IntelliJ IDEA)</span>
