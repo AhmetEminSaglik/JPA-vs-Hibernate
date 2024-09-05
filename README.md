@@ -167,16 +167,13 @@ Default login credentials must be the same as given in  <a href="#requirements">
 docker run --name jpa-hibernate-mysql -p 3306:3306  -e MYSQL_ALLOW_EMPTY_PASSWORD=1 -d mysql
 ```
 
-To test whether the MySQL container is running properly, you can copy and paste the following command.
+To test whether the MySQL container is running properly, you can copy and paste the following command. 
 
 ```
-mysql -u root -h 127.0.0.1 -P 3306
+docker ps
 ```
+If you see running a docker container named `jpa-hibernate-mysql` then it means you successfully launched the MySQL.
 
-If you see the following output it means you successfully connected. So you can follow the next steps.
-> Welcome to the MySQL monitor. Commands end with; or \g.
-<br> Your MySQL connection id is 11
-<br> Server version: 9.0.0 MySQL Community Server - GPL
 
 **2.** Copy and paste the following command in your cmd.
 <br>
