@@ -182,13 +182,13 @@ If you see the following output it means you successfully connected. So you can 
 <br>
 
 ```
-git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
+git clone https://github.com/AhmetEminSaglik/JPA-vs-Hibernate.git
 ```
 
 **3.** Copy and paste the following command into your cmd.
 
 ```
-java -jar  JPA-vs-Hibernate/Jpa-vs-Hibernate-Implementation.jar
+java -jar  JPA-vs-Hibernate/Jpa-vs-Hibernate.jar
 ```
 
 ## <span id="installation">7-) Installation (Run In IntelliJ IDEA)</span>
@@ -196,7 +196,7 @@ java -jar  JPA-vs-Hibernate/Jpa-vs-Hibernate-Implementation.jar
 **1.** Copy and paste the following command in your cmd.
 
 ```
-git clone https://github.com/AhmetEminSaglik/Hibernate-vs-Jpa.git
+git clone https://github.com/AhmetEminSaglik/JPA-vs-Hibernate.git
 ```
 
 **2.** To run this project one dependency must be added to the project. You can go to following link to figure out how

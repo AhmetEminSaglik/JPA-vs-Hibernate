@@ -1,7 +1,7 @@
-package org.aes.compare.orm.exceptions;
+package org.ahmeteminsaglik.orm.exceptions;
 
-import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
-import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
+import org.ahmeteminsaglik.orm.business.concrete.orm.ORMImplementation;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumORMConfigFile;
 
 public class InvalidORMConfigFileMatch extends Exception {
     public InvalidORMConfigFileMatch(EnumORMConfigFile configFile, ORMImplementation clazz) {

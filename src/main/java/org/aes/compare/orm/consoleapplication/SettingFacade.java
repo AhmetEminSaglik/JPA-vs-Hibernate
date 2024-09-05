@@ -1,17 +1,17 @@
-package org.aes.compare.orm.consoleapplication;
+package org.ahmeteminsaglik.orm.consoleapplication;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.concretes.InnerTerminalProcessLayout;
-import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.ORMApp;
-import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.orm.utility.MusicPlayer;
-import org.aes.compare.uiconsole.business.LoggerConfigORM;
-import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.customterminal.business.concretes.InnerTerminalProcessLayout;
+import org.ahmeteminsaglik.customterminal.config.concrete.CMDLineSingletonBuilder;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.ORMApp;
+import org.ahmeteminsaglik.orm.config.ORMConfigSingleton;
+import org.ahmeteminsaglik.orm.consoleapplication.utility.FacadeUtility;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.orm.utility.MusicPlayer;
+import org.ahmeteminsaglik.uiconsole.business.LoggerConfigORM;
+import org.ahmeteminsaglik.uiconsole.business.LoggerProcessStack;
+import org.ahmeteminsaglik.uiconsole.utility.SafeScannerInput;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,14 +1,14 @@
-package org.aes.compare.orm.business.concrete.hibernate;
+package org.ahmeteminsaglik.orm.business.concrete.hibernate;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.business.concrete.comparator.StudentComparator;
-import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
-import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
-import org.aes.compare.orm.model.Student;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
+import org.ahmeteminsaglik.orm.business.concrete.comparator.StudentComparator;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
+import org.ahmeteminsaglik.orm.model.Student;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 import java.util.List;
 

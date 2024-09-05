@@ -1,4 +1,4 @@
-package org.aes.compare.orm.model;
+package org.ahmeteminsaglik.orm.model;
 
 import jakarta.persistence.*;
 

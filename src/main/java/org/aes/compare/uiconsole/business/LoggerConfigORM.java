@@ -1,4 +1,4 @@
-package org.aes.compare.uiconsole.business;
+package org.ahmeteminsaglik.uiconsole.business;
 
 public class LoggerConfigORM {
     private static boolean printORMLogs = true;

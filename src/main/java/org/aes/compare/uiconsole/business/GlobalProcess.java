@@ -1,11 +1,11 @@
-package org.aes.compare.uiconsole.business;
+package org.ahmeteminsaglik.uiconsole.business;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.concretes.TerminalCommandManager;
-import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
-import org.aes.compare.uiconsole.utility.InputParserTree;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.customterminal.business.concretes.TerminalCommandManager;
+import org.ahmeteminsaglik.customterminal.model.TerminalCMD;
+import org.ahmeteminsaglik.orm.config.ORMConfigSingleton;
+import org.ahmeteminsaglik.uiconsole.model.EnumCMDLineParserResult;
+import org.ahmeteminsaglik.uiconsole.utility.InputParserTree;
 
 import java.util.Scanner;
 

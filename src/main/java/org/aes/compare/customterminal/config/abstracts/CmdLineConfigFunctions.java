@@ -1,4 +1,4 @@
-package org.aes.compare.customterminal.config.abstracts;
+package org.ahmeteminsaglik.customterminal.config.abstracts;
 
 public interface CmdLineConfigFunctions {
     void updateOneLineCommandPrefix(String prefix);

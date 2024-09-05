@@ -1,6 +1,6 @@
-package org.aes.compare.orm.utility;
+package org.ahmeteminsaglik.orm.utility;
 
-import org.aes.compare.metadata.MetaData;
+import org.ahmeteminsaglik.metadata.MetaData;
 import org.ahmeteminsaglik.config.PrintConsoleServiceConfig;
 import org.ahmeteminsaglik.config.PrintableConsoleServiceManager;
 import org.ahmeteminsaglik.printable.EnumPrintOption;

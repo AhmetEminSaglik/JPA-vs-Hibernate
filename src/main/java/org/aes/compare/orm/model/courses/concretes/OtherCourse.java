@@ -1,8 +1,8 @@
-package org.aes.compare.orm.model.courses.concretes;
+package org.ahmeteminsaglik.orm.model.courses.concretes;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import org.aes.compare.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
 
 @Entity
 @DiscriminatorValue("OTHER")

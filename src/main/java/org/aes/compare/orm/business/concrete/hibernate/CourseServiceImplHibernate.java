@@ -1,15 +1,15 @@
-package org.aes.compare.orm.business.concrete.hibernate;
+package org.ahmeteminsaglik.orm.business.concrete.hibernate;
 
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.RollbackException;
 import jakarta.persistence.TypedQuery;
-import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.concrete.comparator.CourseComparator;
-import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
-import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
-import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
-import org.aes.compare.orm.model.courses.abstracts.Course;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
+import org.ahmeteminsaglik.orm.business.concrete.comparator.CourseComparator;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
+import org.ahmeteminsaglik.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.ahmeteminsaglik.orm.exceptions.InvalidCourseNameSaveRequestException;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 import org.hibernate.exception.ConstraintViolationException;
 
 import java.util.List;

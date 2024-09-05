@@ -1,7 +1,7 @@
-package org.aes.compare.uiconsole.business;
+package org.ahmeteminsaglik.uiconsole.business;
 
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 import java.util.List;
 import java.util.Stack;

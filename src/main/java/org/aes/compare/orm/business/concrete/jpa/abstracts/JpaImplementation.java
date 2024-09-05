@@ -1,11 +1,11 @@
-package org.aes.compare.orm.business.concrete.jpa.abstracts;
+package org.ahmeteminsaglik.orm.business.concrete.jpa.abstracts;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
-import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
-import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
+import org.ahmeteminsaglik.orm.business.concrete.orm.ORMImplementation;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumJPAConfigFile;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumORMConfigFile;
 
 public abstract class JpaImplementation<T> extends ORMImplementation {
 

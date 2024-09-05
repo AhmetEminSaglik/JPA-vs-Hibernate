@@ -1,6 +1,6 @@
-package org.aes.compare.orm.business.abstracts;
+package org.ahmeteminsaglik.orm.business.abstracts;
 
-import org.aes.compare.orm.model.Address;
+import org.ahmeteminsaglik.orm.model.Address;
 
 import java.util.List;
 

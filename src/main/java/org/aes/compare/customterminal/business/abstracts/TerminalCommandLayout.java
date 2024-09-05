@@ -1,4 +1,4 @@
-package org.aes.compare.customterminal.business.abstracts;
+package org.ahmeteminsaglik.customterminal.business.abstracts;
 
 public abstract class TerminalCommandLayout {
     protected boolean isAllowedCurrentProcess = true;

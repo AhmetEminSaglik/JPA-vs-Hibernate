@@ -1,19 +1,19 @@
-package org.aes.compare.orm.consoleapplication;
+package org.ahmeteminsaglik.orm.consoleapplication;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.business.concretes.InnerTerminalProcessLayout;
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
-import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.model.Student;
-import org.aes.compare.orm.model.courses.abstracts.Course;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.business.LoggerProcessStack;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.customterminal.business.concretes.InnerTerminalProcessLayout;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
+import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
+import org.ahmeteminsaglik.orm.config.ORMConfigSingleton;
+import org.ahmeteminsaglik.orm.consoleapplication.utility.FacadeUtility;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
+import org.ahmeteminsaglik.orm.model.Address;
+import org.ahmeteminsaglik.orm.model.Student;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.uiconsole.business.LoggerProcessStack;
 
 import java.util.ArrayList;
 import java.util.List;

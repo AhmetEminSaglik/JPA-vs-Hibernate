@@ -1,9 +1,9 @@
-package org.aes.compare.uiconsole.business;
+package org.ahmeteminsaglik.uiconsole.business;
 
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.ORMApp;
-import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.orm.model.Address;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.ORMApp;
+import org.ahmeteminsaglik.orm.consoleapplication.utility.FacadeUtility;
+import org.ahmeteminsaglik.orm.model.Address;
 
 import java.util.List;
 

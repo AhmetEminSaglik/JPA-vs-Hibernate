@@ -1,9 +1,9 @@
-package org.aes.compare.orm.model.courses.concretes.programming;
+package org.ahmeteminsaglik.orm.model.courses.concretes.programming;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
-import org.aes.compare.orm.model.courses.abstracts.ProgrammingCourse;
-import org.aes.compare.orm.model.enums.course.EnumCourse;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.ProgrammingCourse;
+import org.ahmeteminsaglik.orm.model.enums.course.EnumCourse;
 
 @Entity
 @DiscriminatorValue("REACT")

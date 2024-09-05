@@ -1,8 +1,8 @@
-package org.aes.compare.orm.business.abstracts;
+package org.ahmeteminsaglik.orm.business.abstracts;
 
-import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
-import org.aes.compare.orm.model.Student;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentDeleteRequestHavingExamResult;
+import org.ahmeteminsaglik.orm.model.Student;
 
 import java.util.List;
 

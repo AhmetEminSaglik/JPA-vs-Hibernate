@@ -1,4 +1,4 @@
-package org.aes.compare.orm.consoleapplication.utility;
+package org.ahmeteminsaglik.orm.consoleapplication.utility;
 
 @FunctionalInterface
 public interface ColorfulTextFunction {

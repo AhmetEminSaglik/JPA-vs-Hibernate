@@ -1,4 +1,4 @@
-package org.aes.compare.orm.utility;
+package org.ahmeteminsaglik.orm.utility;
 
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
@@ -26,7 +26,7 @@ public class MusicPlayer {
             } catch (Exception e) {
                 System.err.println("An unexpected error occurred: " + e.getMessage());
             } finally {
-                isPlaying = false; // Müzik bittiğinde isPlaying'i false yap
+                isPlaying = false;
             }
         });
         playerThread.start();
@@ -34,10 +34,10 @@ public class MusicPlayer {
 
     public void pause() {
         if (player != null) {
-            player.close(); // Player'ı kapat
-            isPlaying = false; // Oynatmayı durdur
+            player.close();
+            isPlaying = false;
             try {
-                playerThread.join(); // Thread'in bitmesini bekle
+                playerThread.join();
             } catch (InterruptedException e) {
                 System.err.println("Thread interrupted: " + e.getMessage());
             }
@@ -46,7 +46,7 @@ public class MusicPlayer {
 
     public void resume() {
         if (!isPlaying) {
-            start(); // Oynatmayı başlat
+            start();
         }
     }
 }

@@ -1,6 +1,6 @@
-package org.aes.compare.metadata;
+package org.ahmeteminsaglik.metadata;
 
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 public class MetaData {
     public static final String SELECT_ONE_OPTION = "Please select one option : ";

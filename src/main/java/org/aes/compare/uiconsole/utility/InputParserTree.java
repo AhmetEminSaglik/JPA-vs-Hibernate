@@ -1,10 +1,10 @@
-package org.aes.compare.uiconsole.utility;
+package org.ahmeteminsaglik.uiconsole.utility;
 
-import org.aes.compare.customterminal.business.concretes.ProcessCommandServiceImpl;
-import org.aes.compare.customterminal.config.abstracts.CmdLineConfigFunctions;
-import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
-import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
+import org.ahmeteminsaglik.customterminal.business.concretes.ProcessCommandServiceImpl;
+import org.ahmeteminsaglik.customterminal.config.abstracts.CmdLineConfigFunctions;
+import org.ahmeteminsaglik.customterminal.config.concrete.CMDLineSingletonBuilder;
+import org.ahmeteminsaglik.customterminal.model.TerminalCMD;
+import org.ahmeteminsaglik.uiconsole.model.EnumCMDLineParserResult;
 
 public class InputParserTree {
     private final CmdLineConfigFunctions cmdLine = CMDLineSingletonBuilder.getCmdLine();

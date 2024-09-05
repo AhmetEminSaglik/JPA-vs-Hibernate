@@ -1,6 +1,6 @@
-package org.aes.compare.uiconsole.model;
+package org.ahmeteminsaglik.uiconsole.model;
 
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 import java.util.ArrayList;
 import java.util.List;

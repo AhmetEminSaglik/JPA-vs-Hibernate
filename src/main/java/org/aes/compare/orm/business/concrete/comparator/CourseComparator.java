@@ -1,6 +1,6 @@
-package org.aes.compare.orm.business.concrete.comparator;
+package org.ahmeteminsaglik.orm.business.concrete.comparator;
 
-import org.aes.compare.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
 
 import java.util.Comparator;
 

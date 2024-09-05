@@ -1,22 +1,22 @@
-package org.aes.compare.orm.config;
+package org.ahmeteminsaglik.orm.config;
 
-import org.aes.compare.orm.business.abstracts.AddressService;
-import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.abstracts.ExamResultService;
-import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.business.concrete.hibernate.AddressServiceImplHibernate;
-import org.aes.compare.orm.business.concrete.hibernate.CourseServiceImplHibernate;
-import org.aes.compare.orm.business.concrete.hibernate.ExamResultServiceImplHibernate;
-import org.aes.compare.orm.business.concrete.hibernate.StudentServiceImplHibernate;
-import org.aes.compare.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
-import org.aes.compare.orm.business.concrete.jpa.AddressServiceImplJPA;
-import org.aes.compare.orm.business.concrete.jpa.CourseServiceImplJPA;
-import org.aes.compare.orm.business.concrete.jpa.ExamResultServiceImplJPA;
-import org.aes.compare.orm.business.concrete.jpa.StudentServiceImpJPA;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
-import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
-import org.aes.compare.orm.model.enums.configfile.EnumHibernateConfigFile;
-import org.aes.compare.orm.model.enums.configfile.EnumJPAConfigFile;
+import org.ahmeteminsaglik.orm.business.abstracts.AddressService;
+import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
+import org.ahmeteminsaglik.orm.business.abstracts.ExamResultService;
+import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.AddressServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.CourseServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.ExamResultServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.StudentServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.AddressServiceImplJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.CourseServiceImplJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.ExamResultServiceImplJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.StudentServiceImpJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.ahmeteminsaglik.orm.business.concrete.orm.ORMImplementation;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumHibernateConfigFile;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumJPAConfigFile;
 
 public class ORMConfigSingleton {
     private static AddressService addressService;

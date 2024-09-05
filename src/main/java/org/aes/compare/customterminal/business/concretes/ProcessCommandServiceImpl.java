@@ -1,13 +1,13 @@
-package org.aes.compare.customterminal.business.concretes;
+package org.ahmeteminsaglik.customterminal.business.concretes;
 
-import org.aes.compare.customterminal.business.abstracts.ProcessCommandService;
-import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
-import org.aes.compare.customterminal.model.EnumCRUDCommand;
-import org.aes.compare.customterminal.model.EnumModelCommand;
-import org.aes.compare.customterminal.model.EnumStandardCommand;
-import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
+import org.ahmeteminsaglik.customterminal.business.abstracts.ProcessCommandService;
+import org.ahmeteminsaglik.customterminal.config.concrete.CMDLineSingletonBuilder;
+import org.ahmeteminsaglik.customterminal.model.EnumCRUDCommand;
+import org.ahmeteminsaglik.customterminal.model.EnumModelCommand;
+import org.ahmeteminsaglik.customterminal.model.EnumStandardCommand;
+import org.ahmeteminsaglik.customterminal.model.TerminalCMD;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.uiconsole.model.EnumCMDLineParserResult;
 import org.ahmeteminsaglik.utility.ConsoleColors;
 
 

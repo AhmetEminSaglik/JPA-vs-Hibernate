@@ -1,8 +1,8 @@
-package org.aes.compare.orm.business.concrete.orm;
+package org.ahmeteminsaglik.orm.business.concrete.orm;
 
-import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.business.LoggerConfigORM;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumORMConfigFile;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.uiconsole.business.LoggerConfigORM;
 
 public abstract class ORMImplementation {
 

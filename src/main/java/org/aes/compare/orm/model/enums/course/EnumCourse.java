@@ -1,4 +1,4 @@
-package org.aes.compare.orm.model.enums.course;
+package org.ahmeteminsaglik.orm.model.enums.course;
 
 public enum EnumCourse {
 

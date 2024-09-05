@@ -1,6 +1,6 @@
-package org.aes.compare.uiconsole;
+package org.ahmeteminsaglik.uiconsole;
 
-import org.aes.compare.uiconsole.business.GlobalProcess;
+import org.ahmeteminsaglik.uiconsole.business.GlobalProcess;
 
 public class UIConsoleApp {
 

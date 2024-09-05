@@ -1,4 +1,4 @@
-package org.aes.compare.customterminal.model;
+package org.ahmeteminsaglik.customterminal.model;
 
 public class TerminalCMD {
     private EnumModelCommand modelCommand;

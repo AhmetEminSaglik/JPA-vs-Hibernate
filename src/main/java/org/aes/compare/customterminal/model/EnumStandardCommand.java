@@ -1,4 +1,4 @@
-package org.aes.compare.customterminal.model;
+package org.ahmeteminsaglik.customterminal.model;
 
 public enum EnumStandardCommand {
     QUIT_CURRENT_PROCESS("-q", "quit"),

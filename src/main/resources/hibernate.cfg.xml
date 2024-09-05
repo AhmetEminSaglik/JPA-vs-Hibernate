@@ -21,16 +21,16 @@
         <property name="dialect">org.hibernate.dialect.MySQL57Dialect</property>
         <property name="show_sql">false</property>
         <property name="current_session_context_class">thread</property>
-        <mapping class="org.aes.compare.orm.model.Address"/>
-        <mapping class="org.aes.compare.orm.model.courses.abstracts.Course"/>
-        <mapping class="org.aes.compare.orm.model.ExamResult"/>
-        <mapping class="org.aes.compare.orm.model.Student"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.LiteratureCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.MathCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.OtherCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.ScienceCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.programming.JavaCourse"/>
-        <mapping class="org.aes.compare.orm.model.courses.concretes.programming.ReactCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.Address"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.abstracts.Course"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.ExamResult"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.Student"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.LiteratureCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.MathCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.OtherCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.ScienceCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.programming.FlutterCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.programming.JavaCourse"/>
+        <mapping class="org.ahmeteminsaglik.orm.model.courses.concretes.programming.ReactCourse"/>
     </session-factory>
 </hibernate-configuration>

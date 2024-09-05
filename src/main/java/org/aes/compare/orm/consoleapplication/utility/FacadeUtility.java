@@ -1,11 +1,11 @@
-package org.aes.compare.orm.consoleapplication.utility;
+package org.ahmeteminsaglik.orm.consoleapplication.utility;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.business.LoggerProcessStack;
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
-import org.aes.compare.uiconsole.utility.SafeScannerInput;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.uiconsole.business.LoggerProcessStack;
+import org.ahmeteminsaglik.uiconsole.model.EnumCMDLineParserResult;
+import org.ahmeteminsaglik.uiconsole.utility.SafeScannerInput;
 
 import java.util.List;
 

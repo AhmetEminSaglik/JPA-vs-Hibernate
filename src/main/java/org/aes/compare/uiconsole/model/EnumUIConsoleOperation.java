@@ -1,7 +1,7 @@
-package org.aes.compare.uiconsole.model;
+package org.ahmeteminsaglik.uiconsole.model;
 
-import org.aes.compare.customterminal.model.EnumCRUDCommand;
-import org.aes.compare.customterminal.model.EnumModelCommand;
+import org.ahmeteminsaglik.customterminal.model.EnumCRUDCommand;
+import org.ahmeteminsaglik.customterminal.model.EnumModelCommand;
 
 public enum EnumUIConsoleOperation {
     //    CREATE_STUDENT(EnumCRUDCommand.CREATE.getLongName() + "-" + EnumModelCommand.STUDENT.getFileName()),

@@ -1,13 +1,13 @@
-package org.aes.compare.orm;
+package org.ahmeteminsaglik.orm;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.orm.consoleapplication.*;
-import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
-import org.aes.compare.uiconsole.business.LoggerConfigORM;
-import org.aes.compare.uiconsole.business.LoggerProcessStack;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.config.ORMConfigSingleton;
+import org.ahmeteminsaglik.orm.consoleapplication.*;
+import org.ahmeteminsaglik.orm.consoleapplication.utility.FacadeUtility;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.uiconsole.business.LoggerConfigORM;
+import org.ahmeteminsaglik.uiconsole.business.LoggerProcessStack;
 
 import java.util.ArrayList;
 import java.util.List;

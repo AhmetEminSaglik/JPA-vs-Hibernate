@@ -1,7 +1,7 @@
-package org.aes.compare.customterminal.config.concrete;
+package org.ahmeteminsaglik.customterminal.config.concrete;
 
-import org.aes.compare.customterminal.config.abstracts.CmdLineConfigFunctions;
-import org.aes.compare.uiconsole.model.StaticData;
+import org.ahmeteminsaglik.customterminal.config.abstracts.CmdLineConfigFunctions;
+import org.ahmeteminsaglik.uiconsole.model.StaticData;
 
 import java.util.List;
 

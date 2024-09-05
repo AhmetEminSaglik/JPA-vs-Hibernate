@@ -1,10 +1,10 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.ahmeteminsaglik.orm.business.concrete.jpa;
 
 import jakarta.persistence.TypedQuery;
-import org.aes.compare.orm.business.abstracts.AddressService;
-import org.aes.compare.orm.business.concrete.comparator.AddressComparator;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
-import org.aes.compare.orm.model.Address;
+import org.ahmeteminsaglik.orm.business.abstracts.AddressService;
+import org.ahmeteminsaglik.orm.business.concrete.comparator.AddressComparator;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.ahmeteminsaglik.orm.model.Address;
 
 import java.util.List;
 

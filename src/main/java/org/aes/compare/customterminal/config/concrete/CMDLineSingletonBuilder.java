@@ -1,6 +1,6 @@
-package org.aes.compare.customterminal.config.concrete;
+package org.ahmeteminsaglik.customterminal.config.concrete;
 
-import org.aes.compare.customterminal.config.abstracts.CmdLineConfigFunctions;
+import org.ahmeteminsaglik.customterminal.config.abstracts.CmdLineConfigFunctions;
 
 public class CMDLineSingletonBuilder {
     private static final CmdLineConfigFunctions cmdLine = new CmdLineConfigFunctionsImpl();

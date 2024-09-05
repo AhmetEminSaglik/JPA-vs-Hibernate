@@ -1,8 +1,8 @@
-package org.aes.compare.orm.business.abstracts;
+package org.ahmeteminsaglik.orm.business.abstracts;
 
-import org.aes.compare.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
-import org.aes.compare.orm.exceptions.InvalidCourseNameSaveRequestException;
-import org.aes.compare.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
+import org.ahmeteminsaglik.orm.exceptions.InvalidCourseNameSaveRequestException;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
 
 import java.util.List;
 

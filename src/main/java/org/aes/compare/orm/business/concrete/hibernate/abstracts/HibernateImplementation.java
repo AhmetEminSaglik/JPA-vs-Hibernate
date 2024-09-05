@@ -1,8 +1,8 @@
-package org.aes.compare.orm.business.concrete.hibernate.abstracts;
+package org.ahmeteminsaglik.orm.business.concrete.hibernate.abstracts;
 
-import org.aes.compare.orm.business.concrete.orm.ORMImplementation;
-import org.aes.compare.orm.model.enums.configfile.EnumHibernateConfigFile;
-import org.aes.compare.orm.model.enums.configfile.EnumORMConfigFile;
+import org.ahmeteminsaglik.orm.business.concrete.orm.ORMImplementation;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumHibernateConfigFile;
+import org.ahmeteminsaglik.orm.model.enums.configfile.EnumORMConfigFile;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

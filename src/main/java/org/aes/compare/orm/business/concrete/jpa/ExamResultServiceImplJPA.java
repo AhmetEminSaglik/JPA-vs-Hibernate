@@ -1,16 +1,16 @@
-package org.aes.compare.orm.business.concrete.jpa;
+package org.ahmeteminsaglik.orm.business.concrete.jpa;
 
 import jakarta.persistence.TypedQuery;
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.business.abstracts.CourseService;
-import org.aes.compare.orm.business.abstracts.ExamResultService;
-import org.aes.compare.orm.business.abstracts.StudentService;
-import org.aes.compare.orm.business.concrete.comparator.ExamResultComparator;
-import org.aes.compare.orm.business.concrete.jpa.abstracts.JpaImplementation;
-import org.aes.compare.orm.exceptions.InvalidStudentCourseMatchForExamResult;
-import org.aes.compare.orm.model.ExamResult;
-import org.aes.compare.orm.model.Student;
-import org.aes.compare.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
+import org.ahmeteminsaglik.orm.business.abstracts.ExamResultService;
+import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
+import org.ahmeteminsaglik.orm.business.concrete.comparator.ExamResultComparator;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.abstracts.JpaImplementation;
+import org.ahmeteminsaglik.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.ahmeteminsaglik.orm.model.ExamResult;
+import org.ahmeteminsaglik.orm.model.Student;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
 
 import java.util.List;
 

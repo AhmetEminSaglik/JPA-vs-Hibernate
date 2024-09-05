@@ -1,6 +1,6 @@
-package org.aes.compare.orm.exceptions;
+package org.ahmeteminsaglik.orm.exceptions;
 
-import org.aes.compare.orm.model.ExamResult;
+import org.ahmeteminsaglik.orm.model.ExamResult;
 
 public class InvalidStudentCourseMatchForExamResult extends Exception {
     public InvalidStudentCourseMatchForExamResult(ExamResult examResult) {

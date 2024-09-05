@@ -1,6 +1,6 @@
-package org.aes.compare.customterminal.business.abstracts;
+package org.ahmeteminsaglik.customterminal.business.abstracts;
 
-import org.aes.compare.customterminal.model.TerminalCMD;
+import org.ahmeteminsaglik.customterminal.model.TerminalCMD;
 
 public interface RunnableTerminalCommand {
     void runCustomCommand(TerminalCommandLayout layout, TerminalCMD cmd);

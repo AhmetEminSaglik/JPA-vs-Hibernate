@@ -1,4 +1,4 @@
-package org.aes.compare.orm.model.enums.configfile;
+package org.ahmeteminsaglik.orm.model.enums.configfile;
 
 public enum EnumORMConfigFile {
     REAL_PRODUCT_HIBERNATE("Hibernate", "hibernate.cfg.xml"), JUNIT_TEST_HIBERNATE("Hibernate", "hibernate_test.cfg.xml"),

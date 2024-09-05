@@ -1,6 +1,6 @@
-package org.aes.compare.customterminal.business.concretes;
+package org.ahmeteminsaglik.customterminal.business.concretes;
 
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
 
 public class InnerTerminalProcessLayout extends TerminalCommandLayout {
 }

@@ -1,7 +1,7 @@
-package org.aes.compare.orm.exceptions;
+package org.ahmeteminsaglik.orm.exceptions;
 
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 public class InvalidCourseNameSaveRequestException extends Exception {
     public InvalidCourseNameSaveRequestException(String courseName) {

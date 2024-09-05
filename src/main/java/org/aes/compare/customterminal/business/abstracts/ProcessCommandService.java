@@ -1,7 +1,7 @@
-package org.aes.compare.customterminal.business.abstracts;
+package org.ahmeteminsaglik.customterminal.business.abstracts;
 
-import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
+import org.ahmeteminsaglik.customterminal.model.TerminalCMD;
+import org.ahmeteminsaglik.uiconsole.model.EnumCMDLineParserResult;
 
 public interface ProcessCommandService {
 

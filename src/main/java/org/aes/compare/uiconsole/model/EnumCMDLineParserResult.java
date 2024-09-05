@@ -1,4 +1,4 @@
-package org.aes.compare.uiconsole.model;
+package org.ahmeteminsaglik.uiconsole.model;
 
 public enum EnumCMDLineParserResult {
     RUN_FOR_CMDLINE(1000),

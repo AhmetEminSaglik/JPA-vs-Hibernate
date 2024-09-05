@@ -1,16 +1,16 @@
-package org.aes.compare.customterminal.business.concretes;
+package org.ahmeteminsaglik.customterminal.business.concretes;
 
-import org.aes.compare.customterminal.business.abstracts.RunnableTerminalCommand;
-import org.aes.compare.customterminal.business.abstracts.TerminalCommandLayout;
-import org.aes.compare.customterminal.config.concrete.CMDLineSingletonBuilder;
-import org.aes.compare.customterminal.model.EnumCRUDCommand;
-import org.aes.compare.customterminal.model.EnumModelCommand;
-import org.aes.compare.customterminal.model.TerminalCMD;
-import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplAddress;
-import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplCourse;
-import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplExamResult;
-import org.aes.compare.uiconsole.business.UIConsoleDBServiceImplStudent;
-import org.aes.compare.uiconsole.model.EnumUIConsoleOperation;
+import org.ahmeteminsaglik.customterminal.business.abstracts.RunnableTerminalCommand;
+import org.ahmeteminsaglik.customterminal.business.abstracts.TerminalCommandLayout;
+import org.ahmeteminsaglik.customterminal.config.concrete.CMDLineSingletonBuilder;
+import org.ahmeteminsaglik.customterminal.model.EnumCRUDCommand;
+import org.ahmeteminsaglik.customterminal.model.EnumModelCommand;
+import org.ahmeteminsaglik.customterminal.model.TerminalCMD;
+import org.ahmeteminsaglik.uiconsole.business.UIConsoleDBServiceImplAddress;
+import org.ahmeteminsaglik.uiconsole.business.UIConsoleDBServiceImplCourse;
+import org.ahmeteminsaglik.uiconsole.business.UIConsoleDBServiceImplExamResult;
+import org.ahmeteminsaglik.uiconsole.business.UIConsoleDBServiceImplStudent;
+import org.ahmeteminsaglik.uiconsole.model.EnumUIConsoleOperation;
 
 public class TerminalCommandManager extends TerminalCommandLayout implements RunnableTerminalCommand {
     private static final char underscore = '_';

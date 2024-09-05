@@ -1,6 +1,6 @@
-package org.aes.compare.customterminal.business.concretes;
+package org.ahmeteminsaglik.customterminal.business.concretes;
 
-import org.aes.compare.uiconsole.model.EnumCMDLineParserResult;
+import org.ahmeteminsaglik.uiconsole.model.EnumCMDLineParserResult;
 
 public class ResponseResult {
     private final EnumCMDLineParserResult enumParserResult;

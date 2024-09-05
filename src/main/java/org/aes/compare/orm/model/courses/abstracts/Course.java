@@ -1,7 +1,7 @@
-package org.aes.compare.orm.model.courses.abstracts;
+package org.ahmeteminsaglik.orm.model.courses.abstracts;
 
 import jakarta.persistence.*;
-import org.aes.compare.orm.model.Student;
+import org.ahmeteminsaglik.orm.model.Student;
 
 import java.util.ArrayList;
 import java.util.List;

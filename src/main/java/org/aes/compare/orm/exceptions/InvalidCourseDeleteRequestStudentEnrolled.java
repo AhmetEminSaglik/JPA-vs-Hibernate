@@ -1,6 +1,6 @@
-package org.aes.compare.orm.exceptions;
+package org.ahmeteminsaglik.orm.exceptions;
 
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 public class InvalidCourseDeleteRequestStudentEnrolled extends Exception {
     public InvalidCourseDeleteRequestStudentEnrolled(String courseName) {

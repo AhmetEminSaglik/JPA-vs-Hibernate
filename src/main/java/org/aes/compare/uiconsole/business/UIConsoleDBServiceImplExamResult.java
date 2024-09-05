@@ -1,12 +1,12 @@
-package org.aes.compare.uiconsole.business;
+package org.ahmeteminsaglik.uiconsole.business;
 
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.ORMApp;
-import org.aes.compare.orm.config.ORMConfigSingleton;
-import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.orm.model.Address;
-import org.aes.compare.orm.model.ExamResult;
-import org.aes.compare.orm.utility.ColorfulTextDesign;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.ORMApp;
+import org.ahmeteminsaglik.orm.config.ORMConfigSingleton;
+import org.ahmeteminsaglik.orm.consoleapplication.utility.FacadeUtility;
+import org.ahmeteminsaglik.orm.model.Address;
+import org.ahmeteminsaglik.orm.model.ExamResult;
+import org.ahmeteminsaglik.orm.utility.ColorfulTextDesign;
 
 import java.util.List;
 

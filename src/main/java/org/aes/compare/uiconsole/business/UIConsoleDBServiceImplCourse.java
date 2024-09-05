@@ -1,16 +1,16 @@
-package org.aes.compare.uiconsole.business;
+package org.ahmeteminsaglik.uiconsole.business;
 
-import org.aes.compare.metadata.MetaData;
-import org.aes.compare.orm.ORMApp;
-import org.aes.compare.orm.consoleapplication.utility.FacadeUtility;
-import org.aes.compare.orm.model.courses.abstracts.Course;
-import org.aes.compare.orm.model.courses.concretes.LiteratureCourse;
-import org.aes.compare.orm.model.courses.concretes.MathCourse;
-import org.aes.compare.orm.model.courses.concretes.OtherCourse;
-import org.aes.compare.orm.model.courses.concretes.ScienceCourse;
-import org.aes.compare.orm.model.courses.concretes.programming.FlutterCourse;
-import org.aes.compare.orm.model.courses.concretes.programming.JavaCourse;
-import org.aes.compare.orm.model.courses.concretes.programming.ReactCourse;
+import org.ahmeteminsaglik.metadata.MetaData;
+import org.ahmeteminsaglik.orm.ORMApp;
+import org.ahmeteminsaglik.orm.consoleapplication.utility.FacadeUtility;
+import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
+import org.ahmeteminsaglik.orm.model.courses.concretes.LiteratureCourse;
+import org.ahmeteminsaglik.orm.model.courses.concretes.MathCourse;
+import org.ahmeteminsaglik.orm.model.courses.concretes.OtherCourse;
+import org.ahmeteminsaglik.orm.model.courses.concretes.ScienceCourse;
+import org.ahmeteminsaglik.orm.model.courses.concretes.programming.FlutterCourse;
+import org.ahmeteminsaglik.orm.model.courses.concretes.programming.JavaCourse;
+import org.ahmeteminsaglik.orm.model.courses.concretes.programming.ReactCourse;
 
 import java.util.ArrayList;
 import java.util.List;
