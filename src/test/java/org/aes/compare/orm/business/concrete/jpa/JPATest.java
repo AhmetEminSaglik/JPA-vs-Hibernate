@@ -1,15 +1,17 @@
-/*
-package org.ahmeteminsaglik.orm.business.concrete.jpa;
+package org.aes.compare.orm.business.concrete.jpa;
 
 import org.ahmeteminsaglik.orm.business.abstracts.AddressService;
 import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
 import org.ahmeteminsaglik.orm.business.abstracts.ExamResultService;
 import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.AddressServiceImplJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.CourseServiceImplJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.ExamResultServiceImplJPA;
+import org.ahmeteminsaglik.orm.business.concrete.jpa.StudentServiceImpJPA;
 import org.ahmeteminsaglik.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.ahmeteminsaglik.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
-import org.ahmeteminsaglik.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.ahmeteminsaglik.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.ahmeteminsaglik.orm.model.Address;
-import org.ahmeteminsaglik.orm.model.ExamResult;
 import org.ahmeteminsaglik.orm.model.Student;
 import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
 import org.ahmeteminsaglik.orm.model.courses.concretes.LiteratureCourse;
@@ -21,9 +23,6 @@ import org.ahmeteminsaglik.orm.model.courses.concretes.programming.JavaCourse;
 import org.ahmeteminsaglik.orm.model.enums.configfile.EnumJPAConfigFile;
 import org.ahmeteminsaglik.orm.model.enums.course.EnumCourse;
 import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class JPATest {
@@ -110,7 +109,7 @@ public class JPATest {
     @Test
     @Order(105)
     @DisplayName("[JPA] - Update Course By (Course)")
-    public void testUpdateCourse() {
+    public void testUpdateCourse() throws InvalidCourseNameSaveRequestException {
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
         course.setCredit(6.5);
         courseService.updateCourseByName(course);
@@ -186,7 +185,7 @@ public class JPATest {
 
     }
 
-
+/*
     @Test
     @Order(303)
     @DisplayName("[JPA] - Throw Exception - Save Student With Course")
@@ -263,7 +262,7 @@ public class JPATest {
     @Test
     @Order(306)
     @DisplayName("[JPA] - Delete Student By (id)")
-    public void test_deleteStudent_ThatWithOnlyAddress() {
+    public void test_deleteStudent_ThatWithOnlyAddress() throws InvalidStudentDeleteRequestHavingExamResult {
         Student student = studentService.findById(1);
         Assertions.assertTrue(student != null);
 
@@ -403,6 +402,7 @@ public class JPATest {
         Assertions.assertEquals(expected, actual);
 
     }
+*/
 
     private void saveCourseData() {
         Course courseMath = new MathCourse();
@@ -423,4 +423,3 @@ public class JPATest {
         courseService.save(courseUnity);
     }
 }
-*/

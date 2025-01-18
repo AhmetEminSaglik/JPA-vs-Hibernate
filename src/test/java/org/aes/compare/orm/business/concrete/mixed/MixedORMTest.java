@@ -1,10 +1,9 @@
-package org.ahmeteminsaglik.orm.business.concrete.mixed;
+package org.aes.compare.orm.business.concrete.mixed;
 
 import org.ahmeteminsaglik.orm.business.abstracts.AddressService;
 import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
 import org.ahmeteminsaglik.orm.business.abstracts.ExamResultService;
 import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
-import org.ahmeteminsaglik.orm.business.concrete.jpa.abstracts.JpaImplementation;
 import org.ahmeteminsaglik.orm.config.ORMConfigSingleton;
 import org.ahmeteminsaglik.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
 import org.ahmeteminsaglik.orm.exceptions.InvalidCourseNameSaveRequestException;
