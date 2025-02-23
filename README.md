@@ -262,10 +262,16 @@ Example :  `>> -h`, `>> -r -S`, `>> -q`,`>> -e`
 
 | Example Using (Shortcut-Commands) | Example Using (Standard-Commands) | Meaning              | 
 |:---------------------------------:|:----------------------------------|:---------------------|
-|               -c -A               | create Address                    | Creates Address      |
-|               -A -c               | create Address                    | Creates Address      |
+|          -c -A                    | create Address                    | Creates Address      |
+|          -A -c                    | create Address                    | Creates Address      |
+|          -c Address               | create Address                    | Creates Address      |
+|          -A create                | create Address                    | Creates Address      |
+|          create -A                | create Address                    | Creates Address      |
+|          Address -c               | create Address                    | Creates Address      |
 |          create Address           | create Address                    | Creates Address      |
 |          Address create           | create Address                    | Creates Address      |
+
+
 
 
 ### 3.Terminal Commands - Example Usage
