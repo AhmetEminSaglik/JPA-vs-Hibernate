@@ -1,15 +1,17 @@
-/*
-package org.ahmeteminsaglik.orm.business.concrete.hibernate;
+package org.aes.compare.orm.business.concrete.hibernate;
 
 import org.ahmeteminsaglik.orm.business.abstracts.AddressService;
 import org.ahmeteminsaglik.orm.business.abstracts.CourseService;
 import org.ahmeteminsaglik.orm.business.abstracts.ExamResultService;
 import org.ahmeteminsaglik.orm.business.abstracts.StudentService;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.AddressServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.CourseServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.ExamResultServiceImplHibernate;
+import org.ahmeteminsaglik.orm.business.concrete.hibernate.StudentServiceImplHibernate;
 import org.ahmeteminsaglik.orm.business.concrete.hibernate.abstracts.HibernateImplementation;
 import org.ahmeteminsaglik.orm.exceptions.InvalidCourseDeleteRequestStudentEnrolled;
-import org.ahmeteminsaglik.orm.exceptions.InvalidStudentCourseMatchForExamResult;
+import org.ahmeteminsaglik.orm.exceptions.InvalidCourseNameSaveRequestException;
 import org.ahmeteminsaglik.orm.model.Address;
-import org.ahmeteminsaglik.orm.model.ExamResult;
 import org.ahmeteminsaglik.orm.model.Student;
 import org.ahmeteminsaglik.orm.model.courses.abstracts.Course;
 import org.ahmeteminsaglik.orm.model.courses.concretes.LiteratureCourse;
@@ -21,9 +23,6 @@ import org.ahmeteminsaglik.orm.model.courses.concretes.programming.JavaCourse;
 import org.ahmeteminsaglik.orm.model.enums.configfile.EnumHibernateConfigFile;
 import org.ahmeteminsaglik.orm.model.enums.course.EnumCourse;
 import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class HibernateTest {
@@ -114,7 +113,7 @@ public class HibernateTest {
     @Test
     @Order(105)
     @DisplayName("[Hibernate] - Update Course By (Course)")
-    public void testUpdateCourse() {
+    public void testUpdateCourse() throws InvalidCourseNameSaveRequestException {
         Course course = courseService.findByName(EnumCourse.JAVA.getName());
         course.setCredit(6.5);
         courseService.updateCourseByName(course);
@@ -191,7 +190,7 @@ public class HibernateTest {
     }
 
 
-    @Test
+/*    @Test
     @Order(303)
     @DisplayName("[Hibernate] - Throw Exception - Save Student With Course")
     public void test_throwException_SaveStudentWithCourse() {
@@ -267,7 +266,7 @@ public class HibernateTest {
     @Test
     @Order(306)
     @DisplayName("[Hibernate] - Delete Student By (id)")
-    public void test_deleteStudent_ThatWithOnlyAddress() {
+    public void test_deleteStudent_ThatWithOnlyAddress() throws InvalidStudentDeleteRequestHavingExamResult {
         Student student = studentService.findById(1);
         Assertions.assertTrue(student != null);
 
@@ -408,6 +407,8 @@ public class HibernateTest {
 
     }
 
+*/
+
     private void saveCourseData() {
         Course courseMath = new MathCourse();
         Course courseScience = new ScienceCourse();
@@ -427,4 +428,3 @@ public class HibernateTest {
         courseService.save(courseUnity);
     }
 }
-*/
