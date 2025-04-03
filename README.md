@@ -58,7 +58,9 @@ Hibernate implementations.
     * org.junit.jupiter.junit-jupiter:RELEASE
     * javazoom.jlayer:1.0.1
       * To play music background while running the program.
-    * com.ahmeteminsaglik:console-colorful-text:1.1
+    * jitpack.io repository
+      * To get the latest version of the console-colorful-text library.
+    * com.github.AhmetEminSaglik:Console-Colorful-Text:v1.1
       * To print colorful both Cmd and Intellij Idea.
 
 ## <span id="image">4-) Images </span>

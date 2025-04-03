@@ -15,7 +15,20 @@
         <hibernate.version>6.2.8.Final</hibernate.version>
         <mysql.connector.version>8.0.31</mysql.connector.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>com.github.AhmetEminSaglik</groupId>
+            <artifactId>Console-Colorful-Text</artifactId>
+            <version>v1.1</version>
+        </dependency>
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
@@ -41,11 +54,6 @@
             <groupId>javazoom</groupId>
             <artifactId>jlayer</artifactId>
             <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.ahmeteminsaglik</groupId>
-            <artifactId>console-colorful-text</artifactId>
-            <version>1.1</version>
         </dependency>
     </dependencies>
 </project>
